@@ -1,5 +1,5 @@
 // Edit your app's name below
-def APP_NAME = 'foirequest'
+def APP_NAME = 'foirequests'
 
 def CHAINED_ANGULAR_BUILD = APP_NAME + '-build-angular-app-build'
 
