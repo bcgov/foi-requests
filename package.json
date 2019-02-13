@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "concurrently \"npm run start-api\" \"npm run start-ui\"",
+    "start": "npm run start-api",
     "start-ui": "ng serve",
-    "start-api": "cd api && npm run start-dev",
+    "start-api": "cd api && npm start",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
