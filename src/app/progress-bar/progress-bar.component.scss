@@ -1,0 +1,134 @@
+@import "../styles/variables.scss";
+// Bootstrap 3 to 4: Included imports
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+.container {
+    padding: 0 0 20px 0;
+}
+
+.progressBar {
+    text-align: left;
+    display: table;
+    width: 100%;
+}
+
+.progressBar ul {
+    list-style: none;
+    display: table-row;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.progressBar ul li {
+    display: table-cell;
+    text-align: center;
+}
+
+.progressBar span.progress-label {
+    white-space: nowrap;
+}
+
+/* Left of the Active item */
+.progressBar .was-active {
+    background-color: #C8DCFD;
+    color: #234075;
+}
+
+.progressBar .was-active:after {
+    content: "";
+    border-top: 1.45rem solid transparent;
+    border-bottom: 1.45rem solid transparent;
+    border-left: 1.45rem solid #C8DCFD;
+    position: absolute;
+    right: -1.45rem;
+    top: 0;
+    z-index: 1;
+}
+
+/* The Active item */
+.progressBar .active {
+    background: #FBE78C;
+    color: #234075;
+    width: auto;
+}
+
+.progressBar .active:after {
+    content: "";
+    border-top: 1.45rem solid transparent;
+    border-bottom: 1.45rem solid transparent;
+    border-left: 1.45rem solid #FBE78C;
+    position: absolute;
+    right: -1.45rem;
+    top: 0;
+    z-index: 1;
+}
+
+/* Right of the Active item */
+.progressBar .inactive {
+    background: $gray-lighter;
+}
+
+.progressBar .inactive:after {
+    content: "";
+    border-top: 1.45rem solid transparent;
+    border-bottom: 1.45rem solid transparent;
+    border-left: 1.45rem solid $gray-lighter;
+    position: absolute;
+    right: -1.45rem;
+    top: 0;
+    z-index: 1;
+}
+
+.progressBar ul li div {
+    display: block;
+    float: none;
+    height: 2.85rem;
+    text-align: center;
+    padding: 0.5rem 0.7rem 0 2.15rem;
+    position: relative;
+    margin: 0 0.35rem 0 0;
+    font-size: $h3-font-size;
+    text-decoration: none;
+    color: black;
+
+    //Bootstrap 4: Breakpoint mixin.
+    @include media-breakpoint-down(xs){
+        padding: 0.5rem 0.15rem 0 1.75rem;
+        margin: 0 0.15rem 0 0;
+    }
+    @include media-breakpoint-down(md){
+        font-size: 1.1rem;
+    }
+}
+
+.progressBar ul li div:before {
+    content: "";
+    border-top: 1.45rem solid transparent;
+    border-bottom: 1.45rem solid transparent;
+    border-left: 1.45rem solid #fff;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.progressBar ul li:first-child div {
+    border-top-left-radius: 0rem;
+    border-bottom-left-radius: $btn-border-radius;
+}
+
+.progressBar ul li:first-child div:before {
+    display: none;
+}
+
+.progressBar ul li:last-child div {
+    padding-right: 1.45rem;
+    border-top-right-radius: 0rem;
+    border-bottom-right-radius: $btn-border-radius;
+    margin: 0;
+}
+
+.progressBar ul li:last-child div:after {
+    display: none;
+}

@@ -1,0 +1,64 @@
+@import '../../styles/variables.scss';
+// Bootstrap 3 to 4: Included imports
+@import '../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../node_modules/bootstrap/scss/mixins';
+
+.landing-container {
+  background-color: #fef6e4;
+  border-left: 4px solid #f8ba32;
+  margin: 10px;
+}
+
+.landing-content {
+  padding: 20px;
+}
+
+.btn-start {
+  background-color: $color-primary;
+  color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.btn-continue {
+  background-color: #f8ba32;
+}
+
+.landing-header {
+  font-size: 30px;
+}
+
+.panelframe {
+  position: absolute;
+  top: 200px;
+  width: 100%;
+  margin-left: 0;
+}
+.personInfoPanel {
+  background-color: $color-primary;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 5px 5px 15px $color-dark;
+//   // Using breakpoint mixin.
+//   @include media-breakpoint-down(sm) {
+//     box-shadow: none;
+//   }
+}
+
+.personInfoContent {
+  padding: 15px;
+}
+
+.personInfoHeader {
+  font-size: 20px;
+  text-align: center;
+  border-bottom: 4px solid #f8ba32;
+  padding-left: 10px;
+  padding-right: 10x;
+}
+
+.personInfoFooter {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10x;
+}

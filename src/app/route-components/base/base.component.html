@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 contentside">
+      <ng-content select="div.foi-content"></ng-content>
+      <div *ngIf="showButtons" class="buttonbar">
+        <button type="button" class="btn btn-secondary" (click)=requestGoBack()>Go back</button>
+        <button type="button" class="btn btn-primary" (click)="requestGoForward()">{{continueText}}</button>
+      </div>
+    </div>
+    <div class="col-md-4 infoside">
+      <ng-content select="div.sidebar"></ng-content>
+    </div>
+  </div>
+</div>

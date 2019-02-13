@@ -1,0 +1,15 @@
+@import '../../styles/variables.scss';
+
+.buttonbar {
+  margin: 40px 0 40px 0;
+}
+
+.buttonbar button {
+  margin-right: 10px;
+}
+
+.infoside {
+  background-color: $gray-lighter;
+  padding: 2rem;
+}
+

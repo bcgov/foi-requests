@@ -1,0 +1,9 @@
+<core-header></core-header>
+<app-progress-bar
+  *ngIf="hasProgress()"
+  [currentProgress]="currentProgress"
+></app-progress-bar>
+<router-outlet></router-outlet>
+
+<div class="pad"></div>
+
