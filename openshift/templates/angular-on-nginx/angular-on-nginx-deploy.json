@@ -227,21 +227,21 @@
       "displayName": "Source Name",
       "name": "SOURCE_NAME",
       "required": true,
-      "value": "msp"
+      "value": "bcfoi"
     },
     {
       "description": "The name assigned to all of the openshift objects defined in this template. It is also the name of runtime image you want.",
       "displayName": "Name",
       "name": "NAME",
       "required": true,
-      "value": "msp"
+      "value": "bcfoi"
     },
     {
       "description": "The namespace where to get the above image name",
       "displayName": "Image Namespace",
       "name": "IMAGE_NAMESPACE",
       "required": true,
-      "value": "gcpe-mygovbc-msp-tools"
+      "value": "mygovbc-bcfoi-tools"
     },
     {
       "description": "OpenShift cluster private IP range in CIDR notation, used by Nginx ngx_http_realip_module.",
@@ -262,7 +262,7 @@
       "value": "allow 0.0.0.0/0; deny all;"
     },
     {
-      "description": "If true use the Splunk Forwarder, if false use logstash for MSP logs",
+      "description": "If true use the Splunk Forwarder, if false use logstash for BCFoi logs",
       "displayName": "USE_SPLUNK_FORWARDER",
       "name": "USE_SPLUNK_FORWARDER",
       "required": true,
@@ -272,7 +272,7 @@
       "description": "The exposed hostname that will route to the service, e.g., myappname.pathfinder.gov.bc.ca, if left blank a value will be defaulted.",
       "displayName": "Application Hostname",
       "name": "APPLICATION_DOMAIN",
-      "value": "gcpe-mygovbc-msp-dev.pathfinder.gov.bc.ca"
+      "value": "mygovbc-bcfoi-dev.pathfinder.gov.bc.ca"
     },
     {
       "description": "The TAG name for this environment, e.g., dev, test, prod",

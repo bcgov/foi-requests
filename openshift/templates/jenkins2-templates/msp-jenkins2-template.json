@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "msp-build",
+    "name": "bcfoi-build",
     "annotations": {
       "description": "Contains build objects",
       "iconClass": "icon-github"
@@ -114,14 +114,14 @@
       "displayName": "Application Name",
       "description": "The name given to the application",
       "required": true,
-      "value": "msp"
+      "value": "bcfoi"
     },
     {
       "name": "GIT_SOURCE_URL",
       "displayName": "Source Repository",
       "description": "The source repository to use for the builds.",
       "required": true,
-      "value": "https://github.com/bcgov/MyGovBC-MSP.git"
+      "value": "https://github.com/bcgov/foi-requests.git"
     },
     {
       "name": "GIT_REFERENCE",

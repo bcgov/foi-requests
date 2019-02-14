@@ -90,7 +90,7 @@
       "displayName": "GIT Source Repo URL",
       "description": "A GIT URL to your source code.",
       "required": true,
-      "value": "https://github.com/bcgov/MyGovBC-MSP.git"
+      "value": "https://github.com/bcgov/foi-requests.git"
     },
     {
       "name": "GIT_REFERENCE",
