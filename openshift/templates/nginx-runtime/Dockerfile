@@ -4,14 +4,6 @@ FROM nginx:mainline
 # Required for HTTP Basic feature
 RUN apt-get update && apt-get install openssl
 
-# Install Node 10.x
-RUN apt-get -y install curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
-RUN apt-get -y install nodejs
-RUN node -v
-RUN npm -v
-
-
 # Copy our OpenShift s2i scripts over to default location
 COPY ./s2i/bin/ /usr/libexec/s2i/
 
@@ -20,6 +12,13 @@ LABEL io.openshift.s2i.scripts-url=image:///usr/libexec/s2i
 
 # Copy config from source to container
 COPY nginx.conf.template /tmp/
+
+# Install Node 10.x
+RUN apt-get -y install curl gnupg
+RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
+RUN apt-get -y install nodejs
+RUN node -v
+RUN npm -v
 
 # Fix up permissions
 RUN chmod -R 0777 /tmp /var /run /etc /mnt /usr/libexec/s2i/
