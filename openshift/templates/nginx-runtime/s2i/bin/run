@@ -10,3 +10,6 @@ fi
 
 echo "---> starting nginx"
 /usr/sbin/nginx -g "daemon off;"
+
+cd /tmp/app/dist/api
+node index.js
