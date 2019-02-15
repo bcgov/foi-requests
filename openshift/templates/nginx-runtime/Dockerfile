@@ -13,6 +13,9 @@ LABEL io.openshift.s2i.scripts-url=image:///usr/libexec/s2i
 # Copy config from source to container
 COPY nginx.conf.template /tmp/
 
+RUN cat /tmp/nginx.conf.template
+RUN pwd
+
 # Install Node 10.x
 RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
@@ -27,7 +30,7 @@ RUN chmod -R 0777 /tmp /var /run /etc /mnt /usr/libexec/s2i/
 EXPOSE 8080
 
 # Switch to usermode
-USER 104
+# USER 104
 
 # Run the API using node
 # WORKDIR /tmp/app/dist/app/api
