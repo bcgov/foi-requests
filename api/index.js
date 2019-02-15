@@ -32,7 +32,8 @@ let smtpOptions;
 if (process.env.FOI_REQUEST_SMTP) {
   smtpOptions ={
     host: process.env.FOI_REQUEST_SMTP,
-    port: 25
+    port: 25,
+    secure: false
   } ;
 } else {
   // More controlled option...
