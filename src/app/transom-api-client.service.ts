@@ -31,7 +31,7 @@ export class TransomApiClientService implements CanActivate {
   public loggedIn: BehaviorSubject<boolean>;
 
   constructor(public http: HttpClient, private storage: LocalStorageService) {
-    this.baseUrl = "/api/v1";
+    this.baseUrl = "api/v1";
     this.headers = {};
     this.loggedIn = new BehaviorSubject<boolean>(null);
 
