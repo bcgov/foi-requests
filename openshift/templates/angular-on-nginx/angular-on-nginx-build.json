@@ -112,7 +112,7 @@
       "displayName": "Git Reference",
       "description": "The git reference or branch.NOTE: unused, but mandatory for scripts.",
       "required": true,
-      "value": "master"
+      "value": "test"
     },
     {
       "name": "SOURCE_CONTEXT_DIR",
