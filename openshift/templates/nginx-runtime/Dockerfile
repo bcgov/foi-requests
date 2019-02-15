@@ -30,7 +30,7 @@ RUN chmod -R 0777 /tmp /var /run /etc /mnt /usr/libexec/s2i/
 EXPOSE 8080
 
 # Switch to usermode
-# USER 104
+USER 104
 
 # Run the API using node
 # WORKDIR /tmp/app/dist/app/api
