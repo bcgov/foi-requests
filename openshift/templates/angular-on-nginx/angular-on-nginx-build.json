@@ -59,7 +59,7 @@
             "from": {
               "kind": "ImageStreamTag",
               "name": "nginx-runtime-foi-request-base:latest",
-              "namespace": "openshift"
+              "namespace": "6ni3xg-test"
             }
           }
         },
