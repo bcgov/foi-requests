@@ -30,5 +30,5 @@ EXPOSE 8080
 USER 104
 
 # Run the API using node
-WORKDIR /tmp/app/dist/app/api
-CMD node index.js
+# WORKDIR /tmp/app/dist/app/api
+# CMD node index.js
