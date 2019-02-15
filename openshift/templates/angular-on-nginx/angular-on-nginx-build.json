@@ -42,11 +42,11 @@
               },
               "paths": [
                 {
-                  "sourcePath": "/opt/app-root/dist/.",
+                  "sourcePath": "/opt/app-root/src/dist/.",
                   "destinationDir": "tmp/app/dist"
                 },
                 {
-                  "sourcePath": "/opt/app-root/api/.",
+                  "sourcePath": "/opt/app-root/src/api/.",
                   "destinationDir": "tmp/api"
                 }
               ]
