@@ -231,7 +231,7 @@
       "displayName": "Image Namespace",
       "name": "IMAGE_NAMESPACE",
       "required": true,
-      "value": "foi-requests-mygovbc-demo"
+      "value": "6ni3xg-test"
     },
     {
       "description": "OpenShift cluster private IP range in CIDR notation, used by Nginx ngx_http_realip_module.",
