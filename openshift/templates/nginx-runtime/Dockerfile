@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install openssl
 RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
 RUN apt-get -y install nodejs
+RUN node -v
+RUN npm -v
 
 
 # Copy our OpenShift s2i scripts over to default location
@@ -27,3 +29,7 @@ EXPOSE 8080
 
 # Switch to usermode
 USER 104
+
+# Run the API using node
+WORKDIR /tmp/app/dist/app/api
+CMD node index.js
