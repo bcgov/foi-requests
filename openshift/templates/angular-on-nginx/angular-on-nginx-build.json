@@ -33,7 +33,7 @@
         ],
         "source": {
           "type": "Dockerfile",
-          "dockerfile": "FROM nginx-runtime:latest\nCOPY * /tmp/app/dist/\nCMD  /usr/libexec/s2i/run",
+          "dockerfile": "FROM nginx-runtime-foi-request-base:latest\nCOPY * /tmp/app/dist/\nCMD  /usr/libexec/s2i/run",
           "images": [
             {
               "from": {
@@ -58,7 +58,7 @@
           "dockerStrategy": {
             "from": {
               "kind": "ImageStreamTag",
-              "name": "nginx-runtime:latest",
+              "name": "nginx-runtime-foi-request-base:latest",
               "namespace": "openshift"
             }
           }
