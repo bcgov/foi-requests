@@ -11,7 +11,6 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
     server_tokens off;
-    underscores_in_headers on;
 
     # ip filtering
     %IpFilterRules%
@@ -47,17 +46,13 @@ http {
     limit_req_zone $binary_remote_addr zone=bra3:10m rate=3r/s;
     limit_req_zone $binary_remote_addr zone=bra5:10m rate=5r/s;
     limit_req_zone $binary_remote_addr zone=bra25:10m rate=25r/s;
+    limit_req_zone $binary_remote_addr zone=bra100:10m rate=100r/s;
 
     #default throttle; not inherited if set in nested level
-    # limit_req_zone $binary_remote_addr zone=bra5:10m rate=100r/s;
-    # limit_req zone=bra5 burst=100;
-    limit_req_zone $binary_remote_addr zone=bra100:10m rate=1400r/s;
-    # limit_req zone=bra100 burst=1400;
-
-    client_max_body_size 100m;
+    limit_req zone=bra5 burst=100;
 
     # HTTP Basic rules
-    # auth_basic_user_file /tmp/.htpasswd;
+    auth_basic_user_file /tmp/.htpasswd;
 
     server {
         listen       8080;
@@ -72,8 +67,7 @@ http {
 
         # serve our angular app here
         location / {
-	    rewrite ^/bcfoi(/.*)$ $1;
-            root   /tmp/app/dist;
+            root   /tmp/app/dist/bcfoi;
             index  index.html index.htm;
             try_files $uri /index.html;
             gzip            on;
@@ -81,37 +75,7 @@ http {
             gzip_types      *;
 
             # Deploy-time configurable
-            # %HTTP_BASIC%
-        }
-
-        location /api {
-            proxy_pass http://localhost:7085/;
-
-            location /api/logging {
-                if ( $request_method !~ ^(POST|HEAD|OPTIONS)$ ) {
-                    return 405;
-                }
-                if ( $request_method ~ ^(HEAD|OPTIONS)$ ) {
-                    return 200;
-                }
-
-                XXX1proxy_set_header Authorization "Splunk %SPLUNK_AUTH_TOKEN%"; proxy_set_header http_host "%HOSTNAME%"; proxy_pass_header Authorization; proxy_pass_header http_host; proxy_pass_header request_method; proxy_pass_header http_x_forwarded_host; proxy_pass http://splunk-forwarder:8080/log;XXX2
-                XXX3proxy_pass http://logstash:8080;XXX4
-            }
-
-             location /api/env {
-                  if ( $request_method !~ ^(POST|HEAD|OPTIONS)$ ) {
-                     return 405;
-                  }
-                   if ( $request_method ~ ^(HEAD|OPTIONS)$ ) {
-                     return 200;
-                   }
-             proxy_set_header Authorization "spaenv %SPA_ENV_AUTH_TOKEN%"; proxy_set_header http_host "%HOSTNAME%"; proxy_pass_header Authorization; proxy_pass_header http_host; proxy_pass_header request_method; proxy_pass_header http_x_forwarded_host; proxy_pass_header SPA_ENV_NAME; proxy_pass http://spa-env-server:8080/env;
-            	    }
-
-            location /api/captcha/ {
-                proxy_pass http://mygovbc-captcha-service:8080/;
-            }
+            %HTTP_BASIC%
         }
 
         # redirect server error pages to the static page /50x.html
@@ -120,18 +84,26 @@ http {
             root   /usr/share/nginx/html;
         }
 
-	# no serving Dockerfile
- 	location = /Dockerfile {
-            root   /usr/share/nginx/html;
-	}
+        location /api {
+            proxy_pass http://localhost:7085/;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
 
         # For status of ngnix service, OpenShift is configured to call this
         location /nginx_status {
             # Enable Nginx stats
             stub_status on;
 
-            # Only allow access from within OpenShift
-            allow %RealIpFrom%;
+            # Only allow access from localhost
+            allow 127.0.0.1;
+            
+            #Allowing only 127.0.0.1 leads to error below:
+            #[error]access forbidden by rule, client: 172.51.48.1, server: localhost, request: "GET /nginx_status HTTP/1.1", host: "172.51.49.14:8080"
+            allow 172.51.0.0/16;
 
             # Other request should be denied
             deny all;
@@ -139,5 +111,6 @@ http {
             # No need to log this request, its just noise
             access_log off;
         }
+
     }
 }

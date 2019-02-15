@@ -4,6 +4,12 @@ FROM nginx:mainline
 # Required for HTTP Basic feature
 RUN apt-get update && apt-get install openssl
 
+# Install Node 10.x
+RUN apt-get -y install curl gnupg
+RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
+RUN apt-get -y install nodejs
+
+
 # Copy our OpenShift s2i scripts over to default location
 COPY ./s2i/bin/ /usr/libexec/s2i/
 
