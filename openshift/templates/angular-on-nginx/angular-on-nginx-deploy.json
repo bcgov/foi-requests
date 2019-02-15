@@ -224,7 +224,7 @@
       "displayName": "Name",
       "name": "NAME",
       "required": true,
-      "value": "foi-requests"
+      "value": "foi-requests-on-nginx"
     },
     {
       "description": "The namespace where to get the above image name",
@@ -279,6 +279,30 @@
       "description": "For very simple HTTP Basic authentication, the password of the ONE user",
       "displayName": "HTTP Basic Password",
       "name": "HTTP_BASIC_PASSWORD",
+      "value": ""
+    },
+    {
+      "description": "FOI API PORT",
+      "displayName": "FOI_REQUEST_API_PORT",
+      "name": "FOI_REQUEST_API_PORT",
+      "value": ""
+    },
+    {
+      "description": "FOI_REQUEST_SMTP full connect string",
+      "displayName": "FOI_REQUEST_SMTP",
+      "name": "FOI_REQUEST_SMTP",
+      "value": ""
+    },
+    {
+      "description": "FOI_REQUEST_INBOX address to send requests to",
+      "displayName": "FOI_REQUEST_INBOX",
+      "name": "FOI_REQUEST_INBOX",
+      "value": ""
+    },
+    {
+      "description": "FOI_REQUEST_SENDER noreply address",
+      "displayName": "FOI_REQUEST_SENDER",
+      "name": "FOI_REQUEST_SENDER",
       "value": ""
     }
 
