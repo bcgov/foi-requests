@@ -30,7 +30,10 @@ transom.configure(transomTemplate);
 
 let smtpOptions;
 if (process.env.FOI_REQUEST_SMTP) {
-  smtpOptions = process.env.FOI_REQUEST_SMTP;
+  smtpOptions ={
+    host: process.env.FOI_REQUEST_SMTP,
+    port: 25
+  } ;
 } else {
   // More controlled option...
   smtpOptions = {
