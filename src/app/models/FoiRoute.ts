@@ -3,7 +3,9 @@
  */
 export interface FoiRoute {
     route: string;
-    progress: string;
+    back?: string;
+    forward?: string;
+    progress: number;
     options?: any;
     choices?: any;
 }

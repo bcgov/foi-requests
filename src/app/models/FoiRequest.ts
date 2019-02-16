@@ -2,6 +2,6 @@
  * Interface definition for the route, or step in the process of the FOI request.
  */
 export interface FoiRequest {
-    lastRoute: string;
+    // lastRoute: string;
     requestData: any;
 }

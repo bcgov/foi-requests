@@ -13,7 +13,7 @@ export class DataService {
     console.log('here from json: ', data);
   }
 
-  getTopRoutes(): Observable<FoiRoute[]> {
+  getRoutes(): Observable<FoiRoute[]> {
     return of(data.routeTree);
   }
 
@@ -23,14 +23,14 @@ export class DataService {
 
   getCurrentState(): FoiRequest {
     const foi = sessionStorage.getItem('foi-request');
-    const foiReq: FoiRequest = foi ? JSON.parse(foi) : {};
-    foiReq.lastRoute = foiReq.lastRoute || '/';
-    foiReq.requestData = foiReq.requestData || {};
-    return foiReq;
+    const state: FoiRequest = foi ? JSON.parse(foi) : {};
+    // state.lastRoute = state.lastRoute || '/';
+    state.requestData = state.requestData || {};
+    return state;
   }
 
-  setCurrentState(foiReq: FoiRequest) {
-    sessionStorage.setItem('foi-request', JSON.stringify(foiReq));
+  setCurrentState(foi: FoiRequest) {
+    sessionStorage.setItem('foi-request', JSON.stringify(foi));
   }
 
   submitRequest(foiRequest: FoiRequest): Observable<any> {

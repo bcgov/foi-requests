@@ -8,28 +8,31 @@
   },
   "routeTree": [
     { "route": "", "progress": 0, "data": {} },
-    { "route": "getting-started1", "progress": "1", "data": {} },
-    { "route": "getting-started2", "progress": "1", "data": {} },
-    { "route": "request-demo1", "progress": "2", "data": {} },
-    { "route": "review-submit", "progress": "4", "data": {} }
-  ],
-  "futureUse":{
-    "route": "getting-started3",
-    "progress": "1",
-    "data": { "continue": "Start your request" },
-    "choices": {
-      "general": {
-        "routes": [
-          { "route": "general-info", "progress": "2", "data": {} },
-          { "route": "general-select-ministry", "progress": "2", "data": {} },
-          { "route": "general-request-info", "progress": "2", "data": {} },
-          { "route": "general-contact-info1", "progress": "3", "data": {} },
-          { "route": "general-contact-info2", "progress": "3", "data": {} },
-          { "route": "general-receive-records", "progress": "3", "data": {} },
-          { "route": "general-review-submit", "progress": "4", "data": {} }
-        ]
-      },
-      "personal": {}
-    }
-  }
+    { "route": "getting-started1", "progress": 1, "data": {} },
+    { "route": "getting-started2", "progress": 1, "data": {} },
+    { "route": "getting-started3",
+      "progress": 2,
+      "data": { "continue": "Start your request" },
+      "choices": {
+        "general": {
+          "routes": [
+            { "route": "general-info", "progress": 2, "data": {} },
+            { "route": "general-select-ministry", "progress": 2, "data": {} },
+            { "route": "general-request-info", "progress": 2, "data": {} },
+            { "route": "general-contact-info1", "progress": 3, "data": {} },
+            { "route": "general-contact-info2", "progress": 3, "data": {} },
+            { "route": "general-receive-records", "progress": 3, "data": {} },
+            { "route": "general-review-submit", "progress": 4, "data": {} },
+            { "route": "review-submit", "progress": 4, "data": {} }
+          ]
+        },
+        "personal": {
+          "routes": [
+            { "route": "personal-select-about", "progress": 2, "data": {} },
+            { "route": "review-submit", "progress": 4, "data": {} }
+          ]
+        }
+      }
+    }    
+  ]
 }
