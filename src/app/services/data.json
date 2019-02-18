@@ -7,32 +7,504 @@
     ]
   },
   "routeTree": [
-    { "route": "", "progress": 0, "data": {} },
-    { "route": "getting-started1", "progress": 1, "data": {} },
-    { "route": "getting-started2", "progress": 1, "data": {} },
-    { "route": "getting-started3",
+    { "route": "", "progress": 0 },
+    { "route": "getting-started1", "progress": 1 },
+    { "route": "getting-started2", "progress": 1 },
+    {
+      "route": "getting-started3",
       "progress": 2,
       "data": { "continue": "Start your request" },
       "choices": {
         "general": {
           "routes": [
-            { "route": "general-info", "progress": 2, "data": {} },
-            { "route": "general-select-ministry", "progress": 2, "data": {} },
-            { "route": "general-request-info", "progress": 2, "data": {} },
-            { "route": "general-contact-info1", "progress": 3, "data": {} },
-            { "route": "general-contact-info2", "progress": 3, "data": {} },
-            { "route": "general-receive-records", "progress": 3, "data": {} },
-            { "route": "general-review-submit", "progress": 4, "data": {} },
-            { "route": "review-submit", "progress": 4, "data": {} }
+            { "route": "general/fee-info", "progress": 2 },
+            { "route": "general/ministry-confirmation", "progress": 2 },
+            {
+              "route": "general/description-timeframe",
+              "progress": 2,
+              "data": {
+                "requestTopic": true,
+                "comment": "// Show 'Request topic' field at the top."
+              }
+            },
+            { "route": "general/request-info", "progress": 2 },
+            { "route": "general/contact-info1", "progress": 3 },
+            { "route": "general/contact-info2", "progress": 3 },
+            { "route": "general/receive-records", "progress": 3 },
+            { "route": "general/review-submit", "progress": 4 }
           ]
         },
         "personal": {
           "routes": [
-            { "route": "personal-select-about", "progress": 2, "data": {} },
-            { "route": "review-submit", "progress": 4, "data": {} }
+            {
+              "route": "personal/select-about",
+              "progress": 2,
+              "choices": {
+                "yourself": {
+                  "routes": [
+                    { "route": "personal/verify-your-identity", "progress": 2 },
+                    {
+                      "route": "personal/request-topic",
+                      "progress": 2,
+                      "choices": {
+                        "publicServiceEmployment": {
+                          "routes": [
+                            {
+                              "route": "personal/public-service/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": "The BC Public Service Agency",
+                                "comment": "// Can we get a ministry code?"
+                              }
+                            },
+                            {
+                              "route": "personal/public-service/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "publicServiceEmployeeNumber": true,
+                                "comment": "// Show the 'BC Public Service Employee Number (if known):' field."
+                              }
+                            },
+                            {
+                              "route": "personal/public-service/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "personal/public-service/delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        },
+                        "correctionalFacility": {
+                          "routes": [
+                            {
+                              "route": "personal/corrections/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": "The Ministry of Public Safety and Solicitor General",
+                                "comment": "// Can we get a ministry code?"
+                              }
+                            },
+                            {
+                              "route": "personal/corrections/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "correctionalServiceNumber": true,
+                                "comment": "// Show the 'BC Correctional Service Number (if known):' field."
+                              }
+                            },
+                            {
+                              "route": "personal/corrections/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "personal/corrections/delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        },
+                        "incomeAssistance": {
+                          "routes": [
+                            {
+                              "route": "personal/income-assistance/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": "The Ministry of Social Development and Poverty Reduction",
+                                "comment": "// Can we get a ministry code?"
+                              }
+                            },
+                            {
+                              "route": "personal/income-assistance/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "comment": "// No additional fields."
+                              }
+                            },
+                            {
+                              "route": "personal/income-assistance/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        },
+                        "childProtection": {
+                          "routes": [
+                            {
+                              "route": "personal/child-protection/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": "The Ministry of Children and Family Development",
+                                "comment": "// Can we get a ministry code?"
+                              }
+                            },
+                            {
+                              "route": "personal/child-protection/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "comment": "// No additional fields."
+                              }
+                            },
+                            {
+                              "route": "personal/child-protection/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "personal/child-protection/delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        },
+                        "adoption": {
+                          "routes": [
+                            {
+                              "route": "personal/adoption/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": "The Ministry of Children and Family Development",
+                                "comment": "// Can we get a ministry code?"
+                              }
+                            },
+                            {
+                              "route": "personal/adoption/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "comment": "// No additional fields."
+                              }
+                            },
+                            {
+                              "route": "personal/adoption/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "personal/adoption/delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        },
+                        "communityLiving": {
+                          "routes": [
+                            {
+                              "route": "personal/community-living/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": "The Ministry of Children and Family Development",
+                                "comment": "// THIS ONE LOOKS WRONG!, PLEASE CONFIRM."
+                              }
+                            },
+                            {
+                              "route": "personal/community-living/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "comment": "// No additional fields."
+                              }
+                            },
+                            {
+                              "route": "personal/community-living/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "personal/community-living/delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        },
+                        "anotherTopic": {
+                          "routes": [
+                            {
+                              "route": "personal/another-topic/ministry-confirmation",
+                              "progress": 2,
+                              "data": {
+                                "defaultMinistry": null
+                              }
+                            },
+                            {
+                              "route": "personal/another-topic/description-timeframe",
+                              "progress": 2,
+                              "data": {
+                                "comment": "// No additional fields."
+                              }
+                            },
+                            {
+                              "route": "personal/another-topic/contact-info-options",
+                              "progress": 3
+                            },
+                            {
+                              "route": "personal/another-topic/delivery-options",
+                              "progress": 3
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "child": {
+                  "routes": [
+                    {
+                      "route": "personal/child/proof-of-guardianship",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/verify-identity",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/ministry-confirmation",
+                      "progress": 2,
+                      "data": {
+                        "defaultMinistry": "The Ministry of Children and Family Development",
+                        "comment": "// Can we get a ministry code?"
+                      }
+                    },
+                    {
+                      "route": "personal/child/description-timeframe",
+                      "progress": 2,
+                      "data": {
+                        "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/child/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/delivery-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/review-submit",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "another": {
+                  "routes": [
+                    {
+                      "route": "personal/another/proof-of-guardianship",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/another/another-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/another/verify-identity",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/another/ministry-confirmation",
+                      "progress": 2,
+                      "data": {
+                        "defaultMinistry": "The Ministry of Children and Family Development",
+                        "comment": "// Can we get a ministry code?"
+                      }
+                    },
+                    {
+                      "route": "personal/another/description-timeframe",
+                      "progress": 2,
+                      "data": {
+                        "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/another/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/another/delivery-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/another/review-submit",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "yourself-child": {
+                  "routes": [
+                    {
+                      "route": "personal/yourself-child/proof-of-guardianship",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/verify-identity",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/ministry-confirmation",
+                      "progress": 2,
+                      "data": {
+                        "defaultMinistry": "The Ministry of Children and Family Development",
+                        "comment": "// Can we get a ministry code?"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child/description-timeframe",
+                      "progress": 2,
+                      "data": {
+                        "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-child/delivery-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-child/review-submit",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "yourself-another": {
+                  "routes": [
+                    {
+                      "route": "personal/yourself-another/proof-of-guardianship",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-another/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-another/verify-identity",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-another/ministry-confirmation",
+                      "progress": 2,
+                      "data": {
+                        "defaultMinistry": "The Ministry of Children and Family Development",
+                        "comment": "// Can we get a ministry code?"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-another/description-timeframe",
+                      "progress": 2,
+                      "data": {
+                        "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-another/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-another/delivery-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-another/review-submit",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "yourself-child-another": {
+                  "routes": [
+                    {
+                      "route": "personal/child/proof-of-guardianship",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/verify-identity",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/ministry-confirmation",
+                      "progress": 2,
+                      "data": {
+                        "defaultMinistry": "The Ministry of Children and Family Development",
+                        "comment": "// Can we get a ministry code?"
+                      }
+                    },
+                    {
+                      "route": "personal/child/description-timeframe",
+                      "progress": 2,
+                      "data": {
+                        "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/child/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/delivery-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/review-submit",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "child-another": {
+                  "routes": [
+                    {
+                      "route": "personal/child/proof-of-guardianship",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/verify-identity",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/ministry-confirmation",
+                      "progress": 2,
+                      "data": {
+                        "defaultMinistry": "The Ministry of Children and Family Development",
+                        "comment": "// Can we get a ministry code?"
+                      }
+                    },
+                    {
+                      "route": "personal/child/description-timeframe",
+                      "progress": 2,
+                      "data": {
+                        "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/child/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/delivery-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/review-submit",
+                      "progress": 4
+                    }
+                  ]
+                }
+              }
+            },
+            { "route": "review-submit", "progress": 4 }
           ]
         }
       }
-    }    
+    }
   ]
 }

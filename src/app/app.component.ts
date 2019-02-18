@@ -29,6 +29,9 @@ export class AppComponent implements OnInit {
     this.topRoutes$ = this.dataService.getRoutes();
     this.topRoutes$.subscribe(routes => {
       this.foiRoutes = this.flattenRoutes(routes);
+      this.foiRoutes.map(r => {
+        console.log(`${r.route}`);
+      });
       // console.log(JSON.stringify(this.foiRoutes, null, 2));
     });
 
