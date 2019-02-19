@@ -4,6 +4,16 @@
   <div class="foi-content">
     <h2>Description & Timeline</h2>
 
+      <div *ngIf="showRequestTopic">
+        <h3>What is the topic of your request?</h3>
+
+        <input />
+        <div>Provide a general topic title for your request to help us understand what you’re looking for. A specific event, subject, project, or
+            contract would be a good subject line.
+          </div>
+
+      </div>
+      showRequestTopic: {{showRequestTopic}}
   </div>
 
   <div class="sidebar">

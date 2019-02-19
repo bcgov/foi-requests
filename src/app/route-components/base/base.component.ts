@@ -1,5 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FoiRouterService } from 'src/app/foi-router.service';
+import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+import { FoiRoute } from 'src/app/models/FoiRoute';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'foi-base',
@@ -10,11 +14,24 @@ export class BaseComponent implements OnInit {
   @Output() continue = new EventEmitter();
   @Output() goBack = new EventEmitter();
   @Input('showButtons') showButtons: boolean = true;
+  @Input('showInfo') showInfo: boolean = true;
   @Input('continueText') continueText: String = 'Continue';
+  routeData$: BehaviorSubject<any>;
 
-  constructor(private foiRouter: FoiRouterService) {}
+  constructor(private foiRouter: FoiRouterService, private dataService: DataService, private router: Router) {
+    this.routeData$ = new BehaviorSubject(null);
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('DescriptionTimeframeComponent', this.dataService.getRoute(''), this);
+    console.log('Router url: ', this.router.url);
+    const route: FoiRoute = this.dataService.getRoute(this.router.url);
+    this.routeData$.next(route.data || {});
+  }
+
+  getFoiRouteData(): BehaviorSubject<any> {
+    return this.routeData$;
+  }
 
   /**
    * Handle navigation button clicks.

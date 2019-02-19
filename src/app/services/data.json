@@ -13,7 +13,6 @@
     {
       "route": "getting-started3",
       "progress": 2,
-      "data": { "continue": "Start your request" },
       "choices": {
         "general": {
           "routes": [
@@ -23,8 +22,8 @@
               "route": "general/description-timeframe",
               "progress": 2,
               "data": {
-                "requestTopic": true,
-                "comment": "// Show 'Request topic' field at the top."
+                "showRequestTopic": true,
+                "comment": "// Show a 'Request topic' field at the top."
               }
             },
             { "route": "general/request-info", "progress": 2 },

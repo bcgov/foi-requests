@@ -2,17 +2,21 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 
 @Component({
-  selector: 'app-description-timeframe',
   templateUrl: './description-timeframe.component.html',
   styleUrls: ['./description-timeframe.component.scss']
 })
 export class DescriptionTimeframeComponent implements OnInit {
-
   @ViewChild(BaseComponent) base: BaseComponent;
+  showRequestTopic: Boolean;
 
   constructor() {}
 
   ngOnInit() {
+      this.base.getFoiRouteData().subscribe(data => {
+        if (data) {
+          this.showRequestTopic = data.showRequestTopic || false;
+        }
+      });
   }
 
   doContinue() {
@@ -21,5 +25,4 @@ export class DescriptionTimeframeComponent implements OnInit {
   doGoBack() {
     this.base.goFoiBack();
   }
-
 }

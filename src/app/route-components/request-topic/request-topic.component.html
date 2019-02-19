@@ -1,4 +1,4 @@
-<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>What topic are you requesting records about?</h2>
 
@@ -88,26 +88,6 @@
   </div>
 
   <div class="sidebar">
-    <h2>More Information</h2>
-    <h3>
-      When can you request records about another person?
-    </h3>
-    <p>
-      To request request records about a child under 12 years old (including
-      your own child) or another person, you must provide either:
-    </p>
-    <ul>
-      <li>Proof of your authority to act on the person’s behalf</li>
-
-      <li>
-        That person’s signed and informed consent to receive their records
-      </li>
-    </ul>
-    <h3>What is a record?</h3>
-    <p>
-      Records are any thing on which information is recorded or stored. They can
-      be graphic, electronic, mechanical or any other means, and include books,
-      documents, maps, drawings, letters, vouchers and papers.
-    </p>
+   <!-- Sidebar is not displayed -->
   </div>
 </foi-base>

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from './services/data.service';
-import { Observable } from 'rxjs';
 import { FoiRoute } from './models/FoiRoute';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -17,43 +16,24 @@ export class AppComponent implements OnInit {
   currentRoute: FoiRoute;
   currentRouteIndex: number = 0;
   currentProgress: number = 0;
-  foiRoutes: FoiRoute[];
-
-  topRoutes$: Observable<FoiRoute[]>;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private foiRouter: FoiRouterService
   ) {
-    this.topRoutes$ = this.dataService.getRoutes();
-    this.topRoutes$.subscribe(routes => {
-      this.foiRoutes = this.flattenRoutes(routes);
-      this.foiRoutes.map(r => {
-        console.log(`${r.route}`);
-      });
-      // console.log(JSON.stringify(this.foiRoutes, null, 2));
-    });
 
     this.router.events
       .pipe(
-        filter(value => {
-          return value.constructor.name === 'NavigationEnd';
-        })
+        filter(value => value instanceof NavigationEnd)
       ).subscribe((navRoute: NavigationEnd) => {
-        const foiNavRoute = navRoute.url.substring(1);
-        for (let i = 0; i < this.foiRoutes.length; i++) {
-          const r = this.foiRoutes[i];
-          if (r.route === foiNavRoute) {
-            this.setCurrentRoute(r);
-          }
-        }
+        const navTo: FoiRoute = dataService.getRoute(navRoute.url);
+        this.setCurrentRoute(navTo);
       });
 
     this.foiRouter.routeProgress.subscribe(val => {
-      const root = '';
       if (!val) {
-        const rootRoute = this.findRoute(root);
+        const rootRoute: FoiRoute = dataService.getRoute('/');
         this.setCurrentRoute(rootRoute);
         return;
       }
@@ -79,43 +59,6 @@ export class AppComponent implements OnInit {
       }
       throw new Error(`Unknown progress value: ${val}`);
     });
-  }
-
-  findRoute(path: string) {
-    const matched: FoiRoute[] = this.foiRoutes.filter(r => r.route === path);
-    return matched[0];
-  }
-  /**
-   *
-   * @param routes Recursive flattening of the route data.
-   * @param parent
-   */
-  flattenRoutes(routes: FoiRoute[], parent?: string) {
-    const flatRoutes: FoiRoute[] = [];
-    let goBackRoute: string = null;
-    let previousRoute: FoiRoute = null;
-    for (const rt of routes) {
-      if (flatRoutes.length === 0) {
-        rt.back = parent;
-      } else {
-        rt.back = goBackRoute;
-      }
-      flatRoutes.push(rt);
-      if (rt.choices) {
-        Object.keys(rt.choices).map(choice => {
-          const choiceObj = rt.choices[choice];
-          this.flattenRoutes(choiceObj.routes, rt.route).map(r =>
-            flatRoutes.push(r)
-          );
-        });
-      }
-      goBackRoute = rt.route;
-      if (previousRoute) {
-        previousRoute.forward = rt.route;
-      }
-      previousRoute = rt;
-    }
-    return flatRoutes;
   }
 
   private setCurrentRoute(route: FoiRoute) {

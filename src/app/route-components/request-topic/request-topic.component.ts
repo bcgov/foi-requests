@@ -35,7 +35,7 @@ export class RequestTopicComponent implements OnInit {
   
     doContinue() {
       // Initialize & copy out submitted form data.
-      this.foiRequest.requestData.requestType = {};
+      this.foiRequest.requestData.requestTopic = {};
       const formData = this.foiForm.value;
       // Object.keys(formData).map(
       //   k => (this.foiRequest.requestData.requestType[k] = formData[k])
