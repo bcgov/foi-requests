@@ -288,10 +288,22 @@
       "value": ""
     },
     {
-      "description": "FOI_REQUEST_SMTP full connect string",
+      "description": "FOI_REQUEST_SMTP smtp host name",
       "displayName": "FOI_REQUEST_SMTP",
       "name": "FOI_REQUEST_SMTP",
       "value": ""
+    },
+    {
+      "description": "FOI_REQUEST_SMTP_PORT smtp port",
+      "displayName": "FOI_REQUEST_SMTP_PORT",
+      "name": "FOI_REQUEST_SMTP_PORT",
+      "value": "25"
+    },
+    {
+      "description": "FOI_REQUEST_SMTP_SECURE",
+      "displayName": "FOI_REQUEST_SMTP_SECURE",
+      "name": "FOI_REQUEST_SMTP_SECURE",
+      "value": false
     },
     {
       "description": "FOI_REQUEST_INBOX address to send requests to",

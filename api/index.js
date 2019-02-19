@@ -30,11 +30,18 @@ transom.configure(transomTemplate);
 
 let smtpOptions;
 if (process.env.FOI_REQUEST_SMTP) {
-  smtpOptions ={
+  smtpOptions = {
     host: process.env.FOI_REQUEST_SMTP,
-    port: 25,
-    secure: false
-  } ;
+    port: process.env.FOI_REQUEST_SMTP_PORT,
+    secure: process.env.FOI_REQUEST_SMTP_SECURE,
+    auth: {
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD
+    },
+    tls: {
+      rejectUnauthorized: true
+    }
+  }
 } else {
   // More controlled option...
   smtpOptions = {
@@ -99,12 +106,9 @@ transom
     const port = process.env.PORT || process.env.FOI_REQUEST_API_PORT || 7077;
     console.log('Starting server on PORT', port);
 
-    server.listen(
-      port,
-      () => {
-        console.log('FOI Request API listening at %s', server.url);
-      }
-    );
+    server.listen(port, () => {
+      console.log('FOI Request API listening at %s', server.url);
+    });
   })
   .catch(function(err) {
     console.log('Unable to start the server, exiting');
@@ -119,7 +123,6 @@ process.on('SIGINT', function() {
   console.log('API terminated by SIGINT!');
   process.exit(0);
 });
-
 
 // ****************************************************************************
 // Handle uncaught exceptions within your code.

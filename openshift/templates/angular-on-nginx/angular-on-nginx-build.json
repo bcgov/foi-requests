@@ -58,8 +58,7 @@
           "dockerStrategy": {
             "from": {
               "kind": "ImageStreamTag",
-              "name": "nginx-runtime-foi-request-base:latest",
-              "namespace": "6ni3xg-test"
+              "name": "nginx-runtime-foi-request-base:latest"
             }
           }
         },
