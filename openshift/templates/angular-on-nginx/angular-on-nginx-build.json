@@ -28,7 +28,17 @@
         "completionDeadlineSeconds": 1800,
         "triggers": [
           {
-            "type": "ImageChange"
+            "type": "ImageChange",
+            "imageChange":{},
+          },
+          {
+            "type": "ImageChange",
+            "imageChange": {
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "foi-requests:latest"
+              }
+            }
           }
         ],
         "source": {
