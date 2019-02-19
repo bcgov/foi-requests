@@ -1,4 +1,4 @@
-workflow "New workflow" {
+workflow "Dev Build" {
   on = "push"
   resolves = ["HTTP client"]
 }
