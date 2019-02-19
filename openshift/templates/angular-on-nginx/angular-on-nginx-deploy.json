@@ -138,7 +138,6 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "namespace": "${IMAGE_NAMESPACE}",
                 "name": "${NAME}:${TAG_NAME}"
               }
             }
@@ -227,13 +226,6 @@
       "value": "foi-requests-on-nginx"
     },
     {
-      "description": "The namespace where to get the above image name",
-      "displayName": "Image Namespace",
-      "name": "IMAGE_NAMESPACE",
-      "required": true,
-      "value": "6ni3xg-test"
-    },
-    {
       "description": "OpenShift cluster private IP range in CIDR notation, used by Nginx ngx_http_realip_module.",
       "displayName": "OpenShift Cluster IP Range",
       "name": "REAL_IP_FROM",
@@ -285,13 +277,13 @@
       "description": "FOI API PORT",
       "displayName": "FOI_REQUEST_API_PORT",
       "name": "FOI_REQUEST_API_PORT",
-      "value": ""
+      "value": "7085"
     },
     {
       "description": "FOI_REQUEST_SMTP smtp host name",
       "displayName": "FOI_REQUEST_SMTP",
       "name": "FOI_REQUEST_SMTP",
-      "value": ""
+      "value": "apps.smtp.gov.bc.ca"
     },
     {
       "description": "FOI_REQUEST_SMTP_PORT smtp port",
@@ -303,7 +295,7 @@
       "description": "FOI_REQUEST_SMTP_SECURE",
       "displayName": "FOI_REQUEST_SMTP_SECURE",
       "name": "FOI_REQUEST_SMTP_SECURE",
-      "value": false
+      "value": "false"
     },
     {
       "description": "FOI_REQUEST_INBOX address to send requests to",
@@ -315,7 +307,7 @@
       "description": "FOI_REQUEST_SENDER noreply address",
       "displayName": "FOI_REQUEST_SENDER",
       "name": "FOI_REQUEST_SENDER",
-      "value": ""
+      "value": "donotreply@gov.bc.ca"
     }
 
   ]

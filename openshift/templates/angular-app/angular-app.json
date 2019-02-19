@@ -24,6 +24,12 @@
           {
             "type": "ImageChange",
             "imageChange": {}
+          },
+          {
+            "type": "GitHub",
+            "github": {
+              "secret": "godev1"
+            }
           }
         ],
         "runPolicy": "Serial",
