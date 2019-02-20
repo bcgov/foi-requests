@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LandingComponent } from './landing/landing.component';
 import { BaseComponent } from './base/base.component';
 import { GettingStarted1Component } from './getting-started1/getting-started1.component';
@@ -28,6 +29,8 @@ import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-g
 import { ChildInformationComponent } from './child-information/child-information.component';
 import { VerifyIdentityComponent } from './verify-identity/verify-identity.component';
 import { AnotherInformationComponent } from './another-information/another-information.component';
+import { AlertInfoComponent } from '../alert-info/alert-info.component';
+import { AlertWarningComponent } from '../alert-warning/alert-warning.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +61,15 @@ import { AnotherInformationComponent } from './another-information/another-infor
     ProofOfGuardianshipComponent,
     ChildInformationComponent,
     VerifyIdentityComponent,
-    AnotherInformationComponent],
+    AnotherInformationComponent,
+    AlertInfoComponent,
+    AlertWarningComponent
+  ],
   imports: [
+    // Required to use these in children of RouteComponentsModule
     CommonModule,
-    // Required to use it in child of RouteComponentsModule
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    FontAwesomeModule
   ]
 })
 export class RouteComponentsModule { }
