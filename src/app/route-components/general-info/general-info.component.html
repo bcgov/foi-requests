@@ -1,49 +1,77 @@
-<foi-base
-  (continue)="doContinue()"
-  (goBack)="doGoBack()">
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>Fees</h2>
     <p>
-        
-        • There is no application fee to request records
-        
-        • For general requests there may be a fee for large or complex requests 
-        
-        • If so, you will be contacted with an estimate; you will not be charged a fee without your
-        consent and approval
+      <li>There is no application fee to request records</li>
+      <li>
+        For general requests there may be a fee for large or complex requests
+      </li>
+      <li>
+        If so, you will be contacted with an estimate; you will not be charged a
+        fee without your consent and approval
+      </li>
     </p>
     <h2>Tips for avoiding fees</h2>
-    <p>
-        • Ensure that you’re asking for specific records (like briefing notes)
-        
-        • Refine the topic and scope of your request so that we know where to look for the files
-        
-        • Research the ministries and agencies to determine which public body is most likely to have the
-        records you’re looking for
-        
-        •
-        Ensure that you’ve checked with the Ministry and online to see what information is already
-        available and public. This might help you refine your request further.
-        Follow the tips and information throughout this application to refine your request so
-        that your fees are kept as low as possible.
-    </p>
+    <ul>
+      <li>
+        Ensure that you’re asking for specific records (like briefing notes)
+      </li>
+      <li>
+        Refine the topic and scope of your request so that we know where to look
+        for the files
+      </li>
+      <li>
+        Research the ministries and agencies to determine which public body is
+        most likely to have the records you’re looking for
+      </li>
+      <li>
+        Ensure that you’ve checked with the Ministry and online to see what
+        information is already available and public. This might help you refine
+        your request further.
+      </li>
+    </ul>
+    <app-alert-info>
+      Follow the tips and information throughout this application to refine your
+      request so that your fees are kept as low as possible.
+    </app-alert-info>
   </div>
 
   <div class="sidebar">
     <h2>More Information</h2>
     <h3>
-      Learn more about:
+      Where do I find more information about fees?
     </h3>
     <ul>
-      <li>BC Government’s ministries & agencies</li>
-      <li>Open Information</li>
-      <li>Data BC Catalogue</li>
+      <li>
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information/freedom-of-information/learn-more-about-foi"
+          target="_blank"
+        ></a
+        >Freedom of Information FAQs
+      </li>
+      <li>
+        <a
+          href="http://www.bclaws.ca/civix/document/id/complete/statreg/96165_06#section75"
+          target="_blank"
+          >FOIPPA Section 75</a
+        >
+      </li>
     </ul>
-    <h3>How long will it take to receive my records?</h3>
+    <h3>Did you know?</h3>
     <p>
-      Most requests are filled within 30 business days. This time may be
-      extended depending on the request. Large complex requests take longer to
-      process than small simple requests.
+      In the 2015/16 & 2016/17 years, only 1 in every 50 requests resulted in a
+      fee for service.
     </p>
+
+    <h3>When are fees applicable?</h3>
+    <p>
+      If you are requesting general information, a fee may be charged for the
+      following:
+    </p>
+    <ul>
+      <li>Searching for and retrieving records after the first 3 hours</li>
+      <li>Producing and preparing the records package</li>
+      <li>Shipping the records package Providing a copy of the records</li>
+    </ul>
   </div>
 </foi-base>

@@ -5,27 +5,33 @@
       { "code": "AEST", "name": "Advanced Education, Skills and Training" },
       { "code": "AGRI", "name": "Agriculture" },
       { "code": "AG", "name": "Attorney General" },
-      { "code": "BCPSA", "name": "BC Public Service Agency" },
-      { "code": "CFD", "name": "Children and Family Development" },
-      { "code": "CS", "name": "Citizens’ Services" },
-      { "code": "ED", "name": "Education" },
+      { "code": "PSA", "name": "BC Public Service Agency" },
+      { "code": "MCF", "name": "Children and Family Development" },
+      { "code": "CITZ", "name": "Citizens’ Services" },
+      { "code": "EDUC", "name": "Education" },
       { "code": "EMPR", "name": "Energy, Mines and Petroleum Resources" },
-      { "code": "ECCS", "name": "Environment and Climate Change Strategy" },
+      { "code": "ENV", "name": "Environment and Climate Change Strategy" },
       { "code": "EAO", "name": "Environmental Assessment Office" },
       { "code": "FIN", "name": "Finance" },
-      { "code": "FLNRORD", "name": "Forests, Lands, Natural Resource Operations and Rural Development" },
-      { "code": "GCPE", "name": "Government Communications and Public Engagement" },
-      { "code": "HEALTH", "name": "Health" },
+      {
+        "code": "FLNR",
+        "name": "Forests, Lands, Natural Resource Operations and Rural Development"
+      },
+      {
+        "code": "GCPE",
+        "name": "Government Communications and Public Engagement"
+      },
+      { "code": "HLTH", "name": "Health" },
       { "code": "IRR", "name": "Indigenous Relations and Reconciliation" },
       { "code": "JTT", "name": "Jobs, Trade and Technology" },
-      { "code": "LABOUR", "name": "Labour" },
-      { "code": "MHA", "name": "Mental Health and Addictions" },
+      { "code": "LBR", "name": "Labour" },
+      { "code": "MMHA", "name": "Mental Health and Addictions" },
       { "code": "MAH", "name": "Municipal Affairs and Housing" },
-      { "code": "OTP", "name": "Office of the Premier" },
+      { "code": "PREM", "name": "Office of the Premier" },
       { "code": "PSSG", "name": "Public Safety and Solicitor General" },
       { "code": "SDPR", "name": "Social Development and Poverty Reduction" },
       { "code": "TAC", "name": "Tourism, Arts and Culture" },
-      { "code": "TI", "name": "Transportation and Infrastructure" }
+      { "code": "TRAN", "name": "Transportation and Infrastructure" }
     ]
   },
   "routeTree": [

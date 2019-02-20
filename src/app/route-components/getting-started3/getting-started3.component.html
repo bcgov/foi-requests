@@ -8,42 +8,22 @@
       novalidate
       (ngSubmit)="doContinue()"
     >
-
       <div class="form-group">
         <label>
-          <input
-            type="radio"
-            value="general"
-            formControlName="requestType"
-          />
+          <input type="radio" value="general" formControlName="requestType" />
           General information about government business
         </label>
       </div>
-
-      or
-
+      <p>
+        or
+      </p>
       <div class="form-group">
         <label>
-          <input
-            type="radio"
-            value="personal"
-            formControlName="requestType"
-          />
-          Personal information about yourself, a dependant child or another person
+          <input type="radio" value="personal" formControlName="requestType" />
+          Personal information about yourself, a dependant child or another
+          person
         </label>
       </div>
-    
-      <!-- <div class="form-group">
-        <label for="firstname">First Name:</label>
-        <input
-          type="input"
-          class="form-control"
-          formControlName="firstname"
-          id="firstname"
-        />
-      </div> -->
-
-
     </form>
     <ng-template #loading> Loading... </ng-template>
   </div>
@@ -57,4 +37,3 @@
     </p>
   </div>
 </foi-base>
-

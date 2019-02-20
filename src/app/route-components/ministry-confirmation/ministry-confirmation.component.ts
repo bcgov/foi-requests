@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { Observable, of } from 'rxjs';
 import { FoiRequest } from 'src/app/models/FoiRequest';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './ministry-confirmation.component.html',
@@ -13,31 +13,43 @@ import { tap } from 'rxjs/operators';
 export class MinistryConfirmationComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
-    // values include [general, personal]
-    requestType: [null, [Validators.required]]
+    selectedMinistry: null
   });
 
   foiRequest: FoiRequest;
-  foiForm$: Observable<any>;
+  foiFormData$: Observable<any>;
   ministries$: Observable<any>;
+  ministries: Array<any>;
+  defaultMinistry: String;
+
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    console.log('Loaded ministryConfirmation:', this.foiRequest.requestData);
+    this.foiRequest.requestData.ministry =
+      this.foiRequest.requestData.ministry || {};
+    this.defaultMinistry = this.foiRequest.requestData.ministry.default;
+    this.ministries$ = this.dataService.getMinistries().pipe(map(ministries => {
+      this.ministries = ministries;
+      return ministries;
+    }));
 
-    this.ministries$ = this.dataService.getMinistries();
-    // The template does the actual subscribe, when that happens
-    // this line will ensure that the reactive form is populated with data.
-    this.foiForm$ = of(
-      this.foiRequest.requestData.requestType || {}
-    ).pipe(tap(data => this.foiForm.patchValue(data)));
+    this.foiForm.patchValue({
+      selectedMinistry: this.foiRequest.requestData.ministry.selectedMinistry.code
+    });
+
   }
 
   doContinue() {
+    // Copy out submitted form data.
+    const formData = this.foiForm.value;
+    this.foiRequest.requestData.ministry.selectedMinistry = this.ministries.find(m => m['code'] === formData.selectedMinistry);
+    // Update save data & proceed.
+    this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();
   }
+
   doGoBack() {
     this.base.goFoiBack();
   }
