@@ -3,5 +3,11 @@
         "target": "http://localhost:7085",
         "changeOrigin": true,
         "secure": false
+    },
+    "/api/captcha": {
+        "target": "http://mygovbc-captcha-service:8080/",
+        "changeOrigin": true,
+        "secure": false
+        
     }
 }

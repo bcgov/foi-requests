@@ -11,6 +11,7 @@ export class ReviewSubmitComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
 
   foiRequest: FoiRequest;
+  captchaApiBaseUrl: string = '/api';
   constructor(private dataService: DataService) {}
 
 
