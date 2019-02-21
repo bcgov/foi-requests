@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './ministry-confirmation.component.html',

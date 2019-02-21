@@ -1,26 +1,80 @@
-<foi-base
-  (continue)="doContinue()"
-  (goBack)="doGoBack()">
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
-    <h2>Description & Timeline</h2>
-
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div *ngIf="showRequestTopic">
-        <h3>What is the topic of your request?</h3>
-
-        <input />
-        <div>Provide a general topic title for your request to help us understand what you’re looking for. A specific event, subject, project, or
-            contract would be a good subject line.
-          </div>
-
+        <h2>What is the topic of your request?</h2>
+        <div class="form-group">
+          <input
+            type="input"
+            class="form-control"
+            formControlName="topic"
+            id="topic"
+          />
+        </div>
+        <app-alert-info
+          >Provide a general topic title for your request to help us understand
+          what you’re looking for. A specific event, subject, project, or
+          contract would be a good subject line.
+        </app-alert-info>
       </div>
-      showRequestTopic: {{showRequestTopic}}
+
+      <h2>Describe the records you are looking for:</h2>
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          formControlName="description"
+          id="description"
+          rows="6"
+        ></textarea>
+      </div>
+      <app-alert-info
+        >Be as specific as possible. A good description of records will include
+        key words, file types and the purpose that the records may have been
+        created for. For example: “Briefing notes prepared for the minister on a
+        specific topic.” Requesting "any and all records” can result in a high
+        volume of unnecessary records. You can include record or file numbers,
+        include previous Freedom of Information request numbers, if you know
+        them, to help us find the right records. You can browse the
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information"
+          target="_blank"
+          >Open Information</a
+        >
+        catalogue to see examples of other requests.
+      </app-alert-info>
+
+      <h2>What time frame should we search?</h2>
+      <div class="form-group row">
+        <label class="col-lg-2 col-form-label" for="fromDate">From Date:</label>
+        <div class="col-lg-4">
+          <input
+            type="date"
+            class="form-control"
+            formControlName="fromDate"
+            id="fromDate"
+          />
+        </div>
+        <label class="col-lg-2 col-form-label" for="toDate">To Date:</label>
+        <div class="col-lg-4">
+          <input
+            type="date"
+            class="form-control"
+            formControlName="toDate"
+            id="toDate"
+          />
+        </div>
+      </div>
+      <app-alert-info
+        >Be as specific as possible. Limiting the time frame of your request
+        will help us get the records to you faster.
+      </app-alert-info>
+    </form>
   </div>
 
   <div class="sidebar">
     <h2>More Information</h2>
-    <h3>
+    <h2>
       Learn more about:
-    </h3>
-
+    </h2>
   </div>
 </foi-base>
