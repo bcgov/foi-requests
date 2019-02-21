@@ -11,7 +11,8 @@ const transomSmtp = require('@transomjs/transom-smtp');
 
 const apiDefinition = require('./apiDefinition');
 
-const apiCaptcha = require('./apiCaptcha');
+const apiCaptchaFx = require('./apiCaptcha');
+const apiCaptcha = apiCaptchaFx({foo:'bar'}); 
 
 console.log(`Running ${apiDefinition.name} version ${apiDefinition.version}`);
 
