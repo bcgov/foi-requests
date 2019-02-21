@@ -86,6 +86,7 @@ transom
 
     server.post('/api/captcha', apiCaptcha.getCaptcha);
     server.post('/api/captcha/verify', apiCaptcha.verifyCaptcha);
+    server.post('/api/captcha/audio', apiCaptcha.getCaptchaAudio);
 
     // ****************************************************************************
     // Handle 404 errors when a route is undefined.
