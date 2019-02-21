@@ -18,7 +18,7 @@
     "@transomjs/transom-core": "^1.2.1",
     "@transomjs/transom-ejs-template": "^1.2.2",
     "@transomjs/transom-scaffold": "^1.2.3",
-    "@transomjs/transom-server-functions": "^1.0.6",
+    "@transomjs/transom-server-functions": "^1.0.8",
     "@transomjs/transom-smtp": "^1.0.5",
     "arraybuffer-to-buffer": "0.0.5",
     "dotenv": "^6.2.0",
@@ -36,7 +36,7 @@
     "cross-env": "^5.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.9",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "sinon": "^7.2.3"
   }
 }

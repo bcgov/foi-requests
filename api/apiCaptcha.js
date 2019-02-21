@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken');
 var wav = require('wav');
 var text2wav = require('text2wav');
 var arrayBufferToBuffer = require('arraybuffer-to-buffer');
-var streamifier = require("streamifier");
+var streamifier = require('streamifier');
 var lame = require('lame');
 
 const SECRET = process.env.SECRET || 'defaultSecret';
@@ -23,6 +23,8 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY
     };
 
 const CAPTCHA_SIGN_EXPIRY = 15;
+const RESPONSE_JWT_KEY = process.env.RESPONSE_JWT_KEY || 'Authorization'; // the request header where we expect the jwt token
+const RESPONSE_NONCE_KEY = process.env.RESPONSE_NONCE_KEY || 'captcha-nonce'; // the request header where we expect the jwt token
 
 const voicePromptLanguageMap = {
   en: 'Please type in following letters or numbers', // english
@@ -295,6 +297,30 @@ function getMp3DataUriFromText(text, language = 'en') {
   });
 }
 
+function verifyJWTResponse(token, nonce) {
+  console.log(`verifying: ${token} against ${nonce}`);
+  try {
+    var decoded = jwt.verify(token, SECRET);
+    console.log(`decoded: ` + JSON.stringify(decoded));
+    if (decoded.data && decoded.data.nonce === nonce) {
+      console.log(`Captcha Valid`);
+      return {
+        valid: true
+      };
+    } else {
+      console.log(`Captcha Invalid!`);
+      return {
+        valid: false
+      };
+    }
+  } catch (e) {
+    console.log(`Token/ResourceID Verification Failed: ` + JSON.stringify(e));
+    return {
+      valid: false
+    };
+  }
+}
+
 var captchaHandler = {
   getCaptcha: function(req, res, next) {
     var captcha = svgCaptcha.create({
@@ -331,6 +357,18 @@ var captchaHandler = {
       res.send(ret);
       next();
     });
+  },
+  verifyJWTResponseMiddleware: function(req,res,next) {
+    var token = req.headers[RESPONSE_JWT_KEY.toLowerCase()] || '';
+    token = token.replace('Bearer ', '');
+    var nonce = req.headers[RESPONSE_NONCE_KEY];
+    var ret = verifyJWTResponse(token, nonce); //TODO retrieve the nonce and pass it in
+    if (ret.valid){
+        next();
+    } else {
+        res.send(401, 'Not Authorized')
+        next('Invalid Token');
+    }
   }
 };
 

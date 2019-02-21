@@ -37,7 +37,10 @@ export class DataService {
     sessionStorage.setItem('foi-request', JSON.stringify(foi));
   }
 
-  submitRequest(foiRequest: FoiRequest): Observable<any> {
+  submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
+    console.log('token: ', authToken);
+    this.apiClient.setHeader('Authorization', 'Bearer ' +  authToken);
+    this.apiClient.setHeader('captcha-nonce', nonce);
     return this.apiClient.postFunction('submitFoiRequest', foiRequest);
   }
 

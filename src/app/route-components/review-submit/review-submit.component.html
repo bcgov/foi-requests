@@ -4,8 +4,8 @@
     <div class="row">
       <captcha
         [apiBaseUrl]="captchaApiBaseUrl"
-        [nonce]="'optional string to get signed by the server'"
-        (onValidToken)="authorizationToken = $event"
+        [nonce]="captchaNonce"
+        (onValidToken)="onValidToken($event)"
         successMessage="You can save the form now."
       >
       </captcha>

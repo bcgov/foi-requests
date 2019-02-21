@@ -1,4 +1,5 @@
 const customFunctions = require('./apiCustomFunctions');
+const apiCaptcha = require('./apiCaptcha');
 // const frontEndURI = process.env.FOI_REQUEST_UI || 'http://localhost:4200';
 // const backEndURI = process.env.FOI_REQUEST_API || 'http://localhost:7085';
 
@@ -24,7 +25,8 @@ module.exports = {
     },
     functions: {
       submitFoiRequest: {
-          methods: ['GET', 'POST'],
+          methods: ['POST'],
+          preMiddleware: [apiCaptcha.verifyJWTResponseMiddleware],
           function: customFunctions.submitFoiRequest
         }
     }
