@@ -81,3 +81,6 @@ body {
   color: $color-primary;
 }  
 
+.form-control.ng-touched.ng-invalid {
+  border: 2px solid map-get($theme-colors, danger);
+}

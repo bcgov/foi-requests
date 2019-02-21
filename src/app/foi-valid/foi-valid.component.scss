@@ -1,0 +1,7 @@
+@import '../styles/variables.scss';
+
+.validation-error {
+  color: map-get($theme-colors, danger);
+  text-align: right;
+  font-size: smaller;
+}

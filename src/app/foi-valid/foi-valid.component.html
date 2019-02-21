@@ -1,0 +1,20 @@
+<ng-container class="item-validation">
+    <ng-content></ng-content>
+    <div
+      class="validation-error"
+      *ngIf="control && control.invalid && control.touched; else: itemValidTip"
+    >
+      <span *ngIf="control && control.errors && control.errors.min">{{ dynamicMsg(control.errors.min, min) }}</span>
+      <span *ngIf="control && control.errors && control.errors.max">{{ dynamicMsg(control.errors.max, max) }}</span>
+      <span *ngIf="control && control.errors && control.errors.required">{{ dynamicMsg(control.errors.required, required) }}</span>
+      <span *ngIf="control && control.errors && control.errors.requiredTrue">{{ dynamicMsg(control.errors.requiredTrue, requiredTrue) }}</span>
+      <span *ngIf="control && control.errors && control.errors.email">{{ dynamicMsg(control.errors.email, email) }}</span>
+      <span *ngIf="control && control.errors && control.errors.minlength">{{ dynamicMsg(control.errors.minlength, minLength) }}</span>
+      <span *ngIf="control && control.errors && control.errors.maxlength">{{ dynamicMsg(control.errors.maxlength, maxLength) }}</span>
+      <span *ngIf="control && control.errors && control.errors.pattern">{{ dynamicMsg(control.errors.pattern, pattern) }}</span>
+    </div>
+    <ng-template #itemValidTip>
+      <div>{{ tip }}</div>
+    </ng-template>
+  </ng-container>
+  
