@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class ServerPayload {
   nonce: string;
-  captcha: string;
+  captcha: any;
   validation: string;
   expiry: string;
 }
@@ -27,10 +27,11 @@ export class CaptchaDataService {
   }
 
   public verifyCaptcha(apiBaseUrl: string, nonce: string, answer: string, encryptedAnswer: string): Observable<HttpResponse<ServerPayload>> {
+    console.log({ nonce: nonce, answer: answer, validation: encryptedAnswer });
     return this.httpClient
       .post<ServerPayload>(
-        apiBaseUrl + '/verify/captcha',
-        { nonce: nonce, answer: answer, validation: encryptedAnswer },
+        apiBaseUrl + '/captcha/verify',
+        { nonce, answer, validation: encryptedAnswer },
         { observe: 'response' });
   }
 

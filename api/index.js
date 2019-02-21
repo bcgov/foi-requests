@@ -11,6 +11,8 @@ const transomSmtp = require('@transomjs/transom-smtp');
 
 const apiDefinition = require('./apiDefinition');
 
+const apiCaptcha = require('./apiCaptcha');
+
 console.log(`Running ${apiDefinition.name} version ${apiDefinition.version}`);
 
 const transom = new Transom();
@@ -81,6 +83,9 @@ transom
       res.end(content);
       next(false);
     });
+
+    server.post('/api/captcha', apiCaptcha.getCaptcha);
+    server.post('/api/captcha/verify', apiCaptcha.verifyCaptcha);
 
     // ****************************************************************************
     // Handle 404 errors when a route is undefined.
