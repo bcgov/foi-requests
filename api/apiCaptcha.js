@@ -33,6 +33,29 @@ function captchaInit(options) {
     return decrypted;
   }
 
+  function createCaptcha(nonce){
+    var captcha = svgCaptcha.create({
+      size: 6, // size of random string
+      ignoreChars: '0o1il', // filter out some characters like 0o1i
+      noise: 2 // number of lines to insert for noise
+    });
+
+    // add answer, nonce and expiry to body
+    var unEncryptedResponse = {
+      nonce,
+      answer: captcha.text
+    };
+    var validation = encrypt(unEncryptedResponse);
+    delete captcha['text']; //this should not go to the front-end, defeats the purpose!!
+    var fullReponse = {
+      captcha,
+      validation
+    };
+
+    return fullReponse;
+
+  }
+
   function verifyCaptchaInternal(payload) {
     var answer = payload.answer;
     var nonce = payload.nonce;
@@ -185,23 +208,7 @@ function captchaInit(options) {
 
   return {
     getCaptcha: function(req, res, next) {
-      var captcha = svgCaptcha.create({
-        size: 6, // size of random string
-        ignoreChars: '0o1il', // filter out some characters like 0o1i
-        noise: 2 // number of lines to insert for noise
-      });
-
-      // add answer, nonce and expiry to body
-      var unEncryptedResponse = {
-        nonce: req.body.nonce,
-        answer: captcha.text
-      };
-      var validation = encrypt(unEncryptedResponse);
-      delete captcha['text']; //this should not go to the front-end, defeats the purpose!!
-      var fullReponse = {
-        captcha,
-        validation
-      };
+      var fullReponse = createCaptcha(req.body.nonce);
       res.send(fullReponse);
       next();
     },
