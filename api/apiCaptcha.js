@@ -9,13 +9,12 @@ var arrayBufferToBuffer = require('arraybuffer-to-buffer');
 var streamifier = require('streamifier');
 var lame = require('lame');
 
-function whatever(options) {
-  console.log('Options: ', options);
+function captchaInit(options) {
 
-  const SECRET = process.env.SECRET || 'defaultSecret';
-  const JWT_SIGN_EXPIRY = process.env.JWT_SIGN_EXPIRY || '15'; // In minutes
-  const RESPONSE_TOKEN_KEY = process.env.RESPONSE_TOKEN_KEY || 'Authorization'; // the request header where we expect the jwt token
-  const RESPONSE_NONCE_KEY = process.env.RESPONSE_NONCE_KEY || 'captcha-nonce'; // the request header where we expect the jwt token
+  const CAPTCHA_TOKEN_SECRET = options.CAPTCHA_TOKEN_SECRET || 'defaultSecret';
+  const CAPTCHA_EXPIRY_MINUTES = options.CAPTCHA_EXPIRY_MINUTES || '15'; // In minutes
+  const CAPTCHA_TOKEN_HEADER = options.CAPTCHA_TOKEN_HEADER || 'Authorization'; // the request header where we expect the jwt token
+  const CAPTCHA_NONCE_HEADER = options.CAPTCHA_NONCE_HEADER || 'captcha-nonce'; // the request header where we expect the client nonce
 
   const voicePromptLanguageMap = {
     en: 'Please type in following letters or numbers', // english
@@ -25,12 +24,12 @@ function whatever(options) {
   };
 
   function encrypt(body) {
-    var token = jwt.sign(body, SECRET, { expiresIn: '1400m' });
+    var token = jwt.sign(body, CAPTCHA_TOKEN_SECRET, { expiresIn: '1400m' });
     return token;
   }
 
   function decrypt(encrypted) {
-    var decrypted = jwt.verify(encrypted, SECRET);
+    var decrypted = jwt.verify(encrypted, CAPTCHA_TOKEN_SECRET);
     return decrypted;
   }
 
@@ -47,8 +46,8 @@ function whatever(options) {
         if (decryptedBody.answer.toLowerCase() === answer.toLowerCase()) {
           if (decryptedBody.nonce === nonce) {
             // Passed the captcha test
-            var token = jwt.sign({ data: { nonce: nonce } }, SECRET, {
-              expiresIn: JWT_SIGN_EXPIRY + 'm'
+            var token = jwt.sign({ data: { nonce: nonce } }, CAPTCHA_TOKEN_SECRET, {
+              expiresIn: CAPTCHA_EXPIRY_MINUTES + 'm'
             });
             return { valid: true, jwt: token };
           } else {
@@ -173,7 +172,7 @@ function whatever(options) {
 
   function verifyJWTResponse(token, nonce) {
     try {
-      var decoded = jwt.verify(token, SECRET);
+      var decoded = jwt.verify(token, CAPTCHA_TOKEN_SECRET);
       if (decoded.data && decoded.data.nonce === nonce) {
         return { valid: true };
       } else {
@@ -218,9 +217,9 @@ function whatever(options) {
       });    
     },
     verifyJWTResponseMiddleware: function(req, res, next) {
-      var token = req.headers[RESPONSE_TOKEN_KEY.toLowerCase()] || '';
+      var token = req.headers[CAPTCHA_TOKEN_HEADER.toLowerCase()] || '';
       token = token.replace('Bearer ', '');
-      var nonce = req.headers[RESPONSE_NONCE_KEY];
+      var nonce = req.headers[CAPTCHA_NONCE_HEADER];
       var ret = verifyJWTResponse(token, nonce); //TODO retrieve the nonce and pass it in
       if (ret.valid) {
         next();
@@ -232,4 +231,4 @@ function whatever(options) {
   };
 }
 
-module.exports = whatever;
+module.exports = captchaInit;
