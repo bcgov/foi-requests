@@ -87,6 +87,6 @@ body {
 }
 
 .label-error {
-  color: map-get($theme-colors, danger);
+  color: $color-danger;
 }
 

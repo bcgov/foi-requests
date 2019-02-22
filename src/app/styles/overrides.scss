@@ -1,8 +1,6 @@
 // If we need to override any bootstrap styles, we can do that here.
 
-// .btn-secondary {
-//   background-color: $color-dark;
-//   color: #fff;
-// }
-
-
+label {
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}

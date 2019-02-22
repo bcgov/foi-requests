@@ -14,15 +14,19 @@
 
         <br />
         <div class="form-group">
+            <app-foi-valid
+            [form]="foiForm"
+            required="Ministry is a required field."
+          >
           <select
-            id="selectedMinistry"
             formControlName="selectedMinistry"
-            class="form-control"
+            required
           >
             <option *ngFor="let m of minis" [value]="m.code">{{
               m.name
             }}</option>
           </select>
+        </app-foi-valid>
         </div>
       </div>
 

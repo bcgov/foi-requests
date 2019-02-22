@@ -3,8 +3,7 @@
     <h1>What type of information are you looking for?</h1>
 
     <form
-      *ngIf="(gettingStarted3$ | async) as data; else loading"
-      [formGroup]="gettingStarted3"
+      [formGroup]="foiForm"
       novalidate
       (ngSubmit)="doContinue()"
     >
@@ -25,12 +24,10 @@
         </label>
       </div>
     </form>
-    <ng-template #loading> Loading... </ng-template>
   </div>
 
   <div class="sidebar">
     <h2>More Information</h2>
-
     <p>
       This is a simple demo request. It validates that a request can be
       submitted, and received as an email.

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
@@ -17,34 +17,34 @@ export class MinistryConfirmationComponent implements OnInit {
   });
 
   foiRequest: FoiRequest;
-  foiFormData$: Observable<any>;
   ministries$: Observable<any>;
   ministries: Array<any>;
-  defaultMinistry: String;
-
+  defaultMinistry: string;
+  targetKey: string = 'ministry';
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState();
-    this.foiRequest.requestData.ministry =
-      this.foiRequest.requestData.ministry || {};
-    this.defaultMinistry = this.foiRequest.requestData.ministry.default;
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].default;
     this.ministries$ = this.dataService.getMinistries().pipe(map(ministries => {
       this.ministries = ministries;
       return ministries;
     }));
 
+    // Make sure we have a selected ministry before trying to patch it in.
+    const selected = this.foiRequest.requestData[this.targetKey].selectedMinistry;
+    const selectedCode = selected ? selected.code : null;
     this.foiForm.patchValue({
-      selectedMinistry: this.foiRequest.requestData.ministry.selectedMinistry.code
+      selectedMinistry: selectedCode
     });
-
   }
 
   doContinue() {
     // Copy out submitted form data.
     const formData = this.foiForm.value;
-    this.foiRequest.requestData.ministry.selectedMinistry = this.ministries.find(m => m['code'] === formData.selectedMinistry);
+    const selected = this.ministries.find(m => m['code'] === formData.selectedMinistry);
+    this.foiRequest.requestData[this.targetKey].selectedMinistry = selected;
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();

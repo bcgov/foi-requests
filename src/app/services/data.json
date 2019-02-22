@@ -1,7 +1,6 @@
 {
   "referenceData": {
     "ministries": [
-      { "code": null, "name": "" },
       { "code": "AEST", "name": "Advanced Education, Skills and Training" },
       { "code": "AGRI", "name": "Agriculture" },
       { "code": "AG", "name": "Attorney General" },

@@ -9,7 +9,6 @@ import { FormControl, Form } from '@angular/forms';
 export class FoiValidComponent implements OnInit {
   @Input() tip: string;
   @Input() form: Form;
-  // @Input() control: FormControl;
 
   // Built-in validators
   @Input() min: string;
@@ -94,5 +93,10 @@ export class FoiValidComponent implements OnInit {
     this.fieldInput.id = this.fieldInput.id || formcontrolname;
     this.fieldInput.className = this.fieldInput.className || 'form-control';
     this.fieldLabel.htmlFor = this.fieldLabel.htmlFor || this.fieldInput.id;
+
+    // Possibly add a required field indicator, but it's ugly.
+    // if (this.required) {
+    //   this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(':', '*:');
+    // }
   }
 }
