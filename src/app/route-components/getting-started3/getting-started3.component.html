@@ -3,58 +3,34 @@
     <h1>What type of information are you looking for?</h1>
 
     <form
-      *ngIf="(gettingStarted3$ | async) as data; else loading"
-      [formGroup]="gettingStarted3"
+      [formGroup]="foiForm"
       novalidate
       (ngSubmit)="doContinue()"
     >
-
       <div class="form-group">
         <label>
-          <input
-            type="radio"
-            value="general"
-            formControlName="requestType"
-          />
+          <input type="radio" value="general" formControlName="requestType" />
           General information about government business
         </label>
       </div>
-
-      or
-
+      <p>
+        or
+      </p>
       <div class="form-group">
         <label>
-          <input
-            type="radio"
-            value="personal"
-            formControlName="requestType"
-          />
-          Personal information about yourself, a dependant child or another person
+          <input type="radio" value="personal" formControlName="requestType" />
+          Personal information about yourself, a dependant child or another
+          person
         </label>
       </div>
-    
-      <!-- <div class="form-group">
-        <label for="firstname">First Name:</label>
-        <input
-          type="input"
-          class="form-control"
-          formControlName="firstname"
-          id="firstname"
-        />
-      </div> -->
-
-
     </form>
-    <ng-template #loading> Loading... </ng-template>
   </div>
 
   <div class="sidebar">
     <h2>More Information</h2>
-
     <p>
       This is a simple demo request. It validates that a request can be
       submitted, and received as an email.
     </p>
   </div>
 </foi-base>
-

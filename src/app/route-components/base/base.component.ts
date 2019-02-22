@@ -15,7 +15,7 @@ export class BaseComponent implements OnInit {
   @Output() goBack = new EventEmitter();
   @Input('showButtons') showButtons: boolean = true;
   @Input('showInfo') showInfo: boolean = true;
-  @Input('continueText') continueText: String = 'Continue';
+  @Input('continueText') continueText: string = 'Continue';
   routeData$: BehaviorSubject<any>;
 
   constructor(private foiRouter: FoiRouterService, private dataService: DataService, private router: Router) {
@@ -53,7 +53,7 @@ export class BaseComponent implements OnInit {
     this.foiRouter.progress({ direction: -1 });
   }
 
-  goFoiForward(selection?: String) {
+  goFoiForward(selection?: string) {
     this.foiRouter.progress({ direction: 1, selection});
   }
 }

@@ -1,16 +1,58 @@
-<foi-base
-  (continue)="doContinue()"
-  (goBack)="doGoBack()">
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
-    <h2>Request Info</h2>
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <p>
+        We may need to get in touch with you to clarify your request, discuss
+        the status of your request or potential fees relating to processing your
+        request.
+      </p>
 
+      <h2>Your name</h2>
+      <div class="form-group row">
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="First name is longer than the maximum {requiredLength} characters."
+            required="First name is a required field."
+          >
+            <label>First Name:</label>
+            <input formControlName="firstName" />
+          </app-foi-valid>
+        </div>
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Middle name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Middle Name:</label>
+            <input formControlName="middleName" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Last name is longer than the maximum {requiredLength} characters."
+            required="Last name is a required field."
+          >
+            <label>Last Name:</label>
+            <input formControlName="lastName" />
+          </app-foi-valid>
+        </div>
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Business/Organization Name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Business/Organization Name:</label>
+            <input formControlName="businessName" />
+          </app-foi-valid>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="sidebar">
-    <h2>More Information</h2>
-    <h3>
-      Learn more about:
-    </h3>
-
+    <!-- Hidden -->
   </div>
 </foi-base>

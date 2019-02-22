@@ -32,6 +32,7 @@ import { AnotherInformationComponent } from './another-information/another-infor
 import { AlertInfoComponent } from '../alert-info/alert-info.component';
 import { AlertWarningComponent } from '../alert-warning/alert-warning.component';
 import { CaptchaComponent } from './captcha/captcha.component';
+import { FoiValidComponent } from '../foi-valid/foi-valid.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { CaptchaComponent } from './captcha/captcha.component';
     VerifyIdentityComponent,
     AnotherInformationComponent,
     AlertInfoComponent,
-    AlertWarningComponent
+    AlertWarningComponent,
+    FoiValidComponent
   ],
   imports: [
     // Required to use these in children of RouteComponentsModule
