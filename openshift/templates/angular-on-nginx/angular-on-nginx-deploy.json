@@ -79,6 +79,30 @@
                   {
                     "name": "HTTP_BASIC_PASSWORD",
                     "value": "${HTTP_BASIC_PASSWORD}"
+                  },
+                  {
+                    "name": "FOI_REQUEST_API_PORT",
+                    "value": "${FOI_REQUEST_API_PORT}"
+                  },
+                  {
+                    "name": "FOI_REQUEST_SMTP",
+                    "value": "${FOI_REQUEST_SMTP}"
+                  },
+                  {
+                    "name": "FOI_REQUEST_SMTP_PORT",
+                    "value": "${FOI_REQUEST_SMTP_PORT}"
+                  },
+                  {
+                    "name": "FOI_REQUEST_SMTP_SECURE",
+                    "value": "${FOI_REQUEST_SMTP_SECURE}"
+                  },
+                  {
+                    "name": "FOI_REQUEST_INBOX",
+                    "value": "${FOI_REQUEST_INBOX}"
+                  },
+                  {
+                    "name": "FOI_REQUEST_SENDER",
+                    "value": "${FOI_REQUEST_SENDER}"
                   }
                 ],
                 "resources": {
