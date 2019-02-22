@@ -1,13 +1,12 @@
-<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base
+  [continueDisabled]="!allowContinue()"
+  (continue)="doContinue()"
+  (goBack)="doGoBack()"
+>
   <div class="foi-content">
     <h2>Who are you requesting records about?</h2>
 
-    <form
-      *ngIf="(foiForm$ | async) as data; else loading"
-      [formGroup]="foiForm"
-      novalidate
-      (ngSubmit)="doContinue()"
-    >
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group">
         <label>
           <input type="checkbox" value="yourself" formControlName="yourself" />
@@ -29,30 +28,29 @@
         </label>
       </div>
     </form>
-    <ng-template #loading> Loading... </ng-template>
   </div>
 
   <div class="sidebar">
-      <h2>More Information</h2>
-      <h3>
-        When can you request records about another person?
-      </h3>
-      <p>
-        To request request records about a child under 12 years old (including
-        your own child) or another person, you must provide either:
-      </p>
-      <ul>
-        <li>Proof of your authority to act on the person’s behalf</li>
-  
-        <li>
-          That person’s signed and informed consent to receive their records
-        </li>
-      </ul>
-      <h3>What is a record?</h3>
-      <p>
-        Records are any thing on which information is recorded or stored. They can
-        be graphic, electronic, mechanical or any other means, and include books,
-        documents, maps, drawings, letters, vouchers and papers.
-      </p>
-    </div>
-  </foi-base>
+    <h2>More Information</h2>
+    <h3>
+      When can you request records about another person?
+    </h3>
+    <p>
+      To request request records about a child under 12 years old (including
+      your own child) or another person, you must provide either:
+    </p>
+    <ul>
+      <li>Proof of your authority to act on the person’s behalf</li>
+
+      <li>
+        That person’s signed and informed consent to receive their records
+      </li>
+    </ul>
+    <h3>What is a record?</h3>
+    <p>
+      Records are any thing on which information is recorded or stored. They can
+      be graphic, electronic, mechanical or any other means, and include books,
+      documents, maps, drawings, letters, vouchers and papers.
+    </p>
+  </div>
+</foi-base>

@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
-import { Observable, of } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
-import { tap } from 'rxjs/operators';
 
 @Component({
   templateUrl: './select-about.component.html',
@@ -19,48 +17,42 @@ export class SelectAboutComponent implements OnInit {
   });
 
   foiRequest: FoiRequest;
-  foiForm$: Observable<any>;
+  targetKey: string = 'selectAbout';
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState();
-    console.log('Loaded SelectAbout:', this.foiRequest.requestData);
+    // Load the current values & populate the FormGroup.
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+  }
 
-    // The template does the actual subscribe, when that happens
-    // this line will ensure that the reactive form is populated with data.
-    this.foiForm$ = of(this.foiRequest.requestData.requestType || {}).pipe(
-      tap(data => this.foiForm.patchValue(data))
-    );
+  /**
+   * Used to disable the Continue button *and* determine the navigation path.
+   */
+  allowContinue() {
+    const formData = this.foiForm.value;
+    // Note: The order these are added is important!
+    // Return value is matched against the keys in data.json.
+    let checks = [];
+    const checkboxes = ['yourself', 'child', 'another'];
+    checkboxes.map(c => {
+      if (formData[c]) {
+        checks.push(c);
+      }
+    });
+    return checks.join('-');
   }
 
   doContinue() {
-    // Initialize & copy out submitted form data.
-    this.foiRequest.requestData.requestType = {};
-    const formData = this.foiForm.value;
-    // Object.keys(formData).map(
-    //   k => (this.foiRequest.requestData.requestType[k] = formData[k])
-    // );
     // Update save data & proceed.
-    this.dataService.setCurrentState(this.foiRequest);
-
-    // Note: The order these are added is important!
-    // Strings created are matched against the keys in data.json.
-    let result = [];
-    if (formData.yourself === true) {
-      result.push('yourself');
-    }
-    if (formData.child === true) {
-      result.push('child');
-    }
-    if (formData.another === true) {
-      result.push('another');
-    }
-
-    if (result.length > 0) {
-      const key = result.join('-');
-      this.base.goFoiForward(key);
-    }
+    this.dataService.setCurrentState(
+      this.foiRequest,
+      this.targetKey,
+      this.foiForm
+    );
+    const navigateTo = this.allowContinue();
+    this.base.goFoiForward(navigateTo);
   }
 
   doGoBack() {
