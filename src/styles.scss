@@ -81,6 +81,12 @@ body {
   color: $color-primary;
 }  
 
+/* Apply styles to the invalid form elements! */
 .form-control.ng-touched.ng-invalid {
-  border: 2px solid map-get($theme-colors, danger);
+  border: 2px solid $color-danger;
 }
+
+.label-error {
+  color: map-get($theme-colors, danger);
+}
+
