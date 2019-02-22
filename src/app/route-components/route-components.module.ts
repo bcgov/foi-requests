@@ -31,10 +31,12 @@ import { VerifyIdentityComponent } from './verify-identity/verify-identity.compo
 import { AnotherInformationComponent } from './another-information/another-information.component';
 import { AlertInfoComponent } from '../alert-info/alert-info.component';
 import { AlertWarningComponent } from '../alert-warning/alert-warning.component';
+import { CaptchaComponent } from './captcha/captcha.component';
 import { FoiValidComponent } from '../foi-valid/foi-valid.component';
 
 @NgModule({
   declarations: [
+    CaptchaComponent,
     BaseComponent,
     LandingComponent,
     GettingStarted1Component,

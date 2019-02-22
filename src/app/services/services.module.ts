@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from './data.service';
+import { CaptchaDataService } from './captcha-data.service';
 
 @NgModule({
   declarations: [],
@@ -8,7 +9,8 @@ import { DataService } from './data.service';
     CommonModule
   ],
   providers:[
-    DataService
+    DataService,
+    CaptchaDataService
   ]
 })
 export class ServicesModule { }

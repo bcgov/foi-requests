@@ -64,6 +64,9 @@ export class TransomApiClientService implements CanActivate {
     this.setLoginState(null);
   }
 
+  setHeader(key: string, value: string){
+    this.headers[key] = value;
+  }
   /**
    * Generic API response handler. Passes the response on to the orginal caller
    * and catches any errors as needed using the catchError operator (rxjs).

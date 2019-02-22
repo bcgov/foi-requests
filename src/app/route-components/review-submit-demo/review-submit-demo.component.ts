@@ -27,7 +27,7 @@ export class ReviewSubmitDemoComponent implements OnInit {
   
   doContinue() {
     console.log("Going to submit");
-    this.dataService.submitRequest(this.foiRequest).subscribe(result => {
+    this.dataService.submitRequest('this is','not good',this.foiRequest).subscribe(result => {
       console.log("result: ", result);
 
       this.submitDone = true;

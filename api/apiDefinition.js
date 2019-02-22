@@ -1,6 +1,7 @@
 const customFunctions = require('./apiCustomFunctions');
-// const frontEndURI = process.env.FOI_REQUEST_UI || 'http://localhost:4200';
-// const backEndURI = process.env.FOI_REQUEST_API || 'http://localhost:7085';
+const apiCaptchaFx = require('./apiCaptcha');
+const captchaCfg = require('./captchaCfg');
+const apiCaptcha = apiCaptchaFx(captchaCfg); 
 
 module.exports = {
   note: 'This is a private server.',
@@ -24,7 +25,8 @@ module.exports = {
     },
     functions: {
       submitFoiRequest: {
-          methods: ['GET', 'POST'],
+          methods: ['POST'],
+          preMiddleware: [apiCaptcha.verifyJWTResponseMiddleware],
           function: customFunctions.submitFoiRequest
         }
     }

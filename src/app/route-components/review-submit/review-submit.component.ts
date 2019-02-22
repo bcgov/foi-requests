@@ -11,6 +11,9 @@ export class ReviewSubmitComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
 
   foiRequest: FoiRequest;
+  captchaApiBaseUrl: string = '/api';
+  authToken: string = '';
+  captchaNonce: string = '69879887sdsas$#';
   constructor(private dataService: DataService) {}
 
 
@@ -18,9 +21,13 @@ export class ReviewSubmitComponent implements OnInit {
     this.foiRequest = this.dataService.getCurrentState();
   }
 
+  onValidToken(tokenEvent){
+    this.authToken = tokenEvent.replace('\n','') ;
+  }
+
   doContinue() {
     console.log("Going to submit");
-    this.dataService.submitRequest(this.foiRequest).subscribe(result => {
+    this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
       console.log("result: ", result);
 
     });

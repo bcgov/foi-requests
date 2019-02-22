@@ -1,14 +1,25 @@
-<foi-base
- [showButtons]="false">
+<foi-base [showButtons]="false">
   <div class="foi-content">
     <h2>Review Submit</h2>
+    <div class="row">
+      <captcha
+        [apiBaseUrl]="captchaApiBaseUrl"
+        [nonce]="captchaNonce"
+        (onValidToken)="onValidToken($event)"
+        successMessage="You can save the form now."
+      >
+      </captcha>
+    </div>
 
-
-this is the end...
+    this is the end...
     <div class="buttonbar">
-        <button type="button" class="btn btn-secondary" (click)="doGoBack()">Go back</button>
-        <button type="button" class="btn btn-primary" (click)="doContinue()">Submit</button>
-      </div>
+      <button type="button" class="btn btn-secondary" (click)="doGoBack()">
+        Go back
+      </button>
+      <button type="button" class="btn btn-primary" (click)="doContinue()">
+        Submit
+      </button>
+    </div>
   </div>
 
   <div class="sidebar">
@@ -16,6 +27,5 @@ this is the end...
     <h3>
       Learn more about:
     </h3>
-
   </div>
 </foi-base>
