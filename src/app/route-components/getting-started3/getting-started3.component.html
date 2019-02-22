@@ -1,12 +1,12 @@
-<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base
+  [continueDisabled]="!foiForm.valid"
+  (continue)="doContinue()"
+  (goBack)="doGoBack()"
+>
   <div class="foi-content">
     <h1>What type of information are you looking for?</h1>
 
-    <form
-      [formGroup]="foiForm"
-      novalidate
-      (ngSubmit)="doContinue()"
-    >
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group">
         <label>
           <input type="radio" value="general" formControlName="requestType" />

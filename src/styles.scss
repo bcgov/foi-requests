@@ -87,6 +87,10 @@ body {
 }
 
 .label-error {
+  color: $color-danger !important;
+}
+
+.label-required {
   color: $color-danger;
 }
 

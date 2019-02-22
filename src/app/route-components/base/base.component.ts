@@ -16,14 +16,23 @@ export class BaseComponent implements OnInit {
   @Input('showButtons') showButtons: boolean = true;
   @Input('showInfo') showInfo: boolean = true;
   @Input('continueText') continueText: string = 'Continue';
+  @Input('continueDisabled') continueDisabled: boolean = false;
   routeData$: BehaviorSubject<any>;
 
-  constructor(private foiRouter: FoiRouterService, private dataService: DataService, private router: Router) {
+  constructor(
+    private foiRouter: FoiRouterService,
+    private dataService: DataService,
+    private router: Router
+  ) {
     this.routeData$ = new BehaviorSubject(null);
   }
 
   ngOnInit() {
-    console.log('DescriptionTimeframeComponent', this.dataService.getRoute(''), this);
+    console.log(
+      'DescriptionTimeframeComponent',
+      this.dataService.getRoute(''),
+      this
+    );
     console.log('Router url: ', this.router.url);
     const route: FoiRoute = this.dataService.getRoute(this.router.url);
     this.routeData$.next(route.data || {});
@@ -54,6 +63,6 @@ export class BaseComponent implements OnInit {
   }
 
   goFoiForward(selection?: string) {
-    this.foiRouter.progress({ direction: 1, selection});
+    this.foiRouter.progress({ direction: 1, selection });
   }
 }

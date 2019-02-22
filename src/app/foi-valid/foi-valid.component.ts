@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ɵConsole } from '@angular/core';
 import { FormControl, Form } from '@angular/forms';
 
 @Component({
@@ -36,14 +36,19 @@ export class FoiValidComponent implements OnInit {
     return null;
   }
 
-  isInvalid() {
-    if (this.control && this.control.invalid && this.control.touched) {
+  /**
+   * Used in the template to show/hide validation errors and style/unstyle the label text.
+   */
+  isInvalid() {    
+    let invalid = false;
+    this.fieldLabel.className = (this.fieldLabel.className || '').replace('label-error', '').trim();
+
+    if (this.control && this.control.invalid && (!this.control.pristine || this.control.touched)) {
       // If a user has touched a field and it's invalid, style the label!
-      this.fieldLabel.className = 'label-error';
-      return true;
+      this.fieldLabel.className = ('label-error ' + this.fieldLabel.className).trim();
+      invalid = true;
     }
-    this.fieldLabel.className = '';
-    return false;
+    return invalid;
   }
 
   /**
@@ -86,6 +91,7 @@ export class FoiValidComponent implements OnInit {
     this.fieldLabel = this.fieldLabelWrapper.nativeElement.firstChild || {};
     this.fieldInput = this.fieldInputWrapper.nativeElement.firstChild || {};
 
+    // Using the formcontrolname attribute on the Input DOM element to identify the Form control!
     const formcontrolname = this.fieldInput.attributes['formcontrolname'].value;
     this.control = this.form['controls'][formcontrolname];
 
@@ -95,8 +101,8 @@ export class FoiValidComponent implements OnInit {
     this.fieldLabel.htmlFor = this.fieldLabel.htmlFor || this.fieldInput.id;
 
     // Possibly add a required field indicator, but it's ugly.
-    // if (this.required) {
-    //   this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(':', '*:');
-    // }
+    if (this.required) {
+      this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(':', ' <span class="label-required">*</span>:');
+    }
   }
 }

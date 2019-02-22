@@ -1,4 +1,8 @@
-<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base
+  [continueDisabled]="!foiForm.valid"
+  (continue)="doContinue()"
+  (goBack)="doGoBack()"
+>
   <div class="foi-content">
     <h2>What ministry or agency has the records you are looking for?</h2>
 
@@ -6,7 +10,11 @@
       <div *ngIf="(ministries$ | async) as minis">
         <ng-container *ngFor="let m of minis">
           <ng-container
-            *ngIf="defaultMinistry.code && m.code === defaultMinistry.code"
+            *ngIf="
+              defaultMinistry &&
+              defaultMinistry.code &&
+              m.code === defaultMinistry.code
+            "
           >
             This request is for {{ m.name }}.
           </ng-container>
@@ -14,19 +22,16 @@
 
         <br />
         <div class="form-group">
-            <app-foi-valid
+          <app-foi-valid
             [form]="foiForm"
             required="Ministry is a required field."
           >
-          <select
-            formControlName="selectedMinistry"
-            required
-          >
-            <option *ngFor="let m of minis" [value]="m.code">{{
-              m.name
-            }}</option>
-          </select>
-        </app-foi-valid>
+            <select formControlName="selectedMinistry" required>
+              <option *ngFor="let m of minis" [value]="m.code">{{
+                m.name
+              }}</option>
+            </select>
+          </app-foi-valid>
         </div>
       </div>
 
