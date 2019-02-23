@@ -83,14 +83,12 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
 
   answerChanged(event: any) {
     this.answer = this.userAnswerRef.nativeElement.value
-    console.log("answer: ", this.answer, event);
     if (this.answer.length < 6) {
       this.incorrectAnswer = null;
     }
     if (this.answer.length === 6) {
       this.state = CAPTCHA_STATE.VERIFYING_ANSWER;
       this.incorrectAnswer = null;
-      console.log('nonce ', this.nonce);
       this.dataService.verifyCaptcha(this.apiBaseUrl, this.nonce, this.answer, this.validation).subscribe(response => {
         const payload = response.body;
         if (this.isValidPayload(payload)) {
@@ -201,7 +199,6 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
       this.state = CAPTCHA_STATE.SUCCESS_FETCH_IMG;
       const payload = response.body;
       this.imageContainer.nativeElement.innerHTML = payload.captcha.data;
-      console.log("payload.validation: ", payload.validation);
       this.validation = payload.validation;
       this.cd.detectChanges();
 

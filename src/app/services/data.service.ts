@@ -12,7 +12,6 @@ import { FormGroup } from '@angular/forms';
 export class DataService {
   foiRoutes: FoiRoute[];
   constructor(private apiClient: TransomApiClientService) {
-    console.log('here from json: ', data);
     this.foiRoutes = this.flattenRoutes(data.routeTree);
   }
 
