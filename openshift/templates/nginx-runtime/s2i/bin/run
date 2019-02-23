@@ -10,7 +10,6 @@ fi
 
 echo "---> Starting node"
 cd /tmp/app/dist/api
-npm rebuild & 
 node index.js &
 
 cd /
