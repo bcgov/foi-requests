@@ -11,6 +11,8 @@ export class ReviewSubmitComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
 
   foiRequest: FoiRequest;
+  contactInfoA: any;
+  foiRequestPretty: string;
   captchaApiBaseUrl: string = '/api';
   authToken: string = '';
   captchaNonce: string = '69879887sdsas$#';
@@ -19,6 +21,9 @@ export class ReviewSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
+    this.contactInfoA = this.foiRequest.requestData.contactInfoA;
+
+    this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
   }
 
   onValidToken(tokenEvent){
