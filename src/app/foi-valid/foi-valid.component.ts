@@ -102,7 +102,9 @@ export class FoiValidComponent implements OnInit {
 
     // Possibly add a required field indicator, but it's ugly.
     if (this.required) {
-      this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(':', ' <span class="label-required">*</span>:');
+      if (this.fieldLabel && this.fieldLabel.innerHTML){
+        this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(':', ' <span class="label-required">*</span>:');
+      }
     }
   }
 }

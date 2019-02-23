@@ -28,12 +28,12 @@ export class BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(
-      'DescriptionTimeframeComponent',
-      this.dataService.getRoute(''),
-      this
-    );
-    console.log('Router url: ', this.router.url);
+    // console.log(
+    //   'DescriptionTimeframeComponent',
+    //   this.dataService.getRoute(''),
+    //   this
+    // );
+    // console.log('Router url: ', this.router.url);
     const route: FoiRoute = this.dataService.getRoute(this.router.url);
     this.routeData$.next(route.data || {});
   }
