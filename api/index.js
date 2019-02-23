@@ -78,10 +78,12 @@ transom
       next();
     });
 
-    server.get('/form', function(req, res, next) {
+    // Development only route to sort out the layout!
+    server.get('/email', function(req, res, next) {
       const template = server.registry.get('transomTemplate');
       res.setHeader('Content-Type', 'text/html');
-      const content = template.renderHtmlTemplate('formPost');
+      const data = {"requestData":{"requestType":{"requestType":"general"},"ministry":{"default":{"code":null},"selectedMinistry":{"code":"CITZ","name":"Citizens’ Services"}},"topic":"My teeth fell out","description":"I should brush them more often...","fromDate":"2019-02-09","toDate":"2019-02-10","personalInfo":{"firstName":"Colin","middleName":null,"lastName":"Westfall","businessName":null},"contactInfoA":{"phonePrimary":"07782 654159","phoneSecondary":null,"address":"1709 Jumbalaya Terrace","city":"Victoria","postal":"V8Y 2V9","province":"British Columbia","email":"hello.there@gmail.com","country":"Canada"},"contactInfoB":{"deliveryType":"other","otherDetails":"Sail it to me on a boat."},"gettingStarted1":"Started on Fri Feb 22 2019","selectAbout":{"yourself":false,"child":false,"another":true}},"requestType":{},"contactInfoA":{},"selectAbout":{}};
+      const content = template.renderEmailTemplate('foiRequest', data);
       res.end(content);
       next(false);
     });
