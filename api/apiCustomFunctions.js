@@ -3,7 +3,7 @@ const fs = require('fs');
 
 function submitFoiRequest(server, req, res, next) {
   const transomMailer = server.registry.get('transomSmtp');
-  const transomTemplate = server.registry.get('transomTemplate');
+  const emailLayout = require('./emailLayout');
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 
   const MAX_ATTACH_MB = 4;
@@ -13,27 +13,30 @@ function submitFoiRequest(server, req, res, next) {
     params: req.params,
     files: req.files
   };
-  console.log(`Sending message to ${foiRequestInbox}`);
+  console.log(`Sending message to ${foiRequestInbox}`, data);
 
+  const foiHtml = emailLayout.renderEmail(data.params);
   const foiAttachments = [];
-  // Keep this for later!!!
-  // Object.keys(req.files).map(f => {
-  //   const file = req.files[f];
-  //   if (file.size < maxAttachMB) {
-  //     foiAttachments.push({
-  //       filename: file.name,
-  //       path: file.path
-  //     });
-  //   } else {
-  //     // TODO: How to handle too many / too large?
-  //     console.log('Attachment too large!', file);
-  //   }
-  // });
+  if (req.files) {
+    Object.keys(req.files).map(f => {
+      const file = req.files[f];
+      if (file.size < maxAttachMB) {
+        foiAttachments.push({
+          filename: file.name,
+          path: file.path
+        });
+      } else {
+        // TODO: How to handle too many / too large?
+        console.log('Attachment too large!', file);
+      }
+    });
+  }
+
   transomMailer.sendFromNoReply(
     {
       subject: 'New FOI Request',
       to: foiRequestInbox,
-      html: transomTemplate.renderEmailTemplate('foiRequest', data),
+      html: foiHtml,
       attachments: foiAttachments
     },
     (err, response) => {

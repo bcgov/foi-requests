@@ -23,10 +23,15 @@ module.exports = (function() {
       result += tableRow('Topic', data.topic);
     }
     if (data.description) {
-      result += tableRow('Description', data.description);
+      // Replace all the newline chars with html line breaks!
+      const fmtDescription = (data.description || 'undefined').replace(
+        /\n/g,
+        '<br>'
+      );
+      result += tableRow('Description', fmtDescription);
     }
     if (data.fromDate) {
-        // TODO: nice date format!
+      // TODO: nice date format!
       result += tableRow('From <small>(dd/mm/yyyy)</small>', data.fromDate);
     }
     if (data.toDate) {
@@ -66,7 +71,9 @@ module.exports = (function() {
       result += tableRow('Phone (secondary)', data.phoneSecondary);
     }
     if (data.email) {
-      const anchor = `<a href="mailto:${data.email}" target="_blank">${data.email}</a>`;
+      const anchor = `<a href="mailto:${data.email}" target="_blank">${
+        data.email
+      }</a>`;
       result += tableRow('Email', anchor);
     }
     if (data.address) {
