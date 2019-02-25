@@ -72,6 +72,5 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     const lastKnownReq = this.dataService.getCurrentState();
-    console.log('*********************', { lastKnownReq });
   }
 }

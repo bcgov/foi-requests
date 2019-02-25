@@ -36,7 +36,7 @@ function captchaInit(options) {
   function createCaptcha(nonce){
     var captcha = svgCaptcha.create({
       size: 6, // size of random string
-      ignoreChars: '0o1il', // filter out some characters like 0o1i
+      ignoreChars: '0Oo1iIl', // filter out some characters like 0o1i
       noise: 2 // number of lines to insert for noise
     });
 
