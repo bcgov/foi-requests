@@ -18,12 +18,15 @@ export class FoiRouterService {
 
   public scrollTop() {
     const step = 20;
+    let expectedOffset = -1;
     const scrollToTop = window.setInterval(() => {
       const pos = window.pageYOffset;
-      if (pos > 0) {
-        window.scrollTo(0, pos - step);
-      } else {
+      // If the user scrolls the page, stop trying to scroll-top!
+      if (pos <= 0 || (expectedOffset !== -1 && expectedOffset !== pos)) {
         window.clearInterval(scrollToTop);
+      } else {
+        expectedOffset = pos - step;
+        window.scrollTo(0, expectedOffset);
       }
     }, 20);
   }
