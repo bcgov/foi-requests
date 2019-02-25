@@ -27,7 +27,6 @@ export class CaptchaDataService {
   }
 
   public verifyCaptcha(apiBaseUrl: string, nonce: string, answer: string, encryptedAnswer: string): Observable<HttpResponse<ServerPayload>> {
-    console.log({ nonce: nonce, answer: answer, validation: encryptedAnswer });
     return this.httpClient
       .post<ServerPayload>(
         apiBaseUrl + '/captcha/verify',

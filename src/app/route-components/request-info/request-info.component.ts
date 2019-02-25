@@ -32,14 +32,14 @@ export class RequestInfoComponent implements OnInit {
 
   doContinue() {
     // Copy out submitted form data.
-    this.foiRequest.requestData.personalInfo = {};
-    const formData = this.foiForm.value;
-    Object.keys(formData).map(
-      k => (this.foiRequest.requestData.personalInfo[k] = formData[k])
-    );
+    // this.foiRequest.requestData.personalInfo = {};
+    // const formData = this.foiForm.value;
+    // Object.keys(formData).map(
+    //   k => (this.foiRequest.requestData.personalInfo[k] = formData[k])
+    // );
 
-    // Update save data & proceed.
-    this.dataService.setCurrentState(this.foiRequest);
+    // // Update save data & proceed.
+    // this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();
   }
 

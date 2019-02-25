@@ -3,6 +3,7 @@ import { BaseComponent } from '../base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './contact-info1.component.html',
@@ -11,34 +12,34 @@ import { DataService } from 'src/app/services/data.service';
 export class ContactInfo1Component implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
-    phonePrimary: [null, [Validators.maxLength(25)]],
-    phoneSecondary: [null, [Validators.maxLength(25)]],
-    address: [null, [Validators.maxLength(255)]],
-    city: [null, [Validators.maxLength(255)]],
-    postal: [null, [Validators.maxLength(255)]],
-    province: [null, [Validators.maxLength(255)]],
-    email: [null, [Validators.maxLength(255)]],
-    country: [null, [Validators.maxLength(255)]]
+    firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+    middleName:  [null, [Validators.maxLength(255)]],
+    lastName:  [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+    businessName:  [null, [Validators.maxLength(255)]]
   });
 
   foiRequest: FoiRequest;
-  targetKey: string = 'contactInfoA';
+  foiFormData$: Observable<any>;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    // Load the current values & populate the FormGroup.
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+    this.foiRequest = this.dataService.getCurrentState();
+    this.foiRequest.requestData.personalInfo =
+      this.foiRequest.requestData.personalInfo || {};
+    this.foiForm.patchValue(this.foiRequest.requestData.personalInfo);
   }
 
   doContinue() {
-    // Update save data & proceed.
-    this.dataService.setCurrentState(
-      this.foiRequest,
-      this.targetKey,
-      this.foiForm
+    // Copy out submitted form data.
+    this.foiRequest.requestData.personalInfo = {};
+    const formData = this.foiForm.value;
+    Object.keys(formData).map(
+      k => (this.foiRequest.requestData.personalInfo[k] = formData[k])
     );
+
+    // Update save data & proceed.
+    this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();
   }
 

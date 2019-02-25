@@ -1,4 +1,9 @@
-<foi-base [showInfo]="false" [continueDisabled]="!foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base
+  [showInfo]="false"
+  [continueDisabled]="!foiForm.valid"
+  (continue)="doContinue()"
+  (goBack)="doGoBack()"
+>
   <div class="foi-content">
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <p>
@@ -7,108 +12,52 @@
         request.
       </p>
 
-      <h2>Ways to get in touch with you</h2>
-      <p>
-        <i
-          >* Please note that in order to follow up with you and deliver your
-          records, we need at least one form of contact information.</i
-        >
-      </p>
-
+      <h2>Your name</h2>
       <div class="form-group row">
         <div class="col-lg-6">
-          <div class="row">
-            <div class="col-lg-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Phone number is longer than the maximum {requiredLength} characters."
-              >
-                <label>Phone number (primary):</label>
-                <input formControlName="phonePrimary" />
-              </app-foi-valid>
-            </div>
-
-            <div class="col-lg-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Phone number is longer than the maximum {requiredLength} characters."
-              >
-                <label>Phone number (secondary):</label>
-                <input formControlName="phoneSecondary" />
-              </app-foi-valid>
-            </div>
-
-            <div class="col-lg-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Email address is longer than the maximum {requiredLength} characters."
-              >
-                <label>Email address:</label>
-                <input formControlName="email" />
-              </app-foi-valid>
-            </div>
-          </div>
-          <!-- row -->
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="First name is longer than the maximum {requiredLength} characters."
+            required="First name is a required field."
+          >
+            <label>First name:</label>
+            <input formControlName="firstName" />
+          </app-foi-valid>
         </div>
         <div class="col-lg-6">
-          <div class="row">
-            <div class="col-lg-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Address is longer than the maximum {requiredLength} characters."
-              >
-                <label>Address:</label>
-                <input formControlName="address" />
-              </app-foi-valid>
-            </div>
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Middle name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Middle name:</label>
+            <input formControlName="middleName" />
+          </app-foi-valid>
+        </div>
 
-            <div class="col-md-6 col-sm-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="City is longer than the maximum {requiredLength} characters."
-              >
-                <label>City:</label>
-                <input formControlName="city" />
-              </app-foi-valid>
-            </div>
-
-            <div class="col-md-6 col-sm-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Province/State is longer than the maximum {requiredLength} characters."
-              >
-                <label>Province/State:</label>
-                <input formControlName="province" />
-              </app-foi-valid>
-            </div>
-
-            <div class="col-md-6 col-sm-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Country is longer than the maximum {requiredLength} characters."
-              >
-                <label>Country:</label>
-                <input formControlName="country" />
-              </app-foi-valid>
-            </div>
-
-            <div class="col-md-6 col-sm-12">
-              <app-foi-valid
-                [form]="foiForm"
-                maxLength="Postal/ZIP code is longer than the maximum {requiredLength} characters."
-              >
-                <label>Postal/ZIP code:</label>
-                <input formControlName="postal" />
-              </app-foi-valid>
-            </div>
-          </div>
-          <!-- row -->
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Last name is longer than the maximum {requiredLength} characters."
+            required="Last name is a required field."
+          >
+            <label>Last name:</label>
+            <input formControlName="lastName" />
+          </app-foi-valid>
+        </div>
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Business/Organization name:</label>
+            <input formControlName="businessName" />
+          </app-foi-valid>
         </div>
       </div>
     </form>
   </div>
 
   <div class="sidebar">
-    <!-- hidden -->
+    <!-- Hidden -->
   </div>
 </foi-base>
