@@ -16,8 +16,6 @@ export class MinistryConfirmationComponent implements OnInit {
     selectedMinistry: [null, Validators.required]
   });
 
-  allowContinue: boolean = false;
-
   foiRequest: FoiRequest;
   ministries$: Observable<any>;
   ministries: Array<any>;
