@@ -14,6 +14,7 @@ export class ReviewSubmitComponent implements OnInit {
   contactInfoA: any;
   foiRequestPretty: string;
   captchaApiBaseUrl: string = '/api';
+  captchaComplete: boolean = false;
   authToken: string = '';
   captchaNonce: string = '69879887sdsas$#';
   constructor(private dataService: DataService) {}
@@ -28,6 +29,7 @@ export class ReviewSubmitComponent implements OnInit {
 
   onValidToken(tokenEvent){
     this.authToken = tokenEvent.replace('\n','') ;
+    this.captchaComplete = true;
   }
 
   doContinue() {
