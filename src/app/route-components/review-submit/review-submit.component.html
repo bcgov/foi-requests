@@ -100,7 +100,7 @@
           <button type="button" class="btn btn-secondary" (click)="doGoBack()">
             Go back
           </button>
-          <button type="button" class="btn btn-primary" (click)="doContinue()">
+          <button type="button" class="btn btn-primary" (click)="doContinue()" [disabled]="!captchaComplete">
             Submit
           </button>
         </div>
