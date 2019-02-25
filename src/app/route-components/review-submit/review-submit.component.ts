@@ -22,7 +22,7 @@ export class ReviewSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    this.contactInfoA = this.foiRequest.requestData.contactInfoA;
+    // this.contactInfoA = this.foiRequest.requestData.contactInfoA;
 
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
   }

@@ -476,18 +476,19 @@
               </a>
             </div>
           </div>
-          <div style="clear:both; margin-bottom: 8px;"></div>
-          <div style="float:left;">
+          <div style="clear:both; margin-bottom:8px;"></div>
+          <div style="float:left; width:100%;">
             <label for="answer">
               {{
                 userPromptMessage ||
                   translatedMessages.userPromptMessage[language]
-              }}
+              }}</label>
               <input
                 #answer 
                 id="answer"
                 type="text"
                 (input)="answerChanged($event)"
+                class="form-control"
                 [ngClass]="{
                   'captcha-wrong-answer': userAnswerRef.dirty && incorrectAnswer
                 }"
@@ -498,7 +499,7 @@
                 autocapitalize="none"
               />
               <!-- Error -> [(ngModel)]="answer" #userAnswerRef = "ngModel" -->
-            </label>
+            
           </div>
         </div>
         <div style="clear:both;"></div>
