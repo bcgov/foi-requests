@@ -56,7 +56,8 @@
             { "route": "general/contact-info1", "progress": 3 },
             { "route": "general/contact-info2", "progress": 3 },
             { "route": "general/receive-records", "progress": 3 },
-            { "route": "general/review-submit", "progress": 4 }
+            { "route": "general/review-submit", "progress": 4 },
+            { "route": "general/submit-complete", "progress": 4 }
           ]
         },
         "personal": {

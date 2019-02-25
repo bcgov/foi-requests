@@ -36,6 +36,7 @@ export class ReviewSubmitComponent implements OnInit {
     console.log("Going to submit");
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
       console.log("result: ", result);
+      this.base.goFoiForward();
 
     });
   }
