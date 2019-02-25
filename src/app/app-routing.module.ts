@@ -5,9 +5,6 @@ import { LandingComponent } from './route-components/landing/landing.component';
 import { GettingStarted1Component } from './route-components/getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './route-components/getting-started2/getting-started2.component';
 import { GettingStarted3Component } from './route-components/getting-started3/getting-started3.component';
-import { RequestDemo1Component } from './route-components/request-demo1/request-demo1.component';
-import { ReviewSubmitDemoComponent } from './route-components/review-submit-demo/review-submit-demo.component';
-import { PersonalSelectAboutComponent } from './route-components/personal-select-about/personal-select-about.component';
 import { GeneralInfoComponent } from './route-components/general-info/general-info.component';
 import { MinistryConfirmationComponent } from './route-components/ministry-confirmation/ministry-confirmation.component';
 import { VerifyIdentityComponent } from './route-components/verify-identity/verify-identity.component';
@@ -25,6 +22,7 @@ import { ContactInfo2Component } from './route-components/contact-info2/contact-
 import { SelectAboutComponent } from './route-components/select-about/select-about.component';
 import { VerifyYourIdentityComponent } from './route-components/verify-your-identity/verify-your-identity.component';
 import { RequestTopicComponent } from './route-components/request-topic/request-topic.component';
+import { ReviewSubmitCompleteComponent } from './route-components/review-submit-complete/review-submit-complete.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -41,6 +39,7 @@ const routes: Routes = [
   { path: 'general/contact-info2', component: ContactInfo2Component },
   { path: 'general/receive-records', component: ReceiveRecordsComponent },
   { path: 'general/review-submit', component: ReviewSubmitComponent },
+  { path: 'general/submit-complete', component: ReviewSubmitCompleteComponent},
   // Personal
   { path: 'personal/select-about', component: SelectAboutComponent },
   // Personal / Yourself

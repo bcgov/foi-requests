@@ -4,11 +4,11 @@ import { DataService } from 'src/app/services/data.service';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 
 @Component({
-  selector: 'app-review-submit-demo',
-  templateUrl: './review-submit-demo.component.html',
-  styleUrls: ['./review-submit-demo.component.scss']
+  selector: 'app-review-submit-complete',
+  templateUrl: './review-submit-complete.component.html',
+  styleUrls: ['./review-submit-complete.component.scss']
 })
-export class ReviewSubmitDemoComponent implements OnInit {
+export class ReviewSubmitCompleteComponent implements OnInit {
 
   @ViewChild(BaseComponent) base: BaseComponent;
 
