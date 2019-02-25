@@ -1,24 +1,35 @@
-.textheight {
-  height: inherit;
-}
-
-.review-inline{
-  display: inline-block;
-  width: 50%;
-}
-
-.review-inline-label{
-  display: inline-block;
-  width: 50%;
+.review-inline-label {
+  padding-right: 0.2rem;
+  text-align: right;
+  line-height: 0.5rem;
+  font-size: 0.8rem;
   font-style: italic;
 }
 
-.inline-wrap{
-  width: 100%;
+.inline-wrap {
+  width: 48%;
+  display: inline-block;
+}
+
+.inline-wrap:last-child {
+  float: right;
 }
 
 .form-group {
   margin-bottom: 0.3rem;
+}
+
+.form-control {
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description-text {
+  height: inherit;
+  white-space: pre;
+  overflow: scroll !important;
 }
 
 .buttonbar {
