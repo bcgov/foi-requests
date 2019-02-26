@@ -74,6 +74,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
 
   forceRefresh() {
     this.getNewCaptcha(false);
+    this.userAnswerRef.nativeElement.value = '';
     this.cd.detectChanges();
   }
 

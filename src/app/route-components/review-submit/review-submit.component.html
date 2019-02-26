@@ -90,7 +90,7 @@
   
             <div class="form-group">
               <label>Captcha</label>
-              <captcha
+              <captcha #captchaComponent
               [apiBaseUrl]="captchaApiBaseUrl"
               [nonce]="captchaNonce"
               (onValidToken)="onValidToken($event)"

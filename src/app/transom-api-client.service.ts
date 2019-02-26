@@ -113,6 +113,7 @@ export class TransomApiClientService implements CanActivate {
       // The backend returned an unsuccessful response code.
       // The response body contains details what went wrong,
       console.log(`Backend returned:`, error);
+      throw error;
     }
     return of([]);
   }

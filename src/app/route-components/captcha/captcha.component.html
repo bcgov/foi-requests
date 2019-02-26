@@ -22,9 +22,7 @@
       </symbol>
 
       <symbol id="icon-check-def" viewBox="0 0 24 24">
-        <path
-          d="M9 16.172l10.594-10.594 1.406 1.406-12 12-5.578-5.578 1.406-1.406z"
-        ></path>
+        <path d="M9 16.172l10.594-10.594 1.406 1.406-12 12-5.578-5.578 1.406-1.406z"></path>
       </symbol>
 
       <symbol id="icon-exclamation-triangle-def" viewBox="0 0 28 28">
@@ -35,9 +33,8 @@
     </defs>
   </svg>
 
-  <div >
-    
-    <div > 
+  <div>
+    <div>
       <div>
         <div class="spinner-box" *ngIf="!state || state === 1">
           <div style="float:left; margin: 2px 0 1px 8px">
@@ -52,15 +49,7 @@
               style="background: none;"
             >
               <g transform="rotate(0 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -72,15 +61,7 @@
                 </rect>
               </g>
               <g transform="rotate(40 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -92,15 +73,7 @@
                 </rect>
               </g>
               <g transform="rotate(80 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -112,15 +85,7 @@
                 </rect>
               </g>
               <g transform="rotate(120 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -132,15 +97,7 @@
                 </rect>
               </g>
               <g transform="rotate(160 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -152,15 +109,7 @@
                 </rect>
               </g>
               <g transform="rotate(200 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -172,15 +121,7 @@
                 </rect>
               </g>
               <g transform="rotate(240 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -192,15 +133,7 @@
                 </rect>
               </g>
               <g transform="rotate(280 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -212,15 +145,7 @@
                 </rect>
               </g>
               <g transform="rotate(320 50 50)">
-                <rect
-                  x="47"
-                  y="22"
-                  rx="9.4"
-                  ry="4.4"
-                  width="6"
-                  height="16"
-                  fill="#1d3f72"
-                >
+                <rect x="47" y="22" rx="9.4" ry="4.4" width="6" height="16" fill="#1d3f72">
                   <animate
                     attributeName="opacity"
                     values="1;0"
@@ -247,21 +172,11 @@
         >
           <div>
             <div style="float: left;" #image class="captcha-image"></div>
-            <audio
-              #audioElement
-              *ngIf="audio && audio.length > 0"
-              id="audioElement"
-              [src]="audio"
-            >
+            <audio #audioElement *ngIf="audio && audio.length > 0" id="audioElement" [src]="audio">
               {{ translatedMessages.browserNotSupportAudio[language] }}
             </audio>
             <div style="float: left; margin-left: 8px">
-              <a
-                class="play-audio"
-                href="javascript:void(0)"
-                (click)="playAudio()"
-                role="button"
-              >
+              <a class="play-audio" href="javascript:void(0)" (click)="playAudio()" role="button">
                 <svg *ngIf="!fetchingAudioInProgress" class="icon-play">
                   <use xlink:href="#icon-play-def"></use>
                 </svg>
@@ -278,15 +193,7 @@
                   style="background: none;"
                 >
                   <g transform="rotate(0 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -298,15 +205,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(40 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -318,15 +217,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(80 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -338,15 +229,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(120 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -358,15 +241,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(160 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -378,15 +253,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(200 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -398,15 +265,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(240 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -418,15 +277,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(280 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -438,15 +289,7 @@
                     </rect>
                   </g>
                   <g transform="rotate(320 50 50)">
-                    <rect
-                      x="45"
-                      y="9"
-                      rx="2.7"
-                      ry="0.54"
-                      width="10"
-                      height="22"
-                      fill="#1d3f72"
-                    >
+                    <rect x="45" y="9" rx="2.7" ry="0.54" width="10" height="22" fill="#1d3f72">
                       <animate
                         attributeName="opacity"
                         values="1;0"
@@ -463,12 +306,7 @@
               </a>
               <div style="clear:both;"></div>
 
-              <a
-                class="try-another-image"
-                href="javascript:void(0)"
-                (click)="retryFetchCaptcha()"
-                role="button"
-              >
+              <a class="try-another-image" href="javascript:void(0)" (click)="retryFetchCaptcha()" role="button">
                 <svg class="icon-loop icon-loop-def">
                   <use xlink:href="#icon-loop-def"></use>
                 </svg>
@@ -478,38 +316,28 @@
           </div>
           <div style="clear:both; margin-bottom:8px;"></div>
           <div style="float:left; width:100%;">
-            <label for="answer">
-              {{
-                userPromptMessage ||
-                  translatedMessages.userPromptMessage[language]
-              }}</label>
-              <input
-                #answer 
-                id="answer"
-                type="text"
-                (input)="answerChanged($event)"
-                class="form-control"
-                [ngClass]="{
-                  'captcha-wrong-answer': userAnswerRef.dirty && incorrectAnswer
-                }"
-                name="answer"
-                maxlength="6"
-                required
-                autocorrect="off"
-                autocapitalize="none"
-              />
-              <!-- Error -> [(ngModel)]="answer" #userAnswerRef = "ngModel" -->
-            
+            <label for="answer"> {{ userPromptMessage || translatedMessages.userPromptMessage[language] }}</label>
+            <input
+              #answer
+              id="answer"
+              type="text"
+              (input)="answerChanged($event)"
+              class="form-control"
+              [ngClass]="{
+                'captcha-wrong-answer': userAnswerRef.dirty && incorrectAnswer
+              }"
+              name="answer"
+              maxlength="6"
+              required
+              autocorrect="off"
+              autocapitalize="none"
+            />
+            <!-- Error -> [(ngModel)]="answer" #userAnswerRef = "ngModel" -->
           </div>
         </div>
         <div style="clear:both;"></div>
         <div style="float:left;">
-          <div
-            class="error-captcha"
-            *ngIf="state === 3"
-            role="alert"
-            aria-live="assertive"
-          >
+          <div class="error-captcha" *ngIf="state === 3" role="alert" aria-live="assertive">
             <div style="float:left; margin-left: 5px;">
               <svg class="icon-exclamation-triangle">
                 <use xlink:href="#icon-exclamation-triangle-def"></use>
@@ -519,22 +347,18 @@
                 {{
                   translatedMessages.errorRetrievingImg[language].substring(
                     0,
-                    translatedMessages.errorRetrievingImg[language].indexOf('{')
+                    translatedMessages.errorRetrievingImg[language].indexOf("{")
                   )
                 }}
                 <a href="javascript:void(0)" (click)="retryFetchCaptcha()">{{
                   translatedMessages.errorRetrievingImg[language].substring(
-                    translatedMessages.errorRetrievingImg[language].lastIndexOf(
-                      '{'
-                    ) + 1,
-                    translatedMessages.errorRetrievingImg[language].indexOf('}')
+                    translatedMessages.errorRetrievingImg[language].lastIndexOf("{") + 1,
+                    translatedMessages.errorRetrievingImg[language].indexOf("}")
                   )
                 }}</a>
                 {{
                   translatedMessages.errorRetrievingImg[language].substring(
-                    translatedMessages.errorRetrievingImg[language].lastIndexOf(
-                      '}'
-                    ) + 1
+                    translatedMessages.errorRetrievingImg[language].lastIndexOf("}") + 1
                   )
                 }}
               </span>
@@ -547,20 +371,10 @@
             <div style="clear:both"></div>
           </div>
 
-          <div
-            class="spinner-box"
-            *ngIf="state == 4"
-            role="alert"
-            aria-live="assertive"
-          >
+          <div class="spinner-box" *ngIf="state == 4" role="alert" aria-live="assertive">
             <span>{{ translatedMessages.verifyingAnswer[language] }}</span>
           </div>
-          <div
-            class="error-captcha"
-            *ngIf="state === 6"
-            role="alert"
-            aria-live="assertive"
-          >
+          <div class="error-captcha" *ngIf="state === 6" role="alert" aria-live="assertive">
             <svg class="icon-exclamation-triangle">
               <use xlink:href="#icon-exclamation-triangle-def"></use>
             </svg>
@@ -568,22 +382,18 @@
               >{{
                 translatedMessages.errorVerifyingAnswer[language].substring(
                   0,
-                  translatedMessages.errorVerifyingAnswer[language].indexOf('{')
+                  translatedMessages.errorVerifyingAnswer[language].indexOf("{")
                 )
               }}
               <a href="javascript:void(0)" (click)="retryFetchCaptcha()">{{
                 translatedMessages.errorVerifyingAnswer[language].substring(
-                  translatedMessages.errorVerifyingAnswer[language].lastIndexOf(
-                    '{'
-                  ) + 1,
-                  translatedMessages.errorVerifyingAnswer[language].indexOf('}')
+                  translatedMessages.errorVerifyingAnswer[language].lastIndexOf("{") + 1,
+                  translatedMessages.errorVerifyingAnswer[language].indexOf("}")
                 )
               }}</a>
               {{
                 translatedMessages.errorVerifyingAnswer[language].substring(
-                  translatedMessages.errorVerifyingAnswer[language].lastIndexOf(
-                    '}'
-                  ) + 1
+                  translatedMessages.errorVerifyingAnswer[language].lastIndexOf("}") + 1
                 )
               }}
             </span>
@@ -604,18 +414,10 @@
     </div>
   </div>
 
-  <div
-    class="confirm-correct-answer"
-    style="float:left"
-    *ngIf="state === 5"
-    role="alert"
-    aria-live="assertive"
-  >
+  <div class="confirm-correct-answer" style="float:left" *ngIf="state === 5" role="alert" aria-live="assertive">
     <svg class="icon-check"><use xlink:href="#icon-check-def"></use></svg>
     {{ translatedMessages.correct[language] }}
-    <span>{{
-      successMessage || translatedMessages.successMessage[language]
-    }}</span>
+    <span>{{ successMessage || translatedMessages.successMessage[language] }}</span>
   </div>
   <div style="clear:both;"></div>
 </div>
