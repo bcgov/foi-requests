@@ -1,11 +1,11 @@
 @import '../../styles/variables.scss';
-// Bootstrap 3 to 4: Included imports
+// Bootstrap 4: Included imports
 @import '../../../../node_modules/bootstrap/scss/functions';
 @import '../../../../node_modules/bootstrap/scss/mixins';
 
 .landing-container {
-  background-color: #fef6e4;
-  border-left: 4px solid #f8ba32;
+  background-color: $color-attention;
+  border-left: 4px solid $color-secondary;
   margin: 10px;
 }
 
@@ -21,14 +21,14 @@
 }
 
 .btn-continue {
-  background-color: #f8ba32;
+  background-color: $color-secondary;
 }
 
 .landing-header {
   font-size: 30px;
 }
 
-.panelframe {
+.panel-frame {
   position: absolute;
   top: 200px;
   width: 100%;
@@ -48,11 +48,14 @@
 .personInfoContent {
   padding: 15px;
 }
+.personInfoContent p {
+  margin-top: 1rem;
+}
 
 .personInfoHeader {
   font-size: 20px;
   text-align: center;
-  border-bottom: 4px solid #f8ba32;
+  border-bottom: 4px solid $color-secondary;
   padding-left: 10px;
   padding-right: 10x;
 }
@@ -61,4 +64,12 @@
   text-align: center;
   padding-left: 10px;
   padding-right: 10x;
+}
+
+.personInfoFooter a {
+  margin-right: 20px;
+  color: $color-secondary-nav;
+}
+.personInfoFooter button {
+  margin-left: 20px;
 }

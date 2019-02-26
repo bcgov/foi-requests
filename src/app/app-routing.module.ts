@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AboutComponent } from './about/about.component';
 import { LandingComponent } from './route-components/landing/landing.component';
 import { GettingStarted1Component } from './route-components/getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './route-components/getting-started2/getting-started2.component';
@@ -26,7 +25,6 @@ import { ReviewSubmitCompleteComponent } from './route-components/review-submit-
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'about', component: AboutComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
   { path: 'getting-started2', component: GettingStarted2Component },
   { path: 'getting-started3', component: GettingStarted3Component },
@@ -127,11 +125,14 @@ const routes: Routes = [
   { path: 'personal/yourself-child-another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/yourself-child-another/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/yourself-child-another/delivery-options', component: DeliveryOptionsComponent },
-  { path: 'personal/yourself-child-another/review-submit', component: ReviewSubmitComponent }
+  { path: 'personal/yourself-child-another/review-submit', component: ReviewSubmitComponent },
  
   // Demo routes!
   // { path: 'request-demo1', component: RequestDemo1Component },
   // { path: 'review-submit', component: ReviewSubmitDemoComponent }
+
+  // Include routing for a 404 routing back to the landing page!
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

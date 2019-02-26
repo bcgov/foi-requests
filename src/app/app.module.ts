@@ -9,7 +9,6 @@ import { TransomApiClientService } from './transom-api-client.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 import { ServicesModule } from './services/services.module';
 import { RouteComponentsModule } from './route-components/route-components.module';
 import { FooterComponent } from './footer/footer.component';
@@ -27,7 +26,6 @@ library.add(faInfoCircle, faExclamationTriangle);
     CoreHeaderComponent,
     ProgressBarComponent,
     HomeComponent,
-    AboutComponent,
     FooterComponent
   ],
   imports: [

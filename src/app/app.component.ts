@@ -15,25 +15,26 @@ export class AppComponent implements OnInit {
 
   currentRoute: FoiRoute;
   currentRouteIndex: number = 0;
-  currentProgress: number = 0;
 
   constructor(
     private dataService: DataService,
     private router: Router,
     private foiRouter: FoiRouterService
   ) {
+    const rootRoute: FoiRoute = dataService.getRoute('/');
 
     this.router.events
       .pipe(
         filter(value => value instanceof NavigationEnd)
       ).subscribe((navRoute: NavigationEnd) => {
         const navTo: FoiRoute = dataService.getRoute(navRoute.url);
-        this.setCurrentRoute(navTo);
+        if (navTo) {
+          this.setCurrentRoute(navTo);
+        }
       });
 
     this.foiRouter.routeProgress.subscribe(val => {
       if (!val) {
-        const rootRoute: FoiRoute = dataService.getRoute('/');
         this.setCurrentRoute(rootRoute);
         return;
       }
@@ -63,11 +64,14 @@ export class AppComponent implements OnInit {
 
   private setCurrentRoute(route: FoiRoute) {
     this.currentRoute = route;
-    this.currentProgress = this.currentRoute.progress; // TODO: convert currentProgress to a proper getter!
   }
 
   hasProgress(): boolean {
     return this.currentProgress > 0;
+  }
+
+  get currentProgress() {
+    return this.currentRoute ? this.currentRoute.progress : 0;
   }
 
   ngOnInit() {

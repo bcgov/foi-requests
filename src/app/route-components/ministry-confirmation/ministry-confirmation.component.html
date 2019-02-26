@@ -1,34 +1,20 @@
-<foi-base
-  (continue)="doContinue()"
-  (goBack)="doGoBack()"
->
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>What ministry or agency has the records you are looking for?</h2>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div *ngIf="(ministries$ | async) as minis">
         <ng-container *ngFor="let m of minis">
-          <ng-container
-            *ngIf="
-              defaultMinistry &&
-              defaultMinistry.code &&
-              m.code === defaultMinistry.code
-            "
-          >
+          <ng-container *ngIf="defaultMinistry && defaultMinistry.code && m.code === defaultMinistry.code">
             This request is for {{ m.name }}.
           </ng-container>
         </ng-container>
 
         <br />
         <div class="form-group">
-          <app-foi-valid
-            [form]="foiForm"
-            required="Ministry is a required field."
-          >
+          <app-foi-valid [form]="foiForm" required="Ministry is a required field.">
             <select formControlName="selectedMinistry" required>
-              <option *ngFor="let m of minis" [value]="m.code">{{
-                m.name
-              }}</option>
+              <option *ngFor="let m of minis" [value]="m.code">{{ m.name }}</option>
             </select>
           </app-foi-valid>
         </div>
@@ -36,9 +22,8 @@
 
       <app-alert-info>
         <p>
-          Select one ministry or agency. After you’ve submitted this form to one
-          ministry, you may submit another request if you are looking for
-          records from more than one ministry or agency.
+          Select one ministry or agency. After you’ve submitted this form to one ministry, you may submit another
+          request if you are looking for records from more than one ministry or agency.
         </p>
         <p>
           <a
@@ -53,7 +38,7 @@
   </div>
 
   <div class="sidebar">
-    <h2>More Information</h2>
+    <h2>More information</h2>
     <h3>
       Is some information already available?
     </h3>
@@ -66,28 +51,27 @@
         >
       </li>
       <li>
-        <a
-          href="https://www2.gov.bc.ca/gov/content/data/open-data"
-          target="_blank"
-          >Open Data</a
-        >
+        <a href="https://www2.gov.bc.ca/gov/content/data/open-data" target="_blank">Open Data</a>
       </li>
     </ul>
 
     <h3>Why aren’t some organizations listed?</h3>
     <p>
-      This list only includes BC government ministries and agencies. Other
-      organizations, including Crown Corporations (like ICBC, BC Transit, or BC
-      Ferries), have their own record request processes.
+      This list only includes
+      <a
+        href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations"
+        target="_blank"
+        >BC government ministries and agencies</a
+      >. Other organizations, including Crown Corporations (like ICBC, BC Transit, or BC Ferries), have their own record
+      request processes.
     </p>
 
     <h3>
       What is a record?
     </h3>
     <p>
-      Records are any thing on which information is recorded or stored. They can
-      be graphic, electronic, mechanical or any other means, and include books,
-      documents, maps, drawings, letters, vouchers and papers.
+      Records are any thing on which information is recorded or stored. They can be graphic, electronic, mechanical or
+      any other means, and include books, documents, maps, drawings, letters, vouchers and papers.
     </p>
   </div>
 </foi-base>

@@ -17,8 +17,21 @@ module.exports = (function() {
             <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
   }
 
+  function dateFormat(html5Date) {
+    // HTML5 date is ALWAYS formatted yyyy-mm-dd.
+    let result = html5Date || 'n/a';
+    if (result.split('-') === 3) {
+      const parts = result.split('-');
+      const year = parts[0];
+      const month = parts[1];
+      const day = parts[2];
+      result = `${day}/${month}/${year}`;
+    }
+    return result;
+  }
+
   function general(data) {
-    let result = tableHeader('Request Records');
+    let result = '';
     if (data.topic) {
       result += tableRow('Topic', data.topic);
     }
@@ -31,11 +44,10 @@ module.exports = (function() {
       result += tableRow('Description', fmtDescription);
     }
     if (data.fromDate) {
-      // TODO: nice date format!
-      result += tableRow('From <small>(dd/mm/yyyy)</small>', data.fromDate);
+      result += tableRow('From <small>(dd/mm/yyyy)</small>', dateFormat(data.fromDate));
     }
     if (data.toDate) {
-      result += tableRow('To <small>(dd/mm/yyyy)</small>', data.toDate);
+      result += tableRow('To <small>(dd/mm/yyyy)</small>', dateFormat(data.toDate));
     }
     return result;
   }
@@ -43,9 +55,9 @@ module.exports = (function() {
   function ministry(data) {
     let result = tableHeader('Ministry or Agency');
     if (data.selectedMinistry && data.selectedMinistry.name) {
-      result = tableRow('Ministry', data.selectedMinistry.name);
+      result += tableRow('Ministry', data.selectedMinistry.name);
     } else if (data.default && data.default.name) {
-      result = tableRow('Ministry', data.default.name);
+      result += tableRow('Ministry', data.default.name);
     }
     return result;
   }
@@ -114,7 +126,7 @@ module.exports = (function() {
       selected.push('A child under 12');
     }
     if (data.another) {
-      selected.push('Another Person');
+      selected.push('Another person');
     }
     if (selected.length > 0) {
       result += tableRow('Info about', selected.join(' and '));
@@ -123,17 +135,19 @@ module.exports = (function() {
   }
 
   function renderEmail(data) {
-    let content = '';
+    let content = tableHeader('Request Records');
+    // Request is About
+    content += about(data.requestData.selectAbout || {});
     // Request Records
     content += general(data.requestData);
-    content += delivery(data.requestData.contactInfoB || {});
     // Ministry or Agency
     content += ministry(data.requestData.ministry || {});
+    // Delivery Details
+    content += delivery(data.requestData.contactInfoB || {});
     // Contact Information
     content += personal(data.requestData.personalInfo || {});
     content += contact(data.requestData.contactInfoA || {});
-    // ??
-    content += about(data.requestData.selectAbout || {});
+    content += tableHeader(`Submitted ${new Date().toString()}`);
     content = table(content);
     // End of the Table
 
