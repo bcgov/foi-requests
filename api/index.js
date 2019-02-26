@@ -12,7 +12,7 @@ const apiDefinition = require('./apiDefinition');
 
 const apiCaptchaFx = require('./apiCaptcha');
 const captchaCfg = require('./captchaCfg');
-const apiCaptcha = apiCaptchaFx(captchaCfg); 
+const apiCaptcha = apiCaptchaFx(captchaCfg);
 
 console.log(`Running ${apiDefinition.name} version ${apiDefinition.version}`);
 
@@ -34,7 +34,7 @@ if (process.env.FOI_REQUEST_SMTP) {
   smtpOptions = {
     host: process.env.FOI_REQUEST_SMTP,
     port: process.env.FOI_REQUEST_SMTP_PORT,
-    secure: (process.env.FOI_REQUEST_SMTP_SECURE == 'true') ? true : false,
+    secure: process.env.FOI_REQUEST_SMTP_SECURE == 'true' ? true : false,
     tls: {
       rejectUnauthorized: false
     }
@@ -42,10 +42,9 @@ if (process.env.FOI_REQUEST_SMTP) {
   if (process.env.SMTP_USERNAME) {
     smtpOptions.auth = {
       user: process.env.SMTP_USERNAME,
-      pass: process.env.SMTP_PASSWORD 
-    }
+      pass: process.env.SMTP_PASSWORD
+    };
   }
-
 } else {
   // More controlled option...
   smtpOptions = {
@@ -80,7 +79,7 @@ transom
       res.send('FOI Request API Server');
       next();
     });
-    
+
     // ************************************************************************
     // Handle Captcha routes
     // ************************************************************************
