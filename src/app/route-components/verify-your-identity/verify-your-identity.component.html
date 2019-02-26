@@ -1,16 +1,83 @@
-<foi-base
-  (continue)="doContinue()"
-  (goBack)="doGoBack()">
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>Verify Your Identity</h2>
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <p>
+        To make sure we give personal information only to the person it’s about, we need to verify your identity.
+      </p>
+      <div class="form-group row">
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="First name is longer than the maximum {requiredLength} characters."
+            required="First name is a required field."
+          >
+            <label>First name:</label>
+            <input formControlName="firstName" />
+          </app-foi-valid>
+        </div>
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Middle name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Middle name:</label>
+            <input formControlName="middleName" />
+          </app-foi-valid>
+        </div>
 
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Last name is longer than the maximum {requiredLength} characters."
+            required="Last name is a required field."
+          >
+            <label>Last name:</label>
+            <input formControlName="lastName" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+          <app-foi-valid [form]="foiForm" required="Birth date is a required field.">
+            <label>Birth Date:</label>
+            <input type="date" class="form-control" formControlName="birthDate" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-12">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="'Also known as' is longer than the maximum {requiredLength} characters."
+          >
+            <label>Also known as:</label>
+            <input formControlName="alsoKnownAs" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Business/Organization name:</label>
+            <input formControlName="businessName" />
+          </app-foi-valid>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="sidebar">
-    <h2>More information</h2>
+    <h2>More information 2</h2>
     <h3>
-      Learn more about:
+      What will we do with this information?
     </h3>
-
+    <p>We need your full name and your birthdate to verify your identity.</p>
+    <h3>What can I request records about?</h3>
+    <p>
+      You can request records from government ministries or agencies using this service. Crown corporations, school
+      districts, health authorities, police, public colleges, and universities all have separate Freedom of Information
+      (FOI) processes. If you are seeking medical records, please contact your physician.
+    </p>
   </div>
 </foi-base>
