@@ -20,7 +20,7 @@ module.exports = (function() {
   function dateFormat(html5Date) {
     // HTML5 date is ALWAYS formatted yyyy-mm-dd.
     let result = html5Date || 'n/a';
-    if (result.split('-') === 3) {
+    if (result.split('-').length === 3) {
       const parts = result.split('-');
       const year = parts[0];
       const month = parts[1];
