@@ -2,92 +2,33 @@
   <div class="foi-content">
     <h2>What topic are you requesting records about?</h2>
 
-    <form
-      *ngIf="(foiForm$ | async) as data; else loading"
-      [formGroup]="foiForm"
-      novalidate
-      (ngSubmit)="doContinue()"
-    >
-      <div class="form-group">
+    <form *ngIf="(foiForm$ | async) as data; else loading" [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <div class="form-group" *ngFor="let topic of topics">
         <label>
-          <input
-            type="radio"
-            value="publicServiceEmployment"
-            formControlName="requestTopic"
-          />
-          Your employment with the public service
-        </label>
-      </div>
-
-      
-      <div class="form-group">
-          <label>
-            <input
-              type="radio"
-              value="correctionalFacility"
-              formControlName="requestTopic"
-            />
-            Your time spent in a correctional facility
-          </label>
-        </div>
-  
-        <div class="form-group">
-        <label>
-          <input
-            type="radio"
-            value="incomeAssistance"
-            formControlName="requestTopic"
-          />
-          Your income assistance history
+          <input type="radio" [value]="topic" formControlName="requestTopic" />
+          {{ topic.text }}
         </label>
       </div>
 
       <div class="form-group">
         <label>
-          <input
-            type="radio"
-            value="childProtection"
-            formControlName="requestTopic"
-          />
-          Child protection and youth care
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input type="radio" value="adoption" formControlName="requestTopic" />
-          Adoption
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input
-            type="radio"
-            value="communityLiving"
-            formControlName="requestTopic"
-          />
-          Community Living BC
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input
-            type="radio"
-            value="anotherTopic"
-            formControlName="requestTopic"
-          />
+          <input type="radio" value="anotherTopic" formControlName="requestTopic" />
           Another topic (please explain)
         </label>
 
-        TODO: Add text box here...
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+          >
+            <input formControlName="anotherTopicText" />
+          </app-foi-valid>
+        </div>
       </div>
     </form>
     <ng-template #loading> Loading... </ng-template>
   </div>
 
   <div class="sidebar">
-   <!-- Sidebar is not displayed -->
+    <!-- Sidebar is not displayed -->
   </div>
 </foi-base>
