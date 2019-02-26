@@ -61,7 +61,7 @@ if (process.env.FOI_REQUEST_SMTP) {
   };
 }
 
-console.log('smtpOptions: ', smtpOptions);
+// console.log('smtpOptions: ', smtpOptions);
 console.log('build name: ', process.env.OPENSHIFT_BUILD_NAME || 'local');
 
 transom.configure(transomSmtp, {
