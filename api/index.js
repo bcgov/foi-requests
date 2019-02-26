@@ -34,10 +34,13 @@ if (process.env.FOI_REQUEST_SMTP) {
   smtpOptions = {
     host: process.env.FOI_REQUEST_SMTP,
     port: process.env.FOI_REQUEST_SMTP_PORT,
-    secure: false,
+    secure: (process.env.FOI_REQUEST_SMTP_SECURE == 'true') ? true : false,
+    auth: {
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD 
+    },
     tls: {
       rejectUnauthorized: false
-    //  ciphers:'TLSv1'
     }
   }
 } else {
