@@ -41,7 +41,8 @@ if (process.env.FOI_REQUEST_SMTP) {
       pass: process.env.SMTP_PASSWORD
     },
     tls: {
-      rejectUnauthorized: true
+      rejectUnauthorized: true,
+      ciphers:'TLSv1'
     }
   }
 } else {
