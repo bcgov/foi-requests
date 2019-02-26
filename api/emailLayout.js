@@ -129,7 +129,7 @@ module.exports = (function() {
       selected.push('Another person');
     }
     if (selected.length > 0) {
-      result += tableRow('Info about', selected.join(' and '));
+      result += tableRow('Requesting info about', selected.join(' and '));
     }
     return result;
   }
@@ -140,10 +140,10 @@ module.exports = (function() {
     content += about(data.requestData.selectAbout || {});
     // Request Records
     content += general(data.requestData);
+    // Delivery Details
+    content += delivery(data.requestData.receiveRecords || {});
     // Ministry or Agency
     content += ministry(data.requestData.ministry || {});
-    // Delivery Details
-    content += delivery(data.requestData.contactInfoB || {});
     // Contact Information
     content += personal(data.requestData.personalInfo || {});
     content += contact(data.requestData.contactInfoA || {});

@@ -23,9 +23,9 @@ export class ReceiveRecordsComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    this.foiRequest.requestData.contactInfoB =
-      this.foiRequest.requestData.contactInfoB || {};
-    this.foiForm.patchValue(this.foiRequest.requestData.contactInfoB);
+    this.foiRequest.requestData.receiveRecords =
+      this.foiRequest.requestData.receiveRecords || {};
+    this.foiForm.patchValue(this.foiRequest.requestData.receiveRecords);
   }
 
   /**
@@ -50,10 +50,10 @@ export class ReceiveRecordsComponent implements OnInit {
 
   doContinue() {
     // Copy out submitted form data.
-    this.foiRequest.requestData.contactInfoB = {};
+    this.foiRequest.requestData.receiveRecords = {};
     const formData = this.foiForm.value;
     Object.keys(formData).map(
-      k => (this.foiRequest.requestData.contactInfoB[k] = formData[k])
+      k => (this.foiRequest.requestData.receiveRecords[k] = formData[k])
     );
 
     // Update save data & proceed.

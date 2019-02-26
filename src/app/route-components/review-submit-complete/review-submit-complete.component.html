@@ -40,13 +40,9 @@
     </div>
     <div class="nextlink">
       <span class="arrow">&rarr;</span
-      ><a href="/general/ministry-confirmation">Submit the same request to a different ministry</a>
+      ><a href="/general/ministry-confirmation" (click)="submitToAnotherMinistry()">Submit the same request to a different ministry</a>
     </div>
-    <div class="nextlink"><span class="arrow">&rarr;</span><a href="/">Submit a new request</a></div>
-
-    <p *ngIf="submitDone">
-      <strong>Your request has been submitted to the central intake team for processing.</strong>
-    </p>
+    <div class="nextlink"><span class="arrow">&rarr;</span><a href="/" (click)="submitAnotherRequest()">Submit a new request</a></div>
   </div>
 
   <div class="sidebar">

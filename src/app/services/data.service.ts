@@ -25,16 +25,24 @@ export class DataService {
     return of(data.referenceData.ministries);
   }
 
-  getCurrentState(dataKey?: string): FoiRequest {
-    const foi = sessionStorage.getItem("foi-request");
-    const state: FoiRequest = foi ? JSON.parse(foi) : {};
-    // state.lastRoute = state.lastRoute || '/';
+  loadState(stateKey: string): FoiRequest {
+    const foi: string = sessionStorage.getItem(stateKey);
+    const state = foi ? JSON.parse(foi) : {};
     state.requestData = state.requestData || {};
+    return state;
+  }
+
+  getCurrentState(dataKey?: string): FoiRequest {
+    const state = this.loadState("foi-request");
     // Ensure that dataKey exists before returning.
     if (dataKey) {
       state.requestData[dataKey] = state.requestData[dataKey] || {};
     }
     return state;
+  }
+
+  saveState(stateKey: string, state: FoiRequest) {
+    sessionStorage.setItem(stateKey, JSON.stringify(state));
   }
 
   setCurrentState(foi: FoiRequest, key?: string, foiForm?: FormGroup): FoiRequest {
@@ -43,7 +51,7 @@ export class DataService {
       foi.requestData[key] = {};
       Object.keys(foiForm.value).map(k => (foi.requestData[key][k] = foiForm.value[k]));
     }
-    sessionStorage.setItem("foi-request", JSON.stringify(foi));
+    this.saveState("foi-request", foi);
     return foi;
   }
 
