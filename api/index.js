@@ -35,7 +35,6 @@ if (process.env.FOI_REQUEST_SMTP) {
     host: process.env.FOI_REQUEST_SMTP,
     port: process.env.FOI_REQUEST_SMTP_PORT,
     secure: process.env.FOI_REQUEST_SMTP_SECURE,
-    requireTLS: true,
     auth: {
       user: process.env.SMTP_USERNAME,
       pass: process.env.SMTP_PASSWORD
@@ -60,6 +59,9 @@ if (process.env.FOI_REQUEST_SMTP) {
     }
   };
 }
+
+console.log('smtpOptions: ', smtpOptions);
+console.log('build name: ', process.env.OPENSHIFT_BUILD_NAME);
 
 transom.configure(transomSmtp, {
   smtp: smtpOptions,
