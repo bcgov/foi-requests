@@ -35,6 +35,7 @@ if (process.env.FOI_REQUEST_SMTP) {
     host: process.env.FOI_REQUEST_SMTP,
     port: process.env.FOI_REQUEST_SMTP_PORT,
     secure: process.env.FOI_REQUEST_SMTP_SECURE,
+    ignoreTLS: true,
     auth: {
       user: process.env.SMTP_USERNAME,
       pass: process.env.SMTP_PASSWORD
