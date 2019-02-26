@@ -20,7 +20,6 @@ export class LandingComponent implements OnInit {
   }
 
   doContinue() {
-    this.foiRequest.requestData.landed = "landed";
     this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();
   }

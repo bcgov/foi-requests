@@ -50,7 +50,7 @@ if (process.env.FOI_REQUEST_SMTP) {
   smtpOptions = {
     host: process.env.SMTP_SERVER || 'smtp://localhost',
     port: 587,
-    secure: true, // true for 465, false for other ports
+    secure: false, // true for 465, false for other ports
     auth: {
       user: process.env.SMTP_USERNAME || 'email@address.com',
       pass: process.env.SMTP_PASSWORD || 'my-secret-password'
@@ -62,7 +62,7 @@ if (process.env.FOI_REQUEST_SMTP) {
 }
 
 console.log('smtpOptions: ', smtpOptions);
-console.log('build name: ', process.env.OPENSHIFT_BUILD_NAME);
+console.log('build name: ', process.env.OPENSHIFT_BUILD_NAME || 'local');
 
 transom.configure(transomSmtp, {
   smtp: smtpOptions,

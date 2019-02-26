@@ -19,7 +19,6 @@ export class GettingStarted1Component implements OnInit {
   }
 
   doContinue() {
-    this.foiRequest.requestData.gettingStarted1 = 'Started on ' + new Date().toDateString();
     this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();
   }

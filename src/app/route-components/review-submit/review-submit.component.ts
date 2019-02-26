@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { DataService } from 'src/app/services/data.service';
 import { FoiRequest } from 'src/app/models/FoiRequest';
+import { CaptchaComponent } from '../captcha/captcha.component';
 
 @Component({
   templateUrl: './review-submit.component.html',
@@ -9,6 +10,7 @@ import { FoiRequest } from 'src/app/models/FoiRequest';
 })
 export class ReviewSubmitComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
+  @ViewChild('captchaComponent') captchaComponent: CaptchaComponent 
 
   foiRequest: FoiRequest;
   contactInfoA: any;
@@ -38,6 +40,11 @@ export class ReviewSubmitComponent implements OnInit {
       console.log("result: ", result);
       this.base.goFoiForward();
 
+    }, error => {
+      console.log("That submit failed: ", error);
+      alert("Temporarily unable to submit your request. Please try the submit again in a few minues.");
+      this.captchaComponent.forceRefresh();
+      this.captchaComplete = false;
     });
   }
   doGoBack() {
