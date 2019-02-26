@@ -36,7 +36,7 @@ if (process.env.FOI_REQUEST_SMTP) {
     port: process.env.FOI_REQUEST_SMTP_PORT,
     secure: false,
     tls: {
-      rejectUnauthorized: true
+      rejectUnauthorized: false
     //  ciphers:'TLSv1'
     }
   }
