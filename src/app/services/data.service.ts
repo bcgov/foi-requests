@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { default as data } from './data.json';
-import { Observable, of } from 'rxjs';
-import { FoiRoute } from '../models/FoiRoute.js';
-import { FoiRequest } from '../models/FoiRequest.js';
-import { TransomApiClientService } from '../transom-api-client.service.js';
-import { FormGroup } from '@angular/forms';
+import { Injectable } from "@angular/core";
+import { default as data } from "./data.json";
+import { Observable, of } from "rxjs";
+import { FoiRoute } from "../models/FoiRoute.js";
+import { FoiRequest } from "../models/FoiRequest.js";
+import { TransomApiClientService } from "../transom-api-client.service.js";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DataService {
   foiRoutes: FoiRoute[];
@@ -17,7 +17,7 @@ export class DataService {
 
   getRoute(routeUrl: string): FoiRoute {
     // Remove any query parameters and the leading slash.
-    const path = (routeUrl || '/').split('?')[0].substring(1);
+    const path = (routeUrl || "/").split("?")[0].substring(1);
     return this.foiRoutes.find(r => r.route === path);
   }
 
@@ -26,7 +26,7 @@ export class DataService {
   }
 
   getCurrentState(dataKey?: string): FoiRequest {
-    const foi = sessionStorage.getItem('foi-request');
+    const foi = sessionStorage.getItem("foi-request");
     const state: FoiRequest = foi ? JSON.parse(foi) : {};
     // state.lastRoute = state.lastRoute || '/';
     state.requestData = state.requestData || {};
@@ -40,20 +40,17 @@ export class DataService {
   setCurrentState(foi: FoiRequest, key?: string, foiForm?: FormGroup): FoiRequest {
     if (key && foiForm) {
       // Clear the current node and populate it with values from the FormGroup.
-      foi[key] = {};
-      Object.keys(foiForm.value).map(
-        k => (foi.requestData[key][k] = foiForm.value[k])
-      );
+      foi.requestData[key] = {};
+      Object.keys(foiForm.value).map(k => (foi.requestData[key][k] = foiForm.value[k]));
     }
-    sessionStorage.setItem('foi-request', JSON.stringify(foi));
+    sessionStorage.setItem("foi-request", JSON.stringify(foi));
     return foi;
   }
 
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
-    console.log('token: ', authToken);
-    this.apiClient.setHeader('Authorization', 'Bearer ' +  authToken);
-    this.apiClient.setHeader('captcha-nonce', nonce);
-    return this.apiClient.postFunction('submitFoiRequest', foiRequest);
+    this.apiClient.setHeader("Authorization", "Bearer " + authToken);
+    this.apiClient.setHeader("captcha-nonce", nonce);
+    return this.apiClient.postFunction("submitFoiRequest", foiRequest);
   }
 
   /**
@@ -75,9 +72,7 @@ export class DataService {
       if (rt.choices) {
         Object.keys(rt.choices).map(choice => {
           const choiceObj = rt.choices[choice];
-          this.flattenRoutes(choiceObj.routes, rt.route).map(r =>
-            flatRoutes.push(r)
-          );
+          this.flattenRoutes(choiceObj.routes, rt.route).map(r => flatRoutes.push(r));
         });
       }
       goBackRoute = rt.route;
