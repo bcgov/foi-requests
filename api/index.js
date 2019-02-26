@@ -34,15 +34,18 @@ if (process.env.FOI_REQUEST_SMTP) {
   smtpOptions = {
     host: process.env.FOI_REQUEST_SMTP,
     port: process.env.FOI_REQUEST_SMTP_PORT,
-    secure: process.env.FOI_REQUEST_SMTP_SECURE,
-    auth: {
-      user: process.env.SMTP_USERNAME,
-      pass: process.env.SMTP_PASSWORD
-    },
+    secure: (process.env.FOI_REQUEST_SMTP_SECURE == 'true') ? true : false,
     tls: {
-      rejectUnauthorized: true
+      rejectUnauthorized: false
+    }
+  };
+  if (process.env.SMTP_USERNAME) {
+    smtpOptions.auth = {
+      user: process.env.SMTP_USERNAME,
+      pass: process.env.SMTP_PASSWORD 
     }
   }
+
 } else {
   // More controlled option...
   smtpOptions = {
@@ -58,6 +61,9 @@ if (process.env.FOI_REQUEST_SMTP) {
     }
   };
 }
+
+console.log('smtpOptions: ', smtpOptions);
+console.log('build name: ', process.env.OPENSHIFT_BUILD_NAME);
 
 transom.configure(transomSmtp, {
   smtp: smtpOptions,
