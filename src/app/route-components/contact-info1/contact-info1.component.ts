@@ -18,7 +18,7 @@ export class ContactInfo1Component implements OnInit {
   });
 
   foiRequest: FoiRequest;
-  targetKey: string = 'personalInfo';
+  targetKey: string = 'contactInfo';
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 

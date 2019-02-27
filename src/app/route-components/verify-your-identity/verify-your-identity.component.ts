@@ -13,6 +13,7 @@ export class VerifyYourIdentityComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
 
   foiRequest: FoiRequest;
+  targetKey: string = 'contactInfo';
 
   foiForm = this.fb.group({
     firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
@@ -27,17 +28,17 @@ export class VerifyYourIdentityComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    this.foiRequest.requestData.personalInfo =
-      this.foiRequest.requestData.personalInfo || {};
-    this.foiForm.patchValue(this.foiRequest.requestData.personalInfo);
+    this.foiRequest.requestData[this.targetKey] =
+      this.foiRequest.requestData[this.targetKey] || {};
+    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
   }
 
   doContinue() {
     // Copy out submitted form data.
-    this.foiRequest.requestData.personalInfo = {};
+    this.foiRequest.requestData[this.targetKey] = {};
     const formData = this.foiForm.value;
     Object.keys(formData).map(
-      k => (this.foiRequest.requestData.personalInfo[k] = formData[k])
+      k => (this.foiRequest.requestData[this.targetKey][k] = formData[k])
     );
 
     // Update save data & proceed.
@@ -48,6 +49,5 @@ export class VerifyYourIdentityComponent implements OnInit {
   doGoBack() {
     this.base.goFoiBack();
   }
-
 }
 

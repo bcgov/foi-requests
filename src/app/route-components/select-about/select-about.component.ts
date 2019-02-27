@@ -28,11 +28,9 @@ export class SelectAboutComponent implements OnInit {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
-    this.dataService.getMinistries().pipe(
-      map(ministries => {
-        this.ministries = ministries;
-      })
-    );
+    this.dataService.getMinistries().subscribe(ministries => {
+      this.ministries = ministries;
+    });
   }
 
   /**
@@ -57,6 +55,7 @@ export class SelectAboutComponent implements OnInit {
     this.foiRequest.requestData["ministry"] = this.foiRequest.requestData["ministry"] || {};
     if (navigateTo.indexOf("child") > -1) {
       this.foiRequest.requestData.requestTopic = { text: "Child protection and youth care" };
+
       this.foiRequest.requestData.ministry.default = this.ministries.find(m => m.code === "MCF");
     }
     // Update save data & proceed.

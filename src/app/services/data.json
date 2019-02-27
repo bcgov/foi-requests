@@ -274,7 +274,7 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/verify-identity",
+                      "route": "personal/child/verify-your-identity",
                       "progress": 2
                     },
                     {
@@ -320,7 +320,7 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/another/verify-identity",
+                      "route": "personal/another/verify-your-identity",
                       "progress": 2
                     },
                     {
@@ -363,7 +363,7 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/yourself-child/verify-identity",
+                      "route": "personal/yourself-child/verify-your-identity",
                       "progress": 2
                     },
                     {
@@ -406,7 +406,7 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/yourself-another/verify-identity",
+                      "route": "personal/yourself-another/verify-your-identity",
                       "progress": 2
                     },
                     {
@@ -449,7 +449,7 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/verify-identity",
+                      "route": "personal/child/verify-your-identity",
                       "progress": 2
                     },
                     {
@@ -492,7 +492,7 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/verify-identity",
+                      "route": "personal/child/verify-your-identity",
                       "progress": 2
                     },
                     {

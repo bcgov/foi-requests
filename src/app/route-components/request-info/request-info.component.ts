@@ -25,17 +25,17 @@ export class RequestInfoComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    this.foiRequest.requestData.personalInfo =
-      this.foiRequest.requestData.personalInfo || {};
-    this.foiForm.patchValue(this.foiRequest.requestData.personalInfo);
+    this.foiRequest.requestData.contactInfo =
+      this.foiRequest.requestData.contactInfo || {};
+    this.foiForm.patchValue(this.foiRequest.requestData.contactInfo);
   }
 
   doContinue() {
     // Copy out submitted form data.
-    // this.foiRequest.requestData.personalInfo = {};
+    // this.foiRequest.requestData.contactInfo = {};
     // const formData = this.foiForm.value;
     // Object.keys(formData).map(
-    //   k => (this.foiRequest.requestData.personalInfo[k] = formData[k])
+    //   k => (this.foiRequest.requestData.contactInfo[k] = formData[k])
     // );
 
     // // Update save data & proceed.

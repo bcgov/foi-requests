@@ -20,13 +20,12 @@ import { ContactInfo1Component } from './contact-info1/contact-info1.component';
 import { ReceiveRecordsComponent } from './receive-records/receive-records.component';
 import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { SelectAboutComponent } from './select-about/select-about.component';
-import { VerifyYourIdentityComponent } from './verify-your-identity/verify-your-identity.component';
 import { RequestTopicComponent } from './request-topic/request-topic.component';
 import { ContactInfoOptionsComponent } from './contact-info-options/contact-info-options.component';
 import { DeliveryOptionsComponent } from './delivery-options/delivery-options.component';
 import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './child-information/child-information.component';
-import { VerifyIdentityComponent } from './verify-identity/verify-identity.component';
+import { VerifyYourIdentityComponent } from './verify-your-identity/verify-your-identity.component';
 import { AnotherInformationComponent } from './another-information/another-information.component';
 import { AlertInfoComponent } from '../alert-info/alert-info.component';
 import { AlertWarningComponent } from '../alert-warning/alert-warning.component';
@@ -55,13 +54,12 @@ import { FoiValidComponent } from '../foi-valid/foi-valid.component';
     ReceiveRecordsComponent,
     ReviewSubmitComponent,
     SelectAboutComponent,
-    VerifyYourIdentityComponent,
     RequestTopicComponent,
     ContactInfoOptionsComponent,
     DeliveryOptionsComponent,
     ProofOfGuardianshipComponent,
     ChildInformationComponent,
-    VerifyIdentityComponent,
+    VerifyYourIdentityComponent,
     AnotherInformationComponent,
     AlertInfoComponent,
     AlertWarningComponent,
