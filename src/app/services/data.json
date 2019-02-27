@@ -279,7 +279,7 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/delivery-options",
+                      "route": "personal/child/receive-records",
                       "progress": 3
                     },
                     {
@@ -288,7 +288,8 @@
                       "data": {
                         "showChildInfo": true
                       }
-                    }
+                    },
+                    { "route": "personal/child/submit-complete", "progress": 4 }
                   ]
                 },
                 "another": {

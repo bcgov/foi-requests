@@ -11,6 +11,9 @@ import { FormGroup } from "@angular/forms";
 })
 export class DataService {
   foiRoutes: FoiRoute[];
+;
+  childFileKey: string = "childFileAttachment";
+
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
   }
@@ -56,10 +59,68 @@ export class DataService {
     return foi;
   }
 
+  setChildFileAttachment(f: File) {
+    const reader: FileReader = new FileReader();
+    reader.onload = e => {
+      sessionStorage.setItem(this.childFileKey, reader.result.toString());
+    };
+
+    reader.readAsDataURL(f);
+  }
+
+  private b64toBlob(b64Data, contentType, sliceSize?):Blob {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+  
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+  
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+  
+      var byteArray = new Uint8Array(byteNumbers);
+  
+      byteArrays.push(byteArray);
+    }
+  
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob
+  }
+
+  getFileFrom(storageKey: string, filename: string): File {
+    var base64 = sessionStorage[storageKey];
+    if (!base64) {
+      return null
+    }
+    var base64Parts = base64.split(",");
+    var fileFormat = base64Parts[0].split(";")[1];
+    var fileContent = base64Parts[1];
+    var b = this.b64toBlob(fileContent, fileFormat);
+    var f1 = new File([b], filename);
+    //var file = new File([fileContent], "filename", { type: fileFormat });
+    
+    return f1;
+  }
+
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
     this.apiClient.setHeader("Authorization", "Bearer " + authToken);
     this.apiClient.setHeader("captcha-nonce", nonce);
-    return this.apiClient.postFunction("submitFoiRequest", foiRequest);
+    foiRequest.attachments = [];
+
+    if (foiRequest.requestData.childInformation){
+      const childFile =this.getFileFrom(this.childFileKey, foiRequest.requestData.childInformation.proofOfGuardianship);
+      if (childFile){
+        foiRequest.attachments.push(childFile);
+      }
+    }
+    
+    
+    return this.apiClient.postFoiRequest(foiRequest);
   }
 
   /**
