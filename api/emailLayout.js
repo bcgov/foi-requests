@@ -146,7 +146,7 @@ module.exports = (function() {
     content += ministry(data.requestData.ministry || {});
     // Contact Information
     content += personal(data.requestData.personalInfo || {});
-    content += contact(data.requestData.contactInfoA || {});
+    content += contact(data.requestData.contactInfoOptions || {});
     content += tableHeader(`Submitted ${new Date().toString()}`);
     content = table(content);
     // End of the Table

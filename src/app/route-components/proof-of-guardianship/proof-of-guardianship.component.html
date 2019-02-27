@@ -9,13 +9,13 @@
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
         <div class="form-group">
           <label>
-            <input type="radio" value="yes" formControlName="hasGuardianship" />
+            <input type="radio" value="true" formControlName="hasGuardianship" />
             Yes
           </label>
         </div>
         <div class="form-group">
           <label>
-            <input type="radio" value="no" formControlName="hasGuardianship" />
+            <input type="radio" value="false" formControlName="hasGuardianship" />
             No
           </label>
         </div>

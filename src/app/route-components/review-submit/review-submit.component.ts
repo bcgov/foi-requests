@@ -13,7 +13,7 @@ export class ReviewSubmitComponent implements OnInit {
   @ViewChild('captchaComponent') captchaComponent: CaptchaComponent 
 
   foiRequest: FoiRequest;
-  contactInfoA: any;
+  // contactInfoOptions: any; // TODO: Remove this if not used!
   foiRequestPretty: string;
   captchaApiBaseUrl: string = '/api';
   captchaComplete: boolean = false;
@@ -24,7 +24,6 @@ export class ReviewSubmitComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    // this.contactInfoA = this.foiRequest.requestData.contactInfoA;
 
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
   }
@@ -42,7 +41,7 @@ export class ReviewSubmitComponent implements OnInit {
 
     }, error => {
       console.log("That submit failed: ", error);
-      alert("Temporarily unable to submit your request. Please try the submit again in a few minues.");
+      alert("Temporarily unable to submit your request. Please try again in a few minutes.");
       this.captchaComponent.forceRefresh();
       this.captchaComplete = false;
     });

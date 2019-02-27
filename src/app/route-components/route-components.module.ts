@@ -17,7 +17,6 @@ import { MinistryConfirmationComponent } from './ministry-confirmation/ministry-
 import { DescriptionTimeframeComponent } from './description-timeframe/description-timeframe.component';
 import { RequestInfoComponent } from './request-info/request-info.component';
 import { ContactInfo1Component } from './contact-info1/contact-info1.component';
-import { ContactInfo2Component } from './contact-info2/contact-info2.component';
 import { ReceiveRecordsComponent } from './receive-records/receive-records.component';
 import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { SelectAboutComponent } from './select-about/select-about.component';
@@ -53,7 +52,6 @@ import { FoiValidComponent } from '../foi-valid/foi-valid.component';
     DescriptionTimeframeComponent,
     RequestInfoComponent,
     ContactInfo1Component,
-    ContactInfo2Component,
     ReceiveRecordsComponent,
     ReviewSubmitComponent,
     SelectAboutComponent,

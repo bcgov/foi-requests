@@ -16,7 +16,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     description: [null, [Validators.required]],
     fromDate: [null, [Validators.required]],
     toDate: [null, [Validators.required]],
-    publicServiceEmployeeNumber:''   //not a required field
+    publicServiceEmployeeNumber: [null] // Not required! TODO: maybe [Validators.maxLength]
   });
 
   foiRequest: FoiRequest;
@@ -46,19 +46,12 @@ export class DescriptionTimeframeComponent implements OnInit {
     if (!this.showRequestTopic) {
       formInit.topic = this.foiRequest.requestData.requestTopic.text;
     }
-
     this.foiForm.patchValue(formInit);
   }
 
   doContinue() {
     // Copy out submitted form data.
     const formData = this.foiForm.value;
-    // this.foiRequest.requestData.topic = formData.topic;
-    // this.foiRequest.requestData.description = formData.description;
-    // this.foiRequest.requestData.fromDate = formData.fromDate;
-    // this.foiRequest.requestData.toDate = formData.toDate;
-    // this.foiRequest.requestData.publicServiceEmployeeNumber = formData.publicServiceEmployeeNumber;
-
     Object.assign(this.foiRequest.requestData, formData);
 
     // Update save data & proceed.

@@ -19,6 +19,8 @@ export class RequestTopicComponent implements OnInit {
   topics: Array<any> = [];
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
+
+    // TODO: move this to the data.json and feed it from the data service!
     this.topics.push({
       value: "publicServiceEmployment",
       text: "Your employment with the public service",
