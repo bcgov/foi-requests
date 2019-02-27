@@ -17,11 +17,13 @@
         </label>
 
         <div class="col-lg-6">
-          <app-foi-valid
-            [form]="foiForm"
-          >
+          <app-foi-valid [form]="foiForm">
             <input formControlName="anotherTopicText" />
           </app-foi-valid>
+          <p class="small-italics">
+            The more specific your topic, the quicker we will be able to find the records you’re looking for. You’ll
+            be able to provide more details about the records later in the application.
+          </p>
         </div>
       </div>
     </form>
