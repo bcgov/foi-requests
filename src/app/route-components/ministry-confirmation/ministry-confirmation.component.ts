@@ -19,21 +19,13 @@ export class MinistryConfirmationComponent implements OnInit {
   foiRequest: FoiRequest;
   ministries$: Observable<any>;
   ministries: Array<any>;
-  defaultMinistry: string;
+  defaultMinistry: any;
   targetKey: string = "ministry";
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].default;
-console.log('If selecte4d if different than default, set it in the form');
-    if (!this.defaultMinistry) {
-      this.foiForm.setControl("selectedMinistry", new FormControl([null, Validators.required]));
-      this.foiForm.valueChanges.subscribe(() => {
-        this.base.continueDisabled = !this.foiForm.valid;
-      });
-    }
+    // Fetch Ministries from the data service.
     this.ministries$ = this.dataService.getMinistries().pipe(
       map(ministries => {
         this.ministries = ministries;
@@ -41,9 +33,25 @@ console.log('If selecte4d if different than default, set it in the form');
       })
     );
 
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].default;
+    let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
+
+    if (this.defaultMinistry) {
+      // If selectedMinistry is the same as default, don't re-select it in form!
+      if (selectedMinistry && selectedMinistry.code === this.defaultMinistry.code) {
+        selectedMinistry = null;
+      }
+    } else {
+      // If thert's no default Ministry, make selectedMinistry required!
+      this.foiForm.setControl("selectedMinistry", new FormControl([null, Validators.required]));
+      this.foiForm.valueChanges.subscribe(() => {
+        this.base.continueDisabled = !this.foiForm.valid;
+      });
+    }
+
     // Make sure we have a selected ministry before trying to patch it in.
-    const selected = this.foiRequest.requestData[this.targetKey].selectedMinistry;
-    const selectedCode = selected ? selected.code : null;
+    const selectedCode = selectedMinistry ? selectedMinistry.code : null;
     this.foiForm.patchValue({
       selectedMinistry: selectedCode
     });
