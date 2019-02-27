@@ -3,7 +3,6 @@ import { BaseComponent } from '../base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
-import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './contact-info1.component.html',
@@ -19,27 +18,23 @@ export class ContactInfo1Component implements OnInit {
   });
 
   foiRequest: FoiRequest;
-  foiFormData$: Observable<any>;
+  targetKey: string = 'personalInfo';
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState();
-    this.foiRequest.requestData.personalInfo =
-      this.foiRequest.requestData.personalInfo || {};
-    this.foiForm.patchValue(this.foiRequest.requestData.personalInfo);
+    // Load the current values & populate the FormGroup.
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
   }
 
   doContinue() {
-    // Copy out submitted form data.
-    this.foiRequest.requestData.personalInfo = {};
-    const formData = this.foiForm.value;
-    Object.keys(formData).map(
-      k => (this.foiRequest.requestData.personalInfo[k] = formData[k])
-    );
-
     // Update save data & proceed.
-    this.dataService.setCurrentState(this.foiRequest);
+    this.dataService.setCurrentState(
+      this.foiRequest,
+      this.targetKey,
+      this.foiForm
+    );
     this.base.goFoiForward();
   }
 

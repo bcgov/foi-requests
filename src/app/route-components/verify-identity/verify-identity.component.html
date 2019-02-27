@@ -1,16 +1,84 @@
 <foi-base
+  [showInfo]="false"
+  [continueDisabled]="!foiForm.valid"
   (continue)="doContinue()"
-  (goBack)="doGoBack()">
+  (goBack)="doGoBack()"
+>
   <div class="foi-content">
-    <h2>Verify Identity</h2>
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
 
+      <h2>Verify your identity</h2>
+      <div class="form-group row">
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="First name is longer than the maximum {requiredLength} characters."
+            required="First name is a required field."
+          >
+            <label>First name:</label>
+            <input formControlName="firstName" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Middle name is longer than the maximum {requiredLength} characters."
+          >
+            <label>Middle name:</label>
+            <input formControlName="middleName" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Last name is longer than the maximum {requiredLength} characters."
+            required="Last name is a required field."
+          >
+            <label>Last name:</label>
+            <input formControlName="lastName" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="'Also known as' is longer than the maximum {requiredLength} characters."
+          >
+            <label>Also known as:</label>
+            <input formControlName="alsoKnownAs" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-6">
+            <app-foi-valid
+              [form]="foiForm"
+            >
+              <label>Your date of birth:</label>
+              <input type="date" formControlName="dateOfBirth" />
+            </app-foi-valid>
+          </div>
+
+          <div class="col-lg-6">
+              <app-foi-valid
+                [form]="foiForm"
+              >
+                <label>Business/Organization Name:</label>
+                <input formControlName="businessName" />
+              </app-foi-valid>
+            </div>
+      
+      </div>
+    </form>
+
+    <app-alert-info>
+        Why do we need this information? To make sure we give personal information about a child only to a person who has the
+        right to access it, we need to verify your right to access the child’s records.
+    </app-alert-info>
   </div>
 
   <div class="sidebar">
-    <h2>More information</h2>
-    <h3>
-      Learn more about:
-    </h3>
-
+    <!-- Hidden -->
   </div>
 </foi-base>
