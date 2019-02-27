@@ -45,13 +45,20 @@ export class SelectAboutComponent implements OnInit {
   }
 
   doContinue() {
+    const navigateTo = this.allowContinue();
+    console.log('navigateTo:', navigateTo);
+    this.foiRequest.requestData["ministry"] = this.foiRequest.requestData["ministry"] || {};
+    if (navigateTo.indexOf('child') >= 0){
+      this.foiRequest.requestData.requestTopic = {text: "Child protection and youth care"};
+      this.foiRequest.requestData.ministry.default = { "code": "MCF", "name": "Children and Family Development" };
+    }
     // Update save data & proceed.
     this.dataService.setCurrentState(
       this.foiRequest,
       this.targetKey,
       this.foiForm
     );
-    const navigateTo = this.allowContinue();
+    
     this.base.goFoiForward(navigateTo);
   }
 
