@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, mergeMap } from 'rxjs/operators';
 import { LocalStorageService } from 'ngx-webstorage';
 import { CanActivate } from '@angular/router';
+import { FoiRequest } from './models/FoiRequest';
 
 const APITOKEN = 'TransomApiAuthToken';
 const CURRENTUSER = 'TransomApiCurrentUser';
@@ -324,7 +325,7 @@ export class TransomApiClientService implements CanActivate {
   // ******** CUSTOM Backend FUNCTIONS ******************
 
   /**
-   * Makes a post request to the custom funtion and returns the result.
+   * Makes a post request to the custom function and returns the result.
    *
    * @param functionName The name of the API function to call, as defined in
    * the functions object of apiDefinition.js (line 122)
@@ -337,6 +338,32 @@ export class TransomApiClientService implements CanActivate {
     });
     return this.handleResponse(obs);
   }
+
+  /**
+   * Makes a post request to the custom submitFOIRequest function and returns the result.
+   *
+   * @param functionName The name of the API function to call, as defined in
+   * the functions object of apiDefinition.js (line 122)
+   * @param body The body to post to the request.
+   */
+  postFoiRequest(foiRequest: FoiRequest): Observable<any> {
+    const functionName = "submitFoiRequest";
+    const url = this.baseUrl + `/fx/${functionName}`;
+
+    const body: FormData = new FormData();
+    body.append("requestData", JSON.stringify(foiRequest.requestData));
+    for (let i=0;i<=  foiRequest.attachments.length;i++){
+      const f:File = foiRequest.attachments[i];
+      body.append('file' + i, f);
+    }
+
+    const obs = this.http.post(url, body, {
+      headers: this.headers
+    });
+    return this.handleResponse(obs);
+  }
+
+  
 
   /**
    * Makes a get request to the custom function with the supplied query string,

@@ -306,7 +306,8 @@
                       "data": {
                         "showChildInfo": true
                       }
-                    }
+                    },
+                    { "route": "personal/child/submit-complete", "progress": 4 }
                   ]
                 },
                 "another": {

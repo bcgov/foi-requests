@@ -79,6 +79,7 @@ const routes: Routes = [
   { path: 'personal/child/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/child/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/child/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/child/submit-complete', component: ReviewSubmitCompleteComponent},
   // Personal / Another Person
   { path: 'personal/another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/another/another-information', component: AnotherInformationComponent },

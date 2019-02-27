@@ -8,6 +8,9 @@ function submitFoiRequest(server, req, res, next) {
 
   const MAX_ATTACH_MB = 4;
   const maxAttachMB = MAX_ATTACH_MB * 1000000;
+
+  req.params.requestData = JSON.parse(req.params.requestData);
+
   const data = {
     envMessage: process.env.NODE_ENV,
     params: req.params,
@@ -20,6 +23,7 @@ function submitFoiRequest(server, req, res, next) {
   if (req.files) {
     Object.keys(req.files).map(f => {
       const file = req.files[f];
+      console.log("here is a file: ", file);
       if (file.size < maxAttachMB) {
         foiAttachments.push({
           filename: file.name,

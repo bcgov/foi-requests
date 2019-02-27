@@ -3,4 +3,5 @@
  */
 export interface FoiRequest {
     requestData: any;
+    attachments?:Array<File>;
 }

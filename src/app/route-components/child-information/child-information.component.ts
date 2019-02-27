@@ -44,6 +44,8 @@ export class ChildInformationComponent implements OnInit {
   }
 
   changeImageListener(event){
-    this.foiForm.controls["proofOfGuardianship"].setValue(event.target.files[0]);
+    const f: File = event.target.files[0];
+    this.dataService.setChildFileAttachment(f);
+    this.foiForm.controls["proofOfGuardianship"].setValue(f.name);
   }
 }
