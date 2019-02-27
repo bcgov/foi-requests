@@ -92,9 +92,11 @@
                               "progress": 3
                             },
                             {
-                              "route": "personal/public-service/delivery-options",
+                              "route": "personal/public-service/receive-records",
                               "progress": 3
-                            }
+                            },
+                            { "route": "personal/public-service/review-submit", "progress": 4 },
+                            { "route": "personal/public-service/submit-complete", "progress": 4 }
                           ]
                         },
                         "correctionalFacility": {

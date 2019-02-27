@@ -22,7 +22,6 @@ import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { SelectAboutComponent } from './select-about/select-about.component';
 import { RequestTopicComponent } from './request-topic/request-topic.component';
 import { ContactInfoOptionsComponent } from './contact-info-options/contact-info-options.component';
-import { DeliveryOptionsComponent } from './delivery-options/delivery-options.component';
 import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './child-information/child-information.component';
 import { VerifyYourIdentityComponent } from './verify-your-identity/verify-your-identity.component';
@@ -56,7 +55,6 @@ import { FoiValidComponent } from '../foi-valid/foi-valid.component';
     SelectAboutComponent,
     RequestTopicComponent,
     ContactInfoOptionsComponent,
-    DeliveryOptionsComponent,
     ProofOfGuardianshipComponent,
     ChildInformationComponent,
     VerifyYourIdentityComponent,
