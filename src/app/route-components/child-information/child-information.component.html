@@ -61,12 +61,8 @@
           </div>
 
           <div class="col-lg-6">
-              <app-foi-valid
-                [form]="foiForm"
-              >
                 <label>Attach copy of proof of guardianship:</label>
-                <input type="file" formControlName="proofOfGuardianship" />
-              </app-foi-valid>
+                <input class="form-control" type="file"  (change)="changeImageListener($event)"/>
             </div>
       
       </div>

@@ -29,8 +29,8 @@ export class ChildInformationComponent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     const formInit = this.foiRequest.requestData[this.targetKey];
-    formInit.proofOfGuardianship = ''; // Can only patch empty strings to a file type.
-    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+    // formInit.proofOfGuardianship = ''; // Can only patch empty strings to a file type.
+    this.foiForm.patchValue(formInit);
   }
 
   doContinue() {
@@ -41,5 +41,9 @@ export class ChildInformationComponent implements OnInit {
 
   doGoBack() {
     this.base.goFoiBack();
+  }
+
+  changeImageListener(event){
+    this.foiForm.controls["proofOfGuardianship"].setValue(event.target.files[0]);
   }
 }
