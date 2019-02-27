@@ -17,7 +17,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     description: [null, [Validators.required]],
     fromDate: [null, [Validators.required]],
     toDate: [null, [Validators.required]],
-    bcPublicServiceEmployeeNr: ""
+    publicServiceEmployeeNumber: [null, [Validators.required]]
   });
 
   foiRequest: FoiRequest;
@@ -31,7 +31,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
         this.showRequestTopic = data.showRequestTopic || false;
-        this.showPublicServiceEmployeeNumber = data.publicServiceEmployeeNumber || false;
+        this.showPublicServiceEmployeeNumber = data.showPublicServiceEmployeeNumber || false;
       }
     });
 
@@ -41,14 +41,37 @@ export class DescriptionTimeframeComponent implements OnInit {
       topic: this.foiRequest.requestData.topic,
       description: this.foiRequest.requestData.description,
       fromDate: this.foiRequest.requestData.fromDate,
-      toDate: this.foiRequest.requestData.toDate
+      toDate: this.foiRequest.requestData.toDate,
+      publicServiceEmployeeNumber: this.foiRequest.requestData.publicServiceEmployeeNumber
     };
     if (!this.showRequestTopic) {
-      formInit.topic = this.foiRequest.requestData.requestTopic.text;
+      formInit.topic = this.foiRequest.requestData.requestTopic.text || 'field is hidden';
+    }
+    // Satisfy the validator with dummy text.
+    if (!this.showPublicServiceEmployeeNumber) {
+      formInit.publicServiceEmployeeNumber = 'field is hidden';
     }
 
     this.foiForm.patchValue(formInit);
   }
+
+  /**
+   * Used to disable the Continue button.
+   */
+  // allowContinue() {
+  //   const formData = this.foiForm.value;
+  //   let result = false;
+  //   if (formData.deliveryType === 'other' && formData.otherDetails) {
+  //     // Require that 'other' includes details!
+  //     result = true;
+  //   }
+  //   if (formData.deliveryType && formData.deliveryType !== 'other') {
+  //     //Anything that isn't 'other' detail are ignored.
+  //     result = true;
+  //   }
+  //   console.log('allowContinue', result);
+  //   return result;
+  // }
 
   doContinue() {
     // Copy out submitted form data.
@@ -57,7 +80,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     this.foiRequest.requestData.description = formData.description;
     this.foiRequest.requestData.fromDate = formData.fromDate;
     this.foiRequest.requestData.toDate = formData.toDate;
-    this.foiRequest.requestData.bcPublicServiceEmployeeNr = formData.bcPublicServiceEmployeeNr;
+    this.foiRequest.requestData.publicServiceEmployeeNumber = this.showPublicServiceEmployeeNumber ? formData.publicServiceEmployeeNumber : null;
 
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);

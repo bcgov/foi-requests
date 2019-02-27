@@ -44,7 +44,6 @@ export class ReceiveRecordsComponent implements OnInit {
       //Anything that isn't 'other' detail are ignored.
       result = true;
     }
-    console.log('allowContinue', result);
     return result;
   }
 

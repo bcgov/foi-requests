@@ -28,6 +28,8 @@ export class ChildInformationComponent implements OnInit {
   ngOnInit() {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    const formInit = this.foiRequest.requestData[this.targetKey];
+    formInit.proofOfGuardianship = ''; // Can only patch empty strings to a file type.
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
   }
 

@@ -8,8 +8,8 @@ import { GeneralInfoComponent } from './route-components/general-info/general-in
 import { MinistryConfirmationComponent } from './route-components/ministry-confirmation/ministry-confirmation.component';
 import { VerifyIdentityComponent } from './route-components/verify-identity/verify-identity.component';
 import { DescriptionTimeframeComponent } from './route-components/description-timeframe/description-timeframe.component';
-import { ContactInfoOptionsComponent } from './route-components/contact-info-options/contact-info-options.component';
-import { DeliveryOptionsComponent } from './route-components/delivery-options/delivery-options.component';
+// import { ContactInfoOptionsComponent } from './route-components/contact-info-options/contact-info-options.component';
+// import { DeliveryOptionsComponent } from './route-components/delivery-options/delivery-options.component';
 import { AnotherInformationComponent } from './route-components/another-information/another-information.component';
 import { ProofOfGuardianshipComponent } from './route-components/proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './route-components/child-information/child-information.component';
@@ -45,32 +45,32 @@ const routes: Routes = [
   { path: 'personal/request-topic', component: RequestTopicComponent },
   { path: 'personal/public-service/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/public-service/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/public-service/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/public-service/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/public-service/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/public-service/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/corrections/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/corrections/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/corrections/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/corrections/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/corrections/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/corrections/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/income-assistance/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/income-assistance/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/income-assistance/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/income-assistance/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/income-assistance/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/income-assistance/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/child-protection/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/child-protection/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/child-protection/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/child-protection/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/child-protection/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/child-protection/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/adoption/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/adoption/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/adoption/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/adoption/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/adoption/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/adoption/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/community-living/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/community-living/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/community-living/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/community-living/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/community-living/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/community-living/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/another-topic/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/another-topic/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/another-topic/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/another-topic/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/another-topic/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/another-topic/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/review-submit', component: ReviewSubmitComponent },
   // Personal / Child
   { path: 'personal/child/proof-of-guardianship', component: ProofOfGuardianshipComponent },
@@ -78,8 +78,8 @@ const routes: Routes = [
   { path: 'personal/child/verify-identity', component: VerifyIdentityComponent },
   { path: 'personal/child/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/child/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/child/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/child/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/child/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/child/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/child/review-submit', component: ReviewSubmitComponent },
   // Personal / Another Person
   { path: 'personal/another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
@@ -87,8 +87,8 @@ const routes: Routes = [
   { path: 'personal/another/verify-identity', component: VerifyIdentityComponent },
   { path: 'personal/another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/another/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/another/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/another/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/another/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/another/review-submit', component: ReviewSubmitComponent },
   // Personal / Yourself & Child
   { path: 'personal/yourself-child/proof-of-guardianship', component: ProofOfGuardianshipComponent },
@@ -96,8 +96,8 @@ const routes: Routes = [
   { path: 'personal/yourself-child/verify-identity', component: VerifyIdentityComponent },
   { path: 'personal/yourself-child/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-child/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/yourself-child/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/yourself-child/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/yourself-child/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/yourself-child/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-child/review-submit', component: ReviewSubmitComponent },
   // Personal / Yourself & Another Person
   { path: 'personal/yourself-another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
@@ -105,8 +105,8 @@ const routes: Routes = [
   { path: 'personal/yourself-another/verify-identity', component: VerifyIdentityComponent },
   { path: 'personal/yourself-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-another/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/yourself-another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/yourself-another/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/yourself-another/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/yourself-another/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-another/review-submit', component: ReviewSubmitComponent },
   // Personal / Child & Another Person
   { path: 'personal/child-another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
@@ -114,8 +114,8 @@ const routes: Routes = [
   { path: 'personal/child-another/verify-identity', component: VerifyIdentityComponent },
   { path: 'personal/child-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/child-another/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/child-another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/child-another/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/child-another/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/child-another/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/child-another/review-submit', component: ReviewSubmitComponent },
   // Personal: Yourself, Child * Another Person
   { path: 'personal/yourself-child-another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
@@ -123,8 +123,8 @@ const routes: Routes = [
   { path: 'personal/yourself-child-another/verify-identity', component: VerifyIdentityComponent },
   { path: 'personal/yourself-child-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-child-another/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/yourself-child-another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/yourself-child-another/delivery-options', component: DeliveryOptionsComponent },
+  { path: 'personal/yourself-child-another/contact-info-options', component: ContactInfo2Component },
+  { path: 'personal/yourself-child-another/delivery-options', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-child-another/review-submit', component: ReviewSubmitComponent },
  
   // Demo routes!

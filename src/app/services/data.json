@@ -83,7 +83,7 @@
                               "route": "personal/public-service/description-timeframe",
                               "progress": 2,
                               "data": {
-                                "publicServiceEmployeeNumber": true,
+                                "showPublicServiceEmployeeNumber": true,
                                 "comment": "// Show the 'BC Public Service Employee Number (if known):' field."
                               }
                             },
@@ -302,7 +302,10 @@
                     },
                     {
                       "route": "personal/child/review-submit",
-                      "progress": 4
+                      "progress": 4,
+                      "data": {
+                        "showChildInfo": true
+                      }
                     }
                   ]
                 },

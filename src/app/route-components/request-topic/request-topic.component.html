@@ -2,35 +2,24 @@
   <div class="foi-content">
     <h2>What topic are you requesting records about?</h2>
 
-    <form *ngIf="(foiForm$ | async) as data; else loading" [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group" *ngFor="let topic of topics">
         <label>
           <input type="radio" [value]="topic" formControlName="requestTopic" />
           {{ topic.text }}
         </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <input type="radio" value="anotherTopic" formControlName="requestTopic" />
-          Another topic (please explain)
-        </label>
-
-        <div class="col-lg-6">
-          <app-foi-valid [form]="foiForm">
-            <input formControlName="anotherTopicText" />
-          </app-foi-valid>
+        <div class="col-lg-6" *ngIf="topic.value === 'anotherTopic'">
+          <input class="form-control" formControlName="anotherTopicText" [value]="" />
           <p class="small-italics">
-            The more specific your topic, the quicker we will be able to find the records you’re looking for. You’ll
-            be able to provide more details about the records later in the application.
+            The more specific your topic, the quicker we will be able to find the records you’re looking for. You’ll be
+            able to provide more details about the records later in the application.
           </p>
         </div>
       </div>
     </form>
-    <ng-template #loading> Loading... </ng-template>
   </div>
 
   <div class="sidebar">
-    <!-- Sidebar is not displayed -->
+    <!-- hidden -->
   </div>
 </foi-base>
