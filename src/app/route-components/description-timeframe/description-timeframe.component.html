@@ -48,6 +48,21 @@
         catalogue to see examples of other requests.
       </app-alert-info>
 
+      <ng-container *ngIf="showPublicServiceEmployeeNumber">
+          <div class="form-group row" style="font-size:1.1rem">
+              <label class="col-lg-6 col-form-label"  for="fromDate">BC Public Service Employee Number (if known):</label>
+              <div class="col-lg-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="bcPublicServiceEmployeeNr"
+                  id="fromDate"
+                />
+              </div>
+              
+            </div>
+      </ng-container>
+
       <h2>What time frame should we search?</h2>
       <div class="form-group row">
         <label class="col-lg-2 col-form-label" for="fromDate">From Date:</label>

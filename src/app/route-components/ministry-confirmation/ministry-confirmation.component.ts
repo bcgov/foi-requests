@@ -28,12 +28,13 @@ export class MinistryConfirmationComponent implements OnInit {
 
   ngOnInit() {
 
-    this.foiForm.valueChanges.subscribe(() => {
-      this.base.continueDisabled =  !this.foiForm.valid;
-    });
-
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.defaultMinistry = this.foiRequest.requestData[this.targetKey].default;
+    if (!this.defaultMinistry){
+      this.foiForm.valueChanges.subscribe(() => {
+        this.base.continueDisabled =  !this.foiForm.valid;
+      });
+    }
     this.ministries$ = this.dataService.getMinistries().pipe(map(ministries => {
       this.ministries = ministries;
       return ministries;
@@ -51,7 +52,10 @@ export class MinistryConfirmationComponent implements OnInit {
   doContinue() {
     // Copy out submitted form data.
     const formData = this.foiForm.value;
-    const selected = this.ministries.find(m => m['code'] === formData.selectedMinistry);
+    let selected = this.ministries.find(m => m['code'] === formData.selectedMinistry);
+    if (!selected){
+      selected = this.defaultMinistry;
+    }
     this.foiRequest.requestData[this.targetKey].selectedMinistry = selected;
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);

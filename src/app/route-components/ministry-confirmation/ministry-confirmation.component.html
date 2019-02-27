@@ -6,7 +6,14 @@
       <div *ngIf="(ministries$ | async) as minis">
         <ng-container *ngFor="let m of minis">
           <ng-container *ngIf="defaultMinistry && defaultMinistry.code && m.code === defaultMinistry.code">
-            This request is for {{ m.name }}.
+            Based on the topic of your request, your request will be sent to:
+
+            <p class="defaultMinistry">
+              {{ m.name }}
+            </p>
+
+            If this is not the correct ministry or agency to send your request, please specify the correct
+            ministry/agency from the list below.
           </ng-container>
         </ng-container>
 
