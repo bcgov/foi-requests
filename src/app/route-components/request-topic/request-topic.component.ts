@@ -66,6 +66,7 @@ export class RequestTopicComponent implements OnInit {
         this.foiRequest.requestData["ministry"].default = null;
       } else {
         selection = formData.requestTopic.value;
+        this.foiRequest.requestData.requestTopic = formData.requestTopic;
         const ministryMatch = ministries.find(m => m.code === formData.requestTopic.ministryCode);
         if (!ministryMatch) {
           return alert("Invalid default ministry, please contact the system administrator");
