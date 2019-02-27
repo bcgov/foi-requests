@@ -42,7 +42,7 @@ export class DataService {
   }
 
   saveState(stateKey: string, state: FoiRequest) {
-    //console.log(stateKey, state);
+    console.log(stateKey, state);
     sessionStorage.setItem(stateKey, JSON.stringify(state));
   }
 
