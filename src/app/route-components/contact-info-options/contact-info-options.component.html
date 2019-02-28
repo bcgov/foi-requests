@@ -1,4 +1,4 @@
-<foi-base [showInfo]="false" [continueDisabled]="!foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base [showInfo]="false"  [continueDisabled]="!allowContinue()" (continue)="doContinue()" (goBack)="doGoBack()">
     <div class="foi-content">
       <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
         <p>
@@ -42,6 +42,7 @@
                 <app-foi-valid
                   [form]="foiForm"
                   maxLength="Email address is longer than the maximum {requiredLength} characters."
+                  pattern="Email address does not appear to be valid."
                 >
                   <label>Email address:</label>
                   <input formControlName="email" />

@@ -12,7 +12,7 @@ export class RequestTopicComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
     requestTopic: [null, [Validators.required]],
-    anotherTopicText: [null, [Validators.required]]
+    anotherTopicText: [null, [Validators.required, Validators.maxLength(255)]]
   });
 
   foiRequest: FoiRequest;
@@ -57,7 +57,7 @@ export class RequestTopicComponent implements OnInit {
   allowContinue() {
     const formData = this.foiForm.value;
     let result = false;
-    if (formData.requestTopic && formData.requestTopic.value === "anotherTopic" && formData.anotherTopicText) {
+    if (formData.requestTopic && formData.requestTopic.value === "anotherTopic" && formData.anotherTopicText && this.foiForm.valid) {
       // Require that 'anotherTopic' includes details!
       result = true;
     }

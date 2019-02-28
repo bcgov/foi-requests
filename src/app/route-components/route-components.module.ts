@@ -5,7 +5,6 @@ import { LandingComponent } from './landing/landing.component';
 import { BaseComponent } from './base/base.component';
 import { GettingStarted1Component } from './getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './getting-started2/getting-started2.component';
-import { RequestDemo1Component } from './request-demo1/request-demo1.component';
 import { ReviewSubmitCompleteComponent } from './review-submit-complete/review-submit-complete.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StartRequestComponent } from './start-request/start-request.component';
@@ -39,7 +38,6 @@ import { FoiFileinputComponent } from './foi-fileinput/foi-fileinput.component';
     LandingComponent,
     GettingStarted1Component,
     GettingStarted2Component,
-    RequestDemo1Component,
     ReviewSubmitCompleteComponent,
     StartRequestComponent,
     GettingStarted3Component,
