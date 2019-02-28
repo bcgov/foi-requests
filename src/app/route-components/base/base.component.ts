@@ -65,4 +65,10 @@ export class BaseComponent implements OnInit {
   goFoiForward(selection?: string) {
     this.foiRouter.progress({ direction: 1, selection });
   }
+  goSkipForward() {
+    this.foiRouter.progress({ direction: 2 });
+  }
+  goSkipBack() {
+    this.foiRouter.progress({ direction: -2 });
+  }
 }

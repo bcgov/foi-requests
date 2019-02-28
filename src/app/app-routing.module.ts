@@ -18,6 +18,7 @@ import { SelectAboutComponent } from './route-components/select-about/select-abo
 import { VerifyYourIdentityComponent } from './route-components/verify-your-identity/verify-your-identity.component';
 import { RequestTopicComponent } from './route-components/request-topic/request-topic.component';
 import { ReviewSubmitCompleteComponent } from './route-components/review-submit-complete/review-submit-complete.component';
+import { AdoptiveParentsComponent } from './route-components/adoptive-parents/adoptive-parents.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'personal/request-topic', component: RequestTopicComponent },
   { path: 'personal/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/review-submit', component: ReviewSubmitComponent },
@@ -64,6 +66,7 @@ const routes: Routes = [
   { path: 'personal/another/request-topic', component: RequestTopicComponent },
   { path: 'personal/another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/another/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/another/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/another/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/another/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/another/review-submit', component: ReviewSubmitComponent },
@@ -89,6 +92,7 @@ const routes: Routes = [
   { path: 'personal/yourself-another/request-topic', component: RequestTopicComponent },
   { path: 'personal/yourself-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-another/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/yourself-another/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/yourself-another/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/yourself-another/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-another/review-submit', component: ReviewSubmitComponent },

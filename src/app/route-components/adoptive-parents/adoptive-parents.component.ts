@@ -1,0 +1,45 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { BaseComponent } from '../base/base.component';
+import { Validators, FormBuilder } from '@angular/forms';
+import { FoiRequest } from 'src/app/models/FoiRequest';
+import { DataService } from 'src/app/services/data.service';
+
+@Component({
+  selector: 'app-adoptive-parents',
+  templateUrl: './adoptive-parents.component.html',
+  styleUrls: ['./adoptive-parents.component.scss']
+})
+export class AdoptiveParentsComponent implements OnInit {
+  @ViewChild(BaseComponent) base: BaseComponent;
+  foiForm = this.fb.group({
+    firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+    middleName:  [null, [Validators.maxLength(255)]],
+    lastName:  [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+    businessName:  [null, [Validators.maxLength(255)]]
+  });
+
+  foiRequest: FoiRequest;
+  targetKey: string = 'adoptiveParents';
+
+  constructor(private fb: FormBuilder, private dataService: DataService) {}
+
+  ngOnInit() {
+    // Load the current values & populate the FormGroup.
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+  }
+
+  doContinue() {
+    // Update save data & proceed.
+    this.dataService.setCurrentState(
+      this.foiRequest,
+      this.targetKey,
+      this.foiForm
+    );
+    this.base.goFoiForward();
+  }
+
+  doGoBack() {
+    this.base.goFoiBack();
+  }
+}

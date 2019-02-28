@@ -160,6 +160,13 @@
                       "progress": 2
                     },
                     {
+                      "route": "personal/adoptive-parents",
+                      "progress": 3,
+                      "data": {
+                        "canSkip": true
+                      }
+                    },
+                    {
                       "route": "personal/contact-info-options",
                       "progress": 3
                     },
@@ -251,6 +258,13 @@
                       "progress": 2,
                       "data": {
                         "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/another/adoptive-parents",
+                      "progress": 3,
+                      "data": {
+                        "canSkip": true
                       }
                     },
                     {
@@ -354,6 +368,13 @@
                       "progress": 2,
                       "data": {
                         "comment": "// No additional fields."
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-another/adoptive-parents",
+                      "progress": 3,
+                      "data": {
+                        "canSkip": true
                       }
                     },
                     {

@@ -1,37 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from './services/data.service';
-import { FoiRoute } from './models/FoiRoute';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { FoiRouterService } from './foi-router.service';
+import { Component, OnInit } from "@angular/core";
+import { DataService } from "./services/data.service";
+import { FoiRoute } from "./models/FoiRoute";
+import { Router, NavigationEnd } from "@angular/router";
+import { filter } from "rxjs/operators";
+import { FoiRouterService } from "./foi-router.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit {
-  title = 'bcfoi';
+  title = "bcfoi";
 
   currentRoute: FoiRoute;
   currentRouteIndex: number = 0;
 
-  constructor(
-    private dataService: DataService,
-    private router: Router,
-    private foiRouter: FoiRouterService
-  ) {
-    const rootRoute: FoiRoute = dataService.getRoute('/');
+  constructor(private dataService: DataService, private router: Router, private foiRouter: FoiRouterService) {
+    const rootRoute: FoiRoute = dataService.getRoute("/");
 
-    this.router.events
-      .pipe(
-        filter(value => value instanceof NavigationEnd)
-      ).subscribe((navRoute: NavigationEnd) => {
-        const navTo: FoiRoute = dataService.getRoute(navRoute.url);
-        if (navTo) {
-          this.setCurrentRoute(navTo);
-        }
-      });
+    this.router.events.pipe(filter(value => value instanceof NavigationEnd)).subscribe((navRoute: NavigationEnd) => {
+      const navTo: FoiRoute = dataService.getRoute(navRoute.url);
+      if (navTo) {
+        this.setCurrentRoute(navTo);
+      }
+    });
 
     this.foiRouter.routeProgress.subscribe(val => {
       if (!val) {
@@ -39,22 +32,31 @@ export class AppComponent implements OnInit {
         return;
       }
       // Go Back
-      if (val.direction === -1) {
-        this.router.navigate([this.currentRoute.back]);
+      if (val.direction < 0) {
+        let nextRoute = this.currentRoute;
+        if (val.direction == -2) {
+          nextRoute = this.dataService.getRoute("/" + nextRoute.back);
+        }
+        this.router.navigate([nextRoute.back]);
         return;
       }
       // Continue
-      if (val.direction === 1) {
-        if (
-          this.currentRoute.choices &&
-          this.currentRoute.choices[val.selection]
-        ) {
+      if (val.direction > 0) {
+        if (this.currentRoute.choices && this.currentRoute.choices[val.selection]) {
           // if this is one of the valid choices...
-          const nextRoute = this.currentRoute.choices[val.selection].routes[0];
+          let nextRoute = this.currentRoute.choices[val.selection].routes[0];
+          if (val.direction == 2) {
+            nextRoute = this.dataService.getRoute("/" + nextRoute.forward);
+          }
           this.router.navigate([nextRoute.route]);
         } else {
           // regular navigation
-          this.router.navigate([this.currentRoute.forward]);
+          console.log("this.currentRoute", this.currentRoute);
+          let nextRoute = this.currentRoute;
+          if (val.direction == 2) {
+            nextRoute = this.dataService.getRoute("/" + nextRoute.forward);
+          }
+          this.router.navigate([nextRoute.forward]);
         }
         return;
       }

@@ -60,7 +60,7 @@ export class DescriptionTimeframeComponent implements OnInit {
 
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
-    this.base.goFoiForward();
+    this.base.goSkipForward();
   }
 
   doGoBack() {
