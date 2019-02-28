@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { User } from './models/user';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { map, catchError, mergeMap } from 'rxjs/operators';
-import { LocalStorageService } from 'ngx-webstorage';
-import { CanActivate } from '@angular/router';
-import { FoiRequest } from './models/FoiRequest';
+import { Injectable } from "@angular/core";
+import { User } from "./models/user";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { map, catchError, mergeMap } from "rxjs/operators";
+import { LocalStorageService } from "ngx-webstorage";
+import { CanActivate } from "@angular/router";
+import { FoiRequest } from "./models/FoiRequest";
 
-const APITOKEN = 'TransomApiAuthToken';
-const CURRENTUSER = 'TransomApiCurrentUser';
+const APITOKEN = "TransomApiAuthToken";
+const CURRENTUSER = "TransomApiCurrentUser";
 
 /**
  * Generic implementation of calls to the API. It supports making
@@ -23,7 +23,7 @@ const CURRENTUSER = 'TransomApiCurrentUser';
  * necessary headers.  It implements the canActivate interface for the route guards.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class TransomApiClientService implements CanActivate {
   public baseUrl: string;
@@ -46,7 +46,7 @@ export class TransomApiClientService implements CanActivate {
     });
   }
 
-  ping(): Observable<any>{
+  ping(): Observable<any> {
     return this.http.get("/api/v1");
   }
 
@@ -65,7 +65,7 @@ export class TransomApiClientService implements CanActivate {
     this.setLoginState(null);
   }
 
-  setHeader(key: string, value: string){
+  setHeader(key: string, value: string) {
     this.headers[key] = value;
   }
   /**
@@ -109,7 +109,7 @@ export class TransomApiClientService implements CanActivate {
       throw error;
     } else if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.log('An error occurred:', error.error.message);
+      console.log("An error occurred:", error.error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body contains details what went wrong,
@@ -136,14 +136,14 @@ export class TransomApiClientService implements CanActivate {
         (response: any) => {
           if (response.token) {
             this.storage.store(APITOKEN, response.token);
-            this.headers['authorization'] = `Bearer ${response.token}`;
+            this.headers["authorization"] = `Bearer ${response.token}`;
             observer.next(true);
           } else {
             observer.next(false);
           }
         },
         (err: any) => {
-          console.log('Google validation error: ', err);
+          console.log("Google validation error: ", err);
           observer.error(err);
         }
       );
@@ -159,7 +159,7 @@ export class TransomApiClientService implements CanActivate {
     const obs = new Observable<User>(observer => {
       const token = this.storage.retrieve(APITOKEN);
       if (token) {
-        this.headers['authorization'] = `Bearer ${token}`;
+        this.headers["authorization"] = `Bearer ${token}`;
 
         // Hit the API for the current user profile.
         this.http.get(this.baseUrl + `/user/me`, { headers: this.headers }).subscribe(
@@ -178,7 +178,7 @@ export class TransomApiClientService implements CanActivate {
       } else {
         observer.error({
           status: 401,
-          message: 'API token not found'
+          message: "API token not found"
         });
         this.loggedIn.next(false);
       }
@@ -243,7 +243,7 @@ export class TransomApiClientService implements CanActivate {
 
     for (const key in doc) {
       if (doc[key] && doc[key].constructor) {
-        if (doc[key].constructor.name === 'File') {
+        if (doc[key].constructor.name === "File") {
           if (!fd) {
             fd = new FormData();
           }
@@ -279,7 +279,7 @@ export class TransomApiClientService implements CanActivate {
 
     for (const key in doc) {
       if (doc[key] && doc[key].constructor) {
-        if (doc[key].constructor.name === 'File') {
+        if (doc[key].constructor.name === "File") {
           if (!fd) {
             fd = new FormData();
           }
@@ -352,9 +352,9 @@ export class TransomApiClientService implements CanActivate {
 
     const body: FormData = new FormData();
     body.append("requestData", JSON.stringify(foiRequest.requestData));
-    for (let i=0;i<=  foiRequest.attachments.length;i++){
-      const f:File = foiRequest.attachments[i];
-      body.append('file' + i, f);
+    for (let i = 0; i < foiRequest.attachments.length; i++) {
+      const f: File = foiRequest.attachments[i];
+      body.append("file" + i, f);
     }
 
     const obs = this.http.post(url, body, {
@@ -362,8 +362,6 @@ export class TransomApiClientService implements CanActivate {
     });
     return this.handleResponse(obs);
   }
-
-  
 
   /**
    * Makes a get request to the custom function with the supplied query string,
