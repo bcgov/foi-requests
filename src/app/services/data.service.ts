@@ -119,19 +119,15 @@ export class DataService {
     foiRequest.attachments = [];
 
     if (foiRequest.requestData.childInformation) {
-      const childFile = this.getFileFrom(
-        this.childFileKey,
-        foiRequest.requestData.childInformation.proofOfGuardianship
-      );
+      const filename = foiRequest.requestData.childInformation.proofOfGuardianship;
+      const childFile = this.getFileFrom(this.childFileKey, filename);
       if (childFile) {
         foiRequest.attachments.push(childFile);
       }
     }
     if (foiRequest.requestData.anotherInformation) {
-      const personFile = this.getFileFrom(
-        this.personFileKey,
-        foiRequest.requestData.anotherInformation.proofOfAuthorization
-      );
+      const filename = foiRequest.requestData.anotherInformation.proofOfAuthorization;
+      const personFile = this.getFileFrom(this.personFileKey, filename);
       if (personFile) {
         foiRequest.attachments.push(personFile);
       }

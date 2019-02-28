@@ -20,7 +20,6 @@ export class DescriptionTimeframeComponent implements OnInit {
   });
 
   foiRequest: FoiRequest;
-  foiFormData$: Observable<any>;
   showRequestTopic: boolean = false;
   showPublicServiceEmployeeNumber: boolean = false;
   showCorrectionalServiceNumber: boolean = false;
@@ -28,16 +27,27 @@ export class DescriptionTimeframeComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.base.getFoiRouteData().subscribe(data => {
-      if (data) {
-        this.showRequestTopic = data.showRequestTopic || false;
-        this.showPublicServiceEmployeeNumber = data.showPublicServiceEmployeeNumber || false;
-        this.showCorrectionalServiceNumber = data.showCorrectionalServiceNumber || false;
-      }
-    });
+    // this.base.getFoiRouteData().subscribe(data => {
+    //   if (data) {
+    //     this.showRequestTopic = data.showRequestTopic || false;
+    //     this.showPublicServiceEmployeeNumber = data.showPublicServiceEmployeeNumber || false;
+    //     this.showCorrectionalServiceNumber = data.showCorrectionalServiceNumber || false;
+    //   }
+    // });
 
     this.foiRequest = this.dataService.getCurrentState();
+
+    this.showRequestTopic = !this.foiRequest.requestData.ministry.selectedMinistry;
+    this.showPublicServiceEmployeeNumber =
+      this.foiRequest.requestData.ministry.selectedMinistry &&
+      this.foiRequest.requestData.ministry.selectedMinistry.code === "PSA";
+
+    this.showCorrectionalServiceNumber =
+      this.foiRequest.requestData.ministry.selectedMinistry &&
+      this.foiRequest.requestData.ministry.selectedMinistry.code === "PSSG";
+
     const requestTopic = this.foiRequest.requestData.topic || this.foiRequest.requestData.anotherTopicText;
+
     const formInit = {
       topic: requestTopic,
       description: this.foiRequest.requestData.description,

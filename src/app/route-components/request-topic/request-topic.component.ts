@@ -17,6 +17,7 @@ export class RequestTopicComponent implements OnInit {
 
   foiRequest: FoiRequest;
   topics: Array<any> = [];
+  targetKey: string = "ministry";
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -68,7 +69,7 @@ export class RequestTopicComponent implements OnInit {
     const formData = this.foiForm.value;
 
     this.dataService.getMinistries().subscribe(ministries => {
-      this.foiRequest.requestData["ministry"] = this.foiRequest.requestData["ministry"] || {};
+      this.foiRequest.requestData[this.targetKey] = this.foiRequest.requestData[this.targetKey] || {};
 
       this.foiRequest.requestData.requestTopic = formData.requestTopic;
       if (this.foiRequest.requestData.requestTopic.value === "anotherTopic") {
@@ -83,7 +84,8 @@ export class RequestTopicComponent implements OnInit {
       if (ministryCode && !ministryMatch) {
         return alert(`Invalid default ministry (${ministryCode}), please contact the system administrator`);
       }
-      this.foiRequest.requestData["ministry"].default = ministryMatch;
+      this.foiRequest.requestData[this.targetKey].default = ministryMatch;
+      this.foiRequest.requestData[this.targetKey].selectedMinistry = ministryMatch;
       this.dataService.setCurrentState(this.foiRequest);
 
       this.base.goFoiForward(selection);
