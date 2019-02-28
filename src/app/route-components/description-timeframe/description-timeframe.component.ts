@@ -27,24 +27,15 @@ export class DescriptionTimeframeComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    // this.base.getFoiRouteData().subscribe(data => {
-    //   if (data) {
-    //     this.showRequestTopic = data.showRequestTopic || false;
-    //     this.showPublicServiceEmployeeNumber = data.showPublicServiceEmployeeNumber || false;
-    //     this.showCorrectionalServiceNumber = data.showCorrectionalServiceNumber || false;
-    //   }
-    // });
-
     this.foiRequest = this.dataService.getCurrentState();
-
     this.showRequestTopic = !this.foiRequest.requestData.ministry.selectedMinistry;
-    this.showPublicServiceEmployeeNumber =
-      this.foiRequest.requestData.ministry.selectedMinistry &&
-      this.foiRequest.requestData.ministry.selectedMinistry.code === "PSA";
 
-    this.showCorrectionalServiceNumber =
-      this.foiRequest.requestData.ministry.selectedMinistry &&
-      this.foiRequest.requestData.ministry.selectedMinistry.code === "PSSG";
+    let ministryCode = null;
+    if (this.foiRequest.requestData.ministry.selectedMinistry) {
+      ministryCode = this.foiRequest.requestData.ministry.selectedMinistry.code;
+    }
+    this.showPublicServiceEmployeeNumber = ministryCode === "PSA";
+    this.showCorrectionalServiceNumber = ministryCode === "PSSG";
 
     const requestTopic = this.foiRequest.requestData.topic || this.foiRequest.requestData.anotherTopicText;
 

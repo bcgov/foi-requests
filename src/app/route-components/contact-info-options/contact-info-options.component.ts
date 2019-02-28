@@ -13,8 +13,8 @@ export class ContactInfoOptionsComponent implements OnInit {
   foiForm = this.fb.group({
     phonePrimary: [null, [Validators.maxLength(25)]],
     phoneSecondary: [null, [Validators.maxLength(25)]],
-    // Regex: (non-whitespace) + '@' + (non-whitespace) + '.' + (two letters / numbers)
-    email: [null, [Validators.maxLength(255), Validators.pattern(/\S+@\S+\.[a-zA-Z]{2,3}/)]],
+    // Regex: (non-whitespace) + '@' + (non-whitespace) + '.' + (non-whitespace)
+    email: [null, [Validators.maxLength(255), Validators.pattern(/\S+@\S+\.\S/)]],
     address: [null, [Validators.maxLength(255)]],
     city: [null, [Validators.maxLength(255)]],
     postal: [null, [Validators.maxLength(255)]],
