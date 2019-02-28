@@ -28,6 +28,10 @@ export class DataService {
     return of(data.referenceData.ministries);
   }
 
+  getTopics(topicKey: string): Array<any> {
+    return data.referenceData[topicKey];
+  }
+
   loadState(stateKey: string): FoiRequest {
     const foi: string = sessionStorage.getItem(stateKey);
     const state = foi ? JSON.parse(foi) : {};

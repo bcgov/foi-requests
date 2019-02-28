@@ -26,7 +26,8 @@ export class RequestTopicComponent implements OnInit {
 
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
-        this.topics = data.topics;
+
+        this.topics = this.dataService.getTopics(data.topics);
         // Clear anotherTopicText if anotherTopic is not selected.
         if (this.foiRequest.requestData.requestTopic.value !== "anotherTopic") {
           this.foiRequest.requestData.anotherTopicText = null;
