@@ -22,6 +22,7 @@ export class ChildInformationComponent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = "childInformation";
+  attachmentname: string;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -29,7 +30,7 @@ export class ChildInformationComponent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     const formInit = this.foiRequest.requestData[this.targetKey];
-    // formInit.proofOfGuardianship = ''; // Can only patch empty strings to a file type.
+    this.attachmentname = formInit.proofOfGuardianship;
     this.foiForm.patchValue(formInit);
   }
 
@@ -47,5 +48,10 @@ export class ChildInformationComponent implements OnInit {
     const f: File = event.target.files[0];
     this.dataService.setChildFileAttachment(f);
     this.foiForm.controls["proofOfGuardianship"].setValue(f.name);
+  }
+
+  newFileSelected(newFile: File){
+    this.dataService.setChildFileAttachment(newFile);
+    this.foiForm.controls["proofOfGuardianship"].setValue(newFile.name);
   }
 }

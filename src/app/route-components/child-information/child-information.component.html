@@ -1,12 +1,6 @@
-<foi-base
-  [showInfo]="false"
-  [continueDisabled]="!foiForm.valid"
-  (continue)="doContinue()"
-  (goBack)="doGoBack()"
->
+<foi-base [showInfo]="false" [continueDisabled]="!foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-
       <h2>You’re requesting records about a child. What is the child’s full legal name?</h2>
       <div class="form-group row">
         <div class="col-lg-6">
@@ -19,7 +13,7 @@
             <input formControlName="firstName" />
           </app-foi-valid>
         </div>
-        
+
         <div class="col-lg-6">
           <app-foi-valid
             [form]="foiForm"
@@ -52,19 +46,17 @@
         </div>
 
         <div class="col-lg-6">
-            <app-foi-valid
-              [form]="foiForm"
-            >
-              <label>What is the child’s date of birth?</label>
-              <input type="date" formControlName="dateOfBirth" />
-            </app-foi-valid>
-          </div>
+          <app-foi-valid [form]="foiForm">
+            <label>What is the child’s date of birth?</label>
+            <input type="date" formControlName="dateOfBirth" />
+          </app-foi-valid>
+        </div>
 
-          <div class="col-lg-6">
-                <label>Attach copy of proof of guardianship:</label>
-                <input class="form-control" type="file"  (change)="changeImageListener($event)"/>
-            </div>
-      
+        <div class="col-lg-6">
+          <label>Attach copy of proof of guardianship:</label>
+          <!-- <input class="form-control" type="file" (change)="changeImageListener($event)" /> -->
+          <foi-fileinput [filename]="attachmentname" (fileselected)="newFileSelected($event)"></foi-fileinput>
+        </div>
       </div>
     </form>
   </div>
