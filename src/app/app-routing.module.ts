@@ -8,13 +8,11 @@ import { GeneralInfoComponent } from './route-components/general-info/general-in
 import { MinistryConfirmationComponent } from './route-components/ministry-confirmation/ministry-confirmation.component';
 import { DescriptionTimeframeComponent } from './route-components/description-timeframe/description-timeframe.component';
 import { ContactInfoOptionsComponent } from './route-components/contact-info-options/contact-info-options.component';
-// import { DeliveryOptionsComponent } from './route-components/delivery-options/delivery-options.component';
 import { AnotherInformationComponent } from './route-components/another-information/another-information.component';
 import { ProofOfGuardianshipComponent } from './route-components/proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './route-components/child-information/child-information.component';
 import { ReviewSubmitComponent } from './route-components/review-submit/review-submit.component';
-import { RequestInfoComponent } from './route-components/request-info/request-info.component';
-import { ContactInfo1Component } from './route-components/contact-info1/contact-info1.component';
+import { ContactInfoComponent } from './route-components/contact-info/contact-info.component';
 import { ReceiveRecordsComponent } from './route-components/receive-records/receive-records.component';
 import { SelectAboutComponent } from './route-components/select-about/select-about.component';
 import { VerifyYourIdentityComponent } from './route-components/verify-your-identity/verify-your-identity.component';
@@ -30,8 +28,7 @@ const routes: Routes = [
   { path: 'general/fee-info', component: GeneralInfoComponent },
   { path: 'general/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'general/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'general/request-info', component: RequestInfoComponent },
-  { path: 'general/contact-info1', component: ContactInfo1Component },
+  { path: 'general/contact-info', component: ContactInfoComponent },
   { path: 'general/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'general/receive-records', component: ReceiveRecordsComponent },
   { path: 'general/review-submit', component: ReviewSubmitComponent },

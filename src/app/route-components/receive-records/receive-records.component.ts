@@ -13,7 +13,7 @@ export class ReceiveRecordsComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
     deliveryType: [null, [Validators.required]],
-    otherDetails: [null, [Validators.required]]
+    otherDetails: [null, [Validators.required, Validators.maxLength(255)]]
   });
 
   foiRequest: FoiRequest;

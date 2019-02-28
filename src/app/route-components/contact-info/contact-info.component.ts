@@ -5,10 +5,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  templateUrl: './contact-info1.component.html',
-  styleUrls: ['./contact-info1.component.scss']
+  templateUrl: './contact-info.component.html',
+  styleUrls: ['./contact-info.component.scss']
 })
-export class ContactInfo1Component implements OnInit {
+export class ContactInfoComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
     firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
