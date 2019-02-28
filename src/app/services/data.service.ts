@@ -12,6 +12,7 @@ import { FormGroup } from "@angular/forms";
 export class DataService {
   foiRoutes: FoiRoute[];
   childFileKey: string = "childFileAttachment";
+  personFileKey: string = "personFileAttachment";
 
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
@@ -67,6 +68,15 @@ export class DataService {
     reader.readAsDataURL(f);
   }
 
+  setPersonFileAttachment(f: File) {
+    const reader: FileReader = new FileReader();
+    reader.onload = e => {
+      sessionStorage.setItem(this.personFileKey, reader.result.toString());
+    };
+
+    reader.readAsDataURL(f);
+  }
+
   private b64toBlob(b64Data, contentType, sliceSize?): Blob {
     contentType = contentType || "";
     sliceSize = sliceSize || 512;
@@ -115,6 +125,15 @@ export class DataService {
       );
       if (childFile) {
         foiRequest.attachments.push(childFile);
+      }
+    }
+    if (foiRequest.requestData.anotherInformation) {
+      const personFile = this.getFileFrom(
+        this.personFileKey,
+        foiRequest.requestData.anotherInformation.proofOfAuthorization
+      );
+      if (personFile) {
+        foiRequest.attachments.push(personFile);
       }
     }
 
