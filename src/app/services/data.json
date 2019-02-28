@@ -98,185 +98,23 @@
                           { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
                         ]
                       },
-                      "progress": 2,
-                      "choices": {
-                        "publicServiceEmployment": {
-                          "routes": [
-                            {
-                              "route": "personal/public-service/ministry-confirmation",
-                              "progress": 2
-                            },
-                            {
-                              "route": "personal/public-service/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "showPublicServiceEmployeeNumber": true,
-                                "comment": "// Show the 'BC Public Service Employee Number (if known):' field."
-                              }
-                            },
-                            {
-                              "route": "personal/public-service/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/public-service/receive-records", "progress": 3 },
-                            { "route": "personal/public-service/review-submit", "progress": 4 },
-                            { "route": "personal/public-service/submit-complete", "progress": 4 }
-                          ]
-                        },
-                        "correctionalFacility": {
-                          "routes": [
-                            {
-                              "route": "personal/corrections/ministry-confirmation",
-                              "progress": 2
-                            },
-                            {
-                              "route": "personal/corrections/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "showCorrectionalServiceNumber": true,
-                                "comment": "// Show the 'BC Correctional Service Number (if known):' field."
-                              }
-                            },
-                            {
-                              "route": "personal/corrections/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/corrections/receive-records", "progress": 3 },
-                            { "route": "personal/corrections/review-submit", "progress": 4 },
-                            { "route": "personal/corrections/submit-complete", "progress": 4 }
-                          ]
-                        },
-                        "incomeAssistance": {
-                          "routes": [
-                            {
-                              "route": "personal/income-assistance/ministry-confirmation",
-                              "progress": 2,
-                              "data": {
-                                "defaultMinistry": "The Ministry of Social Development and Poverty Reduction",
-                                "comment": "// Can we get a ministry code?"
-                              }
-                            },
-                            {
-                              "route": "personal/income-assistance/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "comment": "// No additional fields."
-                              }
-                            },
-                            {
-                              "route": "personal/income-assistance/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/income-assistance/receive-records", "progress": 3 },
-                            { "route": "personal/income-assistance/review-submit", "progress": 4 },
-                            { "route": "personal/income-assistance/submit-complete", "progress": 4 }
-                          ]
-                        },
-                        "childProtection": {
-                          "routes": [
-                            {
-                              "route": "personal/child-protection/ministry-confirmation",
-                              "progress": 2,
-                              "data": {
-                                "defaultMinistry": "The Ministry of Children and Family Development",
-                                "comment": "// Can we get a ministry code?"
-                              }
-                            },
-                            {
-                              "route": "personal/child-protection/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "comment": "// No additional fields."
-                              }
-                            },
-                            {
-                              "route": "personal/child-protection/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/child-protection/receive-records", "progress": 3 },
-                            { "route": "personal/child-protection/review-submit", "progress": 4 },
-                            { "route": "personal/child-protection/submit-complete", "progress": 4 }
-                          ]
-                        },
-                        "adoption": {
-                          "routes": [
-                            {
-                              "route": "personal/adoption/ministry-confirmation",
-                              "progress": 2,
-                              "data": {
-                                "defaultMinistry": "The Ministry of Children and Family Development",
-                                "comment": "// Can we get a ministry code?"
-                              }
-                            },
-                            {
-                              "route": "personal/adoption/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "comment": "// No additional fields."
-                              }
-                            },
-                            {
-                              "route": "personal/adoption/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/adoption/receive-records", "progress": 3 },
-                            { "route": "personal/adoption/review-submit", "progress": 4 },
-                            { "route": "personal/adoption/submit-complete", "progress": 4 }
-                          ]
-                        },
-                        "communityLiving": {
-                          "routes": [
-                            {
-                              "route": "personal/community-living/ministry-confirmation",
-                              "progress": 2,
-                              "data": {
-                                "defaultMinistry": "The Ministry of Children and Family Development",
-                                "comment": "// THIS ONE LOOKS WRONG!, PLEASE CONFIRM."
-                              }
-                            },
-                            {
-                              "route": "personal/community-living/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "comment": "// No additional fields."
-                              }
-                            },
-                            {
-                              "route": "personal/community-living/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/community-living/receive-records", "progress": 3 },
-                            { "route": "personal/community-living/review-submit", "progress": 4 },
-                            { "route": "personal/community-living/submit-complete", "progress": 4 }
-                          ]
-                        },
-                        "anotherTopic": {
-                          "routes": [
-                            {
-                              "route": "personal/another-topic/ministry-confirmation",
-                              "progress": 2,
-                              "data": {
-                                "defaultMinistry": null
-                              }
-                            },
-                            {
-                              "route": "personal/another-topic/description-timeframe",
-                              "progress": 2,
-                              "data": {
-                                "comment": "// No additional fields."
-                              }
-                            },
-                            {
-                              "route": "personal/another-topic/contact-info-options",
-                              "progress": 3
-                            },
-                            { "route": "personal/another-topic/receive-records", "progress": 3 },
-                            { "route": "personal/another-topic/review-submit", "progress": 4 },
-                            { "route": "personal/another-topic/submit-complete", "progress": 4 }
-                          ]
-                        }
-                      }
-                    }
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/contact-info-options",
+                      "progress": 3
+                    },
+                    { "route": "personal/receive-records", "progress": 3 },
+                    { "route": "personal/review-submit", "progress": 4 },
+                    { "route": "personal/submit-complete", "progress": 4 }
                   ]
                 },
                 "child": {
@@ -393,11 +231,15 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/another/delivery-options",
+                      "route": "personal/another/receive-records",
                       "progress": 3
                     },
                     {
                       "route": "personal/another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/another/submit-complete",
                       "progress": 4
                     }
                   ]
@@ -436,11 +278,15 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/yourself-child/delivery-options",
+                      "route": "personal/yourself-child/receive-records",
                       "progress": 3
                     },
                     {
                       "route": "personal/yourself-child/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/yourself-child/submit-complete",
                       "progress": 4
                     }
                   ]
@@ -479,11 +325,15 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/yourself-another/delivery-options",
+                      "route": "personal/yourself-another/receive-records",
                       "progress": 3
                     },
                     {
                       "route": "personal/yourself-another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/yourself-another/submit-complete",
                       "progress": 4
                     }
                   ]
@@ -515,11 +365,15 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/delivery-options",
+                      "route": "personal/child/receive-records",
                       "progress": 3
                     },
                     {
                       "route": "personal/child/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/child/submit-complete",
                       "progress": 4
                     }
                   ]
@@ -527,35 +381,39 @@
                 "child-another": {
                   "routes": [
                     {
-                      "route": "personal/child/proof-of-guardianship",
+                      "route": "personal/child-another/proof-of-guardianship",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/child-information",
+                      "route": "personal/child-another/child-information",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/verify-your-identity",
+                      "route": "personal/child-another/verify-your-identity",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/ministry-confirmation",
+                      "route": "personal/child-another/ministry-confirmation",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/description-timeframe",
+                      "route": "personal/child-another/description-timeframe",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/contact-info-options",
+                      "route": "personal/child-another/contact-info-options",
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/delivery-options",
+                      "route": "personal/child-another/receive-records",
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/review-submit",
+                      "route": "personal/child-another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/child-another/submit-complete",
                       "progress": 4
                     }
                   ]

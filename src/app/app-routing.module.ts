@@ -39,63 +39,13 @@ const routes: Routes = [
   // Personal / Yourself
   { path: 'personal/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/request-topic', component: RequestTopicComponent },
-
-  // Personal / Yourself / Public Service
-  { path: 'personal/public-service/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/public-service/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/public-service/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/public-service/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/public-service/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/public-service/submit-complete', component: ReviewSubmitCompleteComponent},
+  { path: 'personal/ministry-confirmation', component: MinistryConfirmationComponent },
+  { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/receive-records', component: ReceiveRecordsComponent },
+  { path: 'personal/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/submit-complete', component: ReviewSubmitCompleteComponent},
   
-  // Personal / Yourself / Corrections
-  { path: 'personal/corrections/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/corrections/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/corrections/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/corrections/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/corrections/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/corrections/submit-complete', component: ReviewSubmitCompleteComponent},
-
-  // Personal / Yourself / Income Assistance
-  { path: 'personal/income-assistance/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/income-assistance/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/income-assistance/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/income-assistance/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/income-assistance/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/income-assistance/submit-complete', component: ReviewSubmitCompleteComponent},
-
-  // Personal / Yourself / Child Protection
-  { path: 'personal/child-protection/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/child-protection/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/child-protection/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/child-protection/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/child-protection/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/child-protection/submit-complete', component: ReviewSubmitCompleteComponent},
-
-  // Personal / Yourself / Adoption
-  { path: 'personal/adoption/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/adoption/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/adoption/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/adoption/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/adoption/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/adoption/submit-complete', component: ReviewSubmitCompleteComponent},
-
-  // Personal / Yourself / Community Living
-  { path: 'personal/community-living/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/community-living/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/community-living/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/community-living/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/community-living/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/community-living/submit-complete', component: ReviewSubmitCompleteComponent},
-
-  // Personal / Yourself / Another Topic
-  { path: 'personal/another-topic/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/another-topic/description-timeframe', component: DescriptionTimeframeComponent },
-  { path: 'personal/another-topic/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/another-topic/receive-records', component: ReceiveRecordsComponent },
-  { path: 'personal/another-topic/review-submit', component: ReviewSubmitComponent },
-  { path: 'personal/another-topic/submit-complete', component: ReviewSubmitCompleteComponent},
-
   // Personal / Child
   { path: 'personal/child/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/child/child-information', component: ChildInformationComponent },
