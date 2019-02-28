@@ -3,6 +3,7 @@ import { BaseComponent } from "../base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder, Validators } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   templateUrl: "./proof-of-guardianship.component.html",
@@ -11,24 +12,44 @@ import { DataService } from "src/app/services/data.service";
 export class ProofOfGuardianshipComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
-    hasGuardianship: [null, [Validators.required]]
+    answerYes: [null, [Validators.required]]
   });
 
   foiRequest: FoiRequest;
-  targetKey: string = "proofOfGuardianship";
+  targetKey: string; // = "proofOfGuardianship";
 
-  hasGuardianship: boolean;
+  answerYes: Boolean;
+  anserReceived: Boolean;
+  proofFor: string = "child";
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService) { }
 
   ngOnInit() {
-    // Load the current values & populate the FormGroup.
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.hasGuardianship = (this.foiRequest.requestData[this.targetKey] && (this.foiRequest.requestData[this.targetKey].hasGuardianship === "true"));
+    this.base.getFoiRouteData().subscribe(data => {
+      if (data) {
+        this.proofFor = data.proofFor;
+        this.targetKey = this.proofFor === "child" ? "proofOfGuardianship" : "proofOfPermission";
+        // Load the current values & populate the FormGroup.
+        this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+        this.answerYes =
+          this.foiRequest.requestData[this.targetKey] &&
+          this.foiRequest.requestData[this.targetKey].answerYes === "true";
+        this.anserReceived = this.answerYes;
+        this.base.continueDisabled = !this.answerYes;
+        this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
-    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+        this.foiForm.valueChanges.subscribe(newValue => {
+          this.answerYes = newValue.answerYes === "true";
+          this.base.continueDisabled = !this.answerYes;
+          this.anserReceived = true;
+        });
+      }
+    });
   }
 
+  get showAlert(): Boolean {
+    return this.anserReceived && !this.answerYes;
+  }
   doContinue() {
     // Update save data & proceed.
     const state = this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
@@ -39,9 +60,4 @@ export class ProofOfGuardianshipComponent implements OnInit {
     this.base.goFoiBack();
   }
 
-  handleValueChange(event){
-    console.log('radio changed ', this.foiForm.value);
-    this.hasGuardianship = (this.foiForm.value.hasGuardianship === "true");
-
-  }
 }
