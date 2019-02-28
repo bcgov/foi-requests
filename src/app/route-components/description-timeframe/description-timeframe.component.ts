@@ -21,8 +21,9 @@ export class DescriptionTimeframeComponent implements OnInit {
 
   foiRequest: FoiRequest;
   foiFormData$: Observable<any>;
-  showRequestTopic: Boolean = false;
-  showPublicServiceEmployeeNumber: Boolean = false;
+  showRequestTopic: boolean = false;
+  showPublicServiceEmployeeNumber: boolean = false;
+  showCorrectionalServiceNumber: boolean = false;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -31,6 +32,7 @@ export class DescriptionTimeframeComponent implements OnInit {
       if (data) {
         this.showRequestTopic = data.showRequestTopic || false;
         this.showPublicServiceEmployeeNumber = data.showPublicServiceEmployeeNumber || false;
+        this.showCorrectionalServiceNumber = data.showCorrectionalServiceNumber || false;
       }
     });
 
