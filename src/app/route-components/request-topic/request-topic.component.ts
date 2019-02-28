@@ -12,14 +12,13 @@ export class RequestTopicComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
     requestTopic: [null, [Validators.required]],
-    anotherTopicText: ""
+    anotherTopicText: [null, [Validators.required]]
   });
 
   foiRequest: FoiRequest;
   topics: Array<any> = [];
 
   constructor(private fb: FormBuilder, private dataService: DataService) {
-
     // TODO: move this to the data.json and feed it from the data service!
     this.topics.push({
       value: "publicServiceEmployment",
@@ -35,7 +34,7 @@ export class RequestTopicComponent implements OnInit {
     this.topics.push({ value: "childProtection", text: "Child protection and youth care", ministryCode: "MCF" });
     this.topics.push({ value: "adoption", text: "Adoption", ministryCode: "MCF" });
     this.topics.push({ value: "communityLiving", text: "Community Living BC", ministryCode: "MCF" });
-    this.topics.push({ value: "anotherTopic", text: "Another Topic (please explain)", ministryCode: null });
+    this.topics.push({ value: "anotherTopic", text: "Another Topic", ministryCode: null });
   }
 
   ngOnInit() {
@@ -50,6 +49,23 @@ export class RequestTopicComponent implements OnInit {
       anotherTopicText: this.foiRequest.requestData.anotherTopicText
     };
     this.foiForm.patchValue(formInit);
+  }
+
+  /**
+   * Used to disable the Continue button.
+   */
+  allowContinue() {
+    const formData = this.foiForm.value;
+    let result = false;
+    if (formData.requestTopic && formData.requestTopic.value === "anotherTopic" && formData.anotherTopicText) {
+      // Require that 'anotherTopic' includes details!
+      result = true;
+    }
+    if (formData.requestTopic && formData.requestTopic.value !== "anotherTopic") {
+      //Anything that isn't 'anotherTopic' detail are ignored.
+      result = true;
+    }
+    return result;
   }
 
   doContinue() {

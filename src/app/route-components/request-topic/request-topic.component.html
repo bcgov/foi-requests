@@ -1,4 +1,4 @@
-<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base [continueDisabled]="!allowContinue()" [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>What topic are you requesting records about?</h2>
 
@@ -8,8 +8,15 @@
           <input type="radio" [value]="topic" formControlName="requestTopic" />
           {{ topic.text }}
         </label>
-        <div class="col-lg-6" *ngIf="topic.value === 'anotherTopic'">
-          <input class="form-control" formControlName="anotherTopicText" [value]="" />
+        <div
+          class="col-lg-8"
+          *ngIf="topic.value === 'anotherTopic'"
+          [hidden]="!foiForm.get('requestTopic').value || foiForm.get('requestTopic').value.value !== 'anotherTopic'"
+        >
+          <app-foi-valid [form]="foiForm" required="Please provide details about your preferred delivery method.">
+            <label>Please explain:</label>
+            <input class="form-control" formControlName="anotherTopicText" />
+          </app-foi-valid>
           <p class="small-italics">
             The more specific your topic, the quicker we will be able to find the records you’re looking for. You’ll be
             able to provide more details about the records later in the application.
