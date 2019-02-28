@@ -256,7 +256,10 @@
                   "routes": [
                     {
                       "route": "personal/child/proof-of-guardianship",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
                     },
                     {
                       "route": "personal/child/child-information",
@@ -295,8 +298,11 @@
                 "another": {
                   "routes": [
                     {
-                      "route": "personal/another/proof-of-guardianship",
-                      "progress": 2
+                      "route": "personal/another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
                     },
                     {
                       "route": "personal/another/another-information",

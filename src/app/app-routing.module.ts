@@ -111,7 +111,7 @@ const routes: Routes = [
   { path: 'personal/child/submit-complete', component: ReviewSubmitCompleteComponent},
 
   // Personal / Another Person
-  { path: 'personal/another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
+  { path: 'personal/another/proof-of-permission', component: ProofOfGuardianshipComponent },
   { path: 'personal/another/another-information', component: AnotherInformationComponent },
   { path: 'personal/another/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/another/ministry-confirmation', component: MinistryConfirmationComponent },

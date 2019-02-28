@@ -17,7 +17,7 @@ export class ChildInformationComponent implements OnInit {
     lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
     alsoKnownAs: [null, [Validators.maxLength(255)]],
     dateOfBirth: null,
-    proofOfGuardianship: null
+    proofOfGuardianship: [null, [Validators.required]]
   });
 
   foiRequest: FoiRequest;
