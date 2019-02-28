@@ -14,8 +14,7 @@ import { GeneralInfoComponent } from './general-info/general-info.component';
 import { GeneralSelectMinistryComponent } from './general-select-ministry/general-select-ministry.component';
 import { MinistryConfirmationComponent } from './ministry-confirmation/ministry-confirmation.component';
 import { DescriptionTimeframeComponent } from './description-timeframe/description-timeframe.component';
-import { RequestInfoComponent } from './request-info/request-info.component';
-import { ContactInfo1Component } from './contact-info1/contact-info1.component';
+import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { ReceiveRecordsComponent } from './receive-records/receive-records.component';
 import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { SelectAboutComponent } from './select-about/select-about.component';
@@ -47,8 +46,7 @@ import { FoiFileinputComponent } from './foi-fileinput/foi-fileinput.component';
     GeneralSelectMinistryComponent,
     MinistryConfirmationComponent,
     DescriptionTimeframeComponent,
-    RequestInfoComponent,
-    ContactInfo1Component,
+    ContactInfoComponent,
     ReceiveRecordsComponent,
     ReviewSubmitComponent,
     SelectAboutComponent,

@@ -53,7 +53,7 @@
                 "comment": "// Show a 'Request topic' field at the top."
               }
             },
-            { "route": "general/contact-info1", "progress": 3 },
+            { "route": "general/contact-info", "progress": 3 },
             { "route": "general/contact-info-options", "progress": 3 },
             { "route": "general/receive-records", "progress": 3 },
             { "route": "general/review-submit", "progress": 4 },

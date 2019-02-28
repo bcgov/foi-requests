@@ -29,18 +29,19 @@
           <input type="radio" value="other" formControlName="deliveryType" />
           Other
         </label>
-      </div>
-      <div
-        class="col-sm-12 col-md-8 offset-md-1 col-lg-8 offset-lg-1"
-        [hidden]="foiForm.get('deliveryType').value !== 'other'"
-      >
-        <app-foi-valid
-          [form]="foiForm"
-          required="Please provide details about your preferred delivery method."
+        <div
+          class="col-lg-8"
+          [hidden]="foiForm.get('deliveryType').value !== 'other'"
         >
-          <label>Please explain:</label>
-          <textarea formControlName="otherDetails" rows="3"></textarea>
-        </app-foi-valid>
+          <app-foi-valid
+            [form]="foiForm"
+            required="Please provide details about your preferred delivery method."
+            maxLength="Explanantion is longer than the maximum {requiredLength} characters."
+          >
+            <label>Please explain:</label>
+            <input class="form-control" formControlName="otherDetails" />
+          </app-foi-valid>
+        </div>
       </div>
     </form>
   </div>
