@@ -29,12 +29,10 @@ export class ReceiveRecordsComponent implements OnInit {
   }
 
   /**
-   * Used to disable the Continue button *and* determine the navigation path.
+   * Used to disable the Continue button.
    */
   allowContinue() {
     const formData = this.foiForm.value;
-    // Note: The order these are added is important!
-    // Return value is matched against the keys in data.json.
     let result = false;
     if (formData.deliveryType === 'other' && formData.otherDetails) {
       // Require that 'other' includes details!

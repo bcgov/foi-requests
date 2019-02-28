@@ -37,9 +37,9 @@ export class DescriptionTimeframeComponent implements OnInit {
     });
 
     this.foiRequest = this.dataService.getCurrentState();
-
+    const requestTopic = this.foiRequest.requestData.topic || this.foiRequest.requestData.anotherTopicText;
     const formInit = {
-      topic: this.foiRequest.requestData.topic,
+      topic: requestTopic,
       description: this.foiRequest.requestData.description,
       fromDate: this.foiRequest.requestData.fromDate,
       toDate: this.foiRequest.requestData.toDate,
