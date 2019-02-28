@@ -4,11 +4,6 @@ import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 
-// @Component({
-//   templateUrl: './contact-info-options.component.html',
-//   styleUrls: ['./contact-info-options.component.scss']
-// })
-// export class ContactInfo2Component implements OnInit {
 @Component({
   templateUrl: './contact-info-options.component.html',
   styleUrls: ['./contact-info-options.component.scss']
