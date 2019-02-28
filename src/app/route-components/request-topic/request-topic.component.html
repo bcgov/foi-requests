@@ -13,7 +13,11 @@
           *ngIf="topic.value === 'anotherTopic'"
           [hidden]="!foiForm.get('requestTopic').value || foiForm.get('requestTopic').value.value !== 'anotherTopic'"
         >
-          <app-foi-valid [form]="foiForm" required="Please provide details about your preferred delivery method.">
+          <app-foi-valid
+            [form]="foiForm"
+            required="Please provide details about your request topic."
+            maxLength="Explanantion is longer than the maximum {requiredLength} characters."
+          >
             <label>Please explain:</label>
             <input class="form-control" formControlName="anotherTopicText" />
           </app-foi-valid>

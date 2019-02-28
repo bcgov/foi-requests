@@ -18,11 +18,12 @@ export class ContactInfoOptionsComponent implements OnInit {
   foiForm = this.fb.group({
     phonePrimary: [null, [Validators.maxLength(25)]],
     phoneSecondary: [null, [Validators.maxLength(25)]],
+    // Regex: (non-whitespace) + '@' + (non-whitespace) + '.' + (two letters / numbers)
+    email: [null, [Validators.maxLength(255), Validators.pattern(/\S+@\S+\.[a-zA-Z]{2,3}/)]],
     address: [null, [Validators.maxLength(255)]],
     city: [null, [Validators.maxLength(255)]],
     postal: [null, [Validators.maxLength(255)]],
     province: [null, [Validators.maxLength(255)]],
-    email: [null, [Validators.maxLength(255)]],
     country: [null, [Validators.maxLength(255)]]
   });
 
@@ -35,6 +36,27 @@ export class ContactInfoOptionsComponent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+  }
+
+  /**
+   * Used to disable the Continue button.
+   */
+  allowContinue() {
+    const formData = this.foiForm.value;
+    let result = false;
+    if (formData.email) {
+      result = true;
+    }
+    if (formData.phonePrimary) {
+      result = true;
+    }
+    if (formData.phoneSecondary) {
+      result = true;
+    }
+    if (formData.address && formData.city && formData.postal && formData.province && formData.country ) {
+      result = true;
+    }
+    return result;
   }
 
   doContinue() {
