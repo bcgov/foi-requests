@@ -17,11 +17,15 @@ export class ProofOfGuardianshipComponent implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = "proofOfGuardianship";
 
+  hasGuardianship: boolean;
+
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.hasGuardianship = (this.foiRequest.requestData[this.targetKey] && (this.foiRequest.requestData[this.targetKey].hasGuardianship === "true"));
+
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
   }
 
@@ -33,5 +37,11 @@ export class ProofOfGuardianshipComponent implements OnInit {
 
   doGoBack() {
     this.base.goFoiBack();
+  }
+
+  handleValueChange(event){
+    console.log('radio changed ', this.foiForm.value);
+    this.hasGuardianship = (this.foiForm.value.hasGuardianship === "true");
+
   }
 }
