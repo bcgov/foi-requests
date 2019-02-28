@@ -71,6 +71,33 @@
                     { "route": "personal/verify-your-identity", "progress": 2 },
                     {
                       "route": "personal/request-topic",
+                      "data": {
+                        "topics": [
+                          {
+                            "value": "publicServiceEmployment",
+                            "text": "Your employment with the public service",
+                            "ministryCode": "PSA"
+                          },
+                          {
+                            "value": "correctionalFacility",
+                            "text": "Your time spent in a correctional facility",
+                            "ministryCode": "PSSG"
+                          },
+                          {
+                            "value": "incomeAssistance",
+                            "text": "Your income assistance history",
+                            "ministryCode": "SDPR"
+                          },
+                          {
+                            "value": "childProtection",
+                            "text": "Child protection and youth care",
+                            "ministryCode": "MCF"
+                          },
+                          { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+                          { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
+                          { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+                        ]
+                      },
                       "progress": 2,
                       "choices": {
                         "publicServiceEmployment": {
@@ -311,8 +338,39 @@
                     {
                       "route": "personal/another/verify-your-identity",
                       "progress": 2,
-                      "data":{
+                      "data": {
                         "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the records."
+                      }
+                    },
+                    {
+                      "route": "personal/another/request-topic",
+                      "progress": 2,
+                      "data": {
+                        "topics": [
+                          {
+                            "value": "publicServiceEmployment",
+                            "text": "The person's employment with the public service",
+                            "ministryCode": "PSA"
+                          },
+                          {
+                            "value": "correctionalFacility",
+                            "text": "The person's time spent in a correctional facility",
+                            "ministryCode": "PSSG"
+                          },
+                          {
+                            "value": "incomeAssistance",
+                            "text": "The person's income assistance history",
+                            "ministryCode": "SDPR"
+                          },
+                          {
+                            "value": "childProtection",
+                            "text": "Child protection and youth care",
+                            "ministryCode": "MCF"
+                          },
+                          { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+                          { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
+                          { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+                        ]
                       }
                     },
                     {

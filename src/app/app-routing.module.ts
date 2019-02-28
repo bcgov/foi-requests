@@ -114,6 +114,7 @@ const routes: Routes = [
   { path: 'personal/another/proof-of-permission', component: ProofOfGuardianshipComponent },
   { path: 'personal/another/another-information', component: AnotherInformationComponent },
   { path: 'personal/another/verify-your-identity', component: VerifyYourIdentityComponent },
+  { path: 'personal/another/request-topic', component: RequestTopicComponent },
   { path: 'personal/another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/another/contact-info-options', component: ContactInfoOptionsComponent },

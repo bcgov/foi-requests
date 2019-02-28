@@ -18,37 +18,26 @@ export class RequestTopicComponent implements OnInit {
   foiRequest: FoiRequest;
   topics: Array<any> = [];
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {
-    // TODO: move this to the data.json and feed it from the data service!
-    this.topics.push({
-      value: "publicServiceEmployment",
-      text: "Your employment with the public service",
-      ministryCode: "PSA"
-    });
-    this.topics.push({
-      value: "correctionalFacility",
-      text: "Your time spent in a correctional facility",
-      ministryCode: "PSSG"
-    });
-    this.topics.push({ value: "incomeAssistance", text: "Your income assistance history", ministryCode: "SDPR" });
-    this.topics.push({ value: "childProtection", text: "Child protection and youth care", ministryCode: "MCF" });
-    this.topics.push({ value: "adoption", text: "Adoption", ministryCode: "MCF" });
-    this.topics.push({ value: "communityLiving", text: "Community Living BC", ministryCode: "MCF" });
-    this.topics.push({ value: "anotherTopic", text: "Another Topic", ministryCode: null });
-  }
+  constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState("requestTopic");
-    // Clear anotherTopicText if anotherTopic is not selected.
-    if (this.foiRequest.requestData.requestTopic.value !== "anotherTopic") {
-      this.foiRequest.requestData.anotherTopicText = null;
-    }
-    const selectedTopic = this.topics.find(t => t.value === this.foiRequest.requestData.requestTopic.value);
-    const formInit = {
-      requestTopic: selectedTopic,
-      anotherTopicText: this.foiRequest.requestData.anotherTopicText
-    };
-    this.foiForm.patchValue(formInit);
+
+    this.base.getFoiRouteData().subscribe(data => {
+      if (data) {
+        this.topics = data.topics;
+        // Clear anotherTopicText if anotherTopic is not selected.
+        if (this.foiRequest.requestData.requestTopic.value !== "anotherTopic") {
+          this.foiRequest.requestData.anotherTopicText = null;
+        }
+        const selectedTopic = this.topics.find(t => t.value === this.foiRequest.requestData.requestTopic.value);
+        const formInit = {
+          requestTopic: selectedTopic,
+          anotherTopicText: this.foiRequest.requestData.anotherTopicText
+        };
+        this.foiForm.patchValue(formInit);
+      }
+    });
   }
 
   /**
@@ -57,7 +46,12 @@ export class RequestTopicComponent implements OnInit {
   allowContinue() {
     const formData = this.foiForm.value;
     let result = false;
-    if (formData.requestTopic && formData.requestTopic.value === "anotherTopic" && formData.anotherTopicText && this.foiForm.valid) {
+    if (
+      formData.requestTopic &&
+      formData.requestTopic.value === "anotherTopic" &&
+      formData.anotherTopicText &&
+      this.foiForm.valid
+    ) {
       // Require that 'anotherTopic' includes details!
       result = true;
     }
