@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "../base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { Observable } from "rxjs";
 import { FormBuilder, Validators } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 
@@ -16,6 +15,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     description: [null, [Validators.required]],
     fromDate: [null, [Validators.required]],
     toDate: [null, [Validators.required]],
+    correctionalServiceNumber: [null],
     publicServiceEmployeeNumber: [null] // Not required! TODO: maybe [Validators.maxLength]
   });
 
@@ -44,7 +44,8 @@ export class DescriptionTimeframeComponent implements OnInit {
       description: this.foiRequest.requestData.description,
       fromDate: this.foiRequest.requestData.fromDate,
       toDate: this.foiRequest.requestData.toDate,
-      publicServiceEmployeeNumber: this.foiRequest.requestData.publicServiceEmployeeNumber
+      publicServiceEmployeeNumber: this.foiRequest.requestData.publicServiceEmployeeNumber, 
+      correctionalServiceNumber: this.foiRequest.requestData.correctionalServiceNumber
     };
     if (!this.showRequestTopic) {
       formInit.topic = this.foiRequest.requestData.requestTopic.text;
