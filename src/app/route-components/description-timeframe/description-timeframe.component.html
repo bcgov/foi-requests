@@ -30,19 +30,17 @@
         catalogue to see examples of other requests.
       </app-alert-info>
 
-      <div class="form-group row">
-        <ng-container *ngIf="showPublicServiceEmployeeNumber">
-          <label class="col-lg-5 col-form-label inline-label">BC Public Service Employee Number (if known):</label>
-          <div class="col-lg-7">
-            <input class="form-control" formControlName="publicServiceEmployeeNumber" />
-          </div>
-        </ng-container>
-        <ng-container *ngIf="showCorrectionalServiceNumber">
-          <label class="col-lg-5 col-form-label inline-label">BC Correctional Service Number (if known):</label>
-          <div class="col-lg-7">
-            <input class="form-control" formControlName="correctionalServiceNumber" />
-          </div>
-        </ng-container>
+      <div class="form-group row" *ngIf="showPublicServiceEmployeeNumber">
+        <label class="col-lg-5 col-form-label inline-label">BC Public Service Employee Number (if known):</label>
+        <div class="col-lg-7">
+          <input class="form-control" formControlName="publicServiceEmployeeNumber" />
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="showCorrectionalServiceNumber">
+        <label class="col-lg-5 col-form-label inline-label">BC Correctional Service Number (if known):</label>
+        <div class="col-lg-7">
+          <input class="form-control" formControlName="correctionalServiceNumber" />
+        </div>
       </div>
 
       <h2>What time frame should we search?</h2>
