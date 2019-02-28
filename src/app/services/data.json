@@ -31,7 +31,82 @@
       { "code": "SDPR", "name": "Social Development and Poverty Reduction" },
       { "code": "TAC", "name": "Tourism, Arts and Culture" },
       { "code": "TRAN", "name": "Transportation and Infrastructure" }
-    ]
+    ],
+    "yourselfTopics": [
+      {
+        "value": "publicServiceEmployment",
+        "text": "Your employment with the public service",
+        "ministryCode": "PSA"
+      },
+      {
+        "value": "correctionalFacility",
+        "text": "Your time spent in a correctional facility",
+        "ministryCode": "PSSG"
+      },
+      {
+        "value": "incomeAssistance",
+        "text": "Your income assistance history",
+        "ministryCode": "SDPR"
+      },
+      {
+        "value": "childProtection",
+        "text": "Child protection and youth care",
+        "ministryCode": "MCF"
+      },
+      { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
+      { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+    ],
+    "anotherPersonTopics": [
+      {
+        "value": "publicServiceEmployment",
+        "text": "The person's employment with the public service",
+        "ministryCode": "PSA"
+      },
+      {
+        "value": "correctionalFacility",
+        "text": "The person's time spent in a correctional facility",
+        "ministryCode": "PSSG"
+      },
+      {
+        "value": "incomeAssistance",
+        "text": "The person's income assistance history",
+        "ministryCode": "SDPR"
+      },
+      {
+        "value": "childProtection",
+        "text": "Child protection and youth care",
+        "ministryCode": "MCF"
+      },
+      { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
+      { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+    ],
+    "bothPersonsTopics": [
+      {
+        "value": "publicServiceEmployment",
+        "text": "Employment with the public service",
+        "ministryCode": "PSA"
+      },
+      {
+        "value": "correctionalFacility",
+        "text": "Time spent in a correctional facility",
+        "ministryCode": "PSSG"
+      },
+      {
+        "value": "incomeAssistance",
+        "text": "Income assistance history",
+        "ministryCode": "SDPR"
+      },
+      {
+        "value": "childProtection",
+        "text": "Child protection and youth care",
+        "ministryCode": "MCF"
+      },
+      { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
+      { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+    ]    
   },
   "routeTree": [
     { "route": "", "progress": 0 },
@@ -72,31 +147,7 @@
                     {
                       "route": "personal/request-topic",
                       "data": {
-                        "topics": [
-                          {
-                            "value": "publicServiceEmployment",
-                            "text": "Your employment with the public service",
-                            "ministryCode": "PSA"
-                          },
-                          {
-                            "value": "correctionalFacility",
-                            "text": "Your time spent in a correctional facility",
-                            "ministryCode": "PSSG"
-                          },
-                          {
-                            "value": "incomeAssistance",
-                            "text": "Your income assistance history",
-                            "ministryCode": "SDPR"
-                          },
-                          {
-                            "value": "childProtection",
-                            "text": "Child protection and youth care",
-                            "ministryCode": "MCF"
-                          },
-                          { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-                          { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
-                          { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
-                        ]
+                        "topics": "yourselfTopics"
                       },
                       "progress": 2
                     },
@@ -184,31 +235,7 @@
                       "route": "personal/another/request-topic",
                       "progress": 2,
                       "data": {
-                        "topics": [
-                          {
-                            "value": "publicServiceEmployment",
-                            "text": "The person's employment with the public service",
-                            "ministryCode": "PSA"
-                          },
-                          {
-                            "value": "correctionalFacility",
-                            "text": "The person's time spent in a correctional facility",
-                            "ministryCode": "PSSG"
-                          },
-                          {
-                            "value": "incomeAssistance",
-                            "text": "The person's income assistance history",
-                            "ministryCode": "SDPR"
-                          },
-                          {
-                            "value": "childProtection",
-                            "text": "Child protection and youth care",
-                            "ministryCode": "MCF"
-                          },
-                          { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-                          { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
-                          { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
-                        ]
+                        "topics": "anotherPersonTopics"
                       }
                     },
                     {
@@ -248,7 +275,10 @@
                   "routes": [
                     {
                       "route": "personal/yourself-child/proof-of-guardianship",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
                     },
                     {
                       "route": "personal/yourself-child/child-information",
@@ -294,11 +324,14 @@
                 "yourself-another": {
                   "routes": [
                     {
-                      "route": "personal/yourself-another/proof-of-guardianship",
-                      "progress": 2
+                      "route": "personal/yourself-another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
                     },
                     {
-                      "route": "personal/yourself-another/child-information",
+                      "route": "personal/yourself-another/another-information",
                       "progress": 2
                     },
                     {
@@ -306,12 +339,15 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/yourself-another/ministry-confirmation",
+                      "route": "personal/yourself-another/request-topic",
                       "progress": 2,
                       "data": {
-                        "defaultMinistry": "The Ministry of Children and Family Development",
-                        "comment": "// Can we get a ministry code?"
+                        "topics": "bothPersonsTopics"
                       }
+                    },
+                    {
+                      "route": "personal/yourself-another/ministry-confirmation",
+                      "progress": 2
                     },
                     {
                       "route": "personal/yourself-another/description-timeframe",
@@ -341,39 +377,53 @@
                 "yourself-child-another": {
                   "routes": [
                     {
-                      "route": "personal/child/proof-of-guardianship",
+                      "route": "personal/yourself-child-another/proof-of-guardianship",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child-another/child-information",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/child-information",
+                      "route": "personal/yourself-child-another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child-another/another-information",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/verify-your-identity",
+                      "route": "personal/yourself-child-another/verify-your-identity",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/ministry-confirmation",
+                      "route": "personal/yourself-child-another/ministry-confirmation",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/description-timeframe",
+                      "route": "personal/yourself-child-another/description-timeframe",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/contact-info-options",
+                      "route": "personal/yourself-child-another/contact-info-options",
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/receive-records",
+                      "route": "personal/yourself-child-another/receive-records",
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/review-submit",
+                      "route": "personal/yourself-child-another/review-submit",
                       "progress": 4
                     },
                     {
-                      "route": "personal/child/submit-complete",
+                      "route": "personal/yourself-child-another/submit-complete",
                       "progress": 4
                     }
                   ]
@@ -382,10 +432,24 @@
                   "routes": [
                     {
                       "route": "personal/child-another/proof-of-guardianship",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
                     },
                     {
                       "route": "personal/child-another/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child-another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
+                    },
+                    {
+                      "route": "personal/child-another/another-information",
                       "progress": 2
                     },
                     {

@@ -72,6 +72,8 @@ const routes: Routes = [
   // Personal / Yourself & Child
   { path: 'personal/yourself-child/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/yourself-child/child-information', component: ChildInformationComponent },
+  { path: 'personal/yourself-child/proof-of-permission', component: ProofOfGuardianshipComponent },
+  { path: 'personal/yourself-child/another-information', component: AnotherInformationComponent },
   { path: 'personal/yourself-child/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/yourself-child/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-child/description-timeframe', component: DescriptionTimeframeComponent },
@@ -81,9 +83,10 @@ const routes: Routes = [
   { path: 'personal/yourself-child/submit-complete', component: ReviewSubmitCompleteComponent},
 
   // Personal / Yourself & Another Person
-  { path: 'personal/yourself-another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
-  { path: 'personal/yourself-another/child-information', component: ChildInformationComponent },
+  { path: 'personal/yourself-another/proof-of-permission', component: ProofOfGuardianshipComponent },
+  { path: 'personal/yourself-another/another-information', component: AnotherInformationComponent },
   { path: 'personal/yourself-another/verify-your-identity', component: VerifyYourIdentityComponent },
+  { path: 'personal/yourself-another/request-topic', component: RequestTopicComponent },
   { path: 'personal/yourself-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/yourself-another/contact-info-options', component: ContactInfoOptionsComponent },
@@ -94,6 +97,8 @@ const routes: Routes = [
   // Personal / Child & Another Person
   { path: 'personal/child-another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/child-another/child-information', component: ChildInformationComponent },
+  { path: 'personal/child-another/proof-of-permission', component: ProofOfGuardianshipComponent },
+  { path: 'personal/child-another/another-information', component: AnotherInformationComponent },
   { path: 'personal/child-another/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/child-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/child-another/description-timeframe', component: DescriptionTimeframeComponent },
@@ -105,6 +110,8 @@ const routes: Routes = [
   // Personal: Yourself, Child * Another Person
   { path: 'personal/yourself-child-another/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/yourself-child-another/child-information', component: ChildInformationComponent },
+  { path: 'personal/yourself-child-another/proof-of-permission', component: ProofOfGuardianshipComponent },
+  { path: 'personal/yourself-child-another/another-information', component: AnotherInformationComponent },
   { path: 'personal/yourself-child-another/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/yourself-child-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/yourself-child-another/description-timeframe', component: DescriptionTimeframeComponent },
