@@ -1,4 +1,4 @@
-<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()" [continueDisabled]="!hasGuardianship">
   <div class="foi-content">
     <p>
       To make sure we give personal information about a child only to a person who has the right to access it, we need
@@ -9,17 +9,26 @@
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
         <div class="form-group">
           <label>
-            <input type="radio" value="true" formControlName="hasGuardianship" />
+            <input type="radio" value="true" formControlName="hasGuardianship" (change)="handleValueChange($event)"/>
             Yes
           </label>
         </div>
         <div class="form-group">
           <label>
-            <input type="radio" value="false" formControlName="hasGuardianship" />
+            <input type="radio" value="false" formControlName="hasGuardianship" (change)="handleValueChange($event)"/>
             No
           </label>
         </div>
       </form>
+
+      <div *ngIf="!hasGuardianship">
+        <app-alert-warning>
+            You must have proof of guardianship to access records about a child. If
+you don’t have it, please visit our website to view your options. You may
+complete and sign a Guardian Declaration Form in order to establish your
+right to access the requested records.
+        </app-alert-warning>
+      </div>
 
 <!-- </div> -->
 

@@ -30,6 +30,7 @@ import { AlertInfoComponent } from '../alert-info/alert-info.component';
 import { AlertWarningComponent } from '../alert-warning/alert-warning.component';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { FoiValidComponent } from '../foi-valid/foi-valid.component';
+import { FoiFileinputComponent } from './foi-fileinput/foi-fileinput.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { FoiValidComponent } from '../foi-valid/foi-valid.component';
     AnotherInformationComponent,
     AlertInfoComponent,
     AlertWarningComponent,
-    FoiValidComponent
+    FoiValidComponent,
+    FoiFileinputComponent
   ],
   imports: [
     // Required to use these in children of RouteComponentsModule

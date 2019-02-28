@@ -23,7 +23,6 @@ function submitFoiRequest(server, req, res, next) {
   if (req.files) {
     Object.keys(req.files).map(f => {
       const file = req.files[f];
-      console.log("here is a file: ", file);
       if (file.size < maxAttachMB) {
         foiAttachments.push({
           filename: file.name,
