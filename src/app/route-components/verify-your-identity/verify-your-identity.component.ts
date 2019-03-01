@@ -27,8 +27,7 @@ export class VerifyYourIdentityComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState();
-    this.foiRequest.requestData[this.targetKey] = this.foiRequest.requestData[this.targetKey] || {};
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
     this.base.getFoiRouteData().subscribe(data => {

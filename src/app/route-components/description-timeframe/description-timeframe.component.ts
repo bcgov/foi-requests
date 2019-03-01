@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "../base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, Validators, FormControl } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 
 @Component({
@@ -13,8 +13,8 @@ export class DescriptionTimeframeComponent implements OnInit {
   foiForm = this.fb.group({
     topic: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
     description: [null, Validators.required],
-    fromDate: [null, Validators.required],
-    toDate: [null, Validators.required],
+    fromDate: [null, Validators.compose([Validators.required, this.noFutureValidator])],
+    toDate: [null, Validators.compose([Validators.required, this.noFutureValidator])],
     correctionalServiceNumber: [null, Validators.maxLength(255)],
     publicServiceEmployeeNumber: [null, Validators.maxLength(255)]
   });
@@ -28,10 +28,7 @@ export class DescriptionTimeframeComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.foiRequest.requestData.requestType = this.foiRequest.requestData.requestType || {};
-    this.foiRequest.requestData.requestTopic = this.foiRequest.requestData.requestTopic || {};
-    this.foiRequest.requestData.ministry = this.foiRequest.requestData.ministry || {};
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey, "requestType", "requestTopic", "ministry");
     this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
 
     // Show Topic field for all General requests!
@@ -79,5 +76,47 @@ export class DescriptionTimeframeComponent implements OnInit {
 
   doGoBack() {
     this.base.goFoiBack();
+  }
+
+  noFutureValidator(c: FormControl) {
+    if (c.value === "") {
+      return null; // null date is valid.
+    }
+    const parts = (c.value || '').split('-');
+    if (parts.length === 3) {
+      const year = parts[0];
+      const month = parts[1]-1;
+      const day = parts[2];
+      // console.log("noFuture:", parts, new Date(year, month, day), new Date());
+      const enteredDate = new Date(year, month, day);
+      if (enteredDate <= new Date()) {
+        // Entered date is prior to now, it's good!
+        return null;
+      }
+    }
+    // Anything else is failed!
+    return {
+      noFuture: {
+        valid: false
+      }
+    };
+  }
+
+  // Possible future use...
+  // dateValidator(c: FormControl) {
+  //   const dateRegex = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+  //   if (c.value === "" || dateRegex.test(c.value)) {
+  //     return null;
+  //   }
+  //   // Failed!
+  //   return {
+  //     validateDate: {
+  //       valid: false
+  //     }
+  //   };
+  // }
+
+  inputMaxDate(): string {
+    return new Date().toISOString().split("T")[0];
   }
 }

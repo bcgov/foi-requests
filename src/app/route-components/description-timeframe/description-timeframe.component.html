@@ -70,8 +70,9 @@
           <app-foi-valid
             [form]="foiForm"
             required="From Date is a required field."
+            noFuture="From Date must not be in the future."
           >
-            <input type="date" formControlName="fromDate" id="fromDate" />
+            <input type="date" formControlName="fromDate" id="fromDate" [max]="inputMaxDate()"/>
           </app-foi-valid>
         </div>
         <label class="col-lg-2 col-form-label inline-label" for="toDate">To Date <span class="label-required">*</span>:</label>
@@ -79,8 +80,9 @@
             <app-foi-valid
             [form]="foiForm"
             required="To Date is a required field."
+            noFuture="To Date must not be in the future."
           >
-            <input type="date" formControlName="toDate" id="toDate" />
+            <input type="date" formControlName="toDate" id="toDate" [max]="inputMaxDate()"/>
           </app-foi-valid>
         </div>
       </div>

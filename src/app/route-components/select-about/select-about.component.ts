@@ -25,11 +25,11 @@ export class SelectAboutComponent implements OnInit {
 
   ngOnInit() {
     // Load the current values & populate the FormGroup.
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey, "ministry");
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
     const about = this.foiRequest.requestData.selectAbout;
-    this.topics = this.dataService.getTopicsObj(about); 
+    this.topics = this.dataService.getTopicsObj(about);
 
     this.dataService.getMinistries().subscribe(ministries => {
       this.ministries = ministries;
@@ -55,15 +55,13 @@ export class SelectAboutComponent implements OnInit {
 
   doContinue() {
     const navigateTo = this.allowContinue();
-    this.foiRequest.requestData.ministry = this.foiRequest.requestData.ministry || {};
-    // If checkbox selection includes 'child', ministry and requestTopic are fixed. 
+    // If checkbox selection includes 'child', ministry and requestTopic are fixed.
     if (navigateTo.indexOf("child") > -1) {
       this.foiRequest.requestData.requestTopic = this.topics.find(t => t.value === "childProtection");
       this.foiRequest.requestData.ministry.default = this.ministries.find(m => m.code === "MCF");
     }
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
-
     this.base.goFoiForward(navigateTo);
   }
 

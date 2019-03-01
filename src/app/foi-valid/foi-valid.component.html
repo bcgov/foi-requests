@@ -20,6 +20,7 @@
     <span *ngIf="validationErrors('minlength')">{{ dynamicMsg('minlength') }}</span>
     <span *ngIf="validationErrors('maxlength')">{{ dynamicMsg('maxlength') }}</span>
     <span *ngIf="validationErrors('pattern')">{{ dynamicMsg('pattern') }}</span>
+    <span *ngIf="validationErrors('noFuture')">{{ dynamicMsg('noFuture') }}</span>
   </div>
   <ng-template #itemValidTip>
     <div class="validation-tip">{{ tip }}</div>

@@ -17,12 +17,13 @@ export class RequestTopicComponent implements OnInit {
 
   foiRequest: FoiRequest;
   topics: Array<any> = [];
-  targetKey: string = "ministry";
+  targetKey: string = "requestTopic";
+  ministryKey: string = "ministry";
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState("requestTopic");
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey, this.ministryKey);
 
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
@@ -31,9 +32,9 @@ export class RequestTopicComponent implements OnInit {
           requestTopic: null,
           anotherTopicText: null
         };
-        formInit.requestTopic = this.topics.find(t => t.value === this.foiRequest.requestData.requestTopic.value);
-        if (this.foiRequest.requestData.requestTopic.value === "anotherTopic") {
-          formInit.anotherTopicText = this.foiRequest.requestData.requestTopic.text;
+        formInit.requestTopic = this.topics.find(t => t.value === this.foiRequest.requestData[this.targetKey].value);
+        if (this.foiRequest.requestData[this.targetKey].value === "anotherTopic") {
+          formInit.anotherTopicText = this.foiRequest.requestData[this.targetKey].text;
         }
         this.foiForm.patchValue(formInit);
       }
@@ -69,25 +70,23 @@ export class RequestTopicComponent implements OnInit {
 
   doContinue() {
     // Initialize & copy out submitted form data.
-    this.foiRequest.requestData.requestTopic = {};
+    this.foiRequest.requestData[this.targetKey] = {};
     const formData = this.foiForm.value;
 
     this.dataService.getMinistries().subscribe(ministries => {
-      this.foiRequest.requestData[this.targetKey] = this.foiRequest.requestData[this.targetKey] || {};
-
-      this.foiRequest.requestData.requestTopic = formData.requestTopic;
-      if (this.foiRequest.requestData.requestTopic.value === "anotherTopic") {
-        this.foiRequest.requestData.requestTopic.text = formData.anotherTopicText;
+      this.foiRequest.requestData[this.targetKey] = formData.requestTopic;
+      if (this.foiRequest.requestData[this.targetKey].value === "anotherTopic") {
+        this.foiRequest.requestData[this.targetKey].text = formData.anotherTopicText;
       }
 
-      const selection = this.foiRequest.requestData.requestTopic.value;
-      const ministryCode = this.foiRequest.requestData.requestTopic.ministryCode;
+      const selection = this.foiRequest.requestData[this.targetKey].value;
+      const ministryCode = this.foiRequest.requestData[this.targetKey].ministryCode;
       const ministryMatch = ministries.find(m => m.code === ministryCode);
       if (ministryCode && !ministryMatch) {
         return alert(`Invalid default ministry (${ministryCode}), please contact the system administrator`);
       }
-      this.foiRequest.requestData[this.targetKey].default = ministryMatch;
-      this.foiRequest.requestData[this.targetKey].selectedMinistry = ministryMatch;
+      this.foiRequest.requestData[this.ministryKey].default = ministryMatch;
+      this.foiRequest.requestData[this.ministryKey].selectedMinistry = ministryMatch;
       this.dataService.setCurrentState(this.foiRequest);
 
       this.base.goFoiForward(selection);
