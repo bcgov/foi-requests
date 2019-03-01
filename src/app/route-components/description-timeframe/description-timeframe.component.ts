@@ -28,10 +28,7 @@ export class DescriptionTimeframeComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.foiRequest.requestData.requestType = this.foiRequest.requestData.requestType || {};
-    this.foiRequest.requestData.requestTopic = this.foiRequest.requestData.requestTopic || {};
-    this.foiRequest.requestData.ministry = this.foiRequest.requestData.ministry || {};
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey, 'requestType', 'requestTopic', 'ministry');
     this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
 
     // Show Topic field for all General requests!

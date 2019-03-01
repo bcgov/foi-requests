@@ -56,9 +56,8 @@ export class DataService {
       .sort()
       .reverse()
       .unshift("topic");
-    const topicKey = topics.join('');
-    console.log("topicKey=", topicKey);
-    return data.referenceData[topicKey] || [];
+    const topicKey = topics.join("");
+    return this.getTopics(topicKey);
   }
 
   loadState(stateKey: string): FoiRequest {
@@ -68,11 +67,13 @@ export class DataService {
     return state;
   }
 
-  getCurrentState(dataKey?: string): FoiRequest {
+  getCurrentState(...dataKeys: string[]): FoiRequest {
     const state = this.loadState("foi-request");
-    // Ensure that dataKey exists before returning.
-    if (dataKey) {
-      state.requestData[dataKey] = state.requestData[dataKey] || {};
+    // Ensure that each entry in dataKeys exists before returning.
+    if (dataKeys) {
+      for (let key of dataKeys) {
+        state.requestData[key] = state.requestData[key] || {};
+      }
     }
     return state;
   }
