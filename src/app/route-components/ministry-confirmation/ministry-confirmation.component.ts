@@ -65,6 +65,7 @@ export class MinistryConfirmationComponent implements OnInit {
       selected = this.defaultMinistry;
     }
     this.foiRequest.requestData[this.targetKey].selectedMinistry = selected;
+    this.foiRequest.requestData[this.targetKey].ministryPage = this.base.getCurrentRoute();
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
     this.base.goFoiForward();

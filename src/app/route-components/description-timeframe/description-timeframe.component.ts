@@ -20,6 +20,7 @@ export class DescriptionTimeframeComponent implements OnInit {
   });
 
   foiRequest: FoiRequest;
+  targetKey: string = "descriptionTimeframe";
   showRequestTopic: boolean = false;
   showPublicServiceEmployeeNumber: boolean = false;
   showCorrectionalServiceNumber: boolean = false;
@@ -27,13 +28,14 @@ export class DescriptionTimeframeComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
-    this.foiRequest = this.dataService.getCurrentState();
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.foiRequest.requestData.requestType = this.foiRequest.requestData.requestType || {};
     this.foiRequest.requestData.requestTopic = this.foiRequest.requestData.requestTopic || {};
     this.foiRequest.requestData.ministry = this.foiRequest.requestData.ministry || {};
     this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
 
     // Show Topic field for all General requests!
-    this.showRequestTopic = this.foiRequest.requestData.requestType === "general";
+    this.showRequestTopic = this.foiRequest.requestData.requestType.requestType === "general";
 
     // If ministry is PSA, show the Public Service Employee number field.
     // If ministry is PSSG, show the Correctional Service number field.
@@ -44,24 +46,23 @@ export class DescriptionTimeframeComponent implements OnInit {
     this.showPublicServiceEmployeeNumber = ministryCode === "PSA";
     this.showCorrectionalServiceNumber = ministryCode === "PSSG";
 
-    const formInit = {
-      topic: this.foiRequest.requestData.topic,
-      description: this.foiRequest.requestData.description,
-      fromDate: this.foiRequest.requestData.fromDate,
-      toDate: this.foiRequest.requestData.toDate,
-      publicServiceEmployeeNumber: this.foiRequest.requestData.publicServiceEmployeeNumber,
-      correctionalServiceNumber: this.foiRequest.requestData.correctionalServiceNumber
-    };
+    const formInit = {};
+    Object.assign(formInit, this.foiRequest.requestData[this.targetKey]);
     if (!this.showRequestTopic) {
-      formInit.topic = this.foiRequest.requestData.requestTopic.text;
+      formInit["topic"] = this.foiRequest.requestData.requestTopic.text;
     }
     this.foiForm.patchValue(formInit);
+
+    // Lets make sure the continue button is enabled
+    this.foiForm.valueChanges.subscribe(() => {
+      this.base.continueDisabled = !this.foiForm.valid;
+    });
   }
 
   doContinue() {
     // Copy out submitted form data.
     const formData = this.foiForm.value;
-    Object.assign(this.foiRequest.requestData, formData);
+    Object.assign(this.foiRequest.requestData[this.targetKey], formData);
 
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);

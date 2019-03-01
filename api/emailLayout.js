@@ -107,12 +107,7 @@ module.exports = (function() {
   }
 
   function delivery(data) {
-    let result = '';
-    if (data.deliveryType === 'other' && data.otherDetails) {
-      result += tableRow('Delivery Method', data.otherDetails);
-    } else {
-      result += tableRow('Delivery Method', data.deliveryType);
-    }
+    let result = tableRow('Delivery Method', data.deliveryText);
     return result;
   }
 
@@ -139,7 +134,7 @@ module.exports = (function() {
     // Request is About
     content += about(data.requestData.selectAbout || {});
     // Request Records
-    content += general(data.requestData);
+    content += general(data.requestData.descriptionTimeframe || {});
     // Delivery Details
     content += delivery(data.requestData.receiveRecords || {});
     // Ministry or Agency

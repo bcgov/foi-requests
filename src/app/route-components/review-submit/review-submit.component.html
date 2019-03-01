@@ -66,23 +66,23 @@
 
             <div class="form-group">
               <label>Your request topic:</label>
-              <span class="form-control">{{ foiRequest.requestData.topic }}</span>
+              <span class="form-control">{{ foiRequest.requestData.descriptionTimeframe.topic }}</span>
             </div>
 
             <div class="form-group">
               <label>Your request description:</label>
-              <div class="form-control description-text">{{ foiRequest.requestData.description }}</div>
+              <div class="form-control description-text">{{ foiRequest.requestData.descriptionTimeframe.description }}</div>
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
               <label>Date range:</label>
               <div>
                 <div class="inline-wrap">
-                  <span class="form-control review-inline">{{ foiRequest.requestData.fromDate }}</span>
+                  <span class="form-control review-inline">{{ foiRequest.requestData.descriptionTimeframe.fromDate }}</span>
                   <div class="review-inline-label">From</div>
                 </div>
                 <div class="inline-wrap">
-                  <span class="form-control review-inline">{{ foiRequest.requestData.toDate }}</span>
+                  <span class="form-control review-inline">{{ foiRequest.requestData.descriptionTimeframe.toDate }}</span>
                   <div class="review-inline-label">To</div>
                 </div>
               </div>

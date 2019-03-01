@@ -32,6 +32,10 @@ export class BaseComponent implements OnInit {
     this.routeData$.next(route.data || {});
   }
 
+  getCurrentRoute() {
+    return this.router.url;
+  }
+
   getFoiRouteData(): BehaviorSubject<any> {
     return this.routeData$;
   }
