@@ -19,6 +19,7 @@ export class SelectAboutComponent implements OnInit {
 
   foiRequest: FoiRequest;
   ministries: Array<any>;
+  topics: Array<any>;
   targetKey: string = "selectAbout";
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
@@ -27,6 +28,9 @@ export class SelectAboutComponent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+
+    const about = this.foiRequest.requestData.selectAbout;
+    this.topics = this.dataService.getTopicsObj(about); 
 
     this.dataService.getMinistries().subscribe(ministries => {
       this.ministries = ministries;
@@ -40,7 +44,7 @@ export class SelectAboutComponent implements OnInit {
     const formData = this.foiForm.value;
     // Note: The order these are added is important!
     // Return value is matched against the keys in data.json.
-    let checks = [];
+    const checks = [];
     const checkboxes = ["yourself", "child", "another"];
     checkboxes.map(c => {
       if (formData[c]) {
@@ -52,10 +56,10 @@ export class SelectAboutComponent implements OnInit {
 
   doContinue() {
     const navigateTo = this.allowContinue();
-    this.foiRequest.requestData["ministry"] = this.foiRequest.requestData["ministry"] || {};
+    this.foiRequest.requestData.ministry = this.foiRequest.requestData.ministry || {};
+    // If checkbox selection includes 'child', ministry and requestTopic are fixed. 
     if (navigateTo.indexOf("child") > -1) {
-      this.foiRequest.requestData.requestTopic = { text: "Child protection and youth care" };
-
+      this.foiRequest.requestData.requestTopic = this.topics.find(t => t.value === "childProtection");
       this.foiRequest.requestData.ministry.default = this.ministries.find(m => m.code === "MCF");
     }
     // Update save data & proceed.

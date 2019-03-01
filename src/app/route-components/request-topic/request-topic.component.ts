@@ -27,15 +27,14 @@ export class RequestTopicComponent implements OnInit {
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
         this.topics = this.dataService.getTopics(data.topics);
-        // Clear anotherTopicText if anotherTopic is not selected.
-        if (this.foiRequest.requestData.requestTopic.value !== "anotherTopic") {
-          this.foiRequest.requestData.anotherTopicText = null;
-        }
-        const selectedTopic = this.topics.find(t => t.value === this.foiRequest.requestData.requestTopic.value);
         const formInit = {
-          requestTopic: selectedTopic,
-          anotherTopicText: this.foiRequest.requestData.anotherTopicText
+          requestTopic: null,
+          anotherTopicText: null
         };
+        formInit.requestTopic = this.topics.find(t => t.value === this.foiRequest.requestData.requestTopic.value);
+        if (this.foiRequest.requestData.requestTopic.value === "anotherTopic") {
+          formInit.anotherTopicText = this.foiRequest.requestData.requestTopic.text;
+        }
         this.foiForm.patchValue(formInit);
       }
     });
@@ -78,9 +77,7 @@ export class RequestTopicComponent implements OnInit {
 
       this.foiRequest.requestData.requestTopic = formData.requestTopic;
       if (this.foiRequest.requestData.requestTopic.value === "anotherTopic") {
-        this.foiRequest.requestData.anotherTopicText = formData.anotherTopicText;
-      } else {
-        this.foiRequest.requestData.anotherTopicText = null;
+        this.foiRequest.requestData.requestTopic.text = formData.anotherTopicText;
       }
 
       const selection = this.foiRequest.requestData.requestTopic.value;

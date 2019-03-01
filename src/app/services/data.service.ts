@@ -20,7 +20,7 @@ export class DataService {
 
   getRoute(routeUrl: string): FoiRoute {
     // Remove any query parameters and (possibly) a leading slash.
-    const path = (routeUrl || "/").split("?")[0].replace(/^\/+/g, '');
+    const path = (routeUrl || "/").split("?")[0].replace(/^\/+/g, "");
     return this.foiRoutes.find(r => r.route === path);
   }
 
@@ -28,8 +28,37 @@ export class DataService {
     return of(data.referenceData.ministries);
   }
 
+  capitalize(str) {
+    if (typeof str !== "string") {
+      return "";
+    }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   getTopics(topicKey: string): Array<any> {
-    return data.referenceData[topicKey];
+    return data.referenceData[topicKey] || [];
+  }
+
+  /**
+   * Dynamically build a topic Key based on truthy keys in the Object provided.
+   * Valid keys in about include: 'yourself', 'another'
+   *
+   * @param about
+   */
+  getTopicsObj(about: Object): Array<any> {
+    const topics = [];
+    for (let key in about) {
+      if (key !== "child" && about[key]) {
+        topics.push(this.capitalize(key));
+      }
+    }
+    topics
+      .sort()
+      .reverse()
+      .unshift("topic");
+    const topicKey = topics.join('');
+    console.log("topicKey=", topicKey);
+    return data.referenceData[topicKey] || [];
   }
 
   loadState(stateKey: string): FoiRequest {
@@ -112,8 +141,6 @@ export class DataService {
     const fileContent = base64Parts[1];
     const b = this.b64toBlob(fileContent, fileFormat);
     const file = new File([b], filename);
-    //var file = new File([fileContent], "filename", { type: fileFormat });
-
     return file;
   }
 

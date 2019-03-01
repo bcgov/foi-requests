@@ -32,7 +32,7 @@
       { "code": "TAC", "name": "Tourism, Arts and Culture" },
       { "code": "TRAN", "name": "Transportation and Infrastructure" }
     ],
-    "yourselfTopics": [
+    "topicYourself": [
       {
         "value": "publicServiceEmployment",
         "text": "Your employment with the public service",
@@ -57,7 +57,7 @@
       { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
     ],
-    "anotherPersonTopics": [
+    "topicAnother": [
       {
         "value": "publicServiceEmployment",
         "text": "The person's employment with the public service",
@@ -82,7 +82,7 @@
       { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
     ],
-    "bothPersonsTopics": [
+    "topicYourselfAnother": [
       {
         "value": "publicServiceEmployment",
         "text": "Employment with the public service",
@@ -106,7 +106,7 @@
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
       { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
-    ]    
+    ]
   },
   "routeTree": [
     { "route": "", "progress": 0 },
@@ -122,11 +122,7 @@
             { "route": "general/ministry-confirmation", "progress": 2 },
             {
               "route": "general/description-timeframe",
-              "progress": 2,
-              "data": {
-                "showRequestTopic": true,
-                "comment": "// Show a 'Request topic' field at the top."
-              }
+              "progress": 2
             },
             { "route": "general/contact-info", "progress": 3 },
             { "route": "general/contact-info-options", "progress": 3 },
@@ -147,7 +143,7 @@
                     {
                       "route": "personal/request-topic",
                       "data": {
-                        "topics": "yourselfTopics"
+                        "topics": "topicYourself"
                       },
                       "progress": 2
                     },
@@ -161,10 +157,7 @@
                     },
                     {
                       "route": "personal/adoptive-parents",
-                      "progress": 3,
-                      "data": {
-                        "canSkip": true
-                      }
+                      "progress": 3
                     },
                     {
                       "route": "personal/contact-info-options",
@@ -210,10 +203,7 @@
                     },
                     {
                       "route": "personal/child/review-submit",
-                      "progress": 4,
-                      "data": {
-                        "showChildInfo": true
-                      }
+                      "progress": 4
                     },
                     { "route": "personal/child/submit-complete", "progress": 4 }
                   ]
@@ -242,30 +232,20 @@
                       "route": "personal/another/request-topic",
                       "progress": 2,
                       "data": {
-                        "topics": "anotherPersonTopics"
+                        "topics": "topicAnother"
                       }
                     },
                     {
                       "route": "personal/another/ministry-confirmation",
-                      "progress": 2,
-                      "data": {
-                        "defaultMinistry": "The Ministry of Children and Family Development",
-                        "comment": "// Can we get a ministry code?"
-                      }
+                      "progress": 2
                     },
                     {
                       "route": "personal/another/description-timeframe",
-                      "progress": 2,
-                      "data": {
-                        "comment": "// No additional fields."
-                      }
+                      "progress": 2
                     },
                     {
                       "route": "personal/another/adoptive-parents",
-                      "progress": 3,
-                      "data": {
-                        "canSkip": true
-                      }
+                      "progress": 3
                     },
                     {
                       "route": "personal/another/contact-info-options",
@@ -304,18 +284,11 @@
                     },
                     {
                       "route": "personal/yourself-child/ministry-confirmation",
-                      "progress": 2,
-                      "data": {
-                        "defaultMinistry": "The Ministry of Children and Family Development",
-                        "comment": "// Can we get a ministry code?"
-                      }
+                      "progress": 2
                     },
                     {
                       "route": "personal/yourself-child/description-timeframe",
-                      "progress": 2,
-                      "data": {
-                        "comment": "// No additional fields."
-                      }
+                      "progress": 2
                     },
                     {
                       "route": "personal/yourself-child/contact-info-options",
@@ -356,7 +329,7 @@
                       "route": "personal/yourself-another/request-topic",
                       "progress": 2,
                       "data": {
-                        "topics": "bothPersonsTopics"
+                        "topics": "topicYourselfAnother"
                       }
                     },
                     {
@@ -365,17 +338,11 @@
                     },
                     {
                       "route": "personal/yourself-another/description-timeframe",
-                      "progress": 2,
-                      "data": {
-                        "comment": "// No additional fields."
-                      }
+                      "progress": 2
                     },
                     {
                       "route": "personal/yourself-another/adoptive-parents",
-                      "progress": 3,
-                      "data": {
-                        "canSkip": true
-                      }
+                      "progress": 3
                     },
                     {
                       "route": "personal/yourself-another/contact-info-options",

@@ -11,12 +11,12 @@ import { DataService } from "src/app/services/data.service";
 export class DescriptionTimeframeComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
-    topic: [null, [Validators.required]],
-    description: [null, [Validators.required]],
-    fromDate: [null, [Validators.required]],
-    toDate: [null, [Validators.required]],
-    correctionalServiceNumber: [null],
-    publicServiceEmployeeNumber: [null] // Not required! TODO: maybe [Validators.maxLength]
+    topic: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+    description: [null, Validators.required],
+    fromDate: [null, Validators.required],
+    toDate: [null, Validators.required],
+    correctionalServiceNumber: [null, Validators.maxLength(255)],
+    publicServiceEmployeeNumber: [null, Validators.maxLength(255)]
   });
 
   foiRequest: FoiRequest;
@@ -28,8 +28,15 @@ export class DescriptionTimeframeComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    this.showRequestTopic = !this.foiRequest.requestData.ministry.selectedMinistry;
+    this.foiRequest.requestData.requestTopic = this.foiRequest.requestData.requestTopic || {};
+    this.foiRequest.requestData.ministry = this.foiRequest.requestData.ministry || {};
+    this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
 
+    // Show Topic field for all General requests!
+    this.showRequestTopic = this.foiRequest.requestData.requestType === "general";
+
+    // If ministry is PSA, show the Public Service Employee number field.
+    // If ministry is PSSG, show the Correctional Service number field.
     let ministryCode = null;
     if (this.foiRequest.requestData.ministry.selectedMinistry) {
       ministryCode = this.foiRequest.requestData.ministry.selectedMinistry.code;
@@ -37,14 +44,12 @@ export class DescriptionTimeframeComponent implements OnInit {
     this.showPublicServiceEmployeeNumber = ministryCode === "PSA";
     this.showCorrectionalServiceNumber = ministryCode === "PSSG";
 
-    const requestTopic = this.foiRequest.requestData.topic || this.foiRequest.requestData.anotherTopicText;
-
     const formInit = {
-      topic: requestTopic,
+      topic: this.foiRequest.requestData.topic,
       description: this.foiRequest.requestData.description,
       fromDate: this.foiRequest.requestData.fromDate,
       toDate: this.foiRequest.requestData.toDate,
-      publicServiceEmployeeNumber: this.foiRequest.requestData.publicServiceEmployeeNumber, 
+      publicServiceEmployeeNumber: this.foiRequest.requestData.publicServiceEmployeeNumber,
       correctionalServiceNumber: this.foiRequest.requestData.correctionalServiceNumber
     };
     if (!this.showRequestTopic) {
@@ -60,7 +65,15 @@ export class DescriptionTimeframeComponent implements OnInit {
 
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
-    this.base.goSkipForward();
+
+    const requestIspersonal = this.foiRequest.requestData.requestType.requestType === "personal";
+    const personalNonAdoption = requestIspersonal && this.foiRequest.requestData.requestTopic.value !== "adoption";
+    if (personalNonAdoption) {
+      // Personal non-Adoption can skip over the next route, 'adoptive-parents'.
+      this.base.goSkipForward();
+      return;
+    }
+    this.base.goFoiForward();
   }
 
   doGoBack() {
