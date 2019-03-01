@@ -19,6 +19,7 @@ export class FoiValidComponent implements OnInit {
   @Input() minLength: string;
   @Input() maxLength: string;
   @Input() pattern: string;
+  @Input() noFuture: string;
 
   @ViewChild('myLabel') fieldLabelWrapper: ElementRef;
   fieldLabel: HTMLLabelElement;
@@ -78,7 +79,7 @@ export class FoiValidComponent implements OnInit {
     // If there's an error, fabricate a message.
     if (err) {
       // Saved for debugging validations with interpolated values.
-      // console.log('message=', message, 'err=', err);
+      /// console.log('validation=', validation, 'message=', message, 'err=', err);
       message = message || '';
       Object.keys(err).map(key => {
         message = message.replace(`\{${key}\}`, err[key]);
