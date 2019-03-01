@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlertWarningComponent } from './alert-warning.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 describe('AlertWarningComponent', () => {
   let component: AlertWarningComponent;
@@ -8,7 +9,8 @@ describe('AlertWarningComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertWarningComponent ]
+      declarations: [ AlertWarningComponent ],
+      imports: [FontAwesomeModule]
     })
     .compileComponents();
   }));
