@@ -16,39 +16,38 @@ export class ProofOfGuardianshipComponent implements OnInit {
   });
 
   foiRequest: FoiRequest;
-  targetKey: string; // = "proofOfGuardianship";
+  targetKey: string;
+  answerYes: boolean;
+  answerReceived: boolean;
+  proofFor: string;
 
-  answerYes: Boolean;
-  anserReceived: Boolean;
-  proofFor: string = "child";
-
-  constructor(private fb: FormBuilder, private dataService: DataService) { }
+  constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
     this.base.getFoiRouteData().subscribe(data => {
+
       if (data) {
-        this.proofFor = data.proofFor;
+        this.proofFor = data.proofFor; // One of ['child', 'person']
         this.targetKey = this.proofFor === "child" ? "proofOfGuardianship" : "proofOfPermission";
         // Load the current values & populate the FormGroup.
         this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-        this.answerYes =
-          this.foiRequest.requestData[this.targetKey] &&
-          this.foiRequest.requestData[this.targetKey].answerYes === "true";
-        this.anserReceived = this.answerYes;
+        this.answerYes = this.foiRequest.requestData[this.targetKey].answerYes === "true";
+        this.answerReceived = this.answerYes;
         this.base.continueDisabled = !this.answerYes;
         this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
         this.foiForm.valueChanges.subscribe(newValue => {
           this.answerYes = newValue.answerYes === "true";
           this.base.continueDisabled = !this.answerYes;
-          this.anserReceived = true;
+          this.answerReceived = true;
         });
-      }
+  
+        }
     });
   }
 
   get showAlert(): Boolean {
-    return this.anserReceived && !this.answerYes;
+    return this.answerReceived && !this.answerYes;
   }
   doContinue() {
     // Update save data & proceed.
@@ -59,5 +58,4 @@ export class ProofOfGuardianshipComponent implements OnInit {
   doGoBack() {
     this.base.goFoiBack();
   }
-
 }

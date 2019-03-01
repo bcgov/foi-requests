@@ -34,8 +34,9 @@ export class AppComponent implements OnInit {
       // Go Back
       if (val.direction < 0) {
         let nextRoute = this.currentRoute;
-        if (val.direction == -2) {
-          nextRoute = this.dataService.getRoute("/" + nextRoute.back);
+        if (val.direction === -2) {
+            // Optionally skip back a step in the navigation.
+            nextRoute = this.dataService.getRoute(nextRoute.back);
         }
         this.router.navigate([nextRoute.back]);
         return;
@@ -45,16 +46,17 @@ export class AppComponent implements OnInit {
         if (this.currentRoute.choices && this.currentRoute.choices[val.selection]) {
           // if this is one of the valid choices...
           let nextRoute = this.currentRoute.choices[val.selection].routes[0];
-          if (val.direction == 2) {
-            nextRoute = this.dataService.getRoute("/" + nextRoute.forward);
+          if (val.direction === 2) {
+            // Optionally skip a step in the navigation.
+            nextRoute = this.dataService.getRoute(nextRoute.forward);
           }
           this.router.navigate([nextRoute.route]);
         } else {
           // regular navigation
-          console.log("this.currentRoute", this.currentRoute);
           let nextRoute = this.currentRoute;
-          if (val.direction == 2) {
-            nextRoute = this.dataService.getRoute("/" + nextRoute.forward);
+          if (val.direction === 2) {
+            // Optionally skip a step in the navigation.
+            nextRoute = this.dataService.getRoute(nextRoute.forward);
           }
           this.router.navigate([nextRoute.forward]);
         }

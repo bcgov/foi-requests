@@ -26,7 +26,6 @@ export class RequestTopicComponent implements OnInit {
 
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
-
         this.topics = this.dataService.getTopics(data.topics);
         // Clear anotherTopicText if anotherTopic is not selected.
         if (this.foiRequest.requestData.requestTopic.value !== "anotherTopic") {
@@ -40,14 +39,19 @@ export class RequestTopicComponent implements OnInit {
         this.foiForm.patchValue(formInit);
       }
     });
+
+    // Set the continue button state
+    this.foiForm.valueChanges.subscribe(() => {
+      this.base.continueDisabled = !this.allowContinue();
+    });
   }
 
   /**
    * Used to disable the Continue button.
    */
   allowContinue() {
-    const formData = this.foiForm.value;
     let result = false;
+    const formData = this.foiForm.value;
     if (
       formData.requestTopic &&
       formData.requestTopic.value === "anotherTopic" &&

@@ -19,8 +19,8 @@ export class DataService {
   }
 
   getRoute(routeUrl: string): FoiRoute {
-    // Remove any query parameters and the leading slash.
-    const path = (routeUrl || "/").split("?")[0].substring(1);
+    // Remove any query parameters and (possibly) a leading slash.
+    const path = (routeUrl || "/").split("?")[0].replace(/^\/+/g, '');
     return this.foiRoutes.find(r => r.route === path);
   }
 

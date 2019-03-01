@@ -28,12 +28,6 @@ export class BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(
-    //   'DescriptionTimeframeComponent',
-    //   this.dataService.getRoute(''),
-    //   this
-    // );
-    // console.log('Router url: ', this.router.url);
     const route: FoiRoute = this.dataService.getRoute(this.router.url);
     this.routeData$.next(route.data || {});
   }
@@ -62,13 +56,15 @@ export class BaseComponent implements OnInit {
     this.foiRouter.progress({ direction: -1 });
   }
 
+  goSkipBack() {
+    this.foiRouter.progress({ direction: -2 });
+  }
+
   goFoiForward(selection?: string) {
     this.foiRouter.progress({ direction: 1, selection });
   }
+
   goSkipForward() {
     this.foiRouter.progress({ direction: 2 });
-  }
-  goSkipBack() {
-    this.foiRouter.progress({ direction: -2 });
   }
 }
