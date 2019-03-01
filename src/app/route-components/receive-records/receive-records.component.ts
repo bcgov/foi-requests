@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "../base/base.component";
 import { Validators, FormBuilder } from "@angular/forms";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { Observable } from "rxjs";
 import { DataService } from "src/app/services/data.service";
 
 @Component({

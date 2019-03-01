@@ -27,15 +27,14 @@ export class ReviewSubmitCompleteComponent implements OnInit {
 
   submitToAnotherMinistry() {
     const submitted = this.dataService.loadState("submitted");
+    let ministryPage = "";
     // Scrub the selected ministry
     if (submitted && submitted.requestData && submitted.requestData.ministry) {
       submitted.requestData.ministry.selectedMinistry = {};
+      ministryPage = submitted.requestData.ministry.ministryPage;
     }
     this.dataService.setCurrentState(submitted);
-
-    // TODO: This will need updating based on the submitted request type!
-    this.router.navigate(["general/ministry-confirmation"]);
-    
+    this.router.navigate([ministryPage]);
     return false;
   }
 
