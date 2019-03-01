@@ -13,7 +13,6 @@ export class ReviewSubmitComponent implements OnInit {
   @ViewChild('captchaComponent') captchaComponent: CaptchaComponent 
 
   foiRequest: FoiRequest;
-  // contactInfoOptions: any; // TODO: Remove this if not used!
   foiRequestPretty: string;
   captchaApiBaseUrl: string = '/api';
   captchaComplete: boolean = false;
@@ -21,10 +20,9 @@ export class ReviewSubmitComponent implements OnInit {
   captchaNonce: string = '69879887sdsas$#';
   constructor(private dataService: DataService) {}
 
-
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-
+    // foiRequestPretty is used for debugging only
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
   }
 
@@ -34,7 +32,6 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   doContinue() {
-    console.log("Going to submit");
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
       console.log("result: ", result);
       this.base.goFoiForward();
