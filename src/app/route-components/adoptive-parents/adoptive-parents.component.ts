@@ -12,10 +12,10 @@ import { DataService } from 'src/app/services/data.service';
 export class AdoptiveParentsComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
-    firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    middleName:  [null, [Validators.maxLength(255)]],
-    lastName:  [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    businessName:  [null, [Validators.maxLength(255)]]
+    motherFirstName: [null, Validators.maxLength(255)],
+    motherLastName: [null, Validators.maxLength(255)],
+    fatherFirstName: [null, Validators.maxLength(255)],
+    fatherLastName: [null, Validators.maxLength(255)]
   });
 
   foiRequest: FoiRequest;
