@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BaseComponent } from './base.component';
+import { DataService } from 'src/app/services/data.service';
+import { MockDataService, MockRouter } from '../MockClasses';
+import { Router } from '@angular/router';
 
 describe('BaseComponent', () => {
   let component: BaseComponent;
@@ -8,7 +11,11 @@ describe('BaseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseComponent ]
+      declarations: [ BaseComponent ],
+      providers: [
+        {provide: DataService, useClass: MockDataService},
+        {provide: Router, useClass: MockRouter}
+      ]
     })
     .compileComponents();
   }));

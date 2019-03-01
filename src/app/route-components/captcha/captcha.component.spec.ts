@@ -1,6 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CaptchaComponent } from './captcha.component';
+import { CaptchaDataService } from 'src/app/services/captcha-data.service';
+import { of, Observable } from 'rxjs';
+
+class MockCaptchaDataService{
+  public fetchData(apiBaseUrl: string, nonce: string): Observable<any> {
+    return of({foo:"bar"});
+  }
+}
 
 describe('CaptchaComponent', () => {
   let component: CaptchaComponent;
@@ -8,7 +15,10 @@ describe('CaptchaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CaptchaComponent ]
+      declarations: [ CaptchaComponent ],
+      providers:[
+        {provide: CaptchaDataService, useClass: MockCaptchaDataService}
+      ]
     })
     .compileComponents();
   }));

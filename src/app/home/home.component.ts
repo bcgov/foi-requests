@@ -8,7 +8,7 @@ import { TransomApiClientService } from '../transom-api-client.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private apiclient: TransomApiClientService){
+  constructor(){
 
   }
 
@@ -17,9 +17,9 @@ export class HomeComponent implements OnInit {
 
   doClick(){
     console.log("Here we go");
-    this.apiclient.ping().subscribe(value => {
-      console.log("value:", value);
-    })
+    // this.apiclient.ping().subscribe(value => {
+    //   console.log("value:", value);
+    // })
   }
 
 }
