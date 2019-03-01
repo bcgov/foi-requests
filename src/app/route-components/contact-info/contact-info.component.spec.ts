@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContactInfoComponent } from './contact-info.component';
+import { FoiValidComponent } from 'src/app/foi-valid/foi-valid.component';
+import { BaseComponent } from '../base/base.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DataService } from 'src/app/services/data.service';
+import { MockDataService, MockRouter } from '../MockClasses';
+import { Router } from '@angular/router';
 
 describe('ContactInfoComponent', () => {
   let component: ContactInfoComponent;
@@ -8,7 +14,12 @@ describe('ContactInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactInfoComponent ]
+      declarations: [ ContactInfoComponent, BaseComponent, FoiValidComponent],
+      imports:[ReactiveFormsModule],
+      providers: [
+        {provide: DataService, useClass: MockDataService},
+        {provide: Router, useClass: MockRouter}
+      ]
     })
     .compileComponents();
   }));

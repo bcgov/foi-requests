@@ -1,6 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewSubmitComponent } from './review-submit.component';
+import { BaseComponent } from '../base/base.component';
+import { DataService } from 'src/app/services/data.service';
+import { Router } from '@angular/router';
+import { MockDataService, MockRouter } from '../MockClasses';
+import { CaptchaComponent } from '../captcha/captcha.component';
+import { CaptchaDataService } from 'src/app/services/captcha-data.service';
+import { of, Observable } from 'rxjs';
+
+class MockCaptchaDataService {
+  public fetchData(apiBaseUrl: string, nonce: string): Observable<any> {
+    return of({foo:"bar"});
+  }
+}
 
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
@@ -8,7 +21,12 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewSubmitComponent ]
+      declarations: [ ReviewSubmitComponent, BaseComponent, CaptchaComponent ],
+      providers: [
+        {provide: DataService, useClass: MockDataService},
+        {provide: Router, useClass: MockRouter},
+        {provide: CaptchaDataService, useClass: MockCaptchaDataService}
+      ]
     })
     .compileComponents();
   }));

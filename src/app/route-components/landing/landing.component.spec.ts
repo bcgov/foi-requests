@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LandingComponent } from './landing.component';
+import { BaseComponent } from '../base/base.component';
+import { DataService } from 'src/app/services/data.service';
+import { MockDataService, MockRouter } from '../MockClasses';
+import { Router } from '@angular/router';
 
 describe('LandingComponent', () => {
   let component: LandingComponent;
@@ -8,7 +12,11 @@ describe('LandingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LandingComponent ]
+      declarations: [ LandingComponent, BaseComponent ],
+      providers: [
+        {provide: DataService, useClass: MockDataService},
+        {provide: Router, useClass: MockRouter}
+      ]
     })
     .compileComponents();
   }));

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewSubmitCompleteComponent } from './review-submit-complete.component';
+import { BaseComponent } from '../base/base.component';
+import { DataService } from 'src/app/services/data.service';
+import { MockDataService, MockRouter } from '../MockClasses';
+import { Router } from '@angular/router';
 
 describe('ReviewSubmitCompleteComponent', () => {
   let component: ReviewSubmitCompleteComponent;
@@ -8,7 +12,11 @@ describe('ReviewSubmitCompleteComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewSubmitCompleteComponent ]
+      declarations: [ ReviewSubmitCompleteComponent, BaseComponent ],
+      providers: [
+        {provide: DataService, useClass: MockDataService},
+        {provide: Router, useClass: MockRouter}
+      ]
     })
     .compileComponents();
   }));

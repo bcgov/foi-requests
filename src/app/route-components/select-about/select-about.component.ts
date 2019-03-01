@@ -3,7 +3,6 @@ import { BaseComponent } from "../base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
-import { map } from "rxjs/operators";
 
 @Component({
   templateUrl: "./select-about.component.html",
