@@ -106,3 +106,9 @@ export class MockDataService {
 export class MockRouter {
   url: "/general/somewhere";
 }
+
+export class MockCaptchaDataService {
+  public fetchData(apiBaseUrl: string, nonce: string): Observable<any> {
+    return of({ body: { captcha: {}, validation: {} } });
+  }
+}

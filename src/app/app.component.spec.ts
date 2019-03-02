@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { CoreHeaderComponent } from './core-header/core-header.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from 'ngx-webstorage';
 
 class MockLocalStorage{
@@ -12,9 +11,6 @@ class MockLocalStorage{
 }
 
 describe('AppComponent', () => {
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
-
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,9 +24,6 @@ describe('AppComponent', () => {
         {provide: LocalStorageService, useClass: MockLocalStorage}
       ]
     }).compileComponents();
-    // Inject the http service and test controller for each test
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   it('should create the app', () => {

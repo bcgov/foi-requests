@@ -1,26 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CaptchaComponent } from './captcha.component';
-import { CaptchaDataService } from 'src/app/services/captcha-data.service';
-import { of, Observable } from 'rxjs';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { CaptchaComponent } from "./captcha.component";
+import { CaptchaDataService } from "src/app/services/captcha-data.service";
+import { MockCaptchaDataService } from '../MockClasses';
 
-class MockCaptchaDataService{
-  public fetchData(apiBaseUrl: string, nonce: string): Observable<any> {
-    return of({foo:"bar"});
-  }
-}
-
-describe('CaptchaComponent', () => {
+describe("CaptchaComponent", () => {
   let component: CaptchaComponent;
   let fixture: ComponentFixture<CaptchaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CaptchaComponent ],
-      providers:[
-        {provide: CaptchaDataService, useClass: MockCaptchaDataService}
-      ]
-    })
-    .compileComponents();
+      declarations: [CaptchaComponent],
+      providers: [{ provide: CaptchaDataService, useClass: MockCaptchaDataService }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,7 +20,12 @@ describe('CaptchaComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  afterEach(() => {
+    console.log("Got here");
+    delete window["ca.bcgov.captchaRefresh"];
   });
 });
