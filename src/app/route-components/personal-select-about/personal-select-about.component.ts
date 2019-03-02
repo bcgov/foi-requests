@@ -24,8 +24,6 @@ export class PersonalSelectAboutComponent implements OnInit {
   
     ngOnInit() {
       this.foiRequest = this.dataService.getCurrentState();
-      console.log('Loaded personal-select-about:', this.foiRequest.requestData);
-  
       // The template does the actual subscribe, when that happens
       // this line will ensure that the reactive form is populated with data.
       this.formData$ = of(this.foiRequest.requestData.requestAbout || {}).pipe(
