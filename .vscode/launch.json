@@ -5,11 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Chrome Debug on Karma",
+            "port": 9333,
+            "webRoot": "${workspaceFolder}"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch API",
             "program": "${workspaceFolder}/api/index.js",
             "cwd": "${workspaceFolder}/api"
-        }
+        }        
     ]
 }
