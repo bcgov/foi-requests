@@ -34,7 +34,8 @@ describe("FoiValidComponent", () => {
   let testHost: TestHostComponent;
   let foiValid: FoiValidComponent;
   let foiValidMaxLen: FoiValidComponent;
-  // let foiValidElement: any;
+  let foiMaxLenElement: any;
+  let foiValidElements;
 
   let fixture: ComponentFixture<TestHostComponent>;
 
@@ -49,7 +50,8 @@ describe("FoiValidComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);
     testHost = fixture.componentInstance;
-    // foiValidElement = fixture.nativeElement.querySelector("app-foi-valid");
+    foiValidElements = fixture.nativeElement.querySelectorAll("app-foi-valid"); 
+    foiMaxLenElement = foiValidElements[1];
     let foiValidDebug = fixture.debugElement.queryAll(By.directive(FoiValidComponent));
     foiValid = foiValidDebug[0].componentInstance;
     foiValidMaxLen = foiValidDebug[1].componentInstance;
@@ -64,12 +66,20 @@ describe("FoiValidComponent", () => {
   it("should go invalid on length exceedence", () => {
     // expect(foiValidMaxLen.isInvalid()).toBeFalsy();
 
-    testHost.testform.patchValue({ maxlenval: "0123456789" });
+    //testHost.testform.patchValue({ maxlenval: "0123456789" });
+    const nameInput: HTMLInputElement = foiMaxLenElement.querySelector('input');
+    nameInput.value = '0123456789';
+    nameInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    
+
+
     expect(foiValidMaxLen.control.value).toEqual("0123456789");
     let validation = foiValidMaxLen.validationErrors('maxlength');
     expect(validation.requiredLength).toEqual(9);
     expect(validation.actualLength).toEqual(10);
+
+    const errMsg: HTMLInputElement = foiMaxLenElement.querySelector('.validation-error');
+    expect(errMsg.innerText).toBe("maximum 10 characters.");
+
   });
 });
