@@ -16,7 +16,7 @@ function submitFoiRequest(server, req, res, next) {
     params: req.params,
     files: req.files
   };
-  console.log(`Sending message to ${foiRequestInbox}`, data);
+  req.log.info(`Sending message to ${foiRequestInbox}`, data);
 
   const foiHtml = emailLayout.renderEmail(data.params);
   const foiAttachments = [];
@@ -49,10 +49,10 @@ function submitFoiRequest(server, req, res, next) {
       });
       // After files are deleted, process the result.
       if (err) {
-        console.error('Failed:', err);
+        req.log.info('Failed:', err);
         return next(err);
       }
-      console.log('Sent!', response);
+      req.log.info('Sent!', response);
       res.send({ result: 'success' });
       next();
     }

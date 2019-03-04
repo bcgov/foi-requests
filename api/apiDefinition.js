@@ -1,7 +1,7 @@
 const customFunctions = require('./apiCustomFunctions');
 const apiCaptchaFx = require('./apiCaptcha');
 const captchaCfg = require('./captchaCfg');
-const apiCaptcha = apiCaptchaFx(captchaCfg); 
+const apiCaptcha = apiCaptchaFx(captchaCfg);
 
 module.exports = {
   note: 'This is a private server.',
@@ -10,25 +10,37 @@ module.exports = {
   transom: {
     cors: {
       origins: ['*']
+    },
+    requestLogger: {
+      name: 'foirequestapi',
+      streams: [
+        {
+          level: 'debug',
+          path: (process.env.LOG_PATH || '.') + '/foirequest.log'
+        }
+      ]
     }
   },
+
   definition: {
     uri: {
       prefix: '/api/v1'
     },
-		template: {
-			emailTemplatePath: 'email-templates',
-			htmlTemplatePath: 'page-templates',
-			data: {
-				processInfo: `Running on ${process.platform}, Process Id: ${process.pid}`
-			}
+    template: {
+      emailTemplatePath: 'email-templates',
+      htmlTemplatePath: 'page-templates',
+      data: {
+        processInfo: `Running on ${process.platform}, Process Id: ${
+          process.pid
+        }`
+      }
     },
     functions: {
       submitFoiRequest: {
-          methods: ['POST'],
-          preMiddleware: [apiCaptcha.verifyJWTResponseMiddleware],
-          function: customFunctions.submitFoiRequest
-        }
+        methods: ['POST'],
+        preMiddleware: [apiCaptcha.verifyJWTResponseMiddleware],
+        function: customFunctions.submitFoiRequest
+      }
     }
   }
 };
