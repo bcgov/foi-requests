@@ -36,17 +36,17 @@ export class DescriptionTimeframeComponent implements OnInit {
 
     // If ministry is PSA, show the Public Service Employee number field.
     // If ministry is PSSG, show the Correctional Service number field.
-    let ministryCode = null;
-    if (this.foiRequest.requestData.ministry.selectedMinistry) {
-      ministryCode = this.foiRequest.requestData.ministry.selectedMinistry.code;
-    }
-    this.showPublicServiceEmployeeNumber = ministryCode === "PSA";
-    this.showCorrectionalServiceNumber = ministryCode === "PSSG";
+    const currentMinistry = this.foiRequest.requestData.ministry.selectedMinistry
+      ? this.foiRequest.requestData.ministry.selectedMinistry
+      : this.foiRequest.requestData.ministry.defaultMinistry;
+
+    this.showPublicServiceEmployeeNumber = currentMinistry.code === "PSA";
+    this.showCorrectionalServiceNumber = currentMinistry.code === "PSSG";
 
     const formInit = {};
     Object.assign(formInit, this.foiRequest.requestData[this.targetKey]);
     if (!this.showRequestTopic) {
-      formInit["topic"] = this.foiRequest.requestData.requestTopic.text;
+      formInit["topic"] = this.foiRequest.requestData.requestTopic.text || currentMinistry.name;
     }
     this.foiForm.patchValue(formInit);
 
@@ -64,8 +64,10 @@ export class DescriptionTimeframeComponent implements OnInit {
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
 
+    console.log('description-timefrane')
     const requestIspersonal = this.foiRequest.requestData.requestType.requestType === "personal";
-    const personalNonAdoption = requestIspersonal && this.foiRequest.requestData.requestTopic.value !== "adoption";
+    const isAdoption = this.foiRequest.requestData.requestTopic.value === "adoption"
+    const personalNonAdoption = (requestIspersonal && !isAdoption);
     if (personalNonAdoption) {
       // Personal non-Adoption can skip over the next route, 'adoptive-parents'.
       this.base.goSkipForward();
@@ -82,10 +84,10 @@ export class DescriptionTimeframeComponent implements OnInit {
     if (c.value === "") {
       return null; // null date is valid.
     }
-    const parts = (c.value || '').split('-');
+    const parts = (c.value || "").split("-");
     if (parts.length === 3) {
       const year = parts[0];
-      const month = parts[1]-1;
+      const month = parts[1] - 1;
       const day = parts[2];
       // console.log("noFuture:", parts, new Date(year, month, day), new Date());
       const enteredDate = new Date(year, month, day);

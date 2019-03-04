@@ -194,6 +194,10 @@
                       "progress": 2
                     },
                     {
+                      "route": "personal/child/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
                       "route": "personal/child/contact-info-options",
                       "progress": 3
                     },
@@ -289,6 +293,10 @@
                     {
                       "route": "personal/yourself-child/description-timeframe",
                       "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/adoptive-parents",
+                      "progress": 3
                     },
                     {
                       "route": "personal/yourself-child/contact-info-options",
@@ -399,6 +407,10 @@
                       "progress": 2
                     },
                     {
+                      "route": "personal/yourself-child-another/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
                       "route": "personal/yourself-child-another/contact-info-options",
                       "progress": 3
                     },
@@ -451,6 +463,10 @@
                     {
                       "route": "personal/child-another/description-timeframe",
                       "progress": 2
+                    },
+                    {
+                      "route": "personal/child-another/adoptive-parents",
+                      "progress": 3
                     },
                     {
                       "route": "personal/child-another/contact-info-options",
