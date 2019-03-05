@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { CaptchaComponent } from "./captcha.component";
 import { CaptchaDataService } from "src/app/services/captcha-data.service";
-import { MockCaptchaDataService } from '../MockClasses';
+import { MockCaptchaDataService } from '../../MockClasses';
 
 describe("CaptchaComponent", () => {
   let component: CaptchaComponent;

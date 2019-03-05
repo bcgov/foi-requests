@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from '../base/base.component';
+import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { Observable, of } from 'rxjs';
 import { FormBuilder, Validators } from '@angular/forms';

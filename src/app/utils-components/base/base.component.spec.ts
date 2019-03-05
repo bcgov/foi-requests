@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BaseComponent } from './base.component';
 import { DataService } from 'src/app/services/data.service';
-import { MockDataService, MockRouter } from '../MockClasses';
+import { MockDataService, MockRouter } from '../../MockClasses';
 import { Router } from '@angular/router';
 
 describe('BaseComponent', () => {

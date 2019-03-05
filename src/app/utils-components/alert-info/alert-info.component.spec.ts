@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlertInfoComponent } from './alert-info.component';
-import { RouteComponentsModule } from '../route-components/route-components.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 describe('AlertInfoComponent', () => {

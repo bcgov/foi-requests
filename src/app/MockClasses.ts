@@ -1,5 +1,5 @@
-import { FoiRequest } from "../models/FoiRequest";
-import { FoiRoute } from "../models/FoiRoute";
+import { FoiRequest } from "./models/FoiRequest";
+import { FoiRoute } from "./models/FoiRoute";
 import { of, Observable } from "rxjs";
 import { FormGroup } from "@angular/forms";
 

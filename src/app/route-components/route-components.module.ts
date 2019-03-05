@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LandingComponent } from './landing/landing.component';
-import { BaseComponent } from './base/base.component';
 import { GettingStarted1Component } from './getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './getting-started2/getting-started2.component';
 import { ReviewSubmitCompleteComponent } from './review-submit-complete/review-submit-complete.component';
@@ -24,17 +23,11 @@ import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-g
 import { ChildInformationComponent } from './child-information/child-information.component';
 import { VerifyYourIdentityComponent } from './verify-your-identity/verify-your-identity.component';
 import { AnotherInformationComponent } from './another-information/another-information.component';
-import { AlertInfoComponent } from '../alert-info/alert-info.component';
-import { AlertWarningComponent } from '../alert-warning/alert-warning.component';
-import { CaptchaComponent } from './captcha/captcha.component';
-import { FoiValidComponent } from '../foi-valid/foi-valid.component';
-import { FoiFileinputComponent } from './foi-fileinput/foi-fileinput.component';
 import { AdoptiveParentsComponent } from './adoptive-parents/adoptive-parents.component';
+import { UtilsComponentsModule } from '../utils-components/utils-components.module';
 
 @NgModule({
   declarations: [
-    CaptchaComponent,
-    BaseComponent,
     LandingComponent,
     GettingStarted1Component,
     GettingStarted2Component,
@@ -57,15 +50,12 @@ import { AdoptiveParentsComponent } from './adoptive-parents/adoptive-parents.co
     ChildInformationComponent,
     VerifyYourIdentityComponent,
     AnotherInformationComponent,
-    AlertInfoComponent,
-    AlertWarningComponent,
-    FoiValidComponent,
-    FoiFileinputComponent,
     AdoptiveParentsComponent
   ],
   imports: [
     // Required to use these in children of RouteComponentsModule
     CommonModule,
+    UtilsComponentsModule,
     ReactiveFormsModule,
     FontAwesomeModule
   ]

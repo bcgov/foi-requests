@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from '../base/base.component';
+import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { DataService } from 'src/app/services/data.service';
 import { FoiRequest } from 'src/app/models/FoiRequest';
-import { CaptchaComponent } from '../captcha/captcha.component';
+import { CaptchaComponent } from 'src/app/utils-components/captcha/captcha.component';
 
 @Component({
   templateUrl: './review-submit.component.html',

@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReviewSubmitCompleteComponent } from './review-submit-complete.component';
-import { BaseComponent } from '../base/base.component';
+import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { DataService } from 'src/app/services/data.service';
-import { MockDataService, MockRouter } from '../MockClasses';
+import { MockDataService, MockRouter } from '../../MockClasses';
 import { Router } from '@angular/router';
 
 describe('ReviewSubmitCompleteComponent', () => {

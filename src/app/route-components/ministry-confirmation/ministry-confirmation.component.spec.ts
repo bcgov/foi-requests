@@ -1,15 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MinistryConfirmationComponent } from './ministry-confirmation.component';
-import { BaseComponent } from '../base/base.component';
-import { FoiValidComponent } from 'src/app/foi-valid/foi-valid.component';
+import { BaseComponent } from 'src/app/utils-components/base/base.component';
+import { FoiValidComponent } from 'src/app/utils-components/foi-valid/foi-valid.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
-import { MockDataService, MockRouter } from '../MockClasses';
-import { FoiFileinputComponent } from '../foi-fileinput/foi-fileinput.component';
-import { AlertInfoComponent } from 'src/app/alert-info/alert-info.component';
+import { MockDataService, MockRouter } from '../../MockClasses';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AlertInfoComponent } from 'src/app/utils-components/alert-info/alert-info.component';
 
 
 describe('MinistryConfirmationComponent', () => {

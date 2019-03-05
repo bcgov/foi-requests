@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdoptiveParentsComponent } from './adoptive-parents.component';
-import { BaseComponent } from '../base/base.component';
+import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FoiValidComponent } from 'src/app/foi-valid/foi-valid.component';
 import { DataService } from 'src/app/services/data.service';
 import { Router } from '@angular/router';
-import { MockDataService, MockRouter } from '../MockClasses';
+import { MockDataService, MockRouter } from '../../MockClasses';
+import { FoiValidComponent } from 'src/app/utils-components/foi-valid/foi-valid.component';
 
 
 describe('AdoptiveParentsComponent', () => {
