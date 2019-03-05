@@ -22,7 +22,6 @@ export class AnotherInformationComponent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = "anotherInformation";
-  attachmentname: string;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -30,7 +29,6 @@ export class AnotherInformationComponent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     const formInit = this.foiRequest.requestData[this.targetKey];
-    this.attachmentname = formInit.proofOfAuthorization;
     this.foiForm.patchValue(formInit);
   }
 
@@ -44,14 +42,7 @@ export class AnotherInformationComponent implements OnInit {
     this.base.goFoiBack();
   }
 
-  changeImageListener(event){
-    const f: File = event.target.files[0];
-    this.dataService.setPersonFileAttachment(f);
-    this.foiForm.controls["proofOfAuthorization"].setValue(f.name);
-  }
-
   newFileSelected(newFile: File){
     this.dataService.setPersonFileAttachment(newFile);
-    this.foiForm.controls["proofOfAuthorization"].setValue(newFile.name);
   }
 }

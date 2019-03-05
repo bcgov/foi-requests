@@ -53,9 +53,14 @@
         </div>
 
         <div class="col-lg-6">
-          <label>Attach copy of proof of guardianship:</label>
-          <!-- <input class="form-control" type="file" (change)="changeImageListener($event)" /> -->
-          <foi-fileinput [filename]="attachmentname" (fileselected)="newFileSelected($event)"></foi-fileinput>
+          <foi-fileinput
+            [form]="foiForm"
+            formcontrolname="proofOfGuardianship"
+            required="Proof of guardianship is a required field."
+            (fileSelected)="newFileSelected($event)"
+          >
+            <label>Attach copy of proof of guardianship:</label>
+          </foi-fileinput>
         </div>
       </div>
     </form>

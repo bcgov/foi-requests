@@ -1,9 +1,16 @@
-.hideinput{
-    display:none;
+@import "../../styles/variables.scss";
+
+.validation-error {
+  color: map-get($theme-colors, danger);
+  text-align: right;
+  font-size: smaller;
 }
 
-.btn-file{
-    line-height: 0.9;
-    padding: 0.3rem;
-    margin-right: 10px;
+.validation-tip {
+  text-align: right;
+  font-size: smaller;
+}
+
+.hide-input {
+  display: none;
 }

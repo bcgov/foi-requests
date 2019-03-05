@@ -3,7 +3,7 @@ import { BaseComponent } from "../base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder, Validators } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
-import { Observable } from "rxjs";
+// import { Observable } from "rxjs";
 
 @Component({
   templateUrl: "./child-information.component.html",
@@ -22,7 +22,6 @@ export class ChildInformationComponent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = "childInformation";
-  attachmentname: string;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -30,7 +29,6 @@ export class ChildInformationComponent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     const formInit = this.foiRequest.requestData[this.targetKey];
-    this.attachmentname = formInit.proofOfGuardianship;
     this.foiForm.patchValue(formInit);
   }
 
@@ -44,14 +42,7 @@ export class ChildInformationComponent implements OnInit {
     this.base.goFoiBack();
   }
 
-  changeImageListener(event){
-    const f: File = event.target.files[0];
-    this.dataService.setChildFileAttachment(f);
-    this.foiForm.controls["proofOfGuardianship"].setValue(f.name);
-  }
-
-  newFileSelected(newFile: File){
+  newFileSelected(newFile: File) {
     this.dataService.setChildFileAttachment(newFile);
-    this.foiForm.controls["proofOfGuardianship"].setValue(newFile.name);
   }
 }

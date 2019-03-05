@@ -1,2 +1,20 @@
-<input class="hideinput" type="file" #fileinput (change)="fileChange($event)">
-<span class="form-control" ><button class="btn btn-secondary btn-file" (click)="selectFile()">Select File</button>{{filename}}</span>
+<ng-container class="item-validation">
+  <span #myLabel>
+    <ng-content select="label"></ng-content>
+  </span>
+
+  <div class="input-group">
+    <span #fileInputDisplay class="form-control">{{ currentFilename }}</span>
+    <div class="input-group-append">
+      <button class="btn btn-secondary btn-file" (click)="selectFile()">Select File</button>
+    </div>
+  </div>
+  <input #fileInput class="hide-input" type="file" (change)="fileChange($event)" />
+
+  <div class="validation-error" *ngIf="isInvalid(); else itemValidTip">
+    <span *ngIf="validationErrors('required')">{{ required }}</span>
+  </div>
+  <ng-template #itemValidTip>
+    <div class="validation-tip">{{ tip }}</div>
+  </ng-template>
+</ng-container>

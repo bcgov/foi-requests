@@ -74,6 +74,19 @@ module.exports = (function() {
     return result;
   }
 
+  function adoptiveParents(data) {
+    let result = tableHeader('Adoptive Parents');
+    result += tableRow(
+      'Adoptive Mother',
+      [data.motherFirstName, data.motherLastName].join(' ')
+    );
+    result += tableRow(
+      'Adoptive Father',
+      [data.fatherFirstName, data.fatherLastName].join(' ')
+    );
+    return result;
+  }
+
   function contact(data) {
     let result = '';
     if (data.phonePrimary) {
@@ -142,6 +155,9 @@ module.exports = (function() {
     // Contact Information
     content += personal(data.requestData.contactInfo || {});
     content += contact(data.requestData.contactInfoOptions || {});
+    // Adoptive Parents
+    content += adoptiveParents(data.requestData.adoptiveParents || {});    
+    // Simple footer
     content += tableHeader(`Submitted ${new Date().toString()}`);
     content = table(content);
     // End of the Table
