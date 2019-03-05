@@ -16,6 +16,7 @@ export class DataService {
 
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
+    // console.table(this.foiRoutes, ['back', 'route', 'forward' ]);
   }
 
   getRoute(routeUrl: string): FoiRoute {
@@ -79,7 +80,7 @@ export class DataService {
   }
 
   saveState(stateKey: string, state: FoiRequest) {
-    console.log(stateKey, state);
+    // console.log(stateKey, state);
     sessionStorage.setItem(stateKey, JSON.stringify(state));
   }
 
@@ -95,19 +96,17 @@ export class DataService {
 
   setChildFileAttachment(f: File) {
     const reader: FileReader = new FileReader();
-    reader.onload = e => {
+    reader.onload = () => {
       sessionStorage.setItem(this.childFileKey, reader.result.toString());
     };
-
     reader.readAsDataURL(f);
   }
 
   setPersonFileAttachment(f: File) {
     const reader: FileReader = new FileReader();
-    reader.onload = e => {
+    reader.onload = () => {
       sessionStorage.setItem(this.personFileKey, reader.result.toString());
     };
-
     reader.readAsDataURL(f);
   }
 
@@ -132,6 +131,12 @@ export class DataService {
     return blob;
   }
 
+  /**
+   * Load a file from session storage using a given key.
+   * 
+   * @param storageKey - Load a file using the provided key
+   * @param filename - Apply the provided file name to the File object
+   */
   getFileFrom(storageKey: string, filename: string): File {
     const base64 = sessionStorage[storageKey];
     if (!base64) {
@@ -145,6 +150,15 @@ export class DataService {
     return file;
   }
 
+  /**
+   * Submit the completed FOI request data structure, and any files
+   * from session storage, to the REST API that will generate and 
+   * send the request as email.
+   * 
+   * @param authToken 
+   * @param nonce 
+   * @param foiRequest - A structure containing the complete request
+   */
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
     this.apiClient.setHeader("Authorization", "Bearer " + authToken);
     this.apiClient.setHeader("captcha-nonce", nonce);
@@ -169,9 +183,12 @@ export class DataService {
   }
 
   /**
-   *
-   * @param routes Recursive flattening of the route data.
-   * @param parent
+   * Create a flattened copy of the routes defined in data.json.
+   * This makes it simpler to derermine what are the 
+   * next (forward) and previous (back) routes for each.
+   * 
+   * @param routes - Recursive flattening of the route data.
+   * @param parent - The route that owns the choices to be flattened.
    */
   flattenRoutes(routes: FoiRoute[], parent?: string) {
     const flatRoutes: FoiRoute[] = [];

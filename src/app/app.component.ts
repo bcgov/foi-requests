@@ -19,6 +19,9 @@ export class AppComponent implements OnInit {
   constructor(private dataService: DataService, private router: Router, private foiRouter: FoiRouterService) {
     const rootRoute: FoiRoute = dataService.getRoute("/");
 
+    /**
+     * Update the CurrentRoute is a User reloads the page or navigates manually.
+     */
     this.router.events.pipe(filter(value => value instanceof NavigationEnd)).subscribe((navRoute: NavigationEnd) => {
       const navTo: FoiRoute = dataService.getRoute(navRoute.url);
       if (navTo) {
@@ -26,6 +29,9 @@ export class AppComponent implements OnInit {
       }
     });
 
+    /**
+     * Navigate through the app based on changes applied within the FoiRouterService.
+     */
     this.foiRouter.routeProgress.subscribe(val => {
       if (!val) {
         this.setCurrentRoute(rootRoute);
@@ -66,19 +72,28 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * 
+   * @param route - the FoiRoute currently being displayed.
+   */
   private setCurrentRoute(route: FoiRoute) {
     this.currentRoute = route;
   }
 
+  /**
+   * HasProgress is used to determine if the progress indicator should be visible.
+   */
   hasProgress(): boolean {
     return this.currentProgress > 0;
   }
 
+  /**
+   * CurrentProgress is used by the progress indicator at the top of each page.
+   */
   get currentProgress() {
     return this.currentRoute ? this.currentRoute.progress : 0;
   }
 
   ngOnInit() {
-    const lastKnownReq = this.dataService.getCurrentState();
   }
 }

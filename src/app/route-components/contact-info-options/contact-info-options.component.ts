@@ -65,6 +65,14 @@ export class ContactInfoOptionsComponent implements OnInit {
   }
 
   doGoBack() {
+    const requestIspersonal = this.foiRequest.requestData.requestType.requestType === "personal";
+    const isAdoption = this.foiRequest.requestData.requestTopic.value === "adoption";
+    const personalNonAdoption = (requestIspersonal && !isAdoption);
+    if (personalNonAdoption) {
+      // Personal non-Adoption can skip over the previous route, 'adoptive-parents'.
+      this.base.goSkipBack();
+      return;
+    }    
     this.base.goFoiBack();
   }
 }
