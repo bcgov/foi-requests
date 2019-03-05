@@ -6,8 +6,14 @@ import { FoiFileinputComponent } from "./foi-fileinput/foi-fileinput.component";
 import { FoiValidComponent } from "./foi-valid/foi-valid.component";
 import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { NgModule } from "@angular/core";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+
+// Add an icon to the library for convenient access in other components
+library.add(faInfoCircle, faExclamationTriangle);
+
 
 @NgModule({
   declarations: [
