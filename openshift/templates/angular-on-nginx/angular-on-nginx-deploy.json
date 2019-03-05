@@ -103,6 +103,10 @@
                   {
                     "name": "FOI_REQUEST_SENDER",
                     "value": "${FOI_REQUEST_SENDER}"
+                  },
+                  {
+                    "name": "LOG_PATH",
+                    "value": "${FOI_LOG_PATH}"
                   }
                 ],
                 "resources": {
@@ -138,14 +142,24 @@
                   "periodSeconds": 10,
                   "successThreshold": 1,
                   "failureThreshold": 3
-                }
+                },
+                "volumeMounts": [{
+                  "mountPath": "/data",
+                  "name": "foi-requests-log"
+                }]
               }
             ],
             "dnsPolicy": "ClusterFirst",
             "restartPolicy": "Always",
             "securityContext": {
             },
-            "terminationGracePeriodSeconds": 30
+            "terminationGracePeriodSeconds": 30,
+            "volumes":[{
+              "name": "foi-requests-log",
+              "persistentVolumeClaim":{
+                "claimName" :"claim-foi-log"
+              }
+            }]
           }
         },
         "test": false,
@@ -332,6 +346,12 @@
       "displayName": "FOI_REQUEST_SENDER",
       "name": "FOI_REQUEST_SENDER",
       "value": "donotreply@gov.bc.ca"
+    },
+    {
+      "description": "The path to the persistent log volume",
+      "displayName": "LOG PATH",
+      "name": "FOI_LOG_PATH",
+      "value": "/data"
     }
 
   ]
