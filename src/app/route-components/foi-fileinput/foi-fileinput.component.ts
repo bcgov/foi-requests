@@ -10,7 +10,6 @@ export class FoiFileinputComponent implements OnInit {
   @Input() tip: string;
   @Input() form: Form;
   @Input() formcontrolname: string;
-  @Input() filename: string = "None";
 
   // Validator
   @Input() required: string;
@@ -40,7 +39,7 @@ export class FoiFileinputComponent implements OnInit {
     // Set the Label .for, Input .id and .class attributes, if not already set.
     this.fileInput.id = this.formcontrolname;
 
-    // Possibly add a required field indicator, but it's ugly.
+    // Add a required field indicator.
     if (this.required) {
       if (this.fieldLabel && this.fieldLabel.innerHTML) {
         this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(":", ' <span class="label-required">*</span>:');
@@ -68,25 +67,29 @@ export class FoiFileinputComponent implements OnInit {
     return invalid;
   }
 
-  selectFile() {
-    this.fileInput["nativeElement"].click();
+  selectFile(selectedFilename?: string) {
+    selectedFilename = selectedFilename || null;
 
     // This marks it as Dirty before the user selected a file or chooses not to.
-    this.filename = null; // Set to no file!
-    this.form["controls"][this.formcontrolname].setValue(null);
+    this.fileInput["nativeElement"].click();
+    this.form["controls"][this.formcontrolname].setValue(selectedFilename);
     this.form["controls"][this.formcontrolname].markAsDirty();
     return false;
   }
 
   get currentFilename() {
-    console.log('currentFilename!', this.form["controls"][this.formcontrolname].value);
-    return this.form["controls"][this.formcontrolname].value; // this.filename;
+    return this.form["controls"][this.formcontrolname].value;
   }
 
   fileChange(event) {
-    const newFile: File = event.target.files[0];
-    console.log('fileChange!', newFile);
-    this.form["controls"][this.formcontrolname].setValue(newFile ? newFile.name : null);
-    this.fileSelected.emit(newFile);
+    let newFile: File = null;
+    try {
+      newFile = event.target.files[0];
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.form["controls"][this.formcontrolname].setValue(newFile ? newFile.name : null);
+      this.fileSelected.emit(newFile);
+    }
   }
 }
