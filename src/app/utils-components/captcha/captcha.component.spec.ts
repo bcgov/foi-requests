@@ -25,7 +25,6 @@ describe("CaptchaComponent", () => {
   });
 
   afterEach(() => {
-    console.log("Got here");
     delete window["ca.bcgov.captchaRefresh"];
   });
 });

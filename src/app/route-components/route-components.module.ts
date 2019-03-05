@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LandingComponent } from './landing/landing.component';
 import { GettingStarted1Component } from './getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './getting-started2/getting-started2.component';
@@ -56,8 +55,7 @@ import { UtilsComponentsModule } from '../utils-components/utils-components.modu
     // Required to use these in children of RouteComponentsModule
     CommonModule,
     UtilsComponentsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule
+    ReactiveFormsModule
   ]
 })
 export class RouteComponentsModule { }
