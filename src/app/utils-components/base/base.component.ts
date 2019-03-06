@@ -19,6 +19,7 @@ export class BaseComponent implements OnInit {
   @Input('continueText') continueText: string = 'Continue';
   @Input('continueClass') continueClass: string = '';
   @Input('continueDisabled') continueDisabled: boolean = false;
+  @Input('startupComponent') startupComponent: boolean = false;
   routeData$: BehaviorSubject<any>;
 
   constructor(
@@ -31,6 +32,10 @@ export class BaseComponent implements OnInit {
 
   ngOnInit() {
     const route: FoiRoute = this.dataService.getRoute(this.router.url);
+    const reqTp:any = this.dataService.getCurrentState('requestType');
+    if (!reqTp.requestData.requestType.requestType && !this.startupComponent){
+      this.router.navigate([""]); //dropped into the middle of the form without a session
+    }
     this.routeData$.next(route.data || {});
   }
 
