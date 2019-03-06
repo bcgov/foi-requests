@@ -12,7 +12,6 @@ export class RequestTopicComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
     requestTopic: [null, [Validators.required]],
-    anotherTopicText: [null, [Validators.required, Validators.maxLength(255)]]
   });
 
   foiRequest: FoiRequest;
@@ -30,12 +29,9 @@ export class RequestTopicComponent implements OnInit {
         this.topics = this.dataService.getTopics(data.topics);
         const formInit = {
           requestTopic: null,
-          anotherTopicText: null
         };
         formInit.requestTopic = this.topics.find(t => t.value === this.foiRequest.requestData[this.targetKey].value);
-        if (this.foiRequest.requestData[this.targetKey].value === "anotherTopic") {
-          formInit.anotherTopicText = this.foiRequest.requestData[this.targetKey].text;
-        }
+        
         this.foiForm.patchValue(formInit);
       }
     });
@@ -52,17 +48,8 @@ export class RequestTopicComponent implements OnInit {
   allowContinue() {
     let result = false;
     const formData = this.foiForm.value;
-    if (
-      formData.requestTopic &&
-      formData.requestTopic.value === "anotherTopic" &&
-      formData.anotherTopicText &&
-      this.foiForm.valid
-    ) {
-      // Require that 'anotherTopic' includes details!
-      result = true;
-    }
-    if (formData.requestTopic && formData.requestTopic.value !== "anotherTopic") {
-      //Anything that isn't 'anotherTopic' detail are ignored.
+    
+    if (formData.requestTopic && formData.requestTopic.value) {
       result = true;
     }
     return result;
@@ -75,9 +62,6 @@ export class RequestTopicComponent implements OnInit {
 
     this.dataService.getMinistries().subscribe(ministries => {
       this.foiRequest.requestData[this.targetKey] = formData.requestTopic;
-      if (this.foiRequest.requestData[this.targetKey].value === "anotherTopic") {
-        this.foiRequest.requestData[this.targetKey].text = formData.anotherTopicText;
-      }
 
       const selection = this.foiRequest.requestData[this.targetKey].value;
       const ministryCode = this.foiRequest.requestData[this.targetKey].ministryCode;

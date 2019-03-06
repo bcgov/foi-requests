@@ -8,24 +8,6 @@
           <input type="radio" [value]="topic" formControlName="requestTopic" />
           {{ topic.text }}
         </label>
-        <div
-          class="col-lg-8"
-          *ngIf="topic.value === 'anotherTopic'"
-          [hidden]="!foiForm.get('requestTopic').value || foiForm.get('requestTopic').value.value !== 'anotherTopic'"
-        >
-          <app-foi-valid
-            [form]="foiForm"
-            required="Please provide details about your request topic."
-            maxLength="Explanantion is longer than the maximum {requiredLength} characters."
-          >
-            <label>Please explain:</label>
-            <input class="form-control" formControlName="anotherTopicText" />
-          </app-foi-valid>
-          <p class="small-italics">
-            The more specific your topic, the quicker we will be able to find the records you’re looking for. You’ll be
-            able to provide more details about the records later in the application.
-          </p>
-        </div>
       </div>
     </form>
   </div>
