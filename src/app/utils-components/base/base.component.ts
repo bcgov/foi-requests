@@ -16,6 +16,7 @@ export class BaseComponent implements OnInit {
   @Input('showButtons') showButtons: boolean = true;
   @Input('showInfo') showInfo: boolean = true;
   @Input('continueText') continueText: string = 'Continue';
+  @Input('continueClass') continueClass: string = '';
   @Input('continueDisabled') continueDisabled: boolean = false;
   routeData$: BehaviorSubject<any>;
 
