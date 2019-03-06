@@ -13,7 +13,6 @@ import { ProofOfGuardianshipComponent } from './route-components/proof-of-guardi
 import { ChildInformationComponent } from './route-components/child-information/child-information.component';
 import { ReviewSubmitComponent } from './route-components/review-submit/review-submit.component';
 import { ContactInfoComponent } from './route-components/contact-info/contact-info.component';
-import { ReceiveRecordsComponent } from './route-components/receive-records/receive-records.component';
 import { SelectAboutComponent } from './route-components/select-about/select-about.component';
 import { VerifyYourIdentityComponent } from './route-components/verify-your-identity/verify-your-identity.component';
 import { RequestTopicComponent } from './route-components/request-topic/request-topic.component';
@@ -32,7 +31,6 @@ const routes: Routes = [
   { path: 'general/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'general/contact-info', component: ContactInfoComponent },
   { path: 'general/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'general/receive-records', component: ReceiveRecordsComponent },
   { path: 'general/review-submit', component: ReviewSubmitComponent },
   { path: 'general/submit-complete', component: ReviewSubmitCompleteComponent},
 
@@ -46,7 +44,6 @@ const routes: Routes = [
   { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/submit-complete', component: ReviewSubmitCompleteComponent},
   
@@ -58,7 +55,6 @@ const routes: Routes = [
   { path: 'personal/child/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/child/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/child/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/child/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/child/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/child/submit-complete', component: ReviewSubmitCompleteComponent},
 
@@ -71,7 +67,6 @@ const routes: Routes = [
   { path: 'personal/another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/another/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/another/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/another/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/another/submit-complete', component: ReviewSubmitCompleteComponent},
 
@@ -85,7 +80,6 @@ const routes: Routes = [
   { path: 'personal/yourself-child/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/yourself-child/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/yourself-child/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/yourself-child/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-child/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/yourself-child/submit-complete', component: ReviewSubmitCompleteComponent},
 
@@ -98,7 +92,6 @@ const routes: Routes = [
   { path: 'personal/yourself-another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/yourself-another/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/yourself-another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/yourself-another/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-another/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/yourself-another/submit-complete', component: ReviewSubmitCompleteComponent},
 
@@ -112,7 +105,6 @@ const routes: Routes = [
   { path: 'personal/child-another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/child-another/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/child-another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/child-another/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/child-another/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/child-another/submit-complete', component: ReviewSubmitCompleteComponent},
 
@@ -126,7 +118,6 @@ const routes: Routes = [
   { path: 'personal/yourself-child-another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/yourself-child-another/adoptive-parents', component: AdoptiveParentsComponent },
   { path: 'personal/yourself-child-another/contact-info-options', component: ContactInfoOptionsComponent },
-  { path: 'personal/yourself-child-another/receive-records', component: ReceiveRecordsComponent },
   { path: 'personal/yourself-child-another/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/yourself-child-another/submit-complete', component: ReviewSubmitCompleteComponent},
  

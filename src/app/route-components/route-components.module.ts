@@ -13,7 +13,6 @@ import { GeneralSelectMinistryComponent } from './general-select-ministry/genera
 import { MinistryConfirmationComponent } from './ministry-confirmation/ministry-confirmation.component';
 import { DescriptionTimeframeComponent } from './description-timeframe/description-timeframe.component';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
-import { ReceiveRecordsComponent } from './receive-records/receive-records.component';
 import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { SelectAboutComponent } from './select-about/select-about.component';
 import { RequestTopicComponent } from './request-topic/request-topic.component';
@@ -47,7 +46,6 @@ library.add(faSpinner);
     MinistryConfirmationComponent,
     DescriptionTimeframeComponent,
     ContactInfoComponent,
-    ReceiveRecordsComponent,
     ReviewSubmitComponent,
     SelectAboutComponent,
     RequestTopicComponent,
