@@ -11,8 +11,8 @@ import { DataService } from 'src/app/services/data.service';
 export class ContactInfoOptionsComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   foiForm = this.fb.group({
-    phonePrimary: [null, [Validators.maxLength(25)]],
-    phoneSecondary: [null, [Validators.maxLength(25)]],
+    phonePrimary: [null, [Validators.minLength(10), Validators.maxLength(25)]],
+    phoneSecondary: [null, [Validators.minLength(10), Validators.maxLength(25)]],
     // Regex: (non-whitespace) + '@' + (non-whitespace) + '.' + (non-whitespace)
     email: [null, [Validators.maxLength(255), Validators.pattern(/\S+@\S+\.\S/)]],
     address: [null, [Validators.maxLength(255)]],
