@@ -183,7 +183,10 @@
                     },
                     {
                       "route": "personal/child/verify-your-identity",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                      }
                     },
                     {
                       "route": "personal/child/ministry-confirmation",
@@ -284,7 +287,10 @@
                     },
                     {
                       "route": "personal/yourself-child/verify-your-identity",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                      }
                     },
                     {
                       "route": "personal/yourself-child/ministry-confirmation",
@@ -331,7 +337,10 @@
                     },
                     {
                       "route": "personal/yourself-another/verify-your-identity",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the records."
+                      }
                     },
                     {
                       "route": "personal/yourself-another/request-topic",
@@ -396,7 +405,10 @@
                     },
                     {
                       "route": "personal/yourself-child-another/verify-your-identity",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                      }
                     },
                     {
                       "route": "personal/yourself-child-another/ministry-confirmation",
@@ -454,7 +466,10 @@
                     },
                     {
                       "route": "personal/child-another/verify-your-identity",
-                      "progress": 2
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                      }
                     },
                     {
                       "route": "personal/child-another/ministry-confirmation",
