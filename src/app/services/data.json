@@ -129,7 +129,6 @@
             },
             { "route": "general/contact-info", "progress": 3 },
             { "route": "general/contact-info-options", "progress": 3 },
-            { "route": "general/receive-records", "progress": 3 },
             { "route": "general/review-submit", "progress": 4 },
             { "route": "general/submit-complete", "progress": 4 }
           ]
@@ -166,7 +165,6 @@
                       "route": "personal/contact-info-options",
                       "progress": 3
                     },
-                    { "route": "personal/receive-records", "progress": 3 },
                     { "route": "personal/review-submit", "progress": 4 },
                     { "route": "personal/submit-complete", "progress": 4 }
                   ]
@@ -205,10 +203,6 @@
                     },
                     {
                       "route": "personal/child/contact-info-options",
-                      "progress": 3
-                    },
-                    {
-                      "route": "personal/child/receive-records",
                       "progress": 3
                     },
                     {
@@ -262,10 +256,6 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/another/receive-records",
-                      "progress": 3
-                    },
-                    {
                       "route": "personal/another/review-submit",
                       "progress": 4
                     },
@@ -310,10 +300,6 @@
                     },
                     {
                       "route": "personal/yourself-child/contact-info-options",
-                      "progress": 3
-                    },
-                    {
-                      "route": "personal/yourself-child/receive-records",
                       "progress": 3
                     },
                     {
@@ -368,10 +354,6 @@
                     },
                     {
                       "route": "personal/yourself-another/contact-info-options",
-                      "progress": 3
-                    },
-                    {
-                      "route": "personal/yourself-another/receive-records",
                       "progress": 3
                     },
                     {
@@ -433,10 +415,6 @@
                       "progress": 3
                     },
                     {
-                      "route": "personal/yourself-child-another/receive-records",
-                      "progress": 3
-                    },
-                    {
                       "route": "personal/yourself-child-another/review-submit",
                       "progress": 4
                     },
@@ -491,10 +469,6 @@
                     },
                     {
                       "route": "personal/child-another/contact-info-options",
-                      "progress": 3
-                    },
-                    {
-                      "route": "personal/child-another/receive-records",
                       "progress": 3
                     },
                     {

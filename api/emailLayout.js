@@ -124,11 +124,6 @@ module.exports = (function() {
     return result;
   }
 
-  function delivery(data) {
-    let result = tableRow('Delivery Method', data.deliveryText);
-    return result;
-  }
-
   function about(data) {
     let result = '';
     let selected = [];
@@ -153,8 +148,6 @@ module.exports = (function() {
     content += about(data.requestData.selectAbout || {});
     // Request Records
     content += general(data.requestData.descriptionTimeframe || {});
-    // Delivery Details
-    content += delivery(data.requestData.receiveRecords || {});
     // Ministry or Agency
     content += ministry(data.requestData.ministry || {});
     // Contact Information
@@ -181,7 +174,6 @@ module.exports = (function() {
     ministry,
     personal,
     contact,
-    delivery,
     about,
     renderEmail
   };
