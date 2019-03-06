@@ -42,7 +42,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
 
     // Show Topic field for all General requests!
-    this.showRequestTopic = this.foiRequest.requestData.requestType.requestType === "general";
+    this.showRequestTopic = false; //this.foiRequest.requestData.requestType.requestType === "general";
 
     // If ministry is PSA, show the Public Service Employee number field.
     // If ministry is PSSG, show the Correctional Service number field.
