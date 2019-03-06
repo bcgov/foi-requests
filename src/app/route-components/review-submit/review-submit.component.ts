@@ -16,12 +16,16 @@ export class ReviewSubmitComponent implements OnInit {
   foiRequestPretty: string;
   captchaApiBaseUrl: string = '/api';
   captchaComplete: boolean = false;
+  isBusy: boolean = false; // during submit!
   authToken: string = '';
   captchaNonce: string = '69879887sdsas$#';
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
+    if (!this.foiRequest.requestData.requestType) {
+      // TODO: base.backToRoot(); // !
+    }
     // foiRequestPretty is used for debugging only
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
   }
@@ -31,18 +35,26 @@ export class ReviewSubmitComponent implements OnInit {
     this.captchaComplete = true;
   }
 
+  submitDisabled () {
+    return this.isBusy || !this.captchaComplete;
+  }
+
   doContinue() {
+    this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
       console.log("result: ", result);
+      this.isBusy = false;
       this.base.goFoiForward();
 
     }, error => {
+      this.isBusy = false;
       console.log("That submit failed: ", error);
       alert("Temporarily unable to submit your request. Please try again in a few minutes.");
       this.captchaComponent.forceRefresh();
       this.captchaComplete = false;
     });
   }
+
   doGoBack() {
     this.base.goFoiBack();
   }

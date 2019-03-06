@@ -149,8 +149,9 @@
           <button type="button" class="btn btn-secondary" (click)="doGoBack()">
             Go back
           </button>
-          <button type="button" class="btn btn-primary" (click)="doContinue()" [disabled]="!captchaComplete">
-            Submit
+          <button #submitBtn type="button" class="btn btn-primary btn-wide" (click)="doContinue()" [disabled]="submitDisabled()">
+              <fa-icon *ngIf="isBusy" icon="spinner" [spin]=true></fa-icon>
+              Submit 
           </button>
         </div>
       </div>

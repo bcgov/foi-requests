@@ -48,13 +48,15 @@ function submitFoiRequest(server, req, res, next) {
         fs.unlinkSync(file.path);
       });
       // After files are deleted, process the result.
-      if (err) {
-        req.log.info('Failed:', err);
-        return next(err);
-      }
-      req.log.info('Sent!', response);
-      res.send({ result: 'success' });
-      next();
+      // setTimeout(()=> {
+        if (err) {
+          req.log.info('Failed:', err);
+          return next(err);
+        }
+        req.log.info('Sent!', response);
+        res.send({ result: 'success' });
+        next();
+      // }, 5000);
     }
   );
 }

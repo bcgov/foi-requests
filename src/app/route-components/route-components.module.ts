@@ -25,6 +25,13 @@ import { AnotherInformationComponent } from './another-information/another-infor
 import { AdoptiveParentsComponent } from './adoptive-parents/adoptive-parents.component';
 import { UtilsComponentsModule } from '../utils-components/utils-components.module';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+// Add an icon to the library for convenient access in other components
+library.add(faSpinner);
+
 @NgModule({
   declarations: [
     LandingComponent,
@@ -55,7 +62,8 @@ import { UtilsComponentsModule } from '../utils-components/utils-components.modu
     // Required to use these in children of RouteComponentsModule
     CommonModule,
     UtilsComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FontAwesomeModule
   ]
 })
 export class RouteComponentsModule { }

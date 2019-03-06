@@ -121,7 +121,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
       // They failed - try a new one.
       this.getNewCaptcha(true);
 
-      // Clear the input & set focus!
+      // Clear the input & set focus after a half-second!
       this.userAnswerRef.nativeElement.value = '';
       setTimeout(()=>{
         this.userAnswerRef.nativeElement.focus();
