@@ -39,7 +39,7 @@ export class ReviewSubmitCompleteComponent implements OnInit {
   }
 
   submitAnotherRequest() {
-    this.router.navigate([""]);
+    this.router.navigate(["getting-started2"]);
     return false;
   }
 }
