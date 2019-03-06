@@ -14,7 +14,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     topic: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
     description: [null, Validators.required],
     fromDate: [null, Validators.compose([Validators.required, this.noFutureValidator])],
-    toDate: [null, Validators.compose([Validators.required, this.noFutureValidator])],
+    toDate: [null, [Validators.required, this.noFutureValidator]],
     correctionalServiceNumber: [null, Validators.maxLength(255)],
     publicServiceEmployeeNumber: [null, Validators.maxLength(255)]
   });
@@ -71,7 +71,6 @@ export class DescriptionTimeframeComponent implements OnInit {
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
 
-    console.log('description-timefrane')
     const requestIspersonal = this.foiRequest.requestData.requestType.requestType === "personal";
     const isAdoption = this.foiRequest.requestData.requestTopic.value === "adoption"
     const personalNonAdoption = (requestIspersonal && !isAdoption);
@@ -88,7 +87,7 @@ export class DescriptionTimeframeComponent implements OnInit {
   }
 
   noFutureValidator(c: FormControl) {
-    if (c.value === "") {
+    if (!c.value) {
       return null; // null date is valid.
     }
     const parts = (c.value || "").split("-");

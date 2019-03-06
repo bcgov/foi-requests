@@ -32,7 +32,8 @@ export class FoiValidComponent implements OnInit {
 
   validationErrors(validation: string) {
     if (this.control && this.control.errors) {
-      return this.control.errors[validation];
+      const retval = this.control.errors[validation];
+      return retval;
     }
     return null;
   }
