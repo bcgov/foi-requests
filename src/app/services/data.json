@@ -235,7 +235,7 @@
                       "route": "personal/another/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
                       }
                     },
                     {
@@ -342,7 +342,7 @@
                       "route": "personal/yourself-another/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
                       }
                     },
                     {
@@ -410,7 +410,7 @@
                       "route": "personal/yourself-child-another/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
                       }
                     },
                     {
@@ -471,7 +471,7 @@
                       "route": "personal/child-another/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
                       }
                     },
                     {
