@@ -44,10 +44,16 @@ module.exports = (function() {
       result += tableRow('Description', fmtDescription);
     }
     if (data.fromDate) {
-      result += tableRow('From <small>(dd/mm/yyyy)</small>', dateFormat(data.fromDate));
+      result += tableRow(
+        'From <small>(dd/mm/yyyy)</small>',
+        dateFormat(data.fromDate)
+      );
     }
     if (data.toDate) {
-      result += tableRow('To <small>(dd/mm/yyyy)</small>', dateFormat(data.toDate));
+      result += tableRow(
+        'To <small>(dd/mm/yyyy)</small>',
+        dateFormat(data.toDate)
+      );
     }
     return result;
   }
@@ -75,15 +81,14 @@ module.exports = (function() {
   }
 
   function adoptiveParents(data) {
-    let result = tableHeader('Adoptive Parents');
-    result += tableRow(
-      'Adoptive Mother',
-      [data.motherFirstName, data.motherLastName].join(' ')
-    );
-    result += tableRow(
-      'Adoptive Father',
-      [data.fatherFirstName, data.fatherLastName].join(' ')
-    );
+    const mother = [data.motherFirstName, data.motherLastName].join(' ').trim();
+    const father = [data.fatherFirstName, data.fatherLastName].join(' ').trim();
+    let result = '';
+    if (mother || father) {
+      result += tableHeader('Adoptive Parents');
+      result += tableRow('Adoptive Mother', mother);
+      result += tableRow('Adoptive Father', father);
+    }
     return result;
   }
 
@@ -156,7 +161,7 @@ module.exports = (function() {
     content += personal(data.requestData.contactInfo || {});
     content += contact(data.requestData.contactInfoOptions || {});
     // Adoptive Parents
-    content += adoptiveParents(data.requestData.adoptiveParents || {});    
+    content += adoptiveParents(data.requestData.adoptiveParents || {});
     // Simple footer
     content += tableHeader(`Submitted ${new Date().toString()}`);
     content = table(content);
