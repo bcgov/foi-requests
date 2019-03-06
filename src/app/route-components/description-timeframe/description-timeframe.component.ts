@@ -22,12 +22,19 @@ export class DescriptionTimeframeComponent implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = "descriptionTimeframe";
   showRequestTopic: boolean = false;
+  hidePersonalNumbers: boolean = false;
   showPublicServiceEmployeeNumber: boolean = false;
   showCorrectionalServiceNumber: boolean = false;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
+    this.base.getFoiRouteData().subscribe(data => {
+      if (data) {
+        this.hidePersonalNumbers = data.hidePersonalNumbers;
+      }
+    });
+
     this.foiRequest = this.dataService.getCurrentState(this.targetKey, "requestType", "requestTopic", "ministry");
     this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
 
