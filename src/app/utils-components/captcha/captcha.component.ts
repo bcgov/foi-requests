@@ -120,6 +120,12 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
       this.audio = '';
       // They failed - try a new one.
       this.getNewCaptcha(true);
+
+      // Clear the input & set focus!
+      this.userAnswerRef.nativeElement.value = '';
+      setTimeout(()=>{
+        this.userAnswerRef.nativeElement.focus();
+      }, 500);
     }
   }
 
