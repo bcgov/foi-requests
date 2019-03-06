@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
-import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { Validators, FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { DataService } from "src/app/services/data.service";
 
@@ -14,6 +14,7 @@ export class VerifyYourIdentityComponent implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = "contactInfo";
   infoBlock: string;
+  includeBirthDate: boolean = false;
 
   foiForm: FormGroup;
 
@@ -35,7 +36,12 @@ export class VerifyYourIdentityComponent implements OnInit {
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
         this.infoBlock = data.infoBlock;
+        this.includeBirthDate =data.includeBirthDate;
+        if (!this.includeBirthDate){
+          this.foiForm.removeControl('birthDate');
+        }
       }
+
     });
   }
 

@@ -123,7 +123,7 @@
             {
               "route": "general/description-timeframe",
               "progress": 2,
-              "data":{
+              "data": {
                 "hidePersonalNumbers": true
               }
             },
@@ -142,7 +142,7 @@
               "choices": {
                 "yourself": {
                   "routes": [
-                    { "route": "personal/verify-your-identity", "progress": 2 },
+                    { "route": "personal/verify-your-identity", "progress": 2, "data": { "includeBirthDate": true } },
                     {
                       "route": "personal/request-topic",
                       "data": {
@@ -292,7 +292,8 @@
                       "route": "personal/yourself-child/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records.",
+                        "includeBirthDate": true
                       }
                     },
                     {
@@ -342,7 +343,8 @@
                       "route": "personal/yourself-another/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records.",
+                        "includeBirthDate": true
                       }
                     },
                     {
@@ -410,7 +412,8 @@
                       "route": "personal/yourself-child-another/verify-your-identity",
                       "progress": 2,
                       "data": {
-                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
+                        "infoBlock": "Why do we need this information? To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records.",
+                        "includeBirthDate": true
                       }
                     },
                     {
