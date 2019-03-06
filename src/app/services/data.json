@@ -122,7 +122,10 @@
             { "route": "general/ministry-confirmation", "progress": 2 },
             {
               "route": "general/description-timeframe",
-              "progress": 2
+              "progress": 2,
+              "data":{
+                "hidePersonalNumbers": true
+              }
             },
             { "route": "general/contact-info", "progress": 3 },
             { "route": "general/contact-info-options", "progress": 3 },
