@@ -46,7 +46,7 @@
         </div>
 
         <div class="col-lg-6">
-          <app-foi-valid [form]="foiForm">
+          <app-foi-valid [form]="foiForm" noFuture="Dat of Birth must not be in the future.">
             <label>What is the child’s date of birth?</label>
             <input type="date" formControlName="dateOfBirth" />
           </app-foi-valid>

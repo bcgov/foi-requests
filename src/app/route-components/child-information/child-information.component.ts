@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 // import { Observable } from "rxjs";
 
@@ -11,14 +11,7 @@ import { DataService } from "src/app/services/data.service";
 })
 export class ChildInformationComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
-  foiForm = this.fb.group({
-    firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    middleName: [null, [Validators.maxLength(255)]],
-    lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    alsoKnownAs: [null, [Validators.maxLength(255)]],
-    dateOfBirth: null,
-    proofOfGuardianship: [null, [Validators.required]]
-  });
+  foiForm: FormGroup;
 
   foiRequest: FoiRequest;
   targetKey: string = "childInformation";
@@ -26,6 +19,15 @@ export class ChildInformationComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
+    this.foiForm = this.fb.group({
+      firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      middleName: [null, [Validators.maxLength(255)]],
+      lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      alsoKnownAs: [null, [Validators.maxLength(255)]],
+      dateOfBirth: [null, this.base.noFutureValidator],
+      proofOfGuardianship: [null, [Validators.required]]
+    });
+  
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     const formInit = this.foiRequest.requestData[this.targetKey];

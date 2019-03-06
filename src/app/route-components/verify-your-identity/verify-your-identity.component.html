@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-lg-6">
-          <app-foi-valid [form]="foiForm" required="Birth date is a required field.">
+          <app-foi-valid [form]="foiForm" required="Birth date is a required field." noFuture="Birth date must not be in the future.">
             <label>Birth Date:</label>
             <input type="date" class="form-control" formControlName="birthDate" />
           </app-foi-valid>

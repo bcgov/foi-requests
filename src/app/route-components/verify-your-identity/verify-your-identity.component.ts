@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
-import { Validators, FormBuilder } from "@angular/forms";
+import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { DataService } from "src/app/services/data.service";
 
@@ -15,18 +15,20 @@ export class VerifyYourIdentityComponent implements OnInit {
   targetKey: string = "contactInfo";
   infoBlock: string;
 
-  foiForm = this.fb.group({
-    firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    middleName: [null, [Validators.maxLength(255)]],
-    lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    birthDate: [null, [Validators.required]],
-    alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
-    businessName: [null, [Validators.maxLength(255)]]
-  });
+  foiForm: FormGroup;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
+    this.foiForm = this.fb.group({
+      firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      middleName: [null, [Validators.maxLength(255)]],
+      lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      birthDate: [null, [Validators.required, this.base.noFutureValidator]],
+      alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
+      businessName: [null, [Validators.maxLength(255)]]
+    });
+  
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 

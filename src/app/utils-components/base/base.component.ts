@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { FoiRoute } from 'src/app/models/FoiRoute';
 import { BehaviorSubject } from 'rxjs';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'foi-base',
@@ -71,5 +72,29 @@ export class BaseComponent implements OnInit {
 
   goSkipForward() {
     this.foiRouter.progress({ direction: 2 });
+  }
+
+  noFutureValidator(c: FormControl) {
+    if (!c.value) {
+      return null; // null date is valid.
+    }
+    const parts = (c.value || "").split("-");
+    if (parts.length === 3) {
+      const year = parts[0];
+      const month = parts[1] - 1;
+      const day = parts[2];
+      // console.log("noFuture:", parts, new Date(year, month, day), new Date());
+      const enteredDate = new Date(year, month, day);
+      if (enteredDate <= new Date()) {
+        // Entered date is prior to now, it's good!
+        return null;
+      }
+    }
+    // Anything else is failed!
+    return {
+      noFuture: {
+        valid: false
+      }
+    };
   }
 }
