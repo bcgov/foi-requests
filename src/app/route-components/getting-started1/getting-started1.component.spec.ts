@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { MockDataService, MockRouter } from '../../MockClasses';
 import { Router } from '@angular/router';
+import { StaticContactBlockComponent } from 'src/app/utils-components/static-contact-block/static-contact-block.component';
 
 describe('GettingStarted1Component', () => {
   let component: GettingStarted1Component;
@@ -14,7 +15,7 @@ describe('GettingStarted1Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GettingStarted1Component, BaseComponent, FoiValidComponent ],
+      declarations: [ GettingStarted1Component, BaseComponent, FoiValidComponent, StaticContactBlockComponent ],
       imports:[ReactiveFormsModule],
       providers: [
         {provide: DataService, useClass: MockDataService},

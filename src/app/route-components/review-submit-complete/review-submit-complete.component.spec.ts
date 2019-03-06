@@ -1,24 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ReviewSubmitCompleteComponent } from './review-submit-complete.component';
-import { BaseComponent } from 'src/app/utils-components/base/base.component';
-import { DataService } from 'src/app/services/data.service';
-import { MockDataService, MockRouter } from '../../MockClasses';
-import { Router } from '@angular/router';
+import { ReviewSubmitCompleteComponent } from "./review-submit-complete.component";
+import { BaseComponent } from "src/app/utils-components/base/base.component";
+import { DataService } from "src/app/services/data.service";
+import { MockDataService, MockRouter } from "../../MockClasses";
+import { Router } from "@angular/router";
+import { StaticContactBlockComponent } from "src/app/utils-components/static-contact-block/static-contact-block.component";
 
-describe('ReviewSubmitCompleteComponent', () => {
+describe("ReviewSubmitCompleteComponent", () => {
   let component: ReviewSubmitCompleteComponent;
   let fixture: ComponentFixture<ReviewSubmitCompleteComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewSubmitCompleteComponent, BaseComponent ],
-      providers: [
-        {provide: DataService, useClass: MockDataService},
-        {provide: Router, useClass: MockRouter}
-      ]
-    })
-    .compileComponents();
+      declarations: [ReviewSubmitCompleteComponent, BaseComponent, StaticContactBlockComponent],
+      providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -27,7 +24,7 @@ describe('ReviewSubmitCompleteComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
