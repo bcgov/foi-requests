@@ -9,7 +9,7 @@ import { FoiRequest } from "../models/FoiRequest";
 
 class MockApiClient {}
 
-fdescribe("DataService", () => {
+describe("DataService", () => {
   let service: DataService;
 
   beforeEach(() => {
