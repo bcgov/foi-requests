@@ -102,12 +102,20 @@ export class DataService {
     reader.readAsDataURL(f);
   }
 
+  removeChildFileAttachment() {
+    sessionStorage.removeItem(this.childFileKey);
+  }
+
   setPersonFileAttachment(f: File) {
     const reader: FileReader = new FileReader();
     reader.onload = () => {
       sessionStorage.setItem(this.personFileKey, reader.result.toString());
     };
     reader.readAsDataURL(f);
+  }
+
+  removePersonFileAttachment() {
+    sessionStorage.removeItem(this.personFileKey);
   }
 
   private b64toBlob(b64Data, contentType, sliceSize?): Blob {

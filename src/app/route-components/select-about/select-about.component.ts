@@ -55,11 +55,31 @@ export class SelectAboutComponent implements OnInit {
 
   doContinue() {
     const navigateTo = this.allowContinue();
+
+    const includesChild = navigateTo.indexOf("child") > -1;
+    const includesAnother = navigateTo.indexOf("another") > -1;
+
     // If checkbox selection includes 'child', ministry and requestTopic are fixed.
-    if (navigateTo.indexOf("child") > -1) {
+    if (includesChild) {
       this.foiRequest.requestData.requestTopic = this.topics.find(t => t.value === "childProtection");
       this.foiRequest.requestData.ministry.default = this.ministries.find(m => m.code === "MCF");
     }
+
+    // If this request does not include 'child', remove childInformation details.
+    if (!includesChild) {
+      delete this.foiRequest.requestData.childInformation;
+      delete this.foiRequest.requestData.proofOfGuardianship;
+      this.dataService.removeChildFileAttachment();
+    }
+
+    // If this request does not include 'another', remove anotherInformation details.
+    if (!includesAnother) {
+      delete this.foiRequest.requestData.anotherInformation;
+      delete this.foiRequest.requestData.proofOfPermission;
+      this.dataService.removePersonFileAttachment();
+    }
+
+
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     this.base.goFoiForward(navigateTo);
