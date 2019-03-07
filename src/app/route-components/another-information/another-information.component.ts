@@ -45,6 +45,8 @@ export class AnotherInformationComponent implements OnInit {
   }
 
   newFileSelected(newFile: File){
-    this.dataService.setPersonFileAttachment(newFile);
+    this.dataService.setPersonFileAttachment(newFile).subscribe(value => {
+      
+    });
   }
 }
