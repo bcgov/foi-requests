@@ -8,7 +8,6 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { TransomApiClientService } from './transom-api-client.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { HomeComponent } from './home/home.component';
 import { ServicesModule } from './services/services.module';
 import { RouteComponentsModule } from './route-components/route-components.module';
 import { FooterComponent } from './footer/footer.component';
@@ -19,7 +18,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     CoreHeaderComponent,
     ProgressBarComponent,
-    HomeComponent,
     FooterComponent
   ],
   imports: [
