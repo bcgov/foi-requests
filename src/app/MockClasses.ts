@@ -102,6 +102,21 @@ export class MockDataService {
 
     return topics;
   }
+
+  getTopics(){
+    return [
+      {
+        value: "publicServiceEmployment",
+        text: "Your employment with the public service",
+        ministryCode: "PSA"
+      },
+      {
+        value: "correctionalFacility",
+        text: "Your time spent in a correctional facility",
+        ministryCode: "PSSG"
+      }
+    ];
+  }
 }
 export class MockRouter {
   url: "/general/somewhere";
