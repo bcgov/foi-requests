@@ -5,7 +5,6 @@ import { FormGroup } from "@angular/forms";
 
 export class MockDataService {
   getCurrentState(dataKey?: string): FoiRequest {
-    //const state = { requestData: {} };
     const state = {
       requestData: {
         requestType: { requestType: "personal" },
@@ -54,8 +53,7 @@ export class MockDataService {
           postal: "V8V 3r4",
           province: "BC",
           country: "CA"
-        },
-        receiveRecords: { deliveryType: "email", deliveryText: "Electronic records (by email)" }
+        }
       }
     };
 
@@ -65,10 +63,12 @@ export class MockDataService {
     }
     return state;
   }
+
   getRoute(routeUrl: string): FoiRoute {
     const rt: FoiRoute = { route: "/somewhere", progress: 2 };
     return rt;
   }
+
   getMinistries(): Observable<any[]> {
     return of([
       { code: "AEST", name: "Advanced Education, Skills and Training" },
@@ -76,7 +76,9 @@ export class MockDataService {
       { code: "AG", name: "Attorney General" }
     ]);
   }
+
   saveState(stateKey: string, state: FoiRequest) {}
+
   setCurrentState(foi: FoiRequest, key?: string, foiForm?: FormGroup): FoiRequest {
     if (key && foiForm) {
       // Clear the current node and populate it with values from the FormGroup.
@@ -86,6 +88,7 @@ export class MockDataService {
     this.saveState("foi-request", foi);
     return foi;
   }
+
   getTopicsObj(about: Object): Array<any> {
     const topics = [
       {
@@ -99,11 +102,10 @@ export class MockDataService {
         ministryCode: "PSSG"
       }
     ];
-
     return topics;
   }
 
-  getTopics(){
+  getTopics() {
     return [
       {
         value: "publicServiceEmployment",
@@ -118,8 +120,12 @@ export class MockDataService {
     ];
   }
 }
+
 export class MockRouter {
   url: "/general/somewhere";
+  navigate(...args) {
+    console.log('MockRouter.navigate=', args);
+  };
 }
 
 export class MockCaptchaDataService {
