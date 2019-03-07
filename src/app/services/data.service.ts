@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { default as data } from "./data.json";
 import { Observable, of } from "rxjs";
-import { FoiRoute } from "../models/FoiRoute.js";
-import { FoiRequest } from "../models/FoiRequest.js";
-import { TransomApiClientService } from "../transom-api-client.service.js";
+import { FoiRoute } from "../models/FoiRoute";
+import { FoiRequest } from "../models/FoiRequest";
+import { TransomApiClientService } from "../transom-api-client.service";
 import { FormGroup } from "@angular/forms";
 
 @Injectable({
