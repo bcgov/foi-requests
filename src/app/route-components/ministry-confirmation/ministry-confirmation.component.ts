@@ -45,15 +45,18 @@ export class MinistryConfirmationComponent implements OnInit {
     } else {
       // If thert's no default Ministry, make selectedMinistry required!
       this.foiForm.setControl("selectedMinistry", new FormControl([null, Validators.required]));
-      this.foiForm.valueChanges.subscribe(() => {
-        this.base.continueDisabled = !this.foiForm.valid;
-      });
+      this.base.continueDisabled = true;
     }
 
     // Make sure we have a selected ministry before trying to patch it in.
     const selectedCode = selectedMinistry ? selectedMinistry.code : null;
     this.foiForm.patchValue({
       selectedMinistry: selectedCode
+    });
+
+    // When the form changes, enable/disable the Continue button.
+    this.foiForm.valueChanges.subscribe(() => {
+      this.base.continueDisabled = !this.foiForm.valid;
     });
   }
 
