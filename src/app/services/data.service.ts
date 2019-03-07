@@ -94,24 +94,32 @@ export class DataService {
     return foi;
   }
 
-  setChildFileAttachment(f: File) {
-    const reader: FileReader = new FileReader();
-    reader.onload = () => {
-      sessionStorage.setItem(this.childFileKey, reader.result.toString());
-    };
-    reader.readAsDataURL(f);
+  setChildFileAttachment(f: File): Observable<boolean> {
+    return new Observable(observer => {
+      const reader: FileReader = new FileReader();
+      reader.onload = () => {
+        sessionStorage.setItem(this.childFileKey, reader.result.toString());
+        observer.next(true);
+        observer.complete();
+      };
+      reader.readAsDataURL(f);
+    });
   }
 
   removeChildFileAttachment() {
     sessionStorage.removeItem(this.childFileKey);
   }
 
-  setPersonFileAttachment(f: File) {
-    const reader: FileReader = new FileReader();
-    reader.onload = () => {
-      sessionStorage.setItem(this.personFileKey, reader.result.toString());
-    };
-    reader.readAsDataURL(f);
+  setPersonFileAttachment(f: File): Observable<boolean> {
+    return new Observable(observer => {
+      const reader: FileReader = new FileReader();
+      reader.onload = () => {
+        sessionStorage.setItem(this.personFileKey, reader.result.toString());
+        observer.next(true);
+        observer.complete();
+      };
+      reader.readAsDataURL(f);
+    });
   }
 
   removePersonFileAttachment() {
@@ -141,7 +149,7 @@ export class DataService {
 
   /**
    * Load a file from session storage using a given key.
-   * 
+   *
    * @param storageKey - Load a file using the provided key
    * @param filename - Apply the provided file name to the File object
    */
@@ -160,11 +168,11 @@ export class DataService {
 
   /**
    * Submit the completed FOI request data structure, and any files
-   * from session storage, to the REST API that will generate and 
+   * from session storage, to the REST API that will generate and
    * send the request as email.
-   * 
-   * @param authToken 
-   * @param nonce 
+   *
+   * @param authToken
+   * @param nonce
    * @param foiRequest - A structure containing the complete request
    */
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
@@ -192,9 +200,9 @@ export class DataService {
 
   /**
    * Create a flattened copy of the routes defined in data.json.
-   * This makes it simpler to derermine what are the 
+   * This makes it simpler to derermine what are the
    * next (forward) and previous (back) routes for each.
-   * 
+   *
    * @param routes - Recursive flattening of the route data.
    * @param parent - The route that owns the choices to be flattened.
    */
