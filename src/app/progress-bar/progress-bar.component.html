@@ -1,15 +1,19 @@
 <div class="container">
   <nav>
-      <div class="progressBar">
-          <ul [style.height]="minimumHeight +'px'">
-                  <li *ngFor="let item of progressBarList; index as i">
-                  <!-- Div classes are: was-active, active and inactive -->
-                      <div [class]="progressClass(item.progress)">
-                          <span class="mr-1">{{i+1}}.</span>
-                          <span class="progress-label d-none d-lg-inline d-xl-inline" [class.d-md-inline]="isActiveProgress(item.progress)" [innerHtml]="item.route"></span>
-                      </div>
-                  </li>
-          </ul>
-      </div>
+    <div class="progressBar">
+      <ul>
+        <li *ngFor="let item of progressBarList; index as i">
+          <!-- Div classes are: was-active, active and inactive -->
+          <div [class]="progressClass(item.progress)">
+            <span class="mr-1">{{ i + 1 }}.</span>
+            <span
+              class="progress-label d-none d-lg-inline d-xl-inline"
+              [class.d-md-inline]="isActiveProgress(item.progress)"
+              [innerHtml]="item.route"
+            ></span>
+          </div>
+        </li>
+      </ul>
+    </div>
   </nav>
 </div>
