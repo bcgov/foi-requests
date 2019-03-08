@@ -124,7 +124,6 @@ export class MockDataService {
 export class MockRouter {
   url: "/general/somewhere";
   navigate(...args) {
-    console.log('MockRouter.navigate=', args);
   };
 }
 
