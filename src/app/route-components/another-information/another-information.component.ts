@@ -45,8 +45,12 @@ export class AnotherInformationComponent implements OnInit {
   }
 
   newFileSelected(newFile: File){
-    this.dataService.setPersonFileAttachment(newFile).subscribe(value => {
-      
-    });
+    if (newFile){
+      this.dataService.setPersonFileAttachment(newFile).subscribe(value => {
+
+      });
+    } else {
+      this.dataService.removePersonFileAttachment();
+    }
   }
 }

@@ -45,8 +45,11 @@ export class ChildInformationComponent implements OnInit {
   }
 
   newFileSelected(newFile: File) {
-    this.dataService.setChildFileAttachment(newFile).subscribe(value =>{
-      
-    });
+    if (newFile){
+      this.dataService.setChildFileAttachment(newFile).subscribe(value =>{
+      });
+    } else {
+      this.dataService.removeChildFileAttachment();
+    }
   }
 }
