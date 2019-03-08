@@ -151,7 +151,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   }
 
   public retryFetchCaptcha() {
-    console.log('Retry captcha');
+    // console.log('Retry captcha');
     this.state = undefined;
 
     /**
@@ -162,11 +162,11 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
     }, 100);
   }
 
-  public playAudio() {
+  public playAudio(playImmediately: boolean = true) {
     if (this.audio && this.audio.length > 0) {
       this.audioElement.nativeElement.play();
     } else {
-      this.fetchAudio(true);
+      this.fetchAudio(playImmediately);
     }
   }
 
@@ -220,7 +220,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
       (error) => {
         this.state = CAPTCHA_STATE.ERROR_FETCH_IMG;
         this.errorFetchingImg = this.createErrorTextLine(error);
-        console.log('Error esponse from fetching CAPTCHA text: %o', error);
+        // console.log('Error esponse from fetching CAPTCHA text: %o', error);
         this.cd.detectChanges();
       }
     );

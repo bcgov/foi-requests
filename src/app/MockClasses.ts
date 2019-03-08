@@ -132,4 +132,12 @@ export class MockCaptchaDataService {
   public fetchData(apiBaseUrl: string, nonce: string): Observable<any> {
     return of({ body: { captcha: {}, validation: {} } });
   }
+
+  public verifyCaptcha(apiBaseUrl: string, nonce: string, answer: string, encryptedAnswer: string): Observable<any>{
+    return of({foo:"bar"});
+  }
+
+  public fetchAudio(apiBaseUrl: string, validation: string, translation?: string){
+    return of({ body: {audio:{}}});
+  }
 }
