@@ -31,7 +31,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     });
 
     this.foiRequest = this.dataService.getCurrentState(this.targetKey, "requestType", "requestTopic", "ministry");
-    this.foiRequest.requestData.ministry.default = this.foiRequest.requestData.ministry.default || {};
+    this.foiRequest.requestData.ministry.defaultMinistry = this.foiRequest.requestData.ministry.defaultMinistry || {};
 
     // If ministry is PSA, show the Public Service Employee number field.
     // If ministry is PSSG, show the Correctional Service number field.

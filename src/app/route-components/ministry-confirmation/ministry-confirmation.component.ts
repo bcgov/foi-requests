@@ -34,16 +34,16 @@ export class MinistryConfirmationComponent implements OnInit {
     );
 
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].default;
+    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].defaultMinistry;
     let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
 
     if (this.defaultMinistry) {
-      // If selectedMinistry is the same as default, don't re-select it in form!
+      // If selectedMinistry is the same as defaultMinistry, don't re-select it in form!
       if (selectedMinistry && selectedMinistry.code === this.defaultMinistry.code) {
         selectedMinistry = null;
       }
     } else {
-      // If thert's no default Ministry, make selectedMinistry required!
+      // If thert's no defaultMinistry, make selectedMinistry required!
       this.foiForm.setControl("selectedMinistry", new FormControl([null, Validators.required]));
       this.base.continueDisabled = true;
     }

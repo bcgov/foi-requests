@@ -62,8 +62,8 @@ module.exports = (function() {
     let result = tableHeader('Ministry or Agency');
     if (data.selectedMinistry && data.selectedMinistry.name) {
       result += tableRow('Ministry', data.selectedMinistry.name);
-    } else if (data.default && data.default.name) {
-      result += tableRow('Ministry', data.default.name);
+    } else if (data.defaultMinistry && data.defaultMinistry.name) {
+      result += tableRow('Ministry', data.defaultMinistry.name);
     }
     return result;
   }
