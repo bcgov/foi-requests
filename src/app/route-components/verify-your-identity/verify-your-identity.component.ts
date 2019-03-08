@@ -29,19 +29,19 @@ export class VerifyYourIdentityComponent implements OnInit {
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
     });
-  
+
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
         this.infoBlock = data.infoBlock;
-        this.includeBirthDate =data.includeBirthDate;
-        if (!this.includeBirthDate){
-          this.foiForm.removeControl('birthDate');
+        this.includeBirthDate = data.includeBirthDate;
+        if (!this.includeBirthDate) {
+          const currentValue = this.foiForm.get("birthDate").value;
+          this.foiForm.setControl("birthDate", new FormControl(currentValue));
         }
       }
-
     });
   }
 
