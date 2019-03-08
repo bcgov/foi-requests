@@ -10,7 +10,7 @@ export class MockDataService {
         requestType: { requestType: "personal" },
         ministry: {
           default: { code: "PSSG", name: "Public Safety and Solicitor General" },
-          selectedMinistry: { code: "PSSG", name: "Public Safety and Solicitor General" },
+          selectedMinistry: [{ code: "PSSG", name: "Public Safety and Solicitor General" }],
           ministryPage: "/personal/another/ministry-confirmation"
         },
         selectAbout: { yourself: null, child: null, another: true },
@@ -87,6 +87,12 @@ export class MockDataService {
     }
     this.saveState("foi-request", foi);
     return foi;
+  }
+  
+  removeChildFileAttachment() {
+  }
+
+  removePersonFileAttachment() {
   }
 
   getTopicsObj(about: Object): Array<any> {

@@ -2,46 +2,29 @@
   <div class="foi-content">
     <h2>What ministry or agency has the records you are looking for?</h2>
 
-    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <div *ngIf="(ministries$ | async) as minis">
-        <ng-container *ngFor="let m of minis">
-          <ng-container *ngIf="defaultMinistry && defaultMinistry.code && m.code === defaultMinistry.code">
-            Based on the topic of your request, your request will be sent to:
-
-            <p class="defaultMinistry">
-              {{ m.name }}
-            </p>
-
-            If this is not the correct ministry or agency to send your request, please specify the correct
-            ministry/agency from the list below.
-          </ng-container>
-        </ng-container>
-
-        <br />
-        <div class="form-group">
-          <app-foi-valid [form]="foiForm" required="Ministry is a required field.">
-            <select formControlName="selectedMinistry">
-              <option *ngFor="let m of minis" [value]="m.code">{{ m.name }}</option>
-            </select>
-          </app-foi-valid>
-        </div>
+    <div *ngIf="(ministries$ | async) as minis">
+      <div class="form-group">
+        <ul>
+          <li *ngFor="let m of minis; let i = index" [ngClass]="ministryListClasses(m)">
+            <label><input type="checkbox" [checked]="m.selected" (change)="selectMinistry(m)" /> {{ m.name }} </label>
+          </li>
+        </ul>
       </div>
+    </div>
 
-      <app-alert-info>
-        <p>
-          Select one ministry or agency. After you’ve submitted this form to one ministry, you may submit another
-          request if you are looking for records from more than one ministry or agency.
-        </p>
-        <p>
-          <a
-            href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries"
-            target="_blank"
-            >Learn more about what each ministry or agency does</a
-          >
-          before submitting your request.
-        </p>
-      </app-alert-info>
-    </form>
+    <app-alert-info>
+      <p>
+        Select one or more ministries or agencies.
+      </p>
+      <p>
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries"
+          target="_blank"
+          >Learn more about what each ministry or agency does</a
+        >
+        before submitting your request.
+      </p>
+    </app-alert-info>
   </div>
 
   <div class="sidebar">
