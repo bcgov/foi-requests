@@ -61,6 +61,10 @@ describe("AdoptiveParentsComponent", () => {
     expect(item).toBeTruthy();
   });
 
+  it("should contain no untested Controls", () => {
+    expect(Object.keys(component.foiForm.controls).length).toBe(4);
+  });
+
   it("should initialize form to use values from the session", () => {
     expect(component.foiForm.get("motherFirstName").value).toBe("Lois");
     expect(component.foiForm.get("motherLastName").value).toBe("Lane");

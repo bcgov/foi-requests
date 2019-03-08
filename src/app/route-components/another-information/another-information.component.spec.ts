@@ -54,6 +54,10 @@ describe("AnotherInformationComponent", () => {
     expect(item).toBeTruthy();
   });
 
+  it("should contain no untested Controls", () => {
+    expect(Object.keys(component.foiForm.controls).length).toBe(6);
+  });
+
   it("should initialize form to use values from the session", () => {
     expect(component.foiForm.get("firstName").value).toBe("James");
     expect(component.foiForm.get("middleName").value).toBe("Tiberius");
