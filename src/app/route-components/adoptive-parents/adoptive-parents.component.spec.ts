@@ -20,7 +20,6 @@ describe("AdoptiveParentsComponent", () => {
       console.log('MockRouter.navigate=', args);
     };
   }
-  
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,7 +27,7 @@ describe("AdoptiveParentsComponent", () => {
       imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot()],
       providers: [
         DataService,
-        { provide: Router, useClass: MockRouter } // ?
+        { provide: Router, useClass: MockRouter }
       ]
     }).compileComponents();
   }));
@@ -50,7 +49,7 @@ describe("AdoptiveParentsComponent", () => {
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 
-    // Create the Component to bew tested.
+    // Create the Component to be tested.
     fixture = TestBed.createComponent(AdoptiveParentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -60,6 +59,10 @@ describe("AdoptiveParentsComponent", () => {
     expect(component).toBeTruthy();
     const item = sessionStorage.getItem("foi-request");
     expect(item).toBeTruthy();
+  });
+
+  it("should contain no untested Controls", () => {
+    expect(Object.keys(component.foiForm.controls).length).toBe(4);
   });
 
   it("should initialize form to use values from the session", () => {
@@ -74,9 +77,9 @@ describe("AdoptiveParentsComponent", () => {
     component.foiForm.get("motherLastName").setValue("Rubble");
     component.foiForm.get("fatherFirstName").setValue("Fred");
     component.foiForm.get("fatherLastName").setValue("Flintstone");
-    expect(component.foiForm.valid).toBeTruthy();
 
     // Submit the form...
+    expect(component.foiForm.valid).toBeTruthy();
     component.doContinue();
     const item: FoiRequest = JSON.parse(sessionStorage.getItem("foi-request"));
 

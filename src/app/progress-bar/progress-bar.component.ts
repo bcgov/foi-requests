@@ -15,7 +15,7 @@ export class ProgressBarComponent implements OnInit {
   {"route":"Contact Info", "progress": 3},
   {"route":"Review & Submit", "progress": 4}
 ];
-  @Input() public currentProgress: number;
+  @Input() public currentProgress: number = 0;
 
   ngOnInit() {}
 
