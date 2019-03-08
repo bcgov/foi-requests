@@ -1,6 +1,6 @@
 import {
-  Component, ElementRef, ViewChild, SimpleChanges, NgZone,
-  ChangeDetectorRef, Output, Input, AfterViewInit, OnInit, OnChanges, EventEmitter
+  Component, ElementRef, ViewChild, NgZone,
+  ChangeDetectorRef, Output, Input, AfterViewInit, OnInit, EventEmitter
 } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { CaptchaDataService } from 'src/app/services/captcha-data.service';
@@ -10,7 +10,7 @@ import { CaptchaDataService } from 'src/app/services/captcha-data.service';
   templateUrl: './captcha.component.html',
   styleUrls: ['./captcha.component.scss']
 })
-export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
+export class CaptchaComponent implements AfterViewInit, OnInit {
 
   @ViewChild('image') imageContainer: ElementRef;
   @ViewChild('answer') userAnswerRef : ElementRef;
@@ -60,17 +60,6 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   ngAfterViewInit() {
     this.forceRefresh();
   }
-  ngOnChanges(changes: SimpleChanges) {
-    // when changing language, if audio is empty then no need to refetch
-    if (!changes.language || !this.audio || this.audio.length === 0) {
-      if (!(changes.reloadCaptcha && (true === changes.reloadCaptcha.previousValue
-        || false === changes.reloadCaptcha.previousValue)
-        && (changes.reloadCaptcha.currentValue !== changes.reloadCaptcha.previousValue))) {
-        return;
-      }
-    }
-    this.getNewCaptcha(false);
-  }
 
   forceRefresh() {
     this.getNewCaptcha(false);
@@ -102,7 +91,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
         (error) => {
           this.state = CAPTCHA_STATE.ERROR_VERIFY;
           this.errorVerifyAnswer = this.createErrorTextLine(error);
-          console.log('Error response from verifying user answer: %o', error);
+          // console.log('Error response from verifying user answer: %o', error);
         }
       );
     }
@@ -137,12 +126,12 @@ export class CaptchaComponent implements AfterViewInit, OnInit, OnChanges {
   private isValidPayload(payload) {
     // console.debug('Response payload: %o', payload);
     if (!payload) {
-      console.error('payload cannot be null or undefined or 0');
+      // console.error('payload cannot be null or undefined or 0');
       return false;
     } else {
       const hasValueProp = payload.hasOwnProperty('valid');
       if (!hasValueProp) {
-        console.error('payload must have its own property named \'valid\'');
+        // console.error('payload must have its own property named \'valid\'');
         return false;
       } else {
         return true;

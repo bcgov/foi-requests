@@ -107,6 +107,62 @@ describe("CaptchaComponent", () => {
     expect(errorDiv.innerText).toEqual("Incorrect answer, please try again.");
   });
 
+  it("should handle an error when verifying an answer", () => {
+
+    const errorObs = new Observable(observer => {
+      throw new Error("Yikes");
+    });
+
+    const captchaDataService: CaptchaDataService = TestBed.get(CaptchaDataService);
+    spyOn(captchaDataService, "verifyCaptcha").and.returnValue(errorObs); //answer will be incorrect :)
+    spyOn(captchaDataService, "fetchData").and.callThrough();
+    const answerInput: HTMLInputElement = captchaComponentElement.querySelector("input");
+
+    //first validate that the 'invalid try again' message is *NOT* displayed
+    const errorDivPre: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
+    expect(errorDivPre).toBeFalsy()
+
+    //now 6 characters in input, make the call
+    answerInput.value = "mfhtnj";
+    answerInput.dispatchEvent(new Event("input"));
+    fixture.detectChanges();
+
+    expect(captchaDataService.verifyCaptcha).toHaveBeenCalledTimes(1);
+
+    //a new catcha must have been called
+    expect(captchaDataService.fetchData).toHaveBeenCalledTimes(0);
+
+    //now validate that the 'invalid try again' message is displayed
+    const errorDiv: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
+    expect(errorDiv).toBeTruthy();
+  });
+
+  it("should handle an invalid response when verifying an answer", () => {
+
+    const captchaDataService: CaptchaDataService = TestBed.get(CaptchaDataService);
+    spyOn(captchaDataService, "verifyCaptcha").and.returnValue(of({ body: { bad: false } })); //answer will be invalid :)
+    spyOn(captchaDataService, "fetchData").and.callThrough();
+    const answerInput: HTMLInputElement = captchaComponentElement.querySelector("input");
+
+    //first validate that the 'invalid try again' message is *NOT* displayed
+    const errorDivPre: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
+    expect(errorDivPre).toBeFalsy()
+
+    //now 6 characters in input, make the call
+    answerInput.value = "mfhtnj";
+    answerInput.dispatchEvent(new Event("input"));
+    fixture.detectChanges();
+
+    expect(captchaDataService.verifyCaptcha).toHaveBeenCalledTimes(1);
+
+    //a new catcha must have been called
+    expect(captchaDataService.fetchData).toHaveBeenCalledTimes(0);
+
+    //now validate that the 'invalid try again' message is displayed
+    const errorDiv: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
+    expect(errorDiv).toBeTruthy();
+  });
+
   it("should handle an error retrieving a captcha", (done) => {
 
     const errorObs = new Observable(observer => {
