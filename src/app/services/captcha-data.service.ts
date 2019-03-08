@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-// import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 
 // payload returned from the server
@@ -16,7 +15,6 @@ export class ServerPayload {
 export class CaptchaDataService {
 
   constructor(private httpClient: HttpClient) { }
-  // private http: Http) { }
 
   public fetchData(apiBaseUrl: string, nonce: string): Observable<HttpResponse<ServerPayload>> {
     return this.httpClient
@@ -45,17 +43,5 @@ export class CaptchaDataService {
         payload,
         { observe: 'response' });
   }
-  /*
-    fetchData(apiBaseUrl: string, nonce: string): Observable<Response> {
-      return this.http.post(apiBaseUrl + '/captcha', {nonce: nonce}, {});
-    }
-
-    verifyCaptcha(apiBaseUrl: string, nonce: string, answer: string, encryptedAnswer: string): Observable<Response> {
-      return this.http.post(apiBaseUrl + '/verify/captcha', {nonce: nonce, answer: answer, validation: encryptedAnswer}, {});
-    }
-
-    fetchAudio(apiBaseUrl: string, validation: string): Observable<Response> {
-      return this.http.post(apiBaseUrl + '/captcha/audio', {validation: validation}, {});
-    }
-  */
+  
 }
