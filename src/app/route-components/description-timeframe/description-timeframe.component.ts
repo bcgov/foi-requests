@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { FormBuilder, Validators, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 
 @Component({
@@ -37,7 +37,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     // If ministry is PSSG, show the Correctional Service number field.
     const currentMinistry = this.foiRequest.requestData.ministry.selectedMinistry
       ? this.foiRequest.requestData.ministry.selectedMinistry
-      : this.foiRequest.requestData.ministry.defaultMinistry;
+      : this.foiRequest.requestData.ministry.defaultMinistry || {};
 
     this.personalRequest = this.foiRequest.requestData.requestType.requestType === "personal";
     if (this.personalRequest) {
@@ -45,7 +45,7 @@ export class DescriptionTimeframeComponent implements OnInit {
       this.showCorrectionalServiceNumber = currentMinistry.code === "PSSG";
     }
 
-    this.topic = this.foiRequest.requestData.requestTopic.text || currentMinistry.name;
+    this.topic = this.foiRequest.requestData.requestTopic.text || currentMinistry.name || 'Undefined';
 
     const formInit = {};
     Object.assign(formInit, this.foiRequest.requestData[this.targetKey]);
