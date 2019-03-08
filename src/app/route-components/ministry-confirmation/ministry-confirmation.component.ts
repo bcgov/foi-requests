@@ -23,7 +23,7 @@ export class MinistryConfirmationComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].default;
+    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].defaultMinistry;
     let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
 
     // Fetch Ministries from the data service.

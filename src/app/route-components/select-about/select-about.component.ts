@@ -62,7 +62,7 @@ export class SelectAboutComponent implements OnInit {
     // If checkbox selection includes 'child', ministry and requestTopic are fixed.
     if (includesChild) {
       this.foiRequest.requestData.requestTopic = this.topics.find(t => t.value === "childProtection");
-      this.foiRequest.requestData.ministry.default = this.ministries.find(m => m.code === "MCF");
+      this.foiRequest.requestData.ministry.defaultMinistry = this.ministries.find(m => m.code === "MCF");
     }
 
     // If this request does not include 'child', remove childInformation details.

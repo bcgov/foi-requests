@@ -71,8 +71,8 @@ module.exports = (function() {
         ministryContent += ministry.name;
       }
       result += tableRow('Ministry', ministryContent);
-    } else if (data.default && data.default.name) {
-      result += tableRow('Ministry', data.default.name);
+    } else if (data.defaultMinistry && data.defaultMinistry.name) {
+      result += tableRow('Ministry', data.defaultMinistry.name);
     }
      
     return result;

@@ -9,7 +9,7 @@ export class MockDataService {
       requestData: {
         requestType: { requestType: "personal" },
         ministry: {
-          default: { code: "PSSG", name: "Public Safety and Solicitor General" },
+          defaultMinistry: { code: "PSSG", name: "Public Safety and Solicitor General" },
           selectedMinistry: [{ code: "PSSG", name: "Public Safety and Solicitor General" }],
           ministryPage: "/personal/another/ministry-confirmation"
         },
