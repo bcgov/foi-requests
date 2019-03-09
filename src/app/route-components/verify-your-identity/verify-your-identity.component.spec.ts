@@ -8,9 +8,6 @@ import { UtilsComponentsModule } from "src/app/utils-components/utils-components
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { BaseComponent } from "src/app/utils-components/base/base.component";
-import { By } from "protractor";
-import { of } from "rxjs";
 
 describe("VerifyYourIdentityComponent", () => {
   let component: VerifyYourIdentityComponent;
