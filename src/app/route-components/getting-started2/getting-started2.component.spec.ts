@@ -7,10 +7,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { MockDataService, MockRouter } from '../../MockClasses';
 import { Router } from '@angular/router';
+import { By } from "@angular/platform-browser";
 
 describe('GettingStarted2Component', () => {
   let component: GettingStarted2Component;
   let fixture: ComponentFixture<GettingStarted2Component>;
+  let dataService: DataService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +27,7 @@ describe('GettingStarted2Component', () => {
   }));
 
   beforeEach(() => {
+    dataService = TestBed.get(DataService);
     fixture = TestBed.createComponent(GettingStarted2Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -33,4 +36,20 @@ describe('GettingStarted2Component', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("should go forward on continue click", done => {
+    let baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
+    let base: BaseComponent = baseDebug[0].componentInstance;
+
+    spyOn(dataService, "setCurrentState").and.callThrough();
+    spyOn(base, "goFoiForward").and.callThrough();
+    const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
+    continueButon.dispatchEvent(new Event("click"));
+    fixture.detectChanges();
+
+    // setCurrentState is NOT called on Getting-Started-2
+    expect(dataService.setCurrentState).toHaveBeenCalledTimes(0);
+    expect(base.goFoiForward).toHaveBeenCalledTimes(1);
+    done();
+  });  
 });
