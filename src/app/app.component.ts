@@ -83,7 +83,7 @@ export class AppComponent implements OnInit {
   /**
    * HasProgress is used to determine if the progress indicator should be visible.
    */
-  hasProgress(): boolean {
+  get hasProgress(): boolean {
     return this.currentProgress > 0;
   }
 

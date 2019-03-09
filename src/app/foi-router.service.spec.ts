@@ -20,4 +20,16 @@ describe('FoiRouterService', () => {
     })
   });
 
+  it('should scroll up as we set the progress', (done) => {
+    const service: FoiRouterService = TestBed.get(FoiRouterService);
+    window.scrollTo(0, 20);  // make scrollTop do something!
+    service.progress("bar");
+    // It's a BehaviorSubject, so the last value is still available!
+    service.getRouteProgress().subscribe(val => {
+      expect(val).toBe("bar");
+      done();
+    })
+  });
+
+  
 });
