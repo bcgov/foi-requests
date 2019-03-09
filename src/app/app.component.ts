@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     /**
      * Navigate through the app based on changes applied within the FoiRouterService.
      */
-    this.foiRouter.routeProgress.subscribe(val => {
+    this.foiRouter.getRouteProgress().subscribe(val => {
       if (!val) {
         this.setCurrentRoute(rootRoute);
         return;

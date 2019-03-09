@@ -14,7 +14,7 @@ describe('FoiRouterService', () => {
     const service: FoiRouterService = TestBed.get(FoiRouterService);
     service.progress("foo");
     // It's a BehaviorSubject, so the last value is still available!
-    service.routeProgress.subscribe(val => {
+    service.getRouteProgress().subscribe(val => {
       expect(val).toBe("foo");
       done();
     })
