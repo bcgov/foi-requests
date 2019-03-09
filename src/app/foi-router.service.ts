@@ -5,14 +5,18 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class FoiRouterService {
-  routeProgress: BehaviorSubject<any>;
+  private _routeProgress: BehaviorSubject<any>;
 
   constructor() {
-    this.routeProgress = new BehaviorSubject<any>(null);
+    this._routeProgress = new BehaviorSubject<any>(null);
+  }
+
+  public getRouteProgress(): BehaviorSubject<any>{
+    return this._routeProgress;
   }
 
   public progress(val) {
-    this.routeProgress.next(val);
+    this._routeProgress.next(val);
     this.scrollTop();
   }
 
