@@ -100,7 +100,7 @@ describe("DescriptionTimeframeComponent", () => {
   describe("Initialize Description Timeframe with Public Service Ministry", () => {
     beforeEach(() => {
       // Initialize sessionStorage _before_ creating the component!
-      staticFoiData.requestData.ministry.defaultMinistry = { code: "PSA" };
+      staticFoiData.requestData.ministry.selectedMinistry = [{ code: "PSA" }];
       sessionStorage.setItem("foi-request", JSON.stringify(staticFoiData));
 
       fixture = TestBed.createComponent(DescriptionTimeframeComponent);
@@ -118,7 +118,7 @@ describe("DescriptionTimeframeComponent", () => {
   describe("Initialize Description Timeframe with Correctional Services Ministry", () => {
     beforeEach(() => {
       // Initialize sessionStorage _before_ creating the component!
-      staticFoiData.requestData.ministry.selectedMinistry = { code: "PSSG" };
+      staticFoiData.requestData.ministry.selectedMinistry = [{ code: "PSSG" }];
       sessionStorage.setItem("foi-request", JSON.stringify(staticFoiData));
 
       fixture = TestBed.createComponent(DescriptionTimeframeComponent);
