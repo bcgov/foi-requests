@@ -84,6 +84,12 @@ module.exports = (function() {
       'Name',
       [data.firstName, data.middleName, data.lastName].join(' ')
     );
+    if (data.alsoKnownAs) {
+      result += tableRow(
+        'Also Known As',
+        data.alsoKnownAs
+      )
+    }
     if (data.businessName) {
       result += tableRow('Business Name', data.businessName);
     }
