@@ -12,9 +12,6 @@ import { map } from "rxjs/operators";
 })
 export class MinistryConfirmationComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
-  foiForm = this.fb.group({
-    selectedMinistry: null
-  });
 
   foiRequest: FoiRequest;
   ministries$: Observable<any>;
@@ -25,48 +22,53 @@ export class MinistryConfirmationComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
+    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].defaultMinistry;
+    let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
+
     // Fetch Ministries from the data service.
     this.ministries$ = this.dataService.getMinistries().pipe(
+      map(ministries => {
+        ministries.forEach(m => {
+          m.selected = m.defaulted = this.defaultMinistry && (m.code === this.defaultMinistry.code);
+          m.selected = m.selected || (selectedMinistry ? !!selectedMinistry.find(ms => ms.code === m.code) : false);
+        });
+        return ministries;
+      }),
+      map(ministries => {
+        this.base.continueDisabled = !ministries.find(m => m.selected);
+        return ministries;
+      }),
       map(ministries => {
         this.ministries = ministries;
         return ministries;
       })
     );
+  }
 
-    this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.defaultMinistry = this.foiRequest.requestData[this.targetKey].defaultMinistry;
-    let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
+  selectMinistry(m: any) {
+    m.selected = !m.selected;
+    this.setContinueDisabled();
+  }
 
-    if (this.defaultMinistry) {
-      // If selectedMinistry is the same as defaultMinistry, don't re-select it in form!
-      if (selectedMinistry && selectedMinistry.code === this.defaultMinistry.code) {
-        selectedMinistry = null;
-      }
-    } else {
-      // If thert's no defaultMinistry, make selectedMinistry required!
-      this.foiForm.setControl("selectedMinistry", new FormControl([null, Validators.required]));
-      this.base.continueDisabled = true;
+  setContinueDisabled() {
+    let selected = this.ministries.filter(m => m.selected);
+    this.base.continueDisabled = selected.length == 0;
+  }
+
+  ministryListClasses(m: any): string {
+    let ret: string = "";
+    if (m.defaulted) {
+      ret += "defaultMinistry";
     }
 
-    // Make sure we have a selected ministry before trying to patch it in.
-    const selectedCode = selectedMinistry ? selectedMinistry.code : null;
-    this.foiForm.patchValue({
-      selectedMinistry: selectedCode
-    });
-
-    // When the form changes, enable/disable the Continue button.
-    this.foiForm.valueChanges.subscribe(() => {
-      this.base.continueDisabled = !this.foiForm.valid;
-    });
+    return ret;
   }
 
   doContinue() {
     // Copy out submitted form data.
-    const formData = this.foiForm.value;
-    let selected = this.ministries.find(m => m["code"] === formData.selectedMinistry);
-    if (!selected) {
-      selected = this.defaultMinistry;
-    }
+    let selected = this.ministries.filter(m => m.selected);
+
     this.foiRequest.requestData[this.targetKey].selectedMinistry = selected;
     this.foiRequest.requestData[this.targetKey].ministryPage = this.base.getCurrentRoute();
     // Update save data & proceed.

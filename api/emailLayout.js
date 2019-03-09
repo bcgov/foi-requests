@@ -60,11 +60,21 @@ module.exports = (function() {
 
   function ministry(data) {
     let result = tableHeader('Ministry or Agency');
-    if (data.selectedMinistry && data.selectedMinistry.name) {
-      result += tableRow('Ministry', data.selectedMinistry.name);
+
+    let ministryContent = '';
+    if (data.selectedMinistry) {
+      for(let i = 0; i< data.selectedMinistry.length; i++){
+        let ministry = data.selectedMinistry[i];
+        if (i>0) {
+          ministryContent += '<br>';
+        }
+        ministryContent += ministry.name;
+      }
+      result += tableRow('Ministry', ministryContent);
     } else if (data.defaultMinistry && data.defaultMinistry.name) {
       result += tableRow('Ministry', data.defaultMinistry.name);
     }
+     
     return result;
   }
 
@@ -74,6 +84,12 @@ module.exports = (function() {
       'Name',
       [data.firstName, data.middleName, data.lastName].join(' ')
     );
+    if (data.alsoKnownAs) {
+      result += tableRow(
+        'Also Known As',
+        data.alsoKnownAs
+      )
+    }
     if (data.businessName) {
       result += tableRow('Business Name', data.businessName);
     }

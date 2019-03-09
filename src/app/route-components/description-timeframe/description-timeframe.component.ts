@@ -37,12 +37,12 @@ export class DescriptionTimeframeComponent implements OnInit {
     // If ministry is PSSG, show the Correctional Service number field.
     const currentMinistry = this.foiRequest.requestData.ministry.selectedMinistry
       ? this.foiRequest.requestData.ministry.selectedMinistry
-      : this.foiRequest.requestData.ministry.defaultMinistry || {};
+      : [this.foiRequest.requestData.ministry.defaultMinistry] || [{}];
 
     this.personalRequest = this.foiRequest.requestData.requestType.requestType === "personal";
     if (this.personalRequest) {
-      this.showPublicServiceEmployeeNumber = currentMinistry.code === "PSA";
-      this.showCorrectionalServiceNumber = currentMinistry.code === "PSSG";
+      this.showPublicServiceEmployeeNumber = !!currentMinistry.find(m => m.code === "PSA");
+      this.showCorrectionalServiceNumber = !!currentMinistry.find(m => m.code === "PSSG");
     }
 
     this.topic = this.foiRequest.requestData.requestTopic.text || currentMinistry.name || 'Undefined';

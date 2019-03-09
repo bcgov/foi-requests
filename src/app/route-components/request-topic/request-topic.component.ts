@@ -70,7 +70,6 @@ export class RequestTopicComponent implements OnInit {
         return alert(`Invalid defaultMinistry (${ministryCode}), please contact the system administrator`);
       }
       this.foiRequest.requestData[this.ministryKey].defaultMinistry = ministryMatch;
-      this.foiRequest.requestData[this.ministryKey].selectedMinistry = ministryMatch;
       this.dataService.setCurrentState(this.foiRequest);
 
       this.base.goFoiForward(selection);

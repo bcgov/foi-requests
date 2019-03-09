@@ -59,9 +59,13 @@
       <div class="col-lg-6">
         <div class="row">
           <div class="col-lg-12">
-            <div class="form-group">
               <label>Ministry:</label>
-              <span class="form-control">{{ foiRequest.requestData.ministry.selectedMinistry.name }}</span>
+            <div class="form-group" >
+                <div class="form-control description-text">
+              <ng-container *ngFor="let ministry of foiRequest.requestData.ministry.selectedMinistry; let i = index ">
+                   {{ ministry.name }} <br>
+              </ng-container>
+            </div>
             </div>
           </div>
 

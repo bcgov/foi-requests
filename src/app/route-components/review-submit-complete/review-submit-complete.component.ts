@@ -17,25 +17,13 @@ export class ReviewSubmitCompleteComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
-    this.dataService.saveState("submitted", this.foiRequest);
     // Clear the current state!
     const blankState: FoiRequest = {
       requestData: {}
     };
     this.dataService.setCurrentState(blankState);
-  }
-
-  submitToAnotherMinistry() {
-    const submitted = this.dataService.loadState("submitted");
-    let ministryPage = "";
-    // Scrub the selected ministry
-    if (submitted && submitted.requestData && submitted.requestData.ministry) {
-      submitted.requestData.ministry.selectedMinistry = {};
-      ministryPage = submitted.requestData.ministry.ministryPage;
-    }
-    this.dataService.setCurrentState(submitted);
-    this.router.navigate([ministryPage]);
-    return false;
+    this.dataService.removeChildFileAttachment();
+    this.dataService.removePersonFileAttachment();
   }
 
   submitAnotherRequest() {
