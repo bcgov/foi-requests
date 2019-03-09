@@ -3,7 +3,7 @@ import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder, Validators } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
-import { BehaviorSubject } from "rxjs";
+import { startWith } from "rxjs/operators";
 
 @Component({
   templateUrl: "./proof-of-guardianship.component.html",
@@ -17,7 +17,7 @@ export class ProofOfGuardianshipComponent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string;
-  answerYes: boolean;
+  answerYes: boolean = null;
   answerReceived: boolean;
   proofFor: string;
 
@@ -25,34 +25,31 @@ export class ProofOfGuardianshipComponent implements OnInit {
 
   ngOnInit() {
     this.base.getFoiRouteData().subscribe(data => {
-
       if (data) {
         this.proofFor = data.proofFor; // One of ['child', 'person']
         this.targetKey = this.proofFor === "child" ? "proofOfGuardianship" : "proofOfPermission";
         // Load the current values & populate the FormGroup.
         this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-        this.answerYes = this.foiRequest.requestData[this.targetKey].answerYes === "true";
-        this.answerReceived = this.answerYes;
-        this.base.continueDisabled = !this.answerYes;
-        this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+        const initialValues = this.foiRequest.requestData[this.targetKey];
+        this.foiForm.patchValue(initialValues);
 
-        this.foiForm.valueChanges.subscribe(newValue => {
+        this.foiForm.valueChanges.pipe(startWith(initialValues)).subscribe(newValue => {
+          this.answerReceived = this.answerYes !== null;
           this.answerYes = newValue.answerYes === "true";
           this.base.continueDisabled = !this.answerYes;
-          this.answerReceived = true;
         });
-  
-        }
+      }
     });
   }
 
   get showAlert(): Boolean {
     return this.answerReceived && !this.answerYes;
   }
+
   doContinue() {
     // Update save data & proceed.
-    const state = this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
-    this.base.goFoiForward(state.requestData[this.targetKey].requestType);
+    this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
+    this.base.goFoiForward();
   }
 
   doGoBack() {

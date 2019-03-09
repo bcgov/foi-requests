@@ -34,8 +34,8 @@ describe('LandingComponent', () => {
 
   it('should load without the Panel, click should show it', () => {
     expect(component.showPanel).toBeFalsy();
-    const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
-    continueButon.dispatchEvent(new Event("click"));
+    const continueButton: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
+    continueButton.dispatchEvent(new Event("click"));
     fixture.detectChanges();
 
     expect(component.showPanel).toBeTruthy();
@@ -49,8 +49,8 @@ describe('LandingComponent', () => {
     fixture.detectChanges();
 
     spyOn(base,'goFoiForward').and.callThrough();
-    const continueButon: HTMLInputElement = fixture.nativeElement.querySelector("#panel-continue-btn");
-    continueButon.dispatchEvent(new Event("click"));
+    const continueButton: HTMLInputElement = fixture.nativeElement.querySelector("#panel-continue-btn");
+    continueButton.dispatchEvent(new Event("click"));
     fixture.detectChanges();
 
     expect(base.goFoiForward).toHaveBeenCalledTimes(1);

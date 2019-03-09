@@ -38,13 +38,13 @@ describe('GettingStarted2Component', () => {
   });
 
   it("should go forward on continue click", done => {
-    let baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
-    let base: BaseComponent = baseDebug[0].componentInstance;
+    const baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
+    const base: BaseComponent = baseDebug[0].componentInstance;
 
     spyOn(dataService, "setCurrentState").and.callThrough();
     spyOn(base, "goFoiForward").and.callThrough();
-    const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
-    continueButon.dispatchEvent(new Event("click"));
+    const continueButton: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
+    continueButton.dispatchEvent(new Event("click"));
     fixture.detectChanges();
 
     // setCurrentState is NOT called on Getting-Started-2

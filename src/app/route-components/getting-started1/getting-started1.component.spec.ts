@@ -40,8 +40,8 @@ describe("GettingStarted1Component", () => {
 
     spyOn(dataService, "setCurrentState").and.callThrough();
     spyOn(base, "goFoiForward").and.callThrough();
-    const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
-    continueButon.dispatchEvent(new Event("click"));
+    const continueButton: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
+    continueButton.dispatchEvent(new Event("click"));
     fixture.detectChanges();
 
     expect(dataService.setCurrentState).toHaveBeenCalledTimes(1);
