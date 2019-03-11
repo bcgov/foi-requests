@@ -7,6 +7,7 @@
     "start-ui": "ng serve",
     "start-api": "cd api && npm run start-dev",
     "build": "ng build",
+    "build-prod": "ng build --prod=true",
     "test": "ng test",
     "cov": "http-server -c-1 -o -p 9875 ./coverage/bcfoi",
     "test-cov": "concurrently \"http-server -c-1 -o -p 9875 ./coverage/bcfoi\"  \"ng test --code-coverage\" ",
