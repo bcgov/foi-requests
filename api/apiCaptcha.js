@@ -17,7 +17,7 @@ function captchaInit(options) {
   const CAPTCHA_NONCE_HEADER = options.CAPTCHA_NONCE_HEADER || 'captcha-nonce'; // the request header where we expect the client nonce
 
   const voicePromptLanguageMap = {
-    en: 'Please type in following letters or numbers', // english
+    en: 'Please type in the following letters and numbers', // english
     fr: 'Veuillez saisir les lettres ou les chiffres suivants', // french
     pa: 'ਕਿਰਪਾ ਕਰਕੇ ਹੇਠ ਲਿਖੇ ਅੱਖਰ ਜਾਂ ਨੰਬਰ ਟਾਈਪ ਕਰੋ', // punjabi
     zh: '请输入以下英文字母或数字' // mandarin chinese
