@@ -7,6 +7,7 @@ import { MockDataService, MockRouter, MockCaptchaDataService } from "../../MockC
 import { CaptchaDataService } from "src/app/services/captcha-data.service";
 import { CaptchaComponent } from "src/app/utils-components/captcha/captcha.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { of, Observable, throwError } from 'rxjs';
 
 describe("ReviewSubmitComponent", () => {
   let component: ReviewSubmitComponent;
@@ -30,7 +31,23 @@ describe("ReviewSubmitComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it("should submit the request", () => {
+    const dataService: any = TestBed.get(DataService);
+
+    spyOn(dataService, 'submitRequest').and.returnValue(of(true));
+    component.doContinue();
+    expect(dataService.submitRequest).toHaveBeenCalledTimes(1);
+    expect(component).toBeTruthy();
+  });
+
+  it("should handle a submit error", () => {
+    const dataService: any = TestBed.get(DataService);
+
+    spyOn(dataService, 'submitRequest').and.returnValue(throwError('that was bad'));
+    spyOn(window, 'alert');
+    component.doContinue();
+    expect(dataService.submitRequest).toHaveBeenCalledTimes(1);
+    expect(window.alert).toHaveBeenCalledWith('Temporarily unable to submit your request. Please try again in a few minutes.');
     expect(component).toBeTruthy();
   });
 });
