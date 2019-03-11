@@ -66,9 +66,7 @@ export class AppComponent implements OnInit {
           }
           this.router.navigate([nextRoute.forward]);
         }
-        return;
       }
-      throw new Error(`Unknown progress value: ${val}`);
     });
   }
 
