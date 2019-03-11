@@ -59,6 +59,12 @@ describe('ContactInfoComponent', () => {
     expect(Object.keys(component.foiForm.controls).length).toBe(4);
   });
 
+  it("should navigate back", () => {
+    spyOn(component.base, 'goFoiBack').and.callThrough();
+    component.doGoBack();
+    expect(component.base.goFoiBack).toHaveBeenCalledTimes(1);
+  });
+
   it("should initialize form to use values from the session", () => {
     expect(component.foiForm.get("firstName").value).toBeFalsy();
     expect(component.foiForm.get("middleName").value).toBe("Tiberius");
