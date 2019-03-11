@@ -7,7 +7,6 @@ import { ReviewSubmitCompleteComponent } from './review-submit-complete/review-s
 import { ReactiveFormsModule } from '@angular/forms';
 import { StartRequestComponent } from './start-request/start-request.component';
 import { GettingStarted3Component } from './getting-started3/getting-started3.component';
-import { PersonalSelectAboutComponent } from './personal-select-about/personal-select-about.component';
 import { GeneralInfoComponent } from './general-info/general-info.component';
 import { GeneralSelectMinistryComponent } from './general-select-ministry/general-select-ministry.component';
 import { MinistryConfirmationComponent } from './ministry-confirmation/ministry-confirmation.component';
@@ -40,7 +39,6 @@ library.add(faSpinner);
     StartRequestComponent,
     GettingStarted3Component,
     GeneralInfoComponent,
-    PersonalSelectAboutComponent,
     GeneralInfoComponent,
     GeneralSelectMinistryComponent,
     MinistryConfirmationComponent,
