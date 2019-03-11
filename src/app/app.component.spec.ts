@@ -50,9 +50,9 @@ describe("AppComponent", () => {
     call = router.navigate.calls.mostRecent();
     expect(call.args.length).toEqual(1);
 
-    // mySubject.next({direction:2}); //go forward 2 steps
-    // call = router.navigate.calls.mostRecent();
-    // expect(call.args[0]).toEqual(['getting-started2']);
+    mySubject.next({direction:2}); //go forward 2 steps
+    call = router.navigate.calls.mostRecent();
+    expect(call.args[0]).toEqual(['getting-started2']);
 
     // mySubject.next({direction:1}); //go forward 1 steps
     // fixture.detectChanges();
