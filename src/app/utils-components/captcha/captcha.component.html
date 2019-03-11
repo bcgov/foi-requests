@@ -324,7 +324,7 @@
               (input)="answerChanged($event)"
               class="form-control"
               [ngClass]="{
-                'captcha-wrong-answer': userAnswerRef.dirty && incorrectAnswer
+                'captcha-wrong-answer': incorrectAnswer
               }"
               name="answer"
               maxlength="6"

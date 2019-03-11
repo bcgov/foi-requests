@@ -224,7 +224,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
     return line;
   }
 
-  private translatedMessages = {
+  public translatedMessages = {
     playAudio: {
       en: 'Play Audio',
       zh: '播放声音',
