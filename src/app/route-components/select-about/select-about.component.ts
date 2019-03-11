@@ -79,7 +79,6 @@ export class SelectAboutComponent implements OnInit {
       this.dataService.removePersonFileAttachment();
     }
 
-
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     this.base.goFoiForward(navigateTo);
