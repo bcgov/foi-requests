@@ -42,7 +42,12 @@ describe('ContactInfoOptionsComponent', () => {
           postal: "12345",
           province: "N/A",
           country: "Pacific Ocean"
-        }
+        },
+        requestTopic: {
+          value: "correctionalFacility",
+          text: "The person's time spent in a correctional facility",
+          ministryCode: "PSSG"
+        },
       }
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
@@ -99,6 +104,12 @@ describe('ContactInfoOptionsComponent', () => {
     expect(item.requestData.contactInfoOptions.postal).toBe("10821");
     expect(item.requestData.contactInfoOptions.province).toBe("New York");
     expect(item.requestData.contactInfoOptions.country).toBe("USA");
+  });
+
+  it("should navigate back", () => {
+    spyOn(component.base, 'goSkipBack').and.callThrough();  //personal and adoption
+    component.doGoBack();
+    expect(component.base.goSkipBack).toHaveBeenCalledTimes(1);
   });
 
 });
