@@ -10,6 +10,7 @@ import { UtilsComponentsModule } from "src/app/utils-components/utils-components
 describe("MinistryConfirmationComponent", () => {
   let component: MinistryConfirmationComponent;
   let fixture: ComponentFixture<MinistryConfirmationComponent>;
+  let dataService: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,11 +18,29 @@ describe("MinistryConfirmationComponent", () => {
       imports: [ReactiveFormsModule, UtilsComponentsModule],
       providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
     }).compileComponents();
+
+    const initialState = {
+      requestData: {
+        requestType: { requestType: "personal" },
+        ministry: {
+        },
+        requestTopic: {
+          value: "correctionalFacility",
+          text: "The person's time spent in a correctional facility",
+          ministryCode: "ABC"
+        },
+        
+      }
+    };
+
+    dataService = TestBed.get(DataService);
+    spyOn(dataService,'getCurrentState').and.returnValue(initialState);
+
   }));
 
 
   it("should select a ministry", () => {
-    const dataService: any = TestBed.get(DataService);
+    
     fixture = TestBed.createComponent(MinistryConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -32,6 +51,7 @@ describe("MinistryConfirmationComponent", () => {
     const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
     spyOn(dataService, "setCurrentState").and.callThrough();
 
+    
     inputCheckBox.click();
     fixture.detectChanges();
 

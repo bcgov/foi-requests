@@ -73,7 +73,8 @@ export class MockDataService {
     return of([
       { code: "AEST", name: "Advanced Education, Skills and Training" },
       { code: "AGRI", name: "Agriculture" },
-      { code: "AG", name: "Attorney General" }
+      { code: "AG", name: "Attorney General" },
+      { code: "PSSG", name: "Public Safety and Solicitor General" }
     ]);
   }
 
