@@ -58,13 +58,13 @@ module.exports = (function() {
     if (data.publicServiceEmployeeNumber) {
       result += tableRow(
         'Public Service Employee Number',
-        dateFormat(data.publicServiceEmployeeNumber)
+        data.publicServiceEmployeeNumber
       );
     }
     if (data.correctionalServiceNumber) {
       result += tableRow(
         'Correctional Service Number',
-        dateFormat(data.correctionalServiceNumber)
+        data.correctionalServiceNumber
       );
     }
     return result;
