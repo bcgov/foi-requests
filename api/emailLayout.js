@@ -205,6 +205,7 @@ module.exports = (function() {
 
   function renderEmail(data) {
     let content = tableHeader('Request Records');
+    content += tableRow('Request Type', data.requestData.requestType.requestType);
     // Request is About
     data.requestData.selectAbout = data.requestData.selectAbout || {};
     content += about(data.requestData.selectAbout || {});
