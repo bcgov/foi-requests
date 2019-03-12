@@ -29,12 +29,18 @@ describe('apiCustomFunctions', function() {
   });
 
   it('submitFoiRequest does stuff, then calls next()', function() {
-    const request = {};
+    const request = {params:{}, log:{}};
+    request.log.info = function(s){};
+    const requestData = JSON.stringify({});
+    request.params.requestData = requestData;
     const response = {};
-    const next = () => {
-      Promise.resolve();
+    const next = function(resolve, reject) {
+      resolve(true)
     };
-    expect(apiCustomFunctions.submitFoiRequest(server, request, response, next))
-      .to.eventually.be.fulfilled;
+    const p = new Promise(next)
+    
+    apiCustomFunctions.submitFoiRequest(server, request, response, next);
+    expect(p).to.eventually.fulfilled;
+      
   });
 });

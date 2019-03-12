@@ -176,6 +176,7 @@ module.exports = (function() {
   function renderEmail(data) {
     let content = tableHeader('Request Records');
     // Request is About
+    data.requestData.selectAbout = data.requestData.selectAbout || {};
     content += about(data.requestData.selectAbout || {});
     // if we have 'anotherInformation' then include the block
     if (data.requestData.selectAbout.another){
