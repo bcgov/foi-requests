@@ -30,6 +30,10 @@ module.exports = (function() {
     return result;
   }
 
+  function joinBySpace(...strArr){
+    return strArr.join(' ').replace(/\s+/g, ' ').trim();
+  }
+
   function general(data) {
     let result = tableHeader('Request Description');
     if (data.topic) {
@@ -94,7 +98,7 @@ module.exports = (function() {
     let result = tableHeader('Contact Information');
     result += tableRow(
       'Name',
-      [data.firstName, data.middleName, data.lastName].join(' ')
+      joinBySpace(data.firstName, data.middleName, data.lastName)
     );
     if (data.alsoKnownAs) {
       result += tableRow('Also Known As', data.alsoKnownAs);
@@ -109,7 +113,7 @@ module.exports = (function() {
     let result = tableHeader('Another Person Information');
     result += tableRow(
       'Name',
-      [data.firstName, data.middleName, data.lastName].join(' ')
+      joinBySpace(data.firstName, data.middleName, data.lastName)
     );
     if (data.alsoKnownAs) {
       result += tableRow(
@@ -127,7 +131,7 @@ module.exports = (function() {
     let result = tableHeader('Child Information');
     result += tableRow(
       'Name',
-      [data.firstName, data.middleName, data.lastName].join(' ')
+      joinBySpace(data.firstName, data.middleName, data.lastName)
     );
     if (data.alsoKnownAs) {
       result += tableRow(
@@ -142,8 +146,8 @@ module.exports = (function() {
   }
 
   function adoptiveParents(data) {
-    const mother = [data.motherFirstName, data.motherLastName].join(' ').trim();
-    const father = [data.fatherFirstName, data.fatherLastName].join(' ').trim();
+    const mother = joinBySpace(data.motherFirstName, data.motherLastName);
+    const father = joinBySpace(data.fatherFirstName, data.fatherLastName);
     let result = '';
     if (mother || father) {
       result += tableHeader('Adoptive Parents');
@@ -243,9 +247,11 @@ module.exports = (function() {
     tableHeader,
     tableRow,
     dateFormat, 
+    joinBySpace,
     general,
     ministry,
     personal,
+    anotherInformation,
     contact,
     about,
     renderEmail
