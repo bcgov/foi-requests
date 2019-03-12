@@ -10,6 +10,9 @@ const apiCustomFunctions = require('../apiCustomFunctions');
 
 let server;
 describe('apiCustomFunctions', function() {
+
+  let transomSmtp;
+
   beforeEach(function() {
     const registry = new PocketRegistry();
     server = {
@@ -18,9 +21,10 @@ describe('apiCustomFunctions', function() {
     server.registry.set('transomTemplate', {
       renderEmailTemplate: sinon.spy()
     });
-    server.registry.set('transomSmtp', {
+    transomSmtp = {
       sendFromNoReply: ({}, sinon.spy())
-    });
+    };
+    server.registry.set('transomSmtp', transomSmtp);
   });
 
   it('includes a submitFoiRequest function', function() {
@@ -41,6 +45,7 @@ describe('apiCustomFunctions', function() {
     
     apiCustomFunctions.submitFoiRequest(server, request, response, next);
     expect(p).to.eventually.fulfilled;
+    expect(transomSmtp.sendFromNoReply.getCall(0).args[0].subject).to.equal("New FOI Request");
       
   });
 });
