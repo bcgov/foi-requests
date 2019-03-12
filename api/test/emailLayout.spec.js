@@ -6,7 +6,7 @@ chai.use(require('chai-string'));
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-// const sinon = require('sinon');
+const sinon = require('sinon');
 const emailLayout = require('../emailLayout');
 
 let sampleRequestData = null;
@@ -402,6 +402,30 @@ Social Development and Poverty Reduction</td></tr>`);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
 <tr><td>Myself</td></tr>`);
+  });
+
+  it('should render a whole email', function() {
+    sinon.spy(emailLayout, 'general');
+    sinon.spy(emailLayout, 'ministry');
+    sinon.spy(emailLayout, 'personal');
+    sinon.spy(emailLayout, 'anotherInformation');
+    sinon.spy(emailLayout, 'contact');
+    sinon.spy(emailLayout, 'about');
+
+    const data = {requestData: sampleRequestData}
+    let result = emailLayout.renderEmail(data);
+    expect(emailLayout.general.calledOnce).to.be.true;
+    expect(emailLayout.general.getCall(0).args[0]).to.equal(sampleRequestData.descriptionTimeframe);
+
+    expect(emailLayout.ministry.calledOnce).to.be.true;
+    expect(emailLayout.ministry.getCall(0).args[0]).to.equal(sampleRequestData.ministry);
+
+    expect(emailLayout.personal.calledOnce).to.be.true;
+    expect(emailLayout.personal.getCall(0).args[0]).to.equal(sampleRequestData.contactInfo);
+
+    expect(emailLayout.contact.calledOnce).to.be.true;
+    expect(emailLayout.contact.getCall(0).args[0]).to.equal(sampleRequestData.contactInfoOptions);
+    
   });
 
 });
