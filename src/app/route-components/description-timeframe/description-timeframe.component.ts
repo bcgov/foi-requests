@@ -49,7 +49,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     if (currentMinistries.length === 1) {
       ministryTopic = currentMinistries[0].name;
     } else if (currentMinistries.length > 1) {
-      ministryTopic = `General request for ${currentMinistries.length} ministries`;
+      ministryTopic = `${this.foiRequest.requestData.requestType.requestType} request for ${currentMinistries.length} ministries`;
     }
     this.topic = this.foiRequest.requestData.requestTopic.text || ministryTopic;
 
