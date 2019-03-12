@@ -35,17 +35,23 @@ export class DescriptionTimeframeComponent implements OnInit {
 
     // If ministry is PSA, show the Public Service Employee number field.
     // If ministry is PSSG, show the Correctional Service number field.
-    const currentMinistry = this.foiRequest.requestData.ministry.selectedMinistry
+    const currentMinistries = this.foiRequest.requestData.ministry.selectedMinistry
       ? this.foiRequest.requestData.ministry.selectedMinistry
-      : [this.foiRequest.requestData.ministry.defaultMinistry] || [{}];
+      : [this.foiRequest.requestData.ministry.defaultMinistry] || [];
 
     this.personalRequest = this.foiRequest.requestData.requestType.requestType === "personal";
     if (this.personalRequest) {
-      this.showPublicServiceEmployeeNumber = !!currentMinistry.find(m => m.code === "PSA");
-      this.showCorrectionalServiceNumber = !!currentMinistry.find(m => m.code === "PSSG");
+      this.showPublicServiceEmployeeNumber = !!currentMinistries.find(m => m.code === "PSA");
+      this.showCorrectionalServiceNumber = !!currentMinistries.find(m => m.code === "PSSG");
     }
 
-    this.topic = this.foiRequest.requestData.requestTopic.text || currentMinistry.name || 'Undefined';
+    let ministryTopic = "General Request";
+    if (currentMinistries.length === 1) {
+      ministryTopic = currentMinistries[0].name;
+    } else if (currentMinistries.length > 1) {
+      ministryTopic = `General request for ${currentMinistries.length} ministries`;
+    }
+    this.topic = this.foiRequest.requestData.requestTopic.text || ministryTopic;
 
     const formInit = {};
     Object.assign(formInit, this.foiRequest.requestData[this.targetKey]);
