@@ -1,4 +1,6 @@
 'use strict';
+const sinon = require('sinon');
+const EmailLayout = require('../emailLayout');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -6,10 +8,9 @@ chai.use(require('chai-string'));
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
-const sinon = require('sinon');
-const emailLayout = require('../emailLayout');
-
+// Initialized before each test
 let sampleRequestData = null;
+let emailLayout = null;
 
 function scrubAttribs(result) {
   result = result.replace(/\r\n|\n|\r/gm, ''); // all linebreaks
@@ -27,6 +28,8 @@ function scrubAttribs(result) {
 
 describe('emailLayout', function() {
   beforeEach(function() {
+    emailLayout = new EmailLayout();
+
     sampleRequestData = {
       requestType: {
         requestType: 'personal'
@@ -118,6 +121,7 @@ describe('emailLayout', function() {
       'ministry',
       'personal',
       'anotherInformation',
+      'adoptiveParents',
       'childInformation',
       'contact',
       'about',
@@ -327,7 +331,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>2007-05-26</td></tr>`);
   });
 
-  it('should format child data', function() {
+  it('should format child data, without middle name, aka or DoB', function() {
     delete sampleRequestData.childInformation['alsoKnownAs'];
     delete sampleRequestData.childInformation['dateOfBirth'];
     delete sampleRequestData.childInformation['middleName'];
@@ -373,9 +377,9 @@ Social Development and Poverty Reduction</td></tr>`);
 
   it('should format Select About data (myself-child-another)', function() {
     let result = emailLayout.about({
-        yourself: true,
-        child: true,
-        another: true
+      yourself: true,
+      child: true,
+      another: true
     });
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
@@ -384,9 +388,9 @@ Social Development and Poverty Reduction</td></tr>`);
 
   it('should format Select About data (myself-another)', function() {
     let result = emailLayout.about({
-        yourself: true,
-        child: false,
-        another: true
+      yourself: true,
+      child: false,
+      another: true
     });
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
@@ -395,37 +399,77 @@ Social Development and Poverty Reduction</td></tr>`);
 
   it('should format Select About data (myself only)', function() {
     let result = emailLayout.about({
-        yourself: true,
-        child: false,
-        another: null
+      yourself: true,
+      child: false,
+      another: null
     });
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
 <tr><td>Myself</td></tr>`);
   });
 
-  it('should render a whole email', function() {
+  it('should render a whole email, excluding child and another', function() {
     sinon.spy(emailLayout, 'general');
     sinon.spy(emailLayout, 'ministry');
     sinon.spy(emailLayout, 'personal');
     sinon.spy(emailLayout, 'anotherInformation');
+    sinon.spy(emailLayout, 'childInformation');
     sinon.spy(emailLayout, 'contact');
     sinon.spy(emailLayout, 'about');
 
-    const data = {requestData: sampleRequestData}
-    let result = emailLayout.renderEmail(data);
+    const data = { requestData: sampleRequestData };
+    emailLayout.renderEmail(data);
+
     expect(emailLayout.general.calledOnce).to.be.true;
-    expect(emailLayout.general.getCall(0).args[0]).to.equal(sampleRequestData.descriptionTimeframe);
+    expect(emailLayout.general.getCall(0).args[0]).to.equal(
+      sampleRequestData.descriptionTimeframe
+    );
 
     expect(emailLayout.ministry.calledOnce).to.be.true;
-    expect(emailLayout.ministry.getCall(0).args[0]).to.equal(sampleRequestData.ministry);
+    expect(emailLayout.ministry.getCall(0).args[0]).to.equal(
+      sampleRequestData.ministry
+    );
 
     expect(emailLayout.personal.calledOnce).to.be.true;
-    expect(emailLayout.personal.getCall(0).args[0]).to.equal(sampleRequestData.contactInfo);
+    expect(emailLayout.personal.getCall(0).args[0]).to.equal(
+      sampleRequestData.contactInfo
+    );
+
+    // These were not called yet!
+    expect(emailLayout.anotherInformation.calledOnce).to.be.false;
+    expect(emailLayout.childInformation.calledOnce).to.be.false;
 
     expect(emailLayout.contact.calledOnce).to.be.true;
-    expect(emailLayout.contact.getCall(0).args[0]).to.equal(sampleRequestData.contactInfoOptions);
-    
+    expect(emailLayout.contact.getCall(0).args[0]).to.equal(
+      sampleRequestData.contactInfoOptions
+    );
+
+    expect(emailLayout.about.calledOnce).to.be.true;
+    expect(emailLayout.about.getCall(0).args[0]).to.equal(
+      sampleRequestData.selectAbout
+    );
   });
 
+  it('should render a whole email, including child and another', function() {
+    sinon.spy(emailLayout, 'anotherInformation');
+    sinon.spy(emailLayout, 'childInformation');
+
+    const data = { requestData: sampleRequestData };
+    data.requestData.selectAbout = {
+      yourself: true,
+      child: true,
+      another: true
+    };
+    emailLayout.renderEmail(data);
+
+    expect(emailLayout.anotherInformation.calledOnce).to.be.true;
+    expect(emailLayout.anotherInformation.getCall(0).args[0]).to.equal(
+      sampleRequestData.anotherInformation
+    );
+
+    expect(emailLayout.childInformation.calledOnce).to.be.true;
+    expect(emailLayout.childInformation.getCall(0).args[0]).to.equal(
+      sampleRequestData.childInformation
+    );
+  });
 });

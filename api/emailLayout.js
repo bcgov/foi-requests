@@ -1,7 +1,7 @@
 /**
  * Keep the email layout functions together, outside of index.js
  */
-function emailLayout() {
+module.exports = function EmailLayout() {
   this.table = function(rows) {
     return `<table width="95%" border="0" cellpadding="5" cellspacing="0"><tbody
           style="font-size:12px;font-family:sans-serif;background-color:#fff;"
@@ -17,7 +17,7 @@ function emailLayout() {
             <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
   };
 
-  this.dateFormat = function (html5Date) {
+  this.dateFormat = function(html5Date) {
     // HTML5 date is ALWAYS formatted yyyy-mm-dd.
     let result = html5Date || 'n/a';
     if (result.split('-').length === 3) {
@@ -28,16 +28,16 @@ function emailLayout() {
       result = `${day}/${month}/${year}`;
     }
     return result;
-  }
+  };
 
   this.joinBySpace = function(...strArr) {
     return strArr
       .join(' ')
       .replace(/\s+/g, ' ')
       .trim();
-  }
+  };
 
-  this.general =function(data) {
+  this.general = function(data) {
     let result = this.tableHeader('Request Description');
     if (data.topic) {
       result += this.tableRow('Topic', data.topic);
@@ -75,7 +75,7 @@ function emailLayout() {
       );
     }
     return result;
-  }
+  };
 
   this.ministry = function(data) {
     let result = this.tableHeader('Ministry or Agency');
@@ -95,7 +95,7 @@ function emailLayout() {
     }
 
     return result;
-  }
+  };
 
   this.personal = function(data) {
     let result = this.tableHeader('Contact Information');
@@ -110,7 +110,7 @@ function emailLayout() {
       result += this.tableRow('Business Name', data.businessName);
     }
     return result;
-  }
+  };
 
   this.anotherInformation = function(data) {
     let result = this.tableHeader('Another Person Information');
@@ -125,7 +125,7 @@ function emailLayout() {
       result += this.tableRow('Date of Birth', data.dateOfBirth);
     }
     return result;
-  }
+  };
 
   this.childInformation = function(data) {
     let result = this.tableHeader('Child Information');
@@ -140,7 +140,7 @@ function emailLayout() {
       result += this.tableRow('Date of Birth', data.dateOfBirth);
     }
     return result;
-  }
+  };
 
   this.adoptiveParents = function(data) {
     const mother = this.joinBySpace(data.motherFirstName, data.motherLastName);
@@ -152,7 +152,7 @@ function emailLayout() {
       result += this.tableRow('Adoptive Father', father || 'None');
     }
     return result;
-  }
+  };
 
   this.contact = function(data) {
     let result = '';
@@ -184,7 +184,7 @@ function emailLayout() {
       result += this.tableRow('Country', data.country);
     }
     return result;
-  }
+  };
 
   this.about = function(data) {
     let result = '';
@@ -202,9 +202,9 @@ function emailLayout() {
       result += this.tableRow('Requesting info about', selected.join(' and '));
     }
     return result;
-  }
+  };
 
-  this.renderEmail = function (data) {
+  this.renderEmail = function(data) {
     let content = this.tableHeader('Request Records');
     content += this.tableRow(
       'Request Type',
@@ -215,11 +215,13 @@ function emailLayout() {
     content += this.about(data.requestData.selectAbout || {});
     // if we have 'anotherInformation' then include the block
     if (data.requestData.selectAbout.another) {
-      content += anotherInformation(data.requestData.anotherInformation || {});
+      content += this.anotherInformation(
+        data.requestData.anotherInformation || {}
+      );
     }
     // if we have 'childInformation' then include the block
     if (data.requestData.selectAbout.child) {
-      content += childInformation(data.requestData.childInformation || {});
+      content += this.childInformation(data.requestData.childInformation || {});
     }
     // Request Records
     content += this.general(data.requestData.descriptionTimeframe || {});
@@ -240,24 +242,5 @@ function emailLayout() {
       content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
     return content;
-  }
-
-  // return {
-  //   table,
-  //   this.tableHeader,
-  //   this.tableRow,
-  //   this.dateFormat,
-  //   this.joinBySpace,
-  //   this.general,
-  //   ministry,
-  //   personal,
-  //   anotherInformation,
-  //   adoptiveParents,
-  //   childInformation,
-  //   contact,
-  //   about,
-  //   renderEmail
-  // };
-}
-
-module.exports = new emailLayout();
+  };
+};

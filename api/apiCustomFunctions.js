@@ -1,9 +1,10 @@
 'use strict';
 const fs = require('fs');
+const EmailLayout = require('./emailLayout');
 
 function submitFoiRequest(server, req, res, next) {
   const transomMailer = server.registry.get('transomSmtp');
-  const emailLayout = require('./emailLayout');
+  const emailLayout = new EmailLayout();
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 
   const MAX_ATTACH_MB = 4;
