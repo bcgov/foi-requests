@@ -55,6 +55,18 @@ module.exports = (function() {
         dateFormat(data.toDate)
       );
     }
+    if (data.publicServiceEmployeeNumber) {
+      result += tableRow(
+        'Public Service Employee Number',
+        dateFormat(data.publicServiceEmployeeNumber)
+      );
+    }
+    if (data.correctionalServiceNumber) {
+      result += tableRow(
+        'Correctional Service Number',
+        dateFormat(data.correctionalServiceNumber)
+      );
+    }
     return result;
   }
 
@@ -95,6 +107,24 @@ module.exports = (function() {
 
   function anotherInformation(data) {
     let result = tableHeader('Another Person Information');
+    result += tableRow(
+      'Name',
+      [data.firstName, data.middleName, data.lastName].join(' ')
+    );
+    if (data.alsoKnownAs) {
+      result += tableRow(
+        'Also Known As',
+        data.alsoKnownAs
+      )
+    }
+    if (data.dateOfBirth) {
+      result += tableRow('Date of Birth', data.dateOfBirth);
+    }
+    return result;
+  }
+
+  function childInformation(data) {
+    let result = tableHeader('Child Information');
     result += tableRow(
       'Name',
       [data.firstName, data.middleName, data.lastName].join(' ')
@@ -181,6 +211,10 @@ module.exports = (function() {
     // if we have 'anotherInformation' then include the block
     if (data.requestData.selectAbout.another){
       content += anotherInformation(data.requestData.anotherInformation || {});
+    }
+    // if we have 'childInformation' then include the block
+    if (data.requestData.selectAbout.child){
+      content += childInformation(data.requestData.childInformation || {});
     }
     // Request Records
     content += general(data.requestData.descriptionTimeframe || {});
