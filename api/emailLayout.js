@@ -243,6 +243,7 @@ module.exports = (function() {
     table,
     tableHeader,
     tableRow,
+    dateFormat, 
     general,
     ministry,
     personal,
