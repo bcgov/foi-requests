@@ -36,15 +36,15 @@ module.exports = {
     uri: {
       prefix: '/api/v1'
     },
-    template: {
-      emailTemplatePath: 'email-templates',
-      htmlTemplatePath: 'page-templates',
-      data: {
-        processInfo: `Running on ${process.platform}, Process Id: ${
-          process.pid
-        }`
-      }
-    },
+    // template: {
+    //   emailTemplatePath: 'email-templates',
+    //   htmlTemplatePath: 'page-templates',
+    //   data: {
+    //     processInfo: `Running on ${process.platform}, Process Id: ${
+    //       process.pid
+    //     }`
+    //   }
+    // },
     functions: {
       submitFoiRequest: {
         methods: ['POST'],
