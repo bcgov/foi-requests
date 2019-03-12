@@ -63,9 +63,9 @@ module.exports = (function() {
 
     let ministryContent = '';
     if (data.selectedMinistry) {
-      for(let i = 0; i< data.selectedMinistry.length; i++){
+      for (let i = 0; i < data.selectedMinistry.length; i++) {
         let ministry = data.selectedMinistry[i];
-        if (i>0) {
+        if (i > 0) {
           ministryContent += '<br>';
         }
         ministryContent += ministry.name;
@@ -74,7 +74,7 @@ module.exports = (function() {
     } else if (data.defaultMinistry && data.defaultMinistry.name) {
       result += tableRow('Ministry', data.defaultMinistry.name);
     }
-     
+
     return result;
   }
 
@@ -85,10 +85,7 @@ module.exports = (function() {
       [data.firstName, data.middleName, data.lastName].join(' ')
     );
     if (data.alsoKnownAs) {
-      result += tableRow(
-        'Also Known As',
-        data.alsoKnownAs
-      )
+      result += tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.businessName) {
       result += tableRow('Business Name', data.businessName);
@@ -176,8 +173,10 @@ module.exports = (function() {
     content = table(content);
     // End of the Table
 
-    // Stuff the JSON request ontp the email, for now.
-    content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    // Include raw JSON in the email, for non-production instances.
+    if (process.env.NODE_ENV !== 'PROD') {
+      content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
 
     return content;
   }
