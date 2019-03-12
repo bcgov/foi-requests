@@ -98,7 +98,6 @@ describe('emailLayout', function() {
   });
 
   it('should render table and headers', function() {
-
     let table = emailLayout.table('Hello World');
     // strip any newlines!
     table = table.replace((/  |\r\n|\n|\r/gm),"");;
@@ -106,4 +105,14 @@ describe('emailLayout', function() {
     expect(table).to.contain(">Hello World</");
     expect(table).to.endsWith("</table>");
   });
+
+  it('should render table rows', function() {
+    let table = emailLayout.tableRow('Hello', 'World');
+    // strip any newlines!
+    table = table.replace((/  |\r\n|\n|\r/gm),"");;
+    expect(table).to.startsWith("<tr>");
+    expect(table).to.contain(">Hello</td></tr>");
+    expect(table).to.endsWith(">World</td></tr>");
+  });
+
 });
