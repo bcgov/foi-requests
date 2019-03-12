@@ -31,7 +31,7 @@ describe('apiCustomFunctions', function() {
   it('submitFoiRequest does stuff, then calls next()', function() {
     const request = {params:{}, log:{}};
     request.log.info = function(s){};
-    const requestData = JSON.stringify({});
+    const requestData = JSON.stringify({requestType:{}});
     request.params.requestData = requestData;
     const response = {};
     const next = function(resolve, reject) {
