@@ -9,71 +9,86 @@ const expect = chai.expect;
 // const sinon = require('sinon');
 const emailLayout = require('../emailLayout');
 
-const sampleRequestData = {
-  requestType: {
-    requestType: 'personal'
-  },
-  selectAbout: {
-    yourself: true,
-    child: null,
-    another: null
-  },
-  ministry: {
-    defaultMinistry: {
-      code: 'MCF',
-      name: 'Children and Family Development'
-    },
-    selectedMinistry: [
-      {
-        code: 'MCF',
-        name: 'Children and Family Development',
-        defaulted: true,
-        selected: true
-      }
-    ],
-    ministryPage: '/personal/ministry-confirmation'
-  },
-  contactInfo: {
-    firstName: 'Colin',
-    middleName: 'Jack',
-    lastName: 'Westfall',
-    birthDate: '2019-02-28',
-    alsoKnownAs: 'The Shuffler',
-    businessName: "Province of B.C., Ministry of Citizens' Services"
-  },
-  requestTopic: {
-    value: 'adoption',
-    text: 'Adoption',
-    ministryCode: 'MCF'
-  },
-  descriptionTimeframe: {
-    description: 'Foosball tables',
-    fromDate: '2019-03-01',
-    toDate: '2019-03-08',
-    correctionalServiceNumber: 'Corr-654321',
-    publicServiceEmployeeNumber: 'Pub-456789',
-    topic: 'Adoption'
-  },
-  adoptiveParents: {
-    motherFirstName: 'Marge',
-    motherLastName: 'Westfall',
-    fatherFirstName: 'Homer',
-    fatherLastName: 'Westfall'
-  },
-  contactInfoOptions: {
-    phonePrimary: '7786790628',
-    phoneSecondary: '+1 07786772924',
-    email: 'mark@binaryops.ca',
-    address: '108-2260 Maple Ave N.',
-    city: 'Sooke',
-    postal: 'V9Z 1L2',
-    province: 'British Columbia',
-    country: 'Canada'
-  }
-};
+let sampleRequestData = null; 
+
+function scrubAttribs(result) {
+  result = result.replace(/\r\n|\n|\r/gm, ''); // all linebreaks
+  result = result.replace(/style="[^"]*"/gm, ''); // styles
+  result = result.replace(/width="[^"]*"/gm, ''); // various table attribs
+  result = result.replace(/cellpadding="[^"]*"/gm, '');
+  result = result.replace(/cellspacing="[^"]*"/gm, '');
+  // Add linebreaks for readability
+  result = result.replace(/<tbody>[\s]*/gm, '<tbody>\n'); // linebreak after tbody
+  result = result.replace(/<\/tr>[\s]*<tr/gm, '</tr>\n<tr'); // linebreak after tr
+  result = result.replace(/<t(\w+)[\s]*>/gm, '<t$1>'); // no whitespace in a tr, td etc.
+  return result;
+}
 
 describe('emailLayout', function() {
-  beforeEach(function() {});
+  beforeEach(function() {
+sampleRequestData = {
+    requestType: {
+      requestType: 'personal'
+    },
+    selectAbout: {
+      yourself: true,
+      child: null,
+      another: null
+    },
+    ministry: {
+      defaultMinistry: {
+        code: 'MCF',
+        name: 'Children and Family Development'
+      },
+      selectedMinistry: [
+        {
+          code: 'MCF',
+          name: 'Children and Family Development',
+          defaulted: true,
+          selected: true
+        }
+      ],
+      ministryPage: '/personal/ministry-confirmation'
+    },
+    contactInfo: {
+      firstName: 'Colin',
+      middleName: 'Jack',
+      lastName: 'Westfall',
+      birthDate: '2019-02-28',
+      alsoKnownAs: 'The Shuffler',
+      businessName: "Province of B.C., Ministry of Citizens' Services"
+    },
+    requestTopic: {
+      value: 'adoption',
+      text: 'Adoption',
+      ministryCode: 'MCF'
+    },
+    descriptionTimeframe: {
+      description: 'Foosball tables',
+      fromDate: '2019-03-01',
+      toDate: '2019-03-08',
+      correctionalServiceNumber: 'Corr-654321',
+      publicServiceEmployeeNumber: 'Pub-456789',
+      topic: 'Adoption'
+    },
+    adoptiveParents: {
+      motherFirstName: 'Marge',
+      motherLastName: 'Westfall',
+      fatherFirstName: 'Homer',
+      fatherLastName: 'Westfall'
+    },
+    contactInfoOptions: {
+      phonePrimary: '7786790628',
+      phoneSecondary: '+1 07786772924',
+      email: 'mark@binaryops.ca',
+      address: '108-2260 Maple Ave N.',
+      city: 'Sooke',
+      postal: 'V9Z 1L2',
+      province: 'British Columbia',
+      country: 'Canada'
+    }
+  };  
+  });
 
   it('should exist and have the expected functions', function() {
     expect(emailLayout).to.exist;
@@ -132,18 +147,52 @@ describe('emailLayout', function() {
 
   it('should format general data', function() {
     let result = emailLayout.general(sampleRequestData.descriptionTimeframe);
-    result = result.replace(/\r\n|\n|\r/gm, '');
-    expect(result).to.startWith('<tr><th');
-    expect(result).to.contain('>Topic</td></tr>');
-    expect(result).to.contain('>Adoption</td></tr>');
-    expect(result).to.contain('>Description</td></tr>');
-    expect(result).to.contain('>Foosball tables</td></tr>');
-    expect(result).to.contain('>From <small>(dd/mm/yyyy)</small></td></tr>');
-    expect(result).to.contain('>01/03/2019</td></tr>');
-    expect(result).to.contain('>To <small>(dd/mm/yyyy)</small></td></tr>');
-    expect(result).to.contain('>08/03/2019</td></tr>');
-    expect(result).to.endWith('</td></tr>');
+    result = scrubAttribs(result); // <--- magic
+    expect(result).to.equal(`<tr><th>Request Description</th></tr>
+<tr><td>Topic</td></tr>
+<tr><td>Adoption</td></tr>
+<tr><td>Description</td></tr>
+<tr><td>Foosball tables</td></tr>
+<tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>01/03/2019</td></tr>
+<tr><td>To <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>08/03/2019</td></tr>
+<tr><td>Public Service Employee Number</td></tr>
+<tr><td>Pub-456789</td></tr>
+<tr><td>Correctional Service Number</td></tr>
+<tr><td>Corr-654321</td></tr>`);
   });
 
-  
+
+  it('should format general data, without personal numbers', function() {
+    delete sampleRequestData.descriptionTimeframe['publicServiceEmployeeNumber'];
+    delete sampleRequestData.descriptionTimeframe['correctionalServiceNumber'];
+
+    let result = emailLayout.general(sampleRequestData.descriptionTimeframe);
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><th>Request Description</th></tr>
+<tr><td>Topic</td></tr>
+<tr><td>Adoption</td></tr>
+<tr><td>Description</td></tr>
+<tr><td>Foosball tables</td></tr>
+<tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>01/03/2019</td></tr>
+<tr><td>To <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>08/03/2019</td></tr>`);
+  });
+
+  //   it('should format ministry data', function() {
+  //     let result = emailLayout.ministry(sampleRequestData);
+  //     result = result.replace(/\r\n|\n|\r/gm, '');
+  //     // expect(result).to.startWith('<tr><th');
+  //     // expect(result).to.contain('>Topic</td></tr>');
+  //     // expect(result).to.contain('>Adoption</td></tr>');
+  //     // expect(result).to.contain('>Description</td></tr>');
+  //     // expect(result).to.contain('>Foosball tables</td></tr>');
+  //     // expect(result).to.contain('>From <small>(dd/mm/yyyy)</small></td></tr>');
+  //     // expect(result).to.contain('>01/03/2019</td></tr>');
+  //     // expect(result).to.contain('>To <small>(dd/mm/yyyy)</small></td></tr>');
+  //     // expect(result).to.contain('>08/03/2019</td></tr>');
+  //     expect(result).to.endWith('</td></tr>');
+  //   });
 });

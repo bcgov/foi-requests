@@ -231,11 +231,10 @@ module.exports = (function() {
     content = table(content);
     // End of the Table
 
-    // Include raw JSON in the email, for non-production instances.
-    if (process.env.NODE_ENV !== 'PROD') {
+    // Include raw JSON in the email, for local instances only.
+    if (!process.env.OPENSHIFT_BUILD_NAME) {
       content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
-
     return content;
   }
 
