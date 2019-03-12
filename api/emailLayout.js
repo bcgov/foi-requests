@@ -31,7 +31,7 @@ module.exports = (function() {
   }
 
   function general(data) {
-    let result = '';
+    let result = tableHeader('Request Description');
     if (data.topic) {
       result += tableRow('Topic', data.topic);
     }
@@ -92,6 +92,24 @@ module.exports = (function() {
     }
     if (data.businessName) {
       result += tableRow('Business Name', data.businessName);
+    }
+    return result;
+  }
+
+  function anotherInformation(data) {
+    let result = tableHeader('Another Person Information');
+    result += tableRow(
+      'Name',
+      [data.firstName, data.middleName, data.lastName].join(' ')
+    );
+    if (data.alsoKnownAs) {
+      result += tableRow(
+        'Also Known As',
+        data.alsoKnownAs
+      )
+    }
+    if (data.dateOfBirth) {
+      result += tableRow('Date of Birth', data.dateOfBirth);
     }
     return result;
   }
@@ -162,6 +180,10 @@ module.exports = (function() {
     let content = tableHeader('Request Records');
     // Request is About
     content += about(data.requestData.selectAbout || {});
+    // if we have 'anotherInformation' then include the block
+    if (data.requestData.selectAbout.another){
+      content += anotherInformation(data.requestData.anotherInformation || {});
+    }
     // Request Records
     content += general(data.requestData.descriptionTimeframe || {});
     // Ministry or Agency
