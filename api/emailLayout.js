@@ -151,8 +151,8 @@ module.exports = (function() {
     let result = '';
     if (mother || father) {
       result += tableHeader('Adoptive Parents');
-      result += tableRow('Adoptive Mother', mother);
-      result += tableRow('Adoptive Father', father);
+      result += tableRow('Adoptive Mother', mother || 'None');
+      result += tableRow('Adoptive Father', father || 'None');
     }
     return result;
   }
@@ -252,6 +252,8 @@ module.exports = (function() {
     ministry,
     personal,
     anotherInformation,
+    adoptiveParents,
+    childInformation,
     contact,
     about,
     renderEmail

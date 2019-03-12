@@ -66,6 +66,13 @@ describe('emailLayout', function() {
         dateOfBirth: '2010-09-22',
         alsoKnownAs: 'Mr. McGoo'
       },
+      childInformation: {
+        firstName: 'Johnny',
+        middleName: 'Bobbert',
+        lastName: 'Driscol',
+        dateOfBirth: '2007-05-26',
+        alsoKnownAs: 'Little Johnny Driscol'
+      },
       requestTopic: {
         value: 'adoption',
         text: 'Adoption',
@@ -86,9 +93,9 @@ describe('emailLayout', function() {
         fatherLastName: 'Westfall'
       },
       contactInfoOptions: {
-        phonePrimary: '7786790628',
-        phoneSecondary: '+1 07786772924',
-        email: 'mark@binaryops.ca',
+        phonePrimary: '7785550628',
+        phoneSecondary: '+1 077865552824',
+        email: 'homer@springfield.com',
         address: '108-2260 Maple Ave N.',
         city: 'Sooke',
         postal: 'V9Z 1L2',
@@ -111,6 +118,7 @@ describe('emailLayout', function() {
       'ministry',
       'personal',
       'anotherInformation',
+      'childInformation',
       'contact',
       'about',
       'renderEmail'
@@ -118,7 +126,7 @@ describe('emailLayout', function() {
     fx.map(fxName => {
       expect(emailLayout[fxName]).to.exist;
     });
-    expect(Object.keys(emailLayout).length).to.equal(12);
+    expect(Object.keys(emailLayout).length).to.equal(14);
   });
 
   it('should render table and headers', function() {
@@ -253,7 +261,9 @@ Social Development and Poverty Reduction</td></tr>`);
   });
 
   it('should format another persons data', function() {
-    let result = emailLayout.anotherInformation(sampleRequestData.anotherInformation);
+    let result = emailLayout.anotherInformation(
+      sampleRequestData.anotherInformation
+    );
     result = scrubAttribs(result);
 
     expect(result).to.equal(`<tr><th>Another Person Information</th></tr>
@@ -270,12 +280,128 @@ Social Development and Poverty Reduction</td></tr>`);
     delete sampleRequestData.anotherInformation['dateOfBirth'];
     delete sampleRequestData.anotherInformation['lastName'];
 
-    let result = emailLayout.anotherInformation(sampleRequestData.anotherInformation);
+    let result = emailLayout.anotherInformation(
+      sampleRequestData.anotherInformation
+    );
     result = scrubAttribs(result);
 
     expect(result).to.equal(`<tr><th>Another Person Information</th></tr>
 <tr><td>Name</td></tr>
 <tr><td>Colin Jack</td></tr>`);
+  });
+
+  it('should format adoptive parent data', function() {
+    let result = emailLayout.adoptiveParents(sampleRequestData.adoptiveParents);
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><th>Adoptive Parents</th></tr>
+<tr><td>Adoptive Mother</td></tr>
+<tr><td>Marge Westfall</td></tr>
+<tr><td>Adoptive Father</td></tr>
+<tr><td>Homer Westfall</td></tr>`);
+  });
+
+  it('should format adoptive parent data, without mother', function() {
+    delete sampleRequestData.adoptiveParents['motherFirstName'];
+    delete sampleRequestData.adoptiveParents['motherLastName'];
+
+    let result = emailLayout.adoptiveParents(sampleRequestData.adoptiveParents);
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><th>Adoptive Parents</th></tr>
+<tr><td>Adoptive Mother</td></tr>
+<tr><td>None</td></tr>
+<tr><td>Adoptive Father</td></tr>
+<tr><td>Homer Westfall</td></tr>`);
+  });
+
+  it('should format child data', function() {
+    let result = emailLayout.childInformation(
+      sampleRequestData.childInformation
+    );
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><th>Child Information</th></tr>
+<tr><td>Name</td></tr>
+<tr><td>Johnny Bobbert Driscol</td></tr>
+<tr><td>Also Known As</td></tr>
+<tr><td>Little Johnny Driscol</td></tr>
+<tr><td>Date of Birth</td></tr>
+<tr><td>2007-05-26</td></tr>`);
+  });
+
+  it('should format child data', function() {
+    delete sampleRequestData.childInformation['alsoKnownAs'];
+    delete sampleRequestData.childInformation['dateOfBirth'];
+    delete sampleRequestData.childInformation['middleName'];
+
+    let result = emailLayout.childInformation(
+      sampleRequestData.childInformation
+    );
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><th>Child Information</th></tr>
+<tr><td>Name</td></tr>
+<tr><td>Johnny Driscol</td></tr>`);
+  });
+
+  it('should format Contact Info Options data', function() {
+    let result = emailLayout.contact(sampleRequestData.contactInfoOptions);
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><td>Phone (primary)</td></tr>
+<tr><td>7785550628</td></tr>
+<tr><td>Phone (secondary)</td></tr>
+<tr><td>+1 077865552824</td></tr>
+<tr><td>Email</td></tr>
+<tr><td><a href="mailto:homer@springfield.com" target="_blank">homer@springfield.com</a></td></tr>
+<tr><td>Address</td></tr>
+<tr><td>108-2260 Maple Ave N.</td></tr>
+<tr><td>City</td></tr>
+<tr><td>Sooke</td></tr>
+<tr><td>Postal/Zip Code</td></tr>
+<tr><td>V9Z 1L2</td></tr>
+<tr><td>Province</td></tr>
+<tr><td>British Columbia</td></tr>
+<tr><td>Country</td></tr>
+<tr><td>Canada</td></tr>`);
+  });
+
+  it('should format minimal Contact Info Options data', function() {
+    let result = emailLayout.contact({
+      phonePrimary: '(778) 555-0628'
+    });
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><td>Phone (primary)</td></tr>
+<tr><td>(778) 555-0628</td></tr>`);
+  });
+
+  it('should format Select About data (myself-child-another)', function() {
+    let result = emailLayout.about({
+        yourself: true,
+        child: true,
+        another: true
+    });
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
+<tr><td>Myself and A child under 12 and Another person</td></tr>`);
+  });
+
+  it('should format Select About data (myself-another)', function() {
+    let result = emailLayout.about({
+        yourself: true,
+        child: false,
+        another: true
+    });
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
+<tr><td>Myself and Another person</td></tr>`);
+  });
+
+  it('should format Select About data (myself only)', function() {
+    let result = emailLayout.about({
+        yourself: true,
+        child: false,
+        another: null
+    });
+    result = scrubAttribs(result);
+    expect(result).to.equal(`<tr><td>Requesting info about</td></tr>
+<tr><td>Myself</td></tr>`);
   });
 
 });
