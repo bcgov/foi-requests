@@ -24,6 +24,10 @@ module.exports = function (config) {
       ChromeDebugging: {
         base: 'Chrome',
         flags: [ '--remote-debugging-port=9333' ]
+      },
+      ChromeHeadlessNoSB: {
+        base: 'ChromeHeadless',
+        flags: [ '--no-sandbox' ]
       }
     },
     reporters: ['progress', 'kjhtml'],

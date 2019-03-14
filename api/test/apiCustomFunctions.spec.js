@@ -45,7 +45,7 @@ describe('apiCustomFunctions', function() {
     
     apiCustomFunctions.submitFoiRequest(server, request, response, next);
     expect(p).to.eventually.fulfilled;
-    expect(transomSmtp.sendFromNoReply.getCall(0).args[0].subject).to.equal("Newer FOI Request");
+    expect(transomSmtp.sendFromNoReply.getCall(0).args[0].subject).to.equal("New FOI Request");
       
   });
 });

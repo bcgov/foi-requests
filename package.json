@@ -8,7 +8,7 @@
     "start-api": "cd api && npm run start-dev",
     "build": "ng build --prod --configuration=production",
     "build-dev": "ng build",
-    "test": "ng test",
+    "test": "ng test --watch=false --browsers=ChromeHeadlessNoSB",
     "cov": "http-server -c-1 -o -p 9875 ./coverage/bcfoi",
     "test-cov": "concurrently \"http-server -c-1 -o -p 9875 ./coverage/bcfoi\"  \"ng test --code-coverage\" ",
     "lint": "ng lint",
