@@ -8,15 +8,14 @@
 set -e
 
 echo "---> Installing Chrome for test execution"
-apk update && apk upgrade
-echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories
-echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories
-apk add --no-cache bash chromium@edge nss@edge
+yum install chromium-headless -y
 
+yum list installed | grep chromium
 
 # This line is to tell karma-chrome-launcher where
 # chromium was downloaded and installed to.
-export CHROME_BIN=/usr/bin/chromium-browser
+export CHROME_BIN=/usr/lib64/chromium-browser/headless_shell
+# /usr/bin/chromium-browser
 
 
 
