@@ -83,12 +83,6 @@ else
     echo "---> running api test"
     cd api
     npm test
-    if [ $? -eq 0 ]; then
-        echo " ---> Success: API TESTS PASSED"
-    else
-        echo " ---> Failure: API TESTS FAILED"
-        exit 1
-    fi
     cd ..
 
 
