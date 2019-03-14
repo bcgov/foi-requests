@@ -7,18 +7,6 @@
 
 set -e
 
-echo "---> Installing Chrome for test execution"
-yum install chromium-headless -y
-
-yum list installed | grep chromium
-
-# This line is to tell karma-chrome-launcher where
-# chromium was downloaded and installed to.
-export CHROME_BIN=/usr/lib64/chromium-browser/headless_shell
-# /usr/bin/chromium-browser
-
-
-
 # FIXME: Linking of global modules is disabled for now as it causes npm failures
 #        under RHEL7
 # Global modules good to have
@@ -96,9 +84,6 @@ else
     cd api
     npm test
     cd ..
-    echo "---> running front end tests"
-    npm test
-
 
 	#do not fail when there is no build script
 	echo "---> Building in production mode"
