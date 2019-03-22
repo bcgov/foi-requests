@@ -1,6 +1,6 @@
 <foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
-    <h2>What topic are you requesting records about?</h2>
+    <h2>What kinds of records are you looking for?</h2>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group" *ngFor="let topic of topics">

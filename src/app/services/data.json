@@ -55,7 +55,7 @@
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
       { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
-      { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+      { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicAnother": [
       {
@@ -80,7 +80,7 @@
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
       { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
-      { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+      { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicYourselfAnother": [
       {
@@ -105,7 +105,7 @@
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
       { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
-      { "value": "anotherTopic", "text": "Another Topic", "ministryCode": null }
+      { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ]
   },
   "routeTree": [
