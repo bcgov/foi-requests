@@ -126,13 +126,13 @@
               <div>
                 <div class="inline-wrap">
                   <span class="form-control review-inline">{{
-                    foiRequest.requestData.descriptionTimeframe.fromDate
+                    foiRequest.requestData.descriptionTimeframe.fromDate | date
                   }}</span>
                   <div class="review-inline-label">From</div>
                 </div>
                 <div class="inline-wrap">
                   <span class="form-control review-inline">{{
-                    foiRequest.requestData.descriptionTimeframe.toDate
+                    foiRequest.requestData.descriptionTimeframe.toDate | date
                   }}</span>
                   <div class="review-inline-label">To</div>
                 </div>

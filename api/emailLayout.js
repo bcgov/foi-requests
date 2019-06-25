@@ -17,14 +17,14 @@ module.exports = function EmailLayout() {
             <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
   };
 
-  this.dateFormat = function(html5Date) {
+  this.dateFormat = function(isoDateStr) {
     // HTML5 date is ALWAYS formatted yyyy-mm-dd.
-    let result = html5Date || 'n/a';
-    if (result.split('-').length === 3) {
-      const parts = result.split('-');
-      const year = parts[0];
-      const month = parts[1];
-      const day = parts[2];
+    let result = isoDateStr || 'n/a';
+    if (isoDateStr){
+      const dt = new Date(isoDateStr);
+      const year = dt.getFullYear();
+      const month = dt.getMonth() + 1;
+      const day = dt.getDate();
       result = `${day}/${month}/${year}`;
     }
     return result;
