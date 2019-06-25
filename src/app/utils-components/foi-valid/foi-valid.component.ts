@@ -20,6 +20,8 @@ export class FoiValidComponent implements OnInit {
   @Input() maxLength: string;
   @Input() pattern: string;
   @Input() noFuture: string;
+  @Input() validDate: string;
+  @Input() dateTimeTrigger: string;
 
   @ViewChild('myLabel') fieldLabelWrapper: ElementRef;
   fieldLabel: HTMLLabelElement;
@@ -92,6 +94,10 @@ export class FoiValidComponent implements OnInit {
   ngOnInit() {
     this.fieldLabel = this.fieldLabelWrapper.nativeElement.firstChild || {};
     this.fieldInput = this.fieldInputWrapper.nativeElement.firstChild || {};
+
+    if (!this.fieldInput.hasAttribute('formcontrolname')){
+      this.fieldInput = this.fieldInputWrapper.nativeElement.firstChild.firstChild || {};
+    }
 
     // Using the formcontrolname attribute on the Input DOM element to identify the Form control!
     const formcontrolname = this.fieldInput.attributes['formcontrolname'].value;

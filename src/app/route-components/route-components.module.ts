@@ -22,6 +22,7 @@ import { VerifyYourIdentityComponent } from './verify-your-identity/verify-your-
 import { AnotherInformationComponent } from './another-information/another-information.component';
 import { AdoptiveParentsComponent } from './adoptive-parents/adoptive-parents.component';
 import { UtilsComponentsModule } from '../utils-components/utils-components.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -59,6 +60,7 @@ library.add(faSpinner);
     CommonModule,
     UtilsComponentsModule,
     ReactiveFormsModule,
+    OwlDateTimeModule, OwlNativeDateTimeModule,
     FontAwesomeModule
   ]
 })
