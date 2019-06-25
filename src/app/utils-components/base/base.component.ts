@@ -76,7 +76,6 @@ export class BaseComponent implements OnInit {
   }
 
   noFutureValidator(c: FormControl) {
-    console.log("here");
     if (!c.value) {
       if (c.errors) {
         return {
@@ -98,28 +97,41 @@ export class BaseComponent implements OnInit {
             valid: false
           }
         };
-  
       }
     } else {
-      const parts = (c.value || "").split("-");
-      if (parts.length === 3) {
-        const year = parts[0];
-        const month = parts[1] - 1;
-        const day = parts[2];
-        // console.log("noFuture:", parts, new Date(year, month, day), new Date());
-        const enteredDate = new Date(year, month, day);
+      if (typeof c.value === "string") {
+        const dtStr: string = c.value;
+        let enteredDate: Date;
+        if (dtStr.indexOf("T") === 10) {
+          enteredDate = new Date(dtStr);
+        } else {
+          const parts = (c.value || "").split("-");
+          if (parts.length === 3) {
+            const year = Number.parseInt(parts[0]);
+            const month: number = Number.parseInt(parts[1]) - 1;
+            const day = Number.parseInt(parts[2]);
+            // console.log("noFuture:", parts, new Date(year, month, day), new Date());
+            enteredDate = new Date(year, month, day);
+          } else {
+            //not a valid date
+            return {
+              validDate: {
+                valid: false
+              }
+            };
+          }
+        }
         if (enteredDate <= new Date()) {
           // Entered date is prior to now, it's good!
           return null;
         }
+        // Anything else is failed!
+        return {
+          validDate: {
+            valid: false
+          }
+        };
       }
-      // Anything else is failed!
-      console.log("returning validDate");
-      return {
-        validDate: {
-          valid: false
-        }
-      };
     }
   }
 }
