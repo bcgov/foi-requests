@@ -52,9 +52,12 @@
             [form]="foiForm"
             required="Birth date is a required field."
             noFuture="Birth date must not be in the future."
+            validDate="From Date must be a valid date." 
+            [dateTimeTrigger]="dt1"
           >
             <label>Birth Date:</label>
-            <input type="date" class="form-control" formControlName="birthDate" />
+            <input type="text" [owlDateTime]="dt1" class="form-control" formControlName="birthDate" />
+            <owl-date-time #dt1 pickerType="calendar"></owl-date-time>
           </app-foi-valid>
         </div>
 

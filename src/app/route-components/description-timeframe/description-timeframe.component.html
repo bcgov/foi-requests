@@ -55,8 +55,11 @@
             [form]="foiForm"
             required="From Date is a required field."
             noFuture="From Date must not be in the future."
+            validDate="From Date must be a valid date." 
+            [dateTimeTrigger]="dt1"
           >
-            <input type="date" formControlName="fromDate" id="fromDate" [max]="inputMaxDate()"/>
+            <input type="text" [owlDateTime]="dt1" formControlName="fromDate" id="fromDate" [max]="inputMaxDate()"/>
+            <owl-date-time #dt1 pickerType="calendar"></owl-date-time>
           </app-foi-valid>
         </div>
         <label class="col-lg-2 col-form-label inline-label" for="toDate">To Date <span class="label-required">*</span>:</label>
@@ -65,8 +68,11 @@
             [form]="foiForm"
             required="To Date is a required field."
             noFuture="To Date must not be in the future."
+            validDate="To Date must be a valid date." 
+            [dateTimeTrigger]="dt2"
           >
-            <input type="date" formControlName="toDate" id="toDate" [max]="inputMaxDate()"/>
+            <input type="text"  [owlDateTime]="dt2" formControlName="toDate" id="toDate" [max]="inputMaxDate()"/>
+            <owl-date-time #dt2 pickerType="calendar"></owl-date-time>
           </app-foi-valid>
         </div>
       </div>
