@@ -72,7 +72,9 @@
         </div>
       </div>
     </form>
-    <app-alert-info *ngIf="infoBlock">{{ infoBlock }}</app-alert-info>
+    <app-alert-info *ngIf="infoBlock">
+        <div [innerHTML]="infoBlock"></div>
+    </app-alert-info>
   </div>
 
   <div class="sidebar">
