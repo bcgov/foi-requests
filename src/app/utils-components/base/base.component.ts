@@ -77,7 +77,11 @@ export class BaseComponent implements OnInit {
 
   noFutureValidator(c: FormControl) {
     if (!c.value) {
+      if (c.errors && c.errors.required) {
+        return null; // required validator already triggered
+      }
       if (c.errors) {
+        // There's something in the field & it doesn't look like a date!
         return {
           validDate: {
             valid: false
@@ -102,10 +106,12 @@ export class BaseComponent implements OnInit {
       if (typeof c.value === "string") {
         const dtStr: string = c.value;
         let enteredDate: Date;
-        if (dtStr.indexOf("T") === 10) {
+        if (dtStr.length === 24 && dtStr.indexOf("T") === 10) {
+          // ISO date string
           enteredDate = new Date(dtStr);
         } else {
-          const parts = (c.value || "").split("-");
+          // Three part date string: 01/06/2019 or 01-06-2019
+          const parts = dtStr.split('/').join('-').split('-');
           if (parts.length === 3) {
             const year = Number.parseInt(parts[0]);
             const month: number = Number.parseInt(parts[1]) - 1;
@@ -113,7 +119,7 @@ export class BaseComponent implements OnInit {
             // console.log("noFuture:", parts, new Date(year, month, day), new Date());
             enteredDate = new Date(year, month, day);
           } else {
-            //not a valid date
+            // Not a valid date
             return {
               validDate: {
                 valid: false
