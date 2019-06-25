@@ -1,39 +1,35 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FoiRouterService } from 'src/app/foi-router.service';
-import { Router } from '@angular/router';
-import { DataService } from 'src/app/services/data.service';
-import { FoiRoute } from 'src/app/models/FoiRoute';
-import { BehaviorSubject } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
+import { FoiRouterService } from "src/app/foi-router.service";
+import { Router } from "@angular/router";
+import { DataService } from "src/app/services/data.service";
+import { FoiRoute } from "src/app/models/FoiRoute";
+import { BehaviorSubject } from "rxjs";
+import { FormControl } from "@angular/forms";
 
 @Component({
-  selector: 'foi-base',
-  templateUrl: './base.component.html',
-  styleUrls: ['./base.component.scss']
+  selector: "foi-base",
+  templateUrl: "./base.component.html",
+  styleUrls: ["./base.component.scss"]
 })
 export class BaseComponent implements OnInit {
   @Output() continue = new EventEmitter();
   @Output() goBack = new EventEmitter();
-  @Input('showButtons') showButtons: boolean = true;
-  @Input('showInfo') showInfo: boolean = true;
-  @Input('continueText') continueText: string = 'Continue';
-  @Input('continueClass') continueClass: string = '';
-  @Input('continueDisabled') continueDisabled: boolean = false;
-  @Input('startupComponent') startupComponent: boolean = false;
+  @Input("showButtons") showButtons: boolean = true;
+  @Input("showInfo") showInfo: boolean = true;
+  @Input("continueText") continueText: string = "Continue";
+  @Input("continueClass") continueClass: string = "";
+  @Input("continueDisabled") continueDisabled: boolean = false;
+  @Input("startupComponent") startupComponent: boolean = false;
   routeData$: BehaviorSubject<any>;
 
-  constructor(
-    private foiRouter: FoiRouterService,
-    private dataService: DataService,
-    private router: Router
-  ) {
+  constructor(private foiRouter: FoiRouterService, private dataService: DataService, private router: Router) {
     this.routeData$ = new BehaviorSubject(null);
   }
 
   ngOnInit() {
     const route: FoiRoute = this.dataService.getRoute(this.router.url);
-    const reqTp:any = this.dataService.getCurrentState('requestType');
-    if (!reqTp.requestData.requestType.requestType && !this.startupComponent){
+    const reqTp: any = this.dataService.getCurrentState("requestType");
+    if (!reqTp.requestData.requestType.requestType && !this.startupComponent) {
       this.router.navigate([""]); //dropped into the middle of the form without a session
     }
     this.routeData$.next(route.data || {});
@@ -80,26 +76,50 @@ export class BaseComponent implements OnInit {
   }
 
   noFutureValidator(c: FormControl) {
+    console.log("here");
     if (!c.value) {
-      return null; // null date is valid.
+      if (c.errors) {
+        return {
+          validDate: {
+            valid: false
+          }
+        };
+      } else {
+        return null; // null date is valid.
+      }
     }
-    const parts = (c.value || "").split("-");
-    if (parts.length === 3) {
-      const year = parts[0];
-      const month = parts[1] - 1;
-      const day = parts[2];
-      // console.log("noFuture:", parts, new Date(year, month, day), new Date());
-      const enteredDate = new Date(year, month, day);
-      if (enteredDate <= new Date()) {
+    if (typeof c.value === "object" && c.value.constructor.name === "Date") {
+      if (c.value <= new Date()) {
         // Entered date is prior to now, it's good!
         return null;
+      } else {
+        return {
+          noFuture: {
+            valid: false
+          }
+        };
+  
       }
+    } else {
+      const parts = (c.value || "").split("-");
+      if (parts.length === 3) {
+        const year = parts[0];
+        const month = parts[1] - 1;
+        const day = parts[2];
+        // console.log("noFuture:", parts, new Date(year, month, day), new Date());
+        const enteredDate = new Date(year, month, day);
+        if (enteredDate <= new Date()) {
+          // Entered date is prior to now, it's good!
+          return null;
+        }
+      }
+      // Anything else is failed!
+      console.log("returning validDate");
+      return {
+        validDate: {
+          valid: false
+        }
+      };
     }
-    // Anything else is failed!
-    return {
-      noFuture: {
-        valid: false
-      }
-    };
   }
 }

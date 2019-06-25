@@ -9,11 +9,12 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faExclamationTriangle, faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { StaticContactBlockComponent } from './static-contact-block/static-contact-block.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 // Add an icon to the library for convenient access in other components
-library.add(faInfoCircle, faExclamationTriangle);
+library.add(faInfoCircle, faExclamationTriangle, faCalendar);
 
 
 @NgModule({
@@ -30,6 +31,7 @@ library.add(faInfoCircle, faExclamationTriangle);
     // Required to use these in children of RouteComponentsModule
     CommonModule,
     ReactiveFormsModule,
+    OwlDateTimeModule, OwlNativeDateTimeModule,
     FontAwesomeModule
   ],
   exports: [

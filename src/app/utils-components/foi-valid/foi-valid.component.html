@@ -1,26 +1,32 @@
 <ng-container class="item-validation">
-  <span #myLabel >
+  <span #myLabel>
     <ng-content select="label"></ng-content>
   </span>
   <span #myInput>
-    <ng-content select="input"></ng-content>
+    <!--  -->
+    <div class="input-group">
+      
+      <ng-content select="input"></ng-content>
+      <div *ngIf="dateTimeTrigger" class="input-group-append">
+          <span class="input-group-text" [owlDateTimeTrigger]="dateTimeTrigger"><fa-icon icon="calendar"></fa-icon></span>
+        </div>
+    </div>
+
     <ng-content select="select"></ng-content>
     <ng-content select="textarea"></ng-content>
   </span>
 
-  <div
-    class="validation-error"
-    *ngIf="isInvalid(); else: itemValidTip"
-  >
-    <span *ngIf="validationErrors('min')">{{ dynamicMsg('min') }}</span>
-    <span *ngIf="validationErrors('max')">{{ dynamicMsg('max') }}</span>
-    <span *ngIf="validationErrors('required')">{{ dynamicMsg('required') }}</span>
-    <span *ngIf="validationErrors('requiredTrue')">{{ dynamicMsg('requiredTrue') }}</span>
-    <span *ngIf="validationErrors('email')">{{ dynamicMsg('email') }}</span>
-    <span *ngIf="validationErrors('minlength')">{{ dynamicMsg('minlength') }}</span>
-    <span *ngIf="validationErrors('maxlength')">{{ dynamicMsg('maxlength') }}</span>
-    <span *ngIf="validationErrors('pattern')">{{ dynamicMsg('pattern') }}</span>
-    <span *ngIf="validationErrors('noFuture')">{{ dynamicMsg('noFuture') }}</span>
+  <div class="validation-error" *ngIf="isInvalid(); else itemValidTip">
+    <span *ngIf="validationErrors('min')">{{ dynamicMsg("min") }}</span>
+    <span *ngIf="validationErrors('max')">{{ dynamicMsg("max") }}</span>
+    <span *ngIf="validationErrors('required')">{{ dynamicMsg("required") }}</span>
+    <span *ngIf="validationErrors('requiredTrue')">{{ dynamicMsg("requiredTrue") }}</span>
+    <span *ngIf="validationErrors('email')">{{ dynamicMsg("email") }}</span>
+    <span *ngIf="validationErrors('minlength')">{{ dynamicMsg("minlength") }}</span>
+    <span *ngIf="validationErrors('maxlength')">{{ dynamicMsg("maxlength") }}</span>
+    <span *ngIf="validationErrors('pattern')">{{ dynamicMsg("pattern") }}</span>
+    <span *ngIf="validationErrors('noFuture')">{{ dynamicMsg("noFuture") }}</span>
+    <span *ngIf="validationErrors('validDate')">{{ dynamicMsg("validDate") }}</span>
   </div>
   <ng-template #itemValidTip>
     <div class="validation-tip">{{ tip }}</div>
