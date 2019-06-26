@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from "@angular/core";
 import { Form, FormControl } from "@angular/forms";
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 @Component({
   selector: "foi-fileinput",
   templateUrl: "./foi-fileinput.component.html",
@@ -18,7 +20,7 @@ export class FoiFileinputComponent implements OnInit {
   fieldLabel: HTMLLabelElement;
 
   @ViewChild("fileInputDisplay") fileInputDisplay: ElementRef;
-  @ViewChild("fileInput") fileInput: HTMLInputElement;
+  @ViewChild("fileInput") fileInput: ElementRef<HTMLInputElement>;
 
   @Output() fileSelected = new EventEmitter<File>();
 
@@ -37,7 +39,7 @@ export class FoiFileinputComponent implements OnInit {
     this.control = this.form["controls"][this.formcontrolname];
 
     // Set the Label .for, Input .id and .class attributes, if not already set.
-    this.fileInput.id = this.formcontrolname;
+    this.fileInput.nativeElement.id = this.formcontrolname;
 
     // Add a required field indicator.
     if (this.required) {
@@ -81,21 +83,40 @@ export class FoiFileinputComponent implements OnInit {
     return this.form["controls"][this.formcontrolname].value;
   }
 
+  resetContent() {
+    this.form["controls"][this.formcontrolname].setValue(null);
+    this.fileInputDisplay.nativeElement.innerHTML = "";
+    this.fileInput.nativeElement.value = "";
+
+    if (!/safari/i.test(navigator.userAgent)) {
+      this.fileInput.nativeElement.type = "";
+      this.fileInput.nativeElement.type = "file";
+    }
+  }
+
   fileChange(event) {
     let newFile: File = null;
     try {
       newFile = event.target.files[0];
+      if (newFile) {
+        if (newFile.size) {
+          if (newFile.size > MAX_FILE_SIZE) {
+            newFile = null;
+            alert(`Select a file that is smaller than ${MAX_FILE_SIZE} bytes.`);
+          }
+        }
+      }
     } catch (err) {
       console.error(err);
     } finally {
       this.form["controls"][this.formcontrolname].setValue(newFile ? newFile.name : null);
-      
+
       // This block is needed to make things work on MS Edge.
-      if (newFile){
+      if (newFile) {
         this.fileInputDisplay.nativeElement.innerHTML = newFile.name;
         setTimeout(() => {
           this.form["controls"][this.formcontrolname].reset(newFile.name);
-        },100);
+        }, 100);
       }
       this.fileSelected.emit(newFile);
     }
