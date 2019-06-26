@@ -19,13 +19,23 @@ module.exports = function EmailLayout() {
 
   this.dateFormat = function(isoDateStr) {
     // HTML5 date is ALWAYS formatted yyyy-mm-dd.
+    // ISO Date is ALWAYS formatted yyyy-mm-ddT00:00:00.000Z.
     let result = isoDateStr || 'n/a';
     if (isoDateStr){
       const dt = new Date(isoDateStr);
-      const year = dt.getFullYear();
-      const month = dt.getMonth() + 1;
-      const day = dt.getDate();
-      result = `${day}/${month}/${year}`;
+      if (Number.isNaN(dt.getTime())) {
+        result = isoDateStr; // Invalid date string!
+      } else {
+        const year = dt.getFullYear();
+        let month = dt.getMonth() + 1;
+        let day = dt.getDate();
+
+        // Dates should look like 01/03/2019 rather than 1/3/2019.
+        month = (`0${month}`).slice(-2);
+        day = (`0${day}`).slice(-2);
+
+        result = `${day}/${month}/${year}`;
+      }
     }
     return result;
   };
@@ -122,7 +132,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.dateOfBirth) {
-      result += this.tableRow('Date of Birth', data.dateOfBirth);
+      result += this.tableRow('Date of Birth <small>(dd/mm/yyyy)</small>', this.dateFormat(data.dateOfBirth));
     }
     return result;
   };
@@ -137,7 +147,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.dateOfBirth) {
-      result += this.tableRow('Date of Birth', data.dateOfBirth);
+      result += this.tableRow('Date of Birth <small>(dd/mm/yyyy)</small>', this.dateFormat(data.dateOfBirth));
     }
     return result;
   };
