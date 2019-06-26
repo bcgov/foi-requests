@@ -1,14 +1,15 @@
 'use strict';
 const fs = require('fs');
 const EmailLayout = require('./emailLayout');
+const restifyErrors = require('restify-errors');
 
 function submitFoiRequest(server, req, res, next) {
   const transomMailer = server.registry.get('transomSmtp');
   const emailLayout = new EmailLayout();
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 
-  const MAX_ATTACH_MB = 4;
-  const maxAttachMB = MAX_ATTACH_MB * 1000000;
+  const MAX_ATTACH_MB = 5;
+  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
   req.params.requestData = JSON.parse(req.params.requestData);
 
@@ -24,14 +25,15 @@ function submitFoiRequest(server, req, res, next) {
   if (req.files) {
     Object.keys(req.files).map(f => {
       const file = req.files[f];
-      if (file.size < maxAttachMB) {
+      if (file.size < maxAttachBytes) {
         foiAttachments.push({
           filename: file.name,
           path: file.path
         });
       } else {
-        // TODO: How to handle too many / too large?
-        console.log('Attachment too large!', file);
+        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
+        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
+        return next(tooLarge);
       }
     });
   }
@@ -52,7 +54,8 @@ function submitFoiRequest(server, req, res, next) {
       // setTimeout(()=> {
         if (err) {
           req.log.info('Failed:', err);
-          return next(err);
+          const unavailable = new restifyErrors.ServiceUnavailableError(err.message || 'Service is unavailable.');
+          return next(unavailable);
         }
         req.log.info('Sent!', response);
         res.send({ result: 'success' });
