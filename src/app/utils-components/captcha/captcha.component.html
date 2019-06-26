@@ -414,7 +414,10 @@
     </div>
   </div>
 
-  <div class="confirm-correct-answer" style="float:left" *ngIf="state === 5" role="alert" aria-live="assertive">
+  <div [ngClass]="{
+    'confirm-correct-answer': true,
+    'load': fadeIn && state === 5
+  }"  style="float:left" *ngIf="state === 5" role="alert" aria-live="assertive">
     <svg class="icon-check"><use xlink:href="#icon-check-def"></use></svg>
     {{ translatedMessages.correct[language] }}
     <span>{{ successMessage || translatedMessages.successMessage[language] }}</span>

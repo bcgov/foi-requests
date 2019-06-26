@@ -23,6 +23,8 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
   @Input('language') language: string = 'en';
   @Input('userPromptMessage') userPromptMessage: string;
 
+  fadeIn: boolean = false;
+
   
 
   /**
@@ -103,6 +105,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
     if (payload.valid === true) {
       this.state = CAPTCHA_STATE.SUCCESS_VERIFY_ANSWER_CORRECT;
       this.onValidToken.emit(payload.jwt);
+      setTimeout(() => {this.fadeIn = true},200);
     } else {
       this.incorrectAnswer = true;
       this.answer = '';

@@ -1,8 +1,18 @@
 .bcgov-captcha{
 
     .confirm-correct-answer {
+      opacity:0.8;
       display:block;
       color: green;
+      -webkit-transition: opacity 2s ease-in;
+    -moz-transition: opacity 2s ease-in;
+    -o-transition: opacity 2s ease-in;
+    -ms-transition: opacity 2s ease-in;
+    transition: opacity 2s ease-in;
+    }
+
+    .load {
+      opacity: 1;
     }
     .confirm-correct-answer i {
       color: green;
