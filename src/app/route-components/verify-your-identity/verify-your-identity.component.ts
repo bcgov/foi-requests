@@ -25,7 +25,7 @@ export class VerifyYourIdentityComponent implements OnInit {
       firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
       lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      birthDate: [null, [Validators.required, this.base.noFutureValidator]],
+      birthDate: [null],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
     });
@@ -37,9 +37,9 @@ export class VerifyYourIdentityComponent implements OnInit {
       if (data) {
         this.infoBlock = data.infoBlock;
         this.includeBirthDate = data.includeBirthDate;
-        if (!this.includeBirthDate) {
+        if (this.includeBirthDate) {
           const currentValue = this.foiForm.get("birthDate").value;
-          this.foiForm.setControl("birthDate", new FormControl(currentValue));
+          this.foiForm.setControl("birthDate", new FormControl(currentValue, [Validators.required, this.base.noFutureValidator]));
         }
       }
     });
