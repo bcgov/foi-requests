@@ -8,6 +8,8 @@ import { UtilsComponentsModule } from "src/app/utils-components/utils-components
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FoiRequest } from "src/app/models/FoiRequest";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
 
 describe("VerifyYourIdentityComponent", () => {
   let component: VerifyYourIdentityComponent;
@@ -16,7 +18,7 @@ describe("VerifyYourIdentityComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [VerifyYourIdentityComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
       providers: [DataService, { provide: Router, useClass: MockRouter }]
     }).compileComponents();
   }));

@@ -9,6 +9,8 @@ import { FoiRequest } from "src/app/models/FoiRequest";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { UtilsComponentsModule } from "src/app/utils-components/utils-components.module";
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 describe("DescriptionTimeframeComponent", () => {
   let component: DescriptionTimeframeComponent;
@@ -36,7 +38,7 @@ describe("DescriptionTimeframeComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [DescriptionTimeframeComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
       providers: [DataService, { provide: Router, useClass: MockRouter }]
     }).compileComponents();
   }));

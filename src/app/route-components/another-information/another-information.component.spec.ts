@@ -11,6 +11,8 @@ import { FoiFileinputComponent } from "src/app/utils-components/foi-fileinput/fo
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
 
 describe("AnotherInformationComponent", () => {
   let component: AnotherInformationComponent;
@@ -19,7 +21,7 @@ describe("AnotherInformationComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AnotherInformationComponent, BaseComponent, FoiValidComponent, FoiFileinputComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot()],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
       providers: [DataService, { provide: Router, useClass: MockRouter }]
     }).compileComponents();
   }));

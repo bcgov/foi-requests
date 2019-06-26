@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { GettingStarted1Component } from "./getting-started1.component";
-import { FoiValidComponent } from "src/app/utils-components/foi-valid/foi-valid.component";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
@@ -17,7 +16,7 @@ describe("GettingStarted1Component", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GettingStarted1Component, BaseComponent, FoiValidComponent, StaticContactBlockComponent],
+      declarations: [GettingStarted1Component, BaseComponent, StaticContactBlockComponent],
       imports: [ReactiveFormsModule],
       providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
     }).compileComponents();
