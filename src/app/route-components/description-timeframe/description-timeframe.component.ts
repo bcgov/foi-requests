@@ -25,7 +25,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     this.foiForm = this.fb.group({
       description: [null, Validators.required],
       fromDate: [null, Validators.compose([Validators.required, this.base.noFutureValidator])],
-      toDate: [null, [Validators.required, this.base.noFutureValidator]],
+      toDate: [null, [Validators.required, this.base.noFutureValidator, this.base.toDateValidator]],
       correctionalServiceNumber: [null, Validators.maxLength(255)],
       publicServiceEmployeeNumber: [null, Validators.maxLength(255)]
     });

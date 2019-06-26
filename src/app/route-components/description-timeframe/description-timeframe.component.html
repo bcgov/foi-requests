@@ -55,7 +55,7 @@
             [form]="foiForm"
             required="From Date is a required field."
             noFuture="From Date must not be in the future."
-            validDate="From Date must be a valid date." 
+            validDate="From Date must be a valid date."
             [dateTimeTrigger]="dt1"
           >
             <input type="text" [owlDateTime]="dt1" formControlName="fromDate" id="fromDate" [max]="inputMaxDate()"/>
@@ -69,6 +69,7 @@
             required="To Date is a required field."
             noFuture="To Date must not be in the future."
             validDate="To Date must be a valid date." 
+            toDateValid="To Date must be greater than From Date."
             [dateTimeTrigger]="dt2"
           >
             <input type="text"  [owlDateTime]="dt2" formControlName="toDate" id="toDate" [max]="inputMaxDate()"/>

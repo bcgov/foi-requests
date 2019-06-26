@@ -75,6 +75,20 @@ export class BaseComponent implements OnInit {
     this.foiRouter.progress({ direction: 2 });
   }
 
+  toDateValidator(c: FormControl){
+    let ret = null;
+    if (c.parent && c.parent.controls && c.parent.controls['fromDate'] && c.parent.controls['fromDate'].value && c.value){
+      if (c.parent.controls['fromDate'].value > c.value) {
+        ret = {
+          toDateValid: {
+            valid: false
+          }
+        }
+      }
+    }
+    return ret;
+  }
+
   noFutureValidator(c: FormControl) {
     if (!c.value) {
       if (c.errors && c.errors.required) {

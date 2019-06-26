@@ -27,6 +27,7 @@
     <span *ngIf="validationErrors('pattern')">{{ dynamicMsg("pattern") }}</span>
     <span *ngIf="validationErrors('noFuture')">{{ dynamicMsg("noFuture") }}</span>
     <span *ngIf="validationErrors('validDate')">{{ dynamicMsg("validDate") }}</span>
+    <span *ngIf="validationErrors('toDateValid')">{{ dynamicMsg("toDateValid") }}</span>
   </div>
   <ng-template #itemValidTip>
     <div class="validation-tip">{{ tip }}</div>
