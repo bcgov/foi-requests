@@ -53,7 +53,7 @@ export class ReviewSubmitComponent implements OnInit {
       this.base.goFoiForward();
     }, error => {
       this.isBusy = false;
-      console.log("That submit failed: ", error);
+      console.log("Submission failed: ", error);
       alert("Temporarily unable to submit your request. Please try again in a few minutes.");
       this.captchaComponent.forceRefresh();
       this.captchaComplete = false;
