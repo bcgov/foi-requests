@@ -89,6 +89,14 @@ export class FoiFileinputComponent implements OnInit {
       console.error(err);
     } finally {
       this.form["controls"][this.formcontrolname].setValue(newFile ? newFile.name : null);
+      
+      // This block is needed to make things work on MS Edge.
+      if (newFile){
+        this.fileInputDisplay.nativeElement.innerHTML = newFile.name;
+        setTimeout(() => {
+          this.form["controls"][this.formcontrolname].reset(newFile.name);
+        },100);
+      }
       this.fileSelected.emit(newFile);
     }
   }

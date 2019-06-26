@@ -42,10 +42,8 @@ export class ReviewSubmitComponent implements OnInit {
   doContinue() {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
-      console.log("result: ", result);
       this.isBusy = false;
       this.base.goFoiForward();
-
     }, error => {
       this.isBusy = false;
       console.log("That submit failed: ", error);
