@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GettingStarted3Component } from './getting-started3.component';
-import { FoiValidComponent } from 'src/app/utils-components/foi-valid/foi-valid.component';
 import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
@@ -14,7 +13,7 @@ describe('GettingStarted3Component', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GettingStarted3Component, BaseComponent, FoiValidComponent],
+      declarations: [ GettingStarted3Component, BaseComponent],
       imports:[ReactiveFormsModule],
       providers: [
         {provide: DataService, useClass: MockDataService},

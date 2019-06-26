@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { FoiRequest } from 'src/app/models/FoiRequest';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
 
 describe('ContactInfoComponent', () => {
   let component: ContactInfoComponent;
@@ -18,7 +20,7 @@ describe('ContactInfoComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ContactInfoComponent, BaseComponent, FoiValidComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot()],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
       providers: [
         DataService,
         {provide: Router, useClass: MockRouter}

@@ -4,6 +4,8 @@ import { FoiValidComponent } from "./foi-valid.component";
 import { Component } from "@angular/core";
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
 
 @Component({
   template: `
@@ -43,7 +45,7 @@ describe("FoiValidComponent", () => {
     TestBed.configureTestingModule({
       declarations: [FoiValidComponent, TestHostComponent],
       providers: [FormBuilder],
-      imports: [ReactiveFormsModule]
+      imports: [ReactiveFormsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule]
     }).compileComponents();
   }));
 

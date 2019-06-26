@@ -115,11 +115,10 @@ describe("DataService", () => {
     });
     service.setPersonFileAttachment(f).subscribe(value => {
       if (value) {
-        const fReturned = service.getFileFrom(service.personFileKey, "final.txt");
+        const fReturned = service.getBlobFrom(service.personFileKey);
         const fr: FileReader = new FileReader();
         fr.onload = () => {
           expect(fr.result).toEqual("foo");
-          expect(fReturned.name).toEqual("final.txt");
           done();
         };
         fr.readAsText(fReturned);

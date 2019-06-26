@@ -20,6 +20,7 @@ export class FoiValidComponent implements OnInit {
   @Input() maxLength: string;
   @Input() pattern: string;
   @Input() noFuture: string;
+  @Input() toDateValid: string;
   @Input() validDate: string;
   @Input() dateTimeTrigger: string;
 

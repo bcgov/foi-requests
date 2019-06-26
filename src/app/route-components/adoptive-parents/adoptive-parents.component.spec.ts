@@ -9,6 +9,8 @@ import { FoiValidComponent } from "src/app/utils-components/foi-valid/foi-valid.
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 describe("AdoptiveParentsComponent", () => {
   let component: AdoptiveParentsComponent;
@@ -24,7 +26,7 @@ describe("AdoptiveParentsComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AdoptiveParentsComponent, BaseComponent, FoiValidComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot()],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
       providers: [
         DataService,
         { provide: Router, useClass: MockRouter }
