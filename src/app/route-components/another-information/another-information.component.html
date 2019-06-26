@@ -46,7 +46,7 @@
         </div>
 
         <div class="col-lg-6">
-          <app-foi-valid [form]="foiForm" noFuture="Date of birth must not be in the future." validDate="Date of Birth must be a valid date." [dateTimeTrigger]="dt1">
+          <app-foi-valid [form]="foiForm" noFuture="Date of Birth must not be in the future." validDate="Date of Birth must be a valid date." [dateTimeTrigger]="dt1">
             <label>What is the person’s date of birth?</label>
             <input type="text" [owlDateTime]="dt1" formControlName="dateOfBirth" />
             <owl-date-time #dt1 pickerType="calendar"></owl-date-time>
