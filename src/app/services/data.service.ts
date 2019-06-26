@@ -98,8 +98,12 @@ export class DataService {
     return new Observable(observer => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
-        sessionStorage.setItem(this.childFileKey, reader.result.toString());
-        observer.next(true);
+        try{
+          sessionStorage.setItem(this.childFileKey, reader.result.toString());
+          observer.next(true);
+        } catch (err) {
+          observer.error(this.getStorageErrorText(err));
+        }
         observer.complete();
       };
       reader.readAsDataURL(f);
@@ -110,12 +114,24 @@ export class DataService {
     sessionStorage.removeItem(this.childFileKey);
   }
 
+  getStorageErrorText(err: any){
+    let result: string = 'Error saving your file, try submitting a smaller file';
+    if (err && err.name && err.name === 'QuotaExceededError'){
+      result = 'File(s) too large, try submitting smaller files';
+    }
+    return result;
+  }
+
   setPersonFileAttachment(f: File): Observable<boolean> {
     return new Observable(observer => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
-        sessionStorage.setItem(this.personFileKey, reader.result.toString());
-        observer.next(true);
+        try{
+          sessionStorage.setItem(this.personFileKey, reader.result.toString());
+          observer.next(true);
+        } catch (err) {
+          observer.error(this.getStorageErrorText(err));
+        }
         observer.complete();
       };
       reader.readAsDataURL(f);

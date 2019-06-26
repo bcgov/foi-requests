@@ -3,6 +3,7 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { DataService } from 'src/app/services/data.service';
+import { FoiFileinputComponent } from 'src/app/utils-components/foi-fileinput/foi-fileinput.component';
 
 @Component({
   templateUrl: './another-information.component.html',
@@ -11,6 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 export class AnotherInformationComponent implements OnInit {
 
   @ViewChild(BaseComponent) base: BaseComponent;
+  @ViewChild(FoiFileinputComponent) f1: FoiFileinputComponent;
   foiForm: FormGroup;
 
   foiRequest: FoiRequest;
@@ -47,7 +49,11 @@ export class AnotherInformationComponent implements OnInit {
   newFileSelected(newFile: File){
     if (newFile){
       this.dataService.setPersonFileAttachment(newFile).subscribe(value => {
-
+      },
+      error => {
+        alert(error);
+        this.dataService.removePersonFileAttachment();
+        this.f1.resetContent();
       });
     } else {
       this.dataService.removePersonFileAttachment();
