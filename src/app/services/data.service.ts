@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { default as data } from "./data.json";
 import { Observable, of } from "rxjs";
 import { FoiRoute } from "../models/FoiRoute";
-import { FoiRequest } from "../models/FoiRequest";
+import { FoiRequest, BlobFile } from "../models/FoiRequest";
 import { TransomApiClientService } from "../transom-api-client.service";
 import { FormGroup } from "@angular/forms";
 
@@ -139,7 +139,6 @@ export class DataService {
       for (let i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }
-
       const byteArray = new Uint8Array(byteNumbers);
       byteArrays.push(byteArray);
     }
@@ -150,10 +149,9 @@ export class DataService {
   /**
    * Load a file from session storage using a given key.
    *
-   * @param storageKey - Load a file using the provided key
-   * @param filename - Apply the provided file name to the File object
+   * @param storageKey - Load a file as Blob using the provided key
    */
-  getFileFrom(storageKey: string, filename: string): File {
+  getBlobFrom(storageKey: string) {
     const base64 = sessionStorage[storageKey];
     if (!base64) {
       return null;
@@ -161,9 +159,8 @@ export class DataService {
     const base64Parts = base64.split(",");
     const fileFormat = base64Parts[0].split(";")[1];
     const fileContent = base64Parts[1];
-    const b = this.b64toBlob(fileContent, fileFormat);
-    const file = new File([b], filename);
-    return file;
+    const blob = this.b64toBlob(fileContent, fileFormat);
+    return blob;
   }
 
   /**
@@ -182,16 +179,24 @@ export class DataService {
 
     if (foiRequest.requestData.childInformation) {
       const filename = foiRequest.requestData.childInformation.proofOfGuardianship;
-      const childFile = this.getFileFrom(this.childFileKey, filename);
+      const childFile = this.getBlobFrom(this.childFileKey);
       if (childFile) {
-        foiRequest.attachments.push(childFile);
+        const blobFile: BlobFile = {
+          file: childFile, 
+          filename 
+        };
+        foiRequest.attachments.push(blobFile);
       }
     }
     if (foiRequest.requestData.anotherInformation) {
       const filename = foiRequest.requestData.anotherInformation.proofOfAuthorization;
-      const personFile = this.getFileFrom(this.personFileKey, filename);
+      const personFile = this.getBlobFrom(this.personFileKey);
       if (personFile) {
-        foiRequest.attachments.push(personFile);
+        const blobFile: BlobFile = {
+          file: personFile, 
+          filename 
+        };
+        foiRequest.attachments.push(blobFile);
       }
     }
 

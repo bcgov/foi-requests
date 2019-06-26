@@ -3,6 +3,7 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { DataService } from 'src/app/services/data.service';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { CaptchaComponent } from 'src/app/utils-components/captcha/captcha.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './review-submit.component.html',
@@ -19,7 +20,7 @@ export class ReviewSubmitComponent implements OnInit {
   isBusy: boolean = false; // during submit!
   authToken: string = '';
   captchaNonce: string = '69879887sdsas$#';
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
@@ -28,6 +29,12 @@ export class ReviewSubmitComponent implements OnInit {
     }
     // foiRequestPretty is used for debugging only
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
+  }
+
+  getBase64Data(storageKey) {
+    const storedImage = sessionStorage[storageKey];
+    const imagePath = this.sanitizer.bypassSecurityTrustResourceUrl(storedImage);
+    return imagePath;
   }
 
   onValidToken(tokenEvent){
@@ -42,7 +49,7 @@ export class ReviewSubmitComponent implements OnInit {
   doContinue() {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
-      console.log("result: ", result);
+      // console.log("result: ", result);
       this.isBusy = false;
       this.base.goFoiForward();
 

@@ -4,8 +4,7 @@ import { Observable, of } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { map, catchError } from "rxjs/operators";
 import { LocalStorageService } from "ngx-webstorage";
-import { FoiRequest } from "./models/FoiRequest";
-
+import { FoiRequest, BlobFile } from "./models/FoiRequest";
 
 /**
  * Generic implementation of calls to the API. It supports making
@@ -91,8 +90,8 @@ export class TransomApiClientService  {
     const body: FormData = new FormData();
     body.append("requestData", JSON.stringify(foiRequest.requestData));
     for (let i = 0; i < foiRequest.attachments.length; i++) {
-      const f: File = foiRequest.attachments[i];
-      body.append("file" + i, f);
+      const bf: BlobFile = foiRequest.attachments[i];
+      body.append("file" + i, bf.file, bf.filename);
     }
 
     const obs = this.http.post(url, body, {
