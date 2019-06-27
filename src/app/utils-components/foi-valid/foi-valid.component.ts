@@ -22,7 +22,7 @@ export class FoiValidComponent implements OnInit {
   @Input() noFuture: string;
   @Input() toDateValid: string;
   @Input() validDate: string;
-  @Input() dateTimeTrigger: string;
+  @Input() dateTimeTrigger: any;
 
   @ViewChild('myLabel') fieldLabelWrapper: ElementRef;
   fieldLabel: HTMLLabelElement;
@@ -92,6 +92,15 @@ export class FoiValidComponent implements OnInit {
     return message;
   }
 
+  getDatePlaceholder(dateTimeTrigger): string {
+    const adapter = dateTimeTrigger.dateTimeAdapter || {};
+    const locale: string = (adapter.owlDateTimeLocale || 'en-US').toLowerCase();
+    const knownLocales = {
+      "en-us" : "mm/dd/yyyy"
+    };
+    return knownLocales[locale] || '';
+  }
+
   ngOnInit() {
     this.fieldLabel = this.fieldLabelWrapper.nativeElement.firstChild || {};
     this.fieldInput = this.fieldInputWrapper.nativeElement.firstChild || {};
@@ -107,6 +116,9 @@ export class FoiValidComponent implements OnInit {
     // Set the Label .for, Input .id and .class attributes, if not already set.
     this.fieldInput.id = this.fieldInput.id || formcontrolname;
     this.fieldInput.className = this.fieldInput.className || 'form-control';
+    if (this.dateTimeTrigger) {
+      this.fieldInput['placeholder'] = this.getDatePlaceholder(this.dateTimeTrigger);
+    }
     this.fieldLabel.htmlFor = this.fieldLabel.htmlFor || this.fieldInput.id;
 
     // Possibly add a required field indicator, but it's ugly.
