@@ -13,16 +13,16 @@ let sampleRequestData = null;
 let emailLayout = null;
 
 function stdTimezoneOffset(dateVal) {
-  var jan = new Date(dateVal.getFullYear(), 0, 1);
-  var jul = new Date(dateVal.getFullYear(), 6, 1);
+  const jan = new Date(dateVal.getFullYear(), 0, 1);
+  const jul = new Date(dateVal.getFullYear(), 6, 1);
   return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
 }
 
 function timezoneAdjust(isoDateStr) {
-  if (isoDateStr && isoDateStr.indexOf('T00:00:00.000Z') === 10) {
+  if (isoDateStr.indexOf('T00:00:00.000Z') === 10) {
     // Timezone-local equivalent of the same date, used in the tests.
-    const adjustedStr = new Date(new Date(isoDateStr).getTime() + (stdTimezoneOffset(new Date()) * 60000)).toISOString();
-    return adjustedStr;
+    const adjustedDateStr = new Date(new Date(isoDateStr).getTime() + (stdTimezoneOffset(new Date()) * 60000)).toISOString();
+    return adjustedDateStr;
   }
   return isoDateStr;
 }

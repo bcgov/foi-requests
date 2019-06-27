@@ -23,9 +23,7 @@ module.exports = function EmailLayout() {
     let result = isoDateStr || 'n/a';
     if (isoDateStr){
       const dt = new Date(isoDateStr);
-      if (Number.isNaN(dt.getTime())) {
-        result = isoDateStr; // Invalid date string!
-      } else {
+      if (!Number.isNaN(dt.getTime())) {
         const year = dt.getFullYear();
         let month = dt.getMonth() + 1;
         let day = dt.getDate();
