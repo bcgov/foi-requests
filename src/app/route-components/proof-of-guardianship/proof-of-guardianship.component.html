@@ -29,8 +29,11 @@
     <div *ngIf="showAlert">
       <app-alert-warning *ngIf="proofFor == 'child'">
         You must have proof of guardianship to access records about a child. If you don’t have it, please visit our
-        website to view your options. You may complete and sign a Guardian Declaration Form in order to establish your
-        right to access the requested records.
+        website to view your options. You may complete and sign a <a
+        href="https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/initiatives-plans-strategies/open-government/open-information/guardianship_declaration_form-latest.pdf"
+        _target="blank"
+        >Guardian Declaration Form</a
+      > in order to establish your right to access the requested records.
       </app-alert-warning>
       <app-alert-warning *ngIf="proofFor == 'person'">
         You must have permission to access records on someone else’s behalf. Each ministry or agency has a unique form
@@ -52,8 +55,13 @@
       <h2>More information</h2>
       <h3>What is proof of guardianship?</h3>
       <p>
-        Proof of guardianship may include a court order, declaration form, or similar legal document. If you aren’t sure
-        if you have the right documentation, visit our website to find out more.
+        Proof of guardianship may include a court order,
+        <a
+          href="https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/initiatives-plans-strategies/open-government/open-information/guardianship_declaration_form-latest.pdf"
+          _target="blank"
+          >declaration form</a
+        >, or similar legal document. If you aren’t sure if you have the right documentation, visit our website to find
+        out more.
       </p>
       <app-static-contact-block></app-static-contact-block>
     </div>
