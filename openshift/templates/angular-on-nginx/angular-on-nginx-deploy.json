@@ -352,7 +352,12 @@
       "displayName": "LOG PATH",
       "name": "FOI_LOG_PATH",
       "value": "/data"
+    },
+    {
+      "description": "NODE_TLS_REJECT_UNAUTHORIZED smtp connection",
+      "displayName": "NODE_TLS_REJECT_UNAUTHORIZED",
+      "name": "NODE_TLS_REJECT_UNAUTHORIZED",
+      "value": "0"
     }
-
   ]
 }
