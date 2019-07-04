@@ -47,9 +47,10 @@ module.exports = function EmailLayout() {
 
   this.general = function(data) {
     let result = this.tableHeader('Request Description');
-    if (data.topic) {
-      result += this.tableRow('Topic', data.topic);
-    }
+    // Removed Topic from the generated email body.
+    // if (data.topic) {
+    //   result += this.tableRow('Topic', data.topic);
+    // }
     if (data.description) {
       // Replace all the newline chars with html line breaks!
       const fmtDescription = (data.description || 'undefined').replace(
