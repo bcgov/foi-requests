@@ -194,8 +194,6 @@ describe('emailLayout', function() {
     let result = emailLayout.general(sampleRequestData.descriptionTimeframe);
     result = scrubAttribs(result); // <--- magic
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
-<tr><td>Topic</td></tr>
-<tr><td>Adoption</td></tr>
 <tr><td>Description</td></tr>
 <tr><td>Foosball tables</td></tr>
 <tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
@@ -217,8 +215,6 @@ describe('emailLayout', function() {
     let result = emailLayout.general(sampleRequestData.descriptionTimeframe);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
-<tr><td>Topic</td></tr>
-<tr><td>Adoption</td></tr>
 <tr><td>Description</td></tr>
 <tr><td>Foosball tables</td></tr>
 <tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
