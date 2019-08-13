@@ -119,6 +119,9 @@ module.exports = function EmailLayout() {
     if (data.businessName) {
       result += this.tableRow('Business Name', data.businessName);
     }
+    if (data.birthDate) {
+      result += this.tableRow('Birth Date <small>(dd/mm/yyyy)</small>', this.dateFormat(data.birthDate));
+    }
     return result;
   };
 
