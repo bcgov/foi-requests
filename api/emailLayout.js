@@ -29,10 +29,11 @@ module.exports = function EmailLayout() {
         let day = dt.getDate();
 
         // Dates should look like 01/03/2019 rather than 1/3/2019.
+        // Dates should look like 01/23/2019 rather than 1/23/2019.
         month = (`0${month}`).slice(-2);
         day = (`0${day}`).slice(-2);
 
-        result = `${day}/${month}/${year}`;
+        result = `${month}/${day}/${year}`;
       }
     }
     return result;
@@ -61,13 +62,13 @@ module.exports = function EmailLayout() {
     }
     if (data.fromDate) {
       result += this.tableRow(
-        'From <small>(dd/mm/yyyy)</small>',
+        'From <small>(mm/dd/yyyy)</small>',
         this.dateFormat(data.fromDate)
       );
     }
     if (data.toDate) {
       result += this.tableRow(
-        'To <small>(dd/mm/yyyy)</small>',
+        'To <small>(mm/dd/yyyy)</small>',
         this.dateFormat(data.toDate)
       );
     }
@@ -131,7 +132,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.dateOfBirth) {
-      result += this.tableRow('Date of Birth <small>(dd/mm/yyyy)</small>', this.dateFormat(data.dateOfBirth));
+      result += this.tableRow('Date of Birth <small>(mm/dd/yyyy)</small>', this.dateFormat(data.dateOfBirth));
     }
     return result;
   };
@@ -146,7 +147,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.dateOfBirth) {
-      result += this.tableRow('Date of Birth <small>(dd/mm/yyyy)</small>', this.dateFormat(data.dateOfBirth));
+      result += this.tableRow('Date of Birth <small>(mm/dd/yyyy)</small>', this.dateFormat(data.dateOfBirth));
     }
     return result;
   };

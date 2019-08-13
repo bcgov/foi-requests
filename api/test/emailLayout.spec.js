@@ -196,9 +196,9 @@ describe('emailLayout', function() {
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
 <tr><td>Description</td></tr>
 <tr><td>Foosball tables</td></tr>
-<tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>From <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>01/03/2019</td></tr>
-<tr><td>To <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>To <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>08/03/2019</td></tr>
 <tr><td>Public Service Employee Number</td></tr>
 <tr><td>Pub-456789</td></tr>
@@ -217,9 +217,9 @@ describe('emailLayout', function() {
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
 <tr><td>Description</td></tr>
 <tr><td>Foosball tables</td></tr>
-<tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>From <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>01/03/2019</td></tr>
-<tr><td>To <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>To <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>08/03/2019</td></tr>`);
   });
 
@@ -286,7 +286,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Colin Jack Westfall</td></tr>
 <tr><td>Also Known As</td></tr>
 <tr><td>Mr. McGoo</td></tr>
-<tr><td>Date of Birth <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>Date of Birth <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>22/09/2010</td></tr>`);
   });
 
@@ -338,7 +338,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Johnny Bobbert Driscol</td></tr>
 <tr><td>Also Known As</td></tr>
 <tr><td>Little Johnny Driscol</td></tr>
-<tr><td>Date of Birth <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>Date of Birth <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>26/05/2007</td></tr>`);
   });
 
