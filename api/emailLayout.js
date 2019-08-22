@@ -120,7 +120,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Business Name', data.businessName);
     }
     if (data.birthDate) {
-      result += this.tableRow('Birth Date <small>(dd/mm/yyyy)</small>', this.dateFormat(data.birthDate));
+      result += this.tableRow('Birth Date <small>(mm/dd/yyyy)</small>', this.dateFormat(data.birthDate));
     }
     return result;
   };
