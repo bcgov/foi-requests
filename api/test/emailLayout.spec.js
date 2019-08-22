@@ -261,7 +261,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>The Shuffler</td></tr>
 <tr><td>Business Name</td></tr>
 <tr><td>Province of B.C., Ministry of Citizens' Services</td></tr>
-<tr><td>Birth Date <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>Birth Date <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>02/28/2019</td></tr>`);
   });
 
@@ -275,7 +275,7 @@ Social Development and Poverty Reduction</td></tr>`);
     expect(result).to.equal(`<tr><th>Contact Information</th></tr>
 <tr><td>Name</td></tr>
 <tr><td>Colin Westfall</td></tr>
-<tr><td>Birth Date <small>(dd/mm/yyyy)</small></td></tr>
+<tr><td>Birth Date <small>(mm/dd/yyyy)</small></td></tr>
 <tr><td>02/28/2019</td></tr>`);
   });
 
