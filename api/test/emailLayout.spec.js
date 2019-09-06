@@ -98,8 +98,8 @@ describe('emailLayout', function() {
       },
       descriptionTimeframe: {
         description: 'Foosball tables',
-        fromDate: timezoneAdjust('2019-03-01T00:00:00.000Z'),
-        toDate: timezoneAdjust('2019-03-08T00:00:00.000Z'),
+        fromDate: timezoneAdjust('2019-03-21T00:00:00.000Z'),
+        toDate: timezoneAdjust('2019-03-28T00:00:00.000Z'),
         correctionalServiceNumber: 'Corr-654321',
         publicServiceEmployeeNumber: 'Pub-456789',
         topic: 'Adoption'
@@ -176,7 +176,7 @@ describe('emailLayout', function() {
 
   it('should reformat html5 dates', function() {
     const dateStr = emailLayout.dateFormat(timezoneAdjust('1972-04-29T00:00:00.000Z'));
-    expect(dateStr).to.equal('29/04/1972');
+    expect(dateStr).to.equal('04/29/1972');
     // No requirement on numeric values!
     const invalidDateStr = emailLayout.dateFormat('aaaa-bb-cc');
     expect(invalidDateStr).to.equal('aaaa-bb-cc');
@@ -196,10 +196,10 @@ describe('emailLayout', function() {
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
 <tr><td>Description</td></tr>
 <tr><td>Foosball tables</td></tr>
-<tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
-<tr><td>01/03/2019</td></tr>
-<tr><td>To <small>(dd/mm/yyyy)</small></td></tr>
-<tr><td>08/03/2019</td></tr>
+<tr><td>From <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>03/21/2019</td></tr>
+<tr><td>To <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>03/28/2019</td></tr>
 <tr><td>Public Service Employee Number</td></tr>
 <tr><td>Pub-456789</td></tr>
 <tr><td>Correctional Service Number</td></tr>
@@ -217,10 +217,10 @@ describe('emailLayout', function() {
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
 <tr><td>Description</td></tr>
 <tr><td>Foosball tables</td></tr>
-<tr><td>From <small>(dd/mm/yyyy)</small></td></tr>
-<tr><td>01/03/2019</td></tr>
-<tr><td>To <small>(dd/mm/yyyy)</small></td></tr>
-<tr><td>08/03/2019</td></tr>`);
+<tr><td>From <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>03/21/2019</td></tr>
+<tr><td>To <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>03/28/2019</td></tr>`);
   });
 
   it('should format ministry data, with a defaultMinistry', function() {
@@ -260,7 +260,9 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Also Known As</td></tr>
 <tr><td>The Shuffler</td></tr>
 <tr><td>Business Name</td></tr>
-<tr><td>Province of B.C., Ministry of Citizens' Services</td></tr>`);
+<tr><td>Province of B.C., Ministry of Citizens' Services</td></tr>
+<tr><td>Birth Date <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>02/28/2019</td></tr>`);
   });
 
   it('should format personal data, without aka, middle or business names', function() {
@@ -272,7 +274,9 @@ Social Development and Poverty Reduction</td></tr>`);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><th>Contact Information</th></tr>
 <tr><td>Name</td></tr>
-<tr><td>Colin Westfall</td></tr>`);
+<tr><td>Colin Westfall</td></tr>
+<tr><td>Birth Date <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>02/28/2019</td></tr>`);
   });
 
   it('should format another persons data', function() {
@@ -286,8 +290,8 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Colin Jack Westfall</td></tr>
 <tr><td>Also Known As</td></tr>
 <tr><td>Mr. McGoo</td></tr>
-<tr><td>Date of Birth <small>(dd/mm/yyyy)</small></td></tr>
-<tr><td>22/09/2010</td></tr>`);
+<tr><td>Date of Birth <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>09/22/2010</td></tr>`);
   });
 
   it('should format another persons data, without DoB and aka', function() {
@@ -338,8 +342,8 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Johnny Bobbert Driscol</td></tr>
 <tr><td>Also Known As</td></tr>
 <tr><td>Little Johnny Driscol</td></tr>
-<tr><td>Date of Birth <small>(dd/mm/yyyy)</small></td></tr>
-<tr><td>26/05/2007</td></tr>`);
+<tr><td>Date of Birth <small>(mm/dd/yyyy)</small></td></tr>
+<tr><td>05/26/2007</td></tr>`);
   });
 
   it('should format child data, without middle name, aka or DoB', function() {
