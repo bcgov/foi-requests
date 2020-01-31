@@ -7,6 +7,7 @@
       { "code": "PSA", "name": "BC Public Service Agency" },
       { "code": "MCF", "name": "Children and Family Development" },
       { "code": "CITZ", "name": "Citizens’ Services" },
+      { "code": "EMBC", "name": "Emergency Management BC" },
       { "code": "EDUC", "name": "Education" },
       { "code": "EMPR", "name": "Energy, Mines and Petroleum Resources" },
       { "code": "ENV", "name": "Environment and Climate Change Strategy" },
