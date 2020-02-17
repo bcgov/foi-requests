@@ -3,6 +3,7 @@ import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { Validators, FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { DataService } from "src/app/services/data.service";
+import { KeycloakService } from '../../services/keycloak.service';
 
 @Component({
   templateUrl: "./verify-your-identity.component.html",
@@ -15,16 +16,19 @@ export class VerifyYourIdentityComponent implements OnInit {
   targetKey: string = "contactInfo";
   infoBlock: string;
   includeBirthDate: boolean = false;
+  decodedToken: any;
 
   foiForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
   ngOnInit() {
+    let token = this.keycloak.getDecodedToken();
+    console.log('token')
     this.foiForm = this.fb.group({
-      firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      firstName: [token.firstname, Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
-      lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      lastName: [token.lastname, Validators.compose([Validators.required, Validators.maxLength(255)])],
       birthDate: [null],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
@@ -59,4 +63,6 @@ export class VerifyYourIdentityComponent implements OnInit {
   doGoBack() {
     this.base.goFoiBack();
   }
+
+
 }

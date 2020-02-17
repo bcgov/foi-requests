@@ -13,14 +13,7 @@ import { ServicesModule } from './services/services.module';
 import { RouteComponentsModule } from './route-components/route-components.module';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {KeycloakService} from './services/keycloak.service';
-
-export function kcFactory(keycloakService: KeycloakService) {
-  return () => {
-    console.log('HELO WORLD---------') ;
-    keycloakService.init();
-  };
-}
+import { KeycloakService, KeyCloakFactory } from './services/keycloak.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +36,7 @@ export function kcFactory(keycloakService: KeycloakService) {
     TransomApiClientService,
     {
       provide: APP_INITIALIZER,
-      useFactory: kcFactory,
+      useFactory: KeyCloakFactory,
       deps: [KeycloakService],
       multi: true
     }
