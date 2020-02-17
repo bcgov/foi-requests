@@ -5,6 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import {KeycloakService} from '../../services/keycloak.service';
 
+
 @Component({
   templateUrl: './getting-started3.component.html',
   styleUrls: ['./getting-started3.component.scss']
@@ -18,14 +19,22 @@ export class GettingStarted3Component implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = 'requestType';
   token = '';
-  firstName = ''
+  firstName = '';
+  lastName = '';
+  authenticated = false;
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private keyclokservice: KeycloakService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private keycloakService: KeycloakService) {}
 
   ngOnInit() {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+    if(sessionStorage.getItem('KC_TOKEN') !== 'undefined') {
+      let token = this.keycloakService.getDecodedToken();
+      this.firstName = token.firstname;
+      this.lastName = token.lastname;
+      this.authenticated = true;
+    }
   }
 
   doContinue() {
@@ -36,10 +45,6 @@ export class GettingStarted3Component implements OnInit {
       this.foiForm
     );
     this.base.goFoiForward(state.requestData[this.targetKey].requestType);
-  }
-  onClickMe() {
-    console.log('saying hello')
-    this.keyclokservice.login()
   }
 
   doGoBack() {
