@@ -1,0 +1,28 @@
+<foi-base
+  [showInfo]="false"
+  [continueDisabled]="!foiForm.valid"
+  (continue)="doContinue()"
+  (goBack)="doGoBack()"
+>
+  <div class="foi-content">
+    <h2>Prove your identity by logging in with BC Services Card</h2>
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <div class="form-group">
+        <label>
+          <input type="radio" value="general" formControlName="auth" />
+          Do not Login
+        </label>
+      </div>
+      <h2>
+        or
+      </h2>
+      <div class="form-group">
+        <label>
+          <input type="radio" value="personal" formControlName="auth" />
+          Login
+        </label>
+      </div>
+    </form>
+  </div>
+
+</foi-base>

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandingComponent } from './route-components/landing/landing.component';
 import { GettingStarted1Component } from './route-components/getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './route-components/getting-started2/getting-started2.component';
+import { AuthComponent } from './route-components/auth/auth.component';
 import { GettingStarted3Component } from './route-components/getting-started3/getting-started3.component';
 import { GeneralInfoComponent } from './route-components/general-info/general-info.component';
 import { MinistryConfirmationComponent } from './route-components/ministry-confirmation/ministry-confirmation.component';
@@ -23,8 +24,9 @@ const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
   { path: 'getting-started2', component: GettingStarted2Component },
+  { path: 'auth', component: AuthComponent },
   { path: 'getting-started3', component: GettingStarted3Component },
-  
+
   // General
   { path: 'general/fee-info', component: GeneralInfoComponent },
   { path: 'general/ministry-confirmation', component: MinistryConfirmationComponent },
@@ -46,7 +48,7 @@ const routes: Routes = [
   { path: 'personal/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/submit-complete', component: ReviewSubmitCompleteComponent},
-  
+
   // Personal / Child
   { path: 'personal/child/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/child/child-information', component: ChildInformationComponent },
@@ -120,7 +122,7 @@ const routes: Routes = [
   { path: 'personal/yourself-child-another/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/yourself-child-another/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/yourself-child-another/submit-complete', component: ReviewSubmitCompleteComponent},
- 
+
   // Include routing for a 404 routing back to the landing page!
   { path: '**', redirectTo: '' }
 ];

@@ -112,6 +112,7 @@
     { "route": "", "progress": 0 },
     { "route": "getting-started1", "progress": 1 },
     { "route": "getting-started2", "progress": 1 },
+    { "route": "auth", "progress": 1 },
     {
       "route": "getting-started3",
       "progress": 2,
