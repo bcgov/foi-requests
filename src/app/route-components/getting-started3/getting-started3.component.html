@@ -6,6 +6,8 @@
 >
   <div class="foi-content">
     <h2>What type of information are you looking for?</h2>
+    HELO {{token}}{{firstName}}
+    <button (click)="onClickMe()">Click me!</button>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group">
