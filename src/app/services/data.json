@@ -115,7 +115,7 @@
     { "route": "auth", "progress": 1 },
     {
       "route": "getting-started3",
-      "progress": 2,
+      "progress": 3,
       "choices": {
         "general": {
           "routes": [

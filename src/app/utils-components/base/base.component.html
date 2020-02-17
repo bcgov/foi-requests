@@ -10,6 +10,8 @@
           [disabled]="continueDisabled"
           (click)="requestGoForward()"
         >
+          <fa-icon size="1x" icon="{{continueIcon}}" *ngIf="continueIcon"></fa-icon>
+
           {{ continueText }}
         </button>
       </div>

@@ -1,28 +1,30 @@
-<foi-base
-  [showInfo]="false"
-  [continueDisabled]="!foiForm.valid"
-  (continue)="doContinue()"
-  (goBack)="doGoBack()"
->
-  <div class="foi-content">
-    <h2>Prove your identity by logging in with BC Services Card</h2>
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()" [continueText]="continuetext" [continueClass]="'btn btn-primary btn-lg'" [startupComponent]="true">
+
+<div class="foi-content">
+  <p>
+    To avail documents online , please use your BC Service card to verify your identity.You will be sharing your first name , last name , email with us when you login with BC Service Card
+  </p>
+    <h2>Do you Want to login with BC Service Card?</h2>
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group">
         <label>
-          <input type="radio" value="general" formControlName="auth" />
-          Do not Login
+          <input type="radio" value="true" formControlName="answerYes" />
+          YES
         </label>
       </div>
-      <h2>
-        or
-      </h2>
       <div class="form-group">
         <label>
-          <input type="radio" value="personal" formControlName="auth" />
-          Login
+          <input type="radio" value="false" formControlName="answerYes" />
+          No
         </label>
       </div>
     </form>
+  <div *ngIf="showAlert">
+    <app-alert-warning >
+     Without BC Service card verification , the person has to walk into the office and verify the idenity. the information wont be delivered online
+    </app-alert-warning>
+  </div>
+
   </div>
 
 </foi-base>
