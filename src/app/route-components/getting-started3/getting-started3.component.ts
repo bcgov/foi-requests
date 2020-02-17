@@ -26,9 +26,6 @@ export class GettingStarted3Component implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
-    console.log('TOKEN:', this.keyclokservice.getToken())
-    this.token = this.keyclokservice.getToken();
-    this.firstName = this.keyclokservice.getFirstName();
   }
 
   doContinue() {

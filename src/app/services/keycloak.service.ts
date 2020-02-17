@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
+import { default as config } from "./keycloak-config.json";
+// import KeyCloak from 'keycloak-js'
 
 declare var Keycloak: any;
-let jwtDecode = require('jwt-decode');
+
+export function KeyCloakFactory(keycloakService: KeycloakService) {
+  return () => {
+    keycloakService.init();
+  };
+}
 
 @Injectable({
   providedIn: 'root'
@@ -15,22 +22,8 @@ export class KeycloakService {
 
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
-
-      const keycloakConfig = {
-        realm: 'fcf0kpqr',
-        url: 'https://sso-dev.pathfinder.gov.bc.ca/auth' ,
-        clientId: 'sbc-auth-web',
-        credentials: {
-          secret: 'aeb2b9bc-672b-4574-8bc8-e76e853c37cb',
-          'ssl-required': 'external',
-          'public-client': true
-        },
-      };
-      if (this.keycloakAuth && this.keycloakAuth.token) {
-
-      }
-      this.keycloakAuth = new Keycloak(keycloakConfig);
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN')})
+      this.keycloakAuth = new Keycloak(config);
+      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
         .success(() => {
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
           if (this.keycloakAuth.token) {
@@ -52,32 +45,24 @@ export class KeycloakService {
   }
 
   login(): void {
-    this.keycloakAuth.login({idpHint: 'bcsc' })
-      .success(() => {
-        console.log('successs' + this.keycloakAuth.token);
-      })
-      .error(() => {
-        console.log('error');
-      });
-
-  }
-
-  getFirstName() {
-    console.log('sessionStorage.getItem(\'KC_TOKEN\')',sessionStorage.getItem('KC_TOKEN'), !sessionStorage.getItem('KC_TOKEN'))
-    if (!sessionStorage.getItem('KC_TOKEN')) {
-      console.log('helo')
-      const decoded = jwt_decode(sessionStorage.getItem('KC_TOKEN'));
-      return decoded.lastname;
-    } else {
-      return '';
-    }
+    this.keycloakAuth.login({idpHint: 'bcsc'})
   }
 
   initUser(): void {
     if (sessionStorage.getItem('KC_TOKEN')) {
-    const decoded = jwt_decode(sessionStorage.getItem('KC_TOKEN'));
-    console.log('this.parsedToken.lastname,' + decoded.lastname);
+      const decoded = jwt_decode(sessionStorage.getItem('KC_TOKEN'));
+      console.log('this.parsedToken ,' + JSON.stringify(decoded));
     }
-
   }
+
+  getDecodedToken(): any {
+    console.log(sessionStorage.getItem('KC_TOKEN'))
+    return sessionStorage.getItem('KC_TOKEN') ?
+      jwt_decode(sessionStorage.getItem('KC_TOKEN')) :
+      {
+        'firstname': null,
+        'lastname': null
+      }
+  }
+
 }
