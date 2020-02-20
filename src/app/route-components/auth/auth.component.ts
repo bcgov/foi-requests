@@ -25,7 +25,12 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     console.log(sessionStorage.getItem('KC_TOKEN'));
-    if(sessionStorage.getItem('KC_TOKEN') !== 'undefined') {
+    this.keycloakService.getTokenSubs().subscribe((token) => {
+      if (token !== 'undefined' && !!token && token.length > 1 ) {
+        this.base.goFoiForward();
+      }
+    });
+    if (sessionStorage.getItem('KC_TOKEN') !== 'undefined') {
       this.base.goFoiForward();
     } else {
       this.base.getFoiRouteData().subscribe(data => {
@@ -43,15 +48,19 @@ export class AuthComponent implements OnInit {
             } else {
               this.continuetext = 'Continue without Logging In';
             }
-            this.base.continueDisabled = !this.answerYes;
+            this.base.continueDisabled = !this.answerReceived;
           });
         }
       });
     }
   }
   doContinue() {
-    this.keycloakService.login();
-    // this.base.goFoiForward();
+    if (this.answerYes) {
+      this.keycloakService.login();
+    } else {
+      this.base.goFoiForward();
+    }
+    //
   }
   doGoBack() {
     this.base.goFoiBack();

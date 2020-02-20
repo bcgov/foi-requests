@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
 import { default as config } from "./keycloak-config.json";
+import {BehaviorSubject, Observable} from 'rxjs';
 // import KeyCloak from 'keycloak-js'
 
 declare var Keycloak: any;
@@ -17,8 +18,11 @@ export function KeyCloakFactory(keycloakService: KeycloakService) {
 export class KeycloakService {
 
   private keycloakAuth: any;
+  private tokenInfo: BehaviorSubject<string>;
 
-  constructor() { }
+  constructor() {
+    this.tokenInfo= new BehaviorSubject<string>('');
+  }
 
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -27,6 +31,7 @@ export class KeycloakService {
         .success(() => {
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
           if (this.keycloakAuth.token) {
+            this.tokenInfo.next(this.keycloakAuth.token);
             this.initUser();
           }
           resolve();
@@ -46,6 +51,10 @@ export class KeycloakService {
 
   login(): void {
     this.keycloakAuth.login({idpHint: 'bcsc'})
+  }
+
+  getTokenSubs(): Observable<string> {
+    return this.tokenInfo.asObservable();
   }
 
   initUser(): void {
