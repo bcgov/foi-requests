@@ -4,15 +4,15 @@
   <p>
     To avail documents online , please use your BC Service card to verify your identity.You will be sharing your first name , last name , email with us when you login with BC Service Card
   </p>
-    <h2>Do you Want to login with BC Service Card?</h2>
+    <h2>Do you want to login with BC Service Card?</h2>
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <div class="form-group">
+      <div class="form-check form-check-inline">
         <label>
           <input type="radio" value="true" formControlName="answerYes" />
           YES
         </label>
       </div>
-      <div class="form-group">
+      <div class="form-check form-check-inline">
         <label>
           <input type="radio" value="false" formControlName="answerYes" />
           No
@@ -25,6 +25,17 @@
     </app-alert-warning>
   </div>
 
+  </div>
+  <div class="sidebar">
+    <h2>More information</h2>
+    <h3>
+      Log in with your BC Services Card?
+    </h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mi a diam luctus pretium non in magna.</p>
+    <h3>How the records will be delivered if I login with BC Service Card?</h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mi a diam luctus pretium non in magna. Donec vitae metus non nisi tincidunt sodales sit amet nec metus. Aliquam erat volutpat. Vestibulum tempor congue diam id euismod. Maecenas sagittis ipsum et laoreet ornare. Integer viverra efficitur libero, non ullamcorper eros blandit ac. Donec consectetur viverra laoreet.
+    </p>
   </div>
 
 </foi-base>

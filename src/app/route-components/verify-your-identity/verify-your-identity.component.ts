@@ -26,9 +26,9 @@ export class VerifyYourIdentityComponent implements OnInit {
     let token = this.keycloak.getDecodedToken();
     console.log('token')
     this.foiForm = this.fb.group({
-      firstName: [token.firstname, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      firstName: [{value: token.firstname, disabled: (token.firstname && token.firstname.length > 0) ? true : false }, Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
-      lastName: [token.lastname, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      lastName: [{value: token.lastname , disabled: (token.lastname && token.lastname.length > 0) ? true : false }, Validators.compose([Validators.required, Validators.maxLength(255)])],
       birthDate: [null],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
