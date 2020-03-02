@@ -50,9 +50,11 @@ export class ChooseIdentityComponent implements OnInit {
   doContinue() {
     if (this.answerYes) {
       // this.keycloakService.login();
+      console.log(this.base)
+      debugger
       this.router.navigateByUrl('signin')
     } else {
-      sessionStorage.setItem('KC_TOKEN', null)
+      sessionStorage.removeItem('KC_TOKEN')
       this.base.goFoiForward();
     }
     //

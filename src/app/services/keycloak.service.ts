@@ -72,8 +72,8 @@ export class KeycloakService {
     return sessionStorage.getItem('KC_TOKEN') ?
       jwt_decode(sessionStorage.getItem('KC_TOKEN')) :
       {
-        'firstname': null,
-        'lastname': null
+        'firstname': '',
+        'lastname': ''
       }
   }
 
