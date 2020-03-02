@@ -14,13 +14,15 @@ import { RouteComponentsModule } from './route-components/route-components.modul
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { KeycloakService, KeyCloakFactory } from './services/keycloak.service';
+import { SigninComponent } from './route-components/signin/signin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CoreHeaderComponent,
     ProgressBarComponent,
-    FooterComponent
+    FooterComponent,
+    SigninComponent
   ],
   imports: [
     BrowserModule,
@@ -34,12 +36,12 @@ import { KeycloakService, KeyCloakFactory } from './services/keycloak.service';
   ],
   providers: [
     TransomApiClientService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: KeyCloakFactory,
-      deps: [KeycloakService],
-      multi: true
-    }
+    // {
+    //   provide: APP_INITIALIZER,
+    //   // useFactory: KeyCloakFactory,
+    //   // deps: [KeycloakService],
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent, FooterComponent]
 })

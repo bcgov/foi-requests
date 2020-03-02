@@ -132,7 +132,7 @@
         },
         "personal": {
           "routes": [
-            { "route": "auth", "progress": 1 },
+            { "route": "choose-identity", "progress": 1 },
             {
               "route": "personal/select-about",
               "progress": 2,

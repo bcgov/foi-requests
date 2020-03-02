@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LandingComponent } from './route-components/landing/landing.component';
 import { GettingStarted1Component } from './route-components/getting-started1/getting-started1.component';
 import { GettingStarted2Component } from './route-components/getting-started2/getting-started2.component';
-import { AuthComponent } from './route-components/auth/auth.component';
+import { ChooseIdentityComponent } from './route-components/choose-identity/choose-identity.component';
 import { GettingStarted3Component } from './route-components/getting-started3/getting-started3.component';
 import { GeneralInfoComponent } from './route-components/general-info/general-info.component';
 import { MinistryConfirmationComponent } from './route-components/ministry-confirmation/ministry-confirmation.component';
@@ -19,13 +19,16 @@ import { VerifyYourIdentityComponent } from './route-components/verify-your-iden
 import { RequestTopicComponent } from './route-components/request-topic/request-topic.component';
 import { ReviewSubmitCompleteComponent } from './route-components/review-submit-complete/review-submit-complete.component';
 import { AdoptiveParentsComponent } from './route-components/adoptive-parents/adoptive-parents.component';
+import { SigninComponent } from './route-components/signin/signin.component';
+
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
   { path: 'getting-started2', component: GettingStarted2Component },
-  { path: 'auth', component: AuthComponent },
+  { path: 'choose-identity', component: ChooseIdentityComponent },
   { path: 'getting-started3', component: GettingStarted3Component },
+  { path: 'signin', component: SigninComponent },
 
   // General
   { path: 'general/fee-info', component: GeneralInfoComponent },

@@ -6,7 +6,7 @@ import { GettingStarted2Component } from './getting-started2/getting-started2.co
 import { ReviewSubmitCompleteComponent } from './review-submit-complete/review-submit-complete.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StartRequestComponent } from './start-request/start-request.component';
-import { AuthComponent } from './auth/auth.component';
+import { ChooseIdentityComponent } from './choose-identity/choose-identity.component';
 import { GettingStarted3Component } from './getting-started3/getting-started3.component';
 import { GeneralInfoComponent } from './general-info/general-info.component';
 import { GeneralSelectMinistryComponent } from './general-select-ministry/general-select-ministry.component';
@@ -39,7 +39,7 @@ library.add(faSpinner);
     GettingStarted2Component,
     ReviewSubmitCompleteComponent,
     StartRequestComponent,
-    AuthComponent,
+    ChooseIdentityComponent,
     GettingStarted3Component,
     GeneralInfoComponent,
     GeneralInfoComponent,

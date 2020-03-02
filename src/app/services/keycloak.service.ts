@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
 import { default as config } from "./keycloak-config.json";
 import {BehaviorSubject, Observable} from 'rxjs';
-// import KeyCloak from 'keycloak-js'
+import KeyCloak from 'keycloak-js'
+import { KeycloakLoginOptions } from 'keycloak-js'
 
 declare var Keycloak: any;
 
@@ -27,7 +28,13 @@ export class KeycloakService {
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.keycloakAuth = new Keycloak(config);
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
+      const kcLogin = this.keycloakAuth.login;
+      this.keycloakAuth.login = (options?: KeycloakLoginOptions) => {
+        options.idpHint = 'bcsc'
+        return kcLogin(options)
+      }
+
+      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
         .success(() => {
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
           if (this.keycloakAuth.token) {
@@ -47,10 +54,6 @@ export class KeycloakService {
   }
   getUserName(): string {
     return this.keycloakAuth.user;
-  }
-
-  login(): void {
-    this.keycloakAuth.login({idpHint: 'bcsc'})
   }
 
   getTokenSubs(): Observable<string> {
