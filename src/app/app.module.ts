@@ -13,7 +13,6 @@ import { ServicesModule } from './services/services.module';
 import { RouteComponentsModule } from './route-components/route-components.module';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { KeycloakService, KeyCloakFactory } from './services/keycloak.service';
 import { SigninComponent } from './route-components/signin/signin.component';
 
 @NgModule({
