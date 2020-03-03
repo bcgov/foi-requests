@@ -75,8 +75,25 @@ transom.configure(transomSmtp, {
 transom
   .initialize(apiDefinition)
   .then(function(server) {
+    console.log('--------***s')
     server.get('/', function(req, res, next) {
       res.send('FOI Request API Server');
+      next();
+    });
+
+    server.get('/api/v1/configs', function (req, res, next) {
+      const kcConfigs = {
+        realm:process.env.FOI_KC_REALM,
+        url:process.env.FOI_KC_URL,
+        clientId:process.env.FOI_KC_CLIENTID,
+        credentials:process.env.FOI_KC_CREDENTIALS,
+        secret:process.env.FOI_KC_SECRET,
+        sslrequired:process.env.FOI_KC_SSL_REQUIRED,
+        "public-client":process.env.FOI_KC_PUBLIC_CLIENT
+
+      }
+      console.log('kcConfigs'+JSON.stringify(kcConfigs))
+      res.json(kcConfigs);
       next();
     });
 
