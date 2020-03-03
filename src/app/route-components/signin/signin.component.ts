@@ -14,8 +14,6 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     this.keycloakService.init().then(() => {
-      console.log(this.keycloakService.getDecodedToken());
-
       this.router.navigateByUrl('personal/select-about')
     });
   }

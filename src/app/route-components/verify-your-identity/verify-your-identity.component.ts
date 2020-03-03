@@ -23,13 +23,17 @@ export class VerifyYourIdentityComponent implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
   ngOnInit() {
-    let token = this.keycloak.getDecodedToken();
-    console.log('token')
+    const token = this.keycloak.getDecodedToken();
+    const isAuthenticated: boolean = token !== undefined && token.sub !== undefined;
+    const birthDate = new Date(token.birthDate + 'T00:00:00');
     this.foiForm = this.fb.group({
-      firstName: [{value: token.firstname, disabled: (token.firstname && token.firstname.length > 0) ? true : false }, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      firstName: [{value: token.firstName, disabled: isAuthenticated},
+        Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
-      lastName: [{value: token.lastname , disabled: (token.lastname && token.lastname.length > 0) ? true : false }, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      birthDate: [null],
+      lastName: [{value: token.lastName , disabled: isAuthenticated },
+        Validators.compose([Validators.required, Validators.maxLength(255)])],
+      birthDate: [{value: birthDate , disabled: isAuthenticated },
+        Validators.compose([Validators.required, Validators.maxLength(12)])],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
     });

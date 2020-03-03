@@ -25,8 +25,6 @@ export class ChooseIdentityComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(sessionStorage.getItem('KC_TOKEN'));
-
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
         // Load the current values & populate the FormGroup.
@@ -49,9 +47,6 @@ export class ChooseIdentityComponent implements OnInit {
   }
   doContinue() {
     if (this.answerYes) {
-      // this.keycloakService.login();
-      console.log(this.base)
-      debugger
       this.router.navigateByUrl('signin')
     } else {
       sessionStorage.removeItem('KC_TOKEN')

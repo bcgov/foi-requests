@@ -19,11 +19,6 @@ export function KeyCloakFactory(keycloakService: KeycloakService) {
 export class KeycloakService {
 
   private keycloakAuth: any;
-  private tokenInfo: BehaviorSubject<string>;
-
-  constructor() {
-    this.tokenInfo= new BehaviorSubject<string>('');
-  }
 
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -37,10 +32,6 @@ export class KeycloakService {
       this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
         .success(() => {
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
-          if (this.keycloakAuth.token) {
-            this.tokenInfo.next(this.keycloakAuth.token);
-            this.initUser();
-          }
           resolve();
         })
         .error(() => {
@@ -49,32 +40,16 @@ export class KeycloakService {
     });
   }
 
-  getToken(): string {
-    return this.keycloakAuth.token;
-  }
-  getUserName(): string {
-    return this.keycloakAuth.user;
-  }
-
-  getTokenSubs(): Observable<string> {
-    return this.tokenInfo.asObservable();
-  }
-
-  initUser(): void {
-    if (sessionStorage.getItem('KC_TOKEN')) {
-      const decoded = jwt_decode(sessionStorage.getItem('KC_TOKEN'));
-      console.log('this.parsedToken ,' + JSON.stringify(decoded));
-    }
-  }
 
   getDecodedToken(): any {
-    console.log(sessionStorage.getItem('KC_TOKEN'))
     return sessionStorage.getItem('KC_TOKEN') ?
       jwt_decode(sessionStorage.getItem('KC_TOKEN')) :
       {
-        'firstname': '',
-        'lastname': ''
-      }
+        firstName: '',
+        lastName: '',
+        email: '',
+        birthDate: ''
+      };
   }
 
 }

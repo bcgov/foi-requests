@@ -1,9 +1,9 @@
 {
-  "realm": "fcf0kpqr",
+  "realm": "5k8dbl4h",
   "url": "https://sso-dev.pathfinder.gov.bc.ca/auth",
-  "clientId": "sbc-auth-web",
+  "clientId": "foi-web",
   "credentials": {
-    "secret": "aeb2b9bc-672b-4574-8bc8-e76e853c37cb",
+    "secret": "c31c5b5c-f958-4c1d-9454-2af58892eac5",
     "ssl-required": "external",
     "public-client": true
   }
