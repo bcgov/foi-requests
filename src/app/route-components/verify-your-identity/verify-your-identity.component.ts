@@ -3,6 +3,7 @@ import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { Validators, FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { DataService } from "src/app/services/data.service";
+import { KeycloakService } from '../../services/keycloak.service';
 
 @Component({
   templateUrl: "./verify-your-identity.component.html",
@@ -15,17 +16,24 @@ export class VerifyYourIdentityComponent implements OnInit {
   targetKey: string = "contactInfo";
   infoBlock: string;
   includeBirthDate: boolean = false;
+  decodedToken: any;
 
   foiForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
   ngOnInit() {
+    const token = this.keycloak.getDecodedToken();
+    const isAuthenticated: boolean = token !== undefined && token.sub !== undefined;
+    const birthDate = new Date(token.birthDate + 'T00:00:00');
     this.foiForm = this.fb.group({
-      firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
+      firstName: [{value: token.firstName, disabled: isAuthenticated},
+        Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
-      lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      birthDate: [null],
+      lastName: [{value: token.lastName , disabled: isAuthenticated },
+        Validators.compose([Validators.required, Validators.maxLength(255)])],
+      birthDate: [{value: birthDate , disabled: isAuthenticated },
+        Validators.compose([Validators.required, Validators.maxLength(12)])],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
     });
@@ -59,4 +67,6 @@ export class VerifyYourIdentityComponent implements OnInit {
   doGoBack() {
     this.base.goFoiBack();
   }
+
+
 }

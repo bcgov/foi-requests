@@ -3,6 +3,7 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
+import { KeycloakService } from '../../services/keycloak.service';
 
 @Component({
   templateUrl: './contact-info-options.component.html',
@@ -25,12 +26,26 @@ export class ContactInfoOptionsComponent implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = 'contactInfoOptions';
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
   ngOnInit() {
+    // Update email if the user is authenticated
+    const token = this.keycloak.getDecodedToken();
+    const isAuthenticated: boolean = (token !== undefined && token.sub !== undefined);
+    this.foiForm = this.fb.group({
+      email: [{value: token.email, disabled: isAuthenticated}],
+      phonePrimary: [null],
+      phoneSecondary: [null],
+      address: [null],
+      city: [null],
+      postal: [null],
+      province: [null],
+      country: [null]
+    });
+
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey], {emitEvent: true});
   }
 
   /**
@@ -39,7 +54,7 @@ export class ContactInfoOptionsComponent implements OnInit {
   allowContinue() {
     const formData = this.foiForm.value;
     let result = false;
-    if (formData.email) {
+    if (formData.email || this.keycloak.getDecodedToken().email) {
       result = true;
     }
     if (formData.phonePrimary) {
@@ -72,7 +87,7 @@ export class ContactInfoOptionsComponent implements OnInit {
       // Personal non-Adoption can skip over the previous route, 'adoptive-parents'.
       this.base.goSkipBack();
       return;
-    }    
+    }
     this.base.goFoiBack();
   }
 }

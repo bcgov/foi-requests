@@ -115,7 +115,7 @@
     { "route": "getting-started2", "progress": 1 },
     {
       "route": "getting-started3",
-      "progress": 2,
+      "progress": 3,
       "choices": {
         "general": {
           "routes": [
@@ -133,6 +133,7 @@
         },
         "personal": {
           "routes": [
+            { "route": "choose-identity", "progress": 1 },
             {
               "route": "personal/select-about",
               "progress": 2,
