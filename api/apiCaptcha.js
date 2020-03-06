@@ -221,9 +221,14 @@ function captchaInit(options) {
       getAudio(req.body, req).then(function(ret) {
         res.send(ret);
         next();
-      });    
+      });
     },
     verifyJWTResponseMiddleware: function(req, res, next) {
+      if(req.verified) {
+        console.log('Request is already validated')
+        next();
+      }
+      console.log('req.verified ',req.verified )
       var token = req.headers[CAPTCHA_TOKEN_HEADER.toLowerCase()] || '';
       token = token.replace('Bearer ', '');
       var nonce = req.headers[CAPTCHA_NONCE_HEADER];
