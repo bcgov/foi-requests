@@ -224,8 +224,8 @@ function captchaInit(options) {
       });
     },
     verifyJWTResponseMiddleware: function(req, res, next) {
-      if(req.verified) {
-        console.log('Request is already validated')
+      if(req.isAuthorised && req.userDetails) {
+        console.log('Request is already validated'+req.userDetails.firstName);
         next();
       }
       console.log('req.verified ',req.verified )

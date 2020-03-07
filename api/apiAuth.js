@@ -32,10 +32,15 @@ function authInit(options) {
           console.log('invalid token:::::::::::::::::::----------------------------')
           //res.send(401, 'Invalid JWT');
           next();
-          req.verified = false
+          req.isAuthorised = false
         } else {
           console.log('VALID token:::::::::::::::::::----------------------------')
-          req.verified = true
+          req.isAuthorised = true
+          req.userDetails = {"firstName":decoded.firstName,
+            "lastName":decoded.lastName,
+            "email":decoded.email,
+            "birthDate":decoded.birthDate
+          }
           next();
         }
       });

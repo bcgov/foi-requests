@@ -46,6 +46,14 @@ module.exports = function EmailLayout() {
       .trim();
   };
 
+  this.getAuthorisedDetailsTable = function (data) {
+    let result =''
+    result += this.tableRow('First Name of the Submitter', data.firstName);
+    result += this.tableRow('Last Name of the Submitter', data.lastName);
+    result += this.tableRow('Email of the Submitter', data.email);
+    result += this.tableRow('Date Of Birth of the Submitter', data.birthDate);
+    return result
+  }
   this.general = function(data) {
     let result = this.tableHeader('Request Description');
     // Removed Topic from the generated email body.
@@ -217,8 +225,23 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.renderEmail = function(data) {
+  this.renderEmail = function(data ,isAuthorised , authorisedDetails) {
     let content = this.tableHeader('Request Records');
+      this.table()
+    if (isAuthorised) {
+      content += this.tableRow(
+        'Request Authorisation','BC Service Card'
+      );
+
+      content += this.tableRow(
+       'Authorised Details',this.table(this.authorisedDetails(authorisedDetails))
+      );
+
+    } else {
+      content += this.tableRow(
+        'This request is not authorised.'
+      );
+    }
     content += this.tableRow(
       'Request Type',
       data.requestData.requestType.requestType
