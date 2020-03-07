@@ -237,10 +237,6 @@ module.exports = function EmailLayout() {
        'Authorised Details',this.table(this.authorisedDetails(authorisedDetails))
       );
 
-    } else {
-      content += this.tableRow(
-        'This request is not authorised.'
-      );
     }
     content += this.tableRow(
       'Request Type',

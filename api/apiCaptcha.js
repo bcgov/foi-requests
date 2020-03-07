@@ -224,7 +224,8 @@ function captchaInit(options) {
       });
     },
     verifyJWTResponseMiddleware: function(req, res, next) {
-      if(req.isAuthorised && req.userDetails) {
+      // if there is a captcha header , it shud be validated by captcha verifier
+      if(req.isAuthorised && req.userDetails &&  !req.headers[CAPTCHA_NONCE_HEADER]) {
         console.log('Request is already validated'+req.userDetails.firstName);
         next();
       }

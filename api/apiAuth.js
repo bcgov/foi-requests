@@ -13,6 +13,7 @@ function authInit(options) {
   })
 
   const JWT_TOKEN_HEADER = options.CAPTCHA_TOKEN_HEADER || 'Authorization'; // the request header where we expect the jwt token
+  const CAPTCHA_NONCE_HEADER = options.CAPTCHA_NONCE_HEADER || 'captcha-nonce'; // the request header where we expect the client nonce
 
   function getKey(header, callback){
     client.getSigningKey(header.kid, function(err, key) {
@@ -24,17 +25,19 @@ function authInit(options) {
   return {
 
     verifyJWTResponseMiddleware: function(req, res, next) {
+      if (req.headers[CAPTCHA_NONCE_HEADER]) {
+        req.isAuthorised = false
+        return next();
+      }
       var token = req.headers[JWT_TOKEN_HEADER.toLowerCase()] || '';
       token = token.replace('Bearer ', '');
 
       jwt.verify(token, getKey, options, function(err, decoded) {
         if (err){
-          console.log('invalid token:::::::::::::::::::----------------------------')
-          //res.send(401, 'Invalid JWT');
-          next();
           req.isAuthorised = false
+          return next();
+
         } else {
-          console.log('VALID token:::::::::::::::::::----------------------------')
           req.isAuthorised = true
           req.userDetails = {"firstName":decoded.firstName,
             "lastName":decoded.lastName,
