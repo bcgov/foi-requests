@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
-import { default as data } from "./data.json";
-import { Observable, of } from "rxjs";
-import { FoiRoute } from "../models/FoiRoute";
-import { FoiRequest, BlobFile } from "../models/FoiRequest";
-import { TransomApiClientService } from "../transom-api-client.service";
-import { FormGroup } from "@angular/forms";
+import { Injectable } from '@angular/core';
+import { default as data } from './data.json';
+import { Observable, of } from 'rxjs';
+import { FoiRoute } from '../models/FoiRoute';
+import { FoiRequest, BlobFile } from '../models/FoiRequest';
+import { TransomApiClientService } from '../transom-api-client.service';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class DataService {
   foiRoutes: FoiRoute[];
-  childFileKey: string = "childFileAttachment";
-  personFileKey: string = "personFileAttachment";
+  childFileKey = 'childFileAttachment';
+  personFileKey = 'personFileAttachment';
 
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
@@ -21,7 +21,7 @@ export class DataService {
 
   getRoute(routeUrl: string): FoiRoute {
     // Remove any query parameters and (possibly) a leading slash.
-    const path = (routeUrl || "/").split("?")[0].replace(/^\/+/g, "");
+    const path = (routeUrl || '/').split('?')[0].replace(/^\/+/g, '');
     return this.foiRoutes.find(r => r.route === path);
   }
 
@@ -30,8 +30,8 @@ export class DataService {
   }
 
   capitalize(str) {
-    if (typeof str !== "string") {
-      return "";
+    if (typeof str !== 'string') {
+      return '';
     }
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -48,16 +48,16 @@ export class DataService {
    */
   getTopicsObj(about: Object): Array<any> {
     const topics = [];
-    for (let key in about) {
-      if (key !== "child" && about[key]) {
+    for (const key in about) {
+      if (key !== 'child' && about[key]) {
         topics.push(this.capitalize(key));
       }
     }
     topics
       .sort()
       .reverse()
-      .unshift("topic");
-    const topicKey = topics.join("");
+      .unshift('topic');
+    const topicKey = topics.join('');
     return this.getTopics(topicKey);
   }
 
@@ -69,10 +69,10 @@ export class DataService {
   }
 
   getCurrentState(...dataKeys: string[]): FoiRequest {
-    const state = this.loadState("foi-request");
+    const state = this.loadState('foi-request');
     // Ensure that each entry in dataKeys exists before returning.
     if (dataKeys) {
-      for (let key of dataKeys) {
+      for (const key of dataKeys) {
         state.requestData[key] = state.requestData[key] || {};
       }
     }
@@ -90,7 +90,7 @@ export class DataService {
       foi.requestData[key] = {};
       Object.keys(foiForm.value).map(k => (foi.requestData[key][k] = foiForm.value[k]));
     }
-    this.saveState("foi-request", foi);
+    this.saveState('foi-request', foi);
     return foi;
   }
 
@@ -98,7 +98,7 @@ export class DataService {
     return new Observable(observer => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
-        try{
+        try {
           sessionStorage.setItem(this.childFileKey, reader.result.toString());
           observer.next(true);
         } catch (err) {
@@ -114,9 +114,9 @@ export class DataService {
     sessionStorage.removeItem(this.childFileKey);
   }
 
-  getStorageErrorText(err: any){
-    let result: string = 'Error saving your file, try submitting a smaller file';
-    if (err && err.name && err.name === 'QuotaExceededError'){
+  getStorageErrorText(err: any) {
+    let result = 'Error saving your file, try submitting a smaller file';
+    if (err && err.name && err.name === 'QuotaExceededError') {
       result = 'File(s) too large, try submitting smaller files';
     }
     return result;
@@ -126,7 +126,7 @@ export class DataService {
     return new Observable(observer => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
-        try{
+        try {
           sessionStorage.setItem(this.personFileKey, reader.result.toString());
           observer.next(true);
         } catch (err) {
@@ -143,7 +143,7 @@ export class DataService {
   }
 
   private b64toBlob(b64Data, contentType, sliceSize?): Blob {
-    contentType = contentType || "";
+    contentType = contentType || '';
     sliceSize = sliceSize || 512;
 
     const byteCharacters = atob(b64Data);
@@ -172,8 +172,8 @@ export class DataService {
     if (!base64) {
       return null;
     }
-    const base64Parts = base64.split(",");
-    const fileFormat = base64Parts[0].split(";")[1];
+    const base64Parts = base64.split(',');
+    const fileFormat = base64Parts[0].split(';')[1];
     const fileContent = base64Parts[1];
     const blob = this.b64toBlob(fileContent, fileFormat);
     return blob;
@@ -189,8 +189,8 @@ export class DataService {
    * @param foiRequest - A structure containing the complete request
    */
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
-    this.apiClient.setHeader("Authorization", "Bearer " + authToken);
-    this.apiClient.setHeader("captcha-nonce", nonce);
+    this.apiClient.setHeader('Authorization', 'Bearer ' + authToken);
+    this.apiClient.setHeader('captcha-nonce', nonce);
     foiRequest.attachments = [];
 
     if (foiRequest.requestData.childInformation) {
@@ -198,8 +198,8 @@ export class DataService {
       const childFile = this.getBlobFrom(this.childFileKey);
       if (childFile) {
         const blobFile: BlobFile = {
-          file: childFile, 
-          filename 
+          file: childFile,
+          filename
         };
         foiRequest.attachments.push(blobFile);
       }
@@ -209,8 +209,8 @@ export class DataService {
       const personFile = this.getBlobFrom(this.personFileKey);
       if (personFile) {
         const blobFile: BlobFile = {
-          file: personFile, 
-          filename 
+          file: personFile,
+          filename
         };
         foiRequest.attachments.push(blobFile);
       }

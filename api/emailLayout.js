@@ -234,7 +234,7 @@ module.exports = function EmailLayout() {
       );
 
       content += this.tableRow(
-       'Authorised Details',this.table(this.authorisedDetails(authorisedDetails))
+       'Authorised Details',this.table(this.getAuthorisedDetailsTable(authorisedDetails))
       );
 
     }

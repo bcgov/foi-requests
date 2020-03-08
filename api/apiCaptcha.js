@@ -227,7 +227,7 @@ function captchaInit(options) {
       // if there is a captcha header , it shud be validated by captcha verifier
       if(req.isAuthorised && req.userDetails &&  !req.headers[CAPTCHA_NONCE_HEADER]) {
         console.log('Request is already validated'+req.userDetails.firstName);
-        next();
+        return next();
       }
       console.log('req.verified ',req.verified )
       var token = req.headers[CAPTCHA_TOKEN_HEADER.toLowerCase()] || '';
