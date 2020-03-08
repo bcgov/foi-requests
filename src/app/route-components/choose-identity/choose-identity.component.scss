@@ -1,0 +1,61 @@
+@import '../../styles/variables.scss';
+// Bootstrap 4: Included imports
+@import '../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../node_modules/bootstrap/scss/mixins';
+
+.landing-container {
+  background-color: $color-attention;
+  border-left: 4px solid $color-secondary;
+  margin: 1.5rem 1.5rem 0 0;
+}
+
+.landing-content {
+  padding: 1.2rem;
+}
+
+.landing-header {
+  font-size: 1.6rem;
+}
+
+.panel-frame {
+  position: absolute;
+  top: 200px;
+  width: 100%;
+  margin-left: 0;
+}
+.personInfoPanel {
+  background-color: $color-primary;
+  color: white;
+  border-radius: 20px;
+  box-shadow: 5px 5px 15px $color-dark;
+}
+
+.personInfoContent {
+  padding: 15px;
+}
+.personInfoContent p {
+  margin-top: 1rem;
+  line-height: 1.4em;
+}
+
+.personInfoHeader {
+  font-size: 20px;
+  text-align: center;
+  border-bottom: 4px solid $color-secondary;
+  padding-left: 10px;
+  padding-right: 10x;
+}
+
+.personInfoFooter {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10x;
+}
+
+.personInfoFooter a {
+  margin-right: 20px;
+  color: $color-secondary-nav;
+}
+.personInfoFooter button {
+  margin-left: 20px;
+}

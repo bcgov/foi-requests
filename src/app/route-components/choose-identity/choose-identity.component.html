@@ -1,30 +1,56 @@
-<foi-base (continue)="doContinue()" (goBack)="doGoBack()" [continueText]="continuetext" [continueClass]="'btn btn-primary btn-lg'" [startupComponent]="true">
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()" [startupComponent]="true" [showButtons]="false">
 
-<div class="foi-content">
-  <p>
-    To avail documents online , please use your BC Service card to verify your identity.You will be sharing your first name , last name , email with us when you login with BC Service Card
-  </p>
-    <h2>Do you want to login with BC Service Card?</h2>
+  <div class="foi-content">
+
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <div class="form-check form-check-inline">
-        <label>
-          <input type="radio" value="true" formControlName="answerYes" />
-          YES
-        </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <label>
-          <input type="radio" value="false" formControlName="answerYes" />
-          No
-        </label>
-      </div>
-    </form>
-  <div *ngIf="showAlert">
-    <app-alert-warning >
-     Without BC Service card verification , the person has to walk into the office and verify the idenity. the information wont be delivered online
-    </app-alert-warning>
-  </div>
+      <div class="foi-content">
+        <div class="landing-container">
+          <div class="landing-content">
+            <p class="landing-header ">
 
+              <fa-icon class="mr-1 mt-1" size="1x" icon="id-card-alt"></fa-icon>
+              I have a BC Service Card
+            </p>
+            <p>
+              Records will be delivered electronically.No in person walk ins to office to collect records needed
+            </p>
+            <p>
+              <i>Only cards with valid email id will be accepted.</i>
+            </p>
+            <div>
+              <button type="button" class="btn btn-primary btn-wide" (click)="doLogin()">
+                <fa-icon class="mr-1 mt-1" size="1x" icon="sign-in-alt"></fa-icon>
+                Login With BC Service Card
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="foi-content">
+        <div class="landing-container">
+          <div class="landing-content">
+            <p class="landing-header">
+              <fa-icon class="mr-1 mt-1" size="1x" icon="question-circle"></fa-icon>   I dont have a BC Service Card
+            </p>
+            <p>
+
+              <a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/get-a-card"  style="font-size: 1.6rem;" target="_blank"
+              >How to obtain a card</a
+              >
+            </p>
+            <p>
+              Without BC Service Card , the records will not be delivered online.The person will have to walk into help desk to collect the records
+            </p>
+            <div>
+              <button type="button" class="btn btn-primary btn-wide" (click)="doContinueWithoutLogin()">
+                Continue without Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
   </div>
   <div class="sidebar">
     <h2>More information</h2>
@@ -32,9 +58,12 @@
       Log in with your BC Services Card?
     </h3>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mi a diam luctus pretium non in magna.</p>
-    <h3>How the records will be delivered if I login with BC Service Card?</h3>
+    <h3>How the records will be del<!----> ivered if I login with BC Service Card?</h3>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mi a diam luctus pretium non in magna. Donec vitae metus non nisi tincidunt sodales sit amet nec metus. Aliquam erat volutpat. Vestibulum tempor congue diam id euismod. Maecenas sagittis ipsum et laoreet ornare. Integer viverra efficitur libero, non ullamcorper eros blandit ac. Donec consectetur viverra laoreet.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eu mi a diam luctus pretium non in magna. Donec
+      vitae metus non nisi tincidunt sodales sit amet nec metus. Aliquam erat volutpat. Vestibulum tempor congue diam id
+      euismod. Maecenas sagittis ipsum et laoreet ornare. Integer viverra efficitur libero, non ullamcorper eros blandit
+      ac. Donec consectetur viverra laoreet.
     </p>
   </div>
 
