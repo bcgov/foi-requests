@@ -9,12 +9,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQuestionCircle , faIdCardAlt} from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQuestionCircle , faIdCardAlt, faCheckCircle} from '@fortawesome/free-solid-svg-icons';
 import { StaticContactBlockComponent } from './static-contact-block/static-contact-block.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { AlertSuccessComponent } from './alert-success/alert-success.component';
 
 // Add an icon to the library for convenient access in other components
-library.add(faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQuestionCircle, faIdCardAlt);
+library.add(faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQuestionCircle, faIdCardAlt, faCheckCircle);
 
 
 @NgModule({
@@ -25,7 +26,8 @@ library.add(faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQues
     CaptchaComponent,
     FoiFileinputComponent,
     FoiValidComponent,
-    StaticContactBlockComponent
+    StaticContactBlockComponent,
+    AlertSuccessComponent
   ],
   imports: [
     // Required to use these in children of RouteComponentsModule
@@ -41,7 +43,8 @@ library.add(faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQues
     CaptchaComponent,
     FoiFileinputComponent,
     FoiValidComponent,
-    StaticContactBlockComponent
+    StaticContactBlockComponent,
+    AlertSuccessComponent
   ]
 })
 export class UtilsComponentsModule {}

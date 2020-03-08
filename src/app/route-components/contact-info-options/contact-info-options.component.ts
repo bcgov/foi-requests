@@ -45,6 +45,9 @@ export class ContactInfoOptionsComponent implements OnInit {
 
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    if (isAuthenticated) {
+      this.foiRequest.requestData.contactInfoOptions.email = token.email;
+    }
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey], {emitEvent: true});
   }
 
@@ -71,6 +74,7 @@ export class ContactInfoOptionsComponent implements OnInit {
 
   doContinue() {
     // Update save data & proceed.
+    this.foiForm.controls.email.enable()
     this.dataService.setCurrentState(
       this.foiRequest,
       this.targetKey,

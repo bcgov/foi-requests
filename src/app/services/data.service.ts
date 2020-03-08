@@ -110,6 +110,16 @@ export class DataService {
     });
   }
 
+  getShowBanner() {
+    return sessionStorage.getItem('showBanner');
+  }
+  saveShowBanner() {
+    sessionStorage.setItem('showBanner', 'true');
+  }
+  removeShowBanner() {
+    sessionStorage.removeItem('showBanner');
+  }
+
   removeChildFileAttachment() {
     sessionStorage.removeItem(this.childFileKey);
   }
