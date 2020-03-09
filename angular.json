@@ -31,7 +31,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/keycloak-js/dist/keycloak.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -89,7 +91,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/keycloak-js/dist/keycloak.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
