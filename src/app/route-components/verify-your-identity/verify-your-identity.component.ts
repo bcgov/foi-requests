@@ -38,8 +38,16 @@ export class VerifyYourIdentityComponent implements OnInit {
       businessName: [null, [Validators.maxLength(255)]]
     });
 
+
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
+    if (isAuthenticated) {
+      this.foiRequest.requestData[this.targetKey].firstName = token.firstName;
+      this.foiRequest.requestData[this.targetKey].lastName = token.lastName;
+      this.foiRequest.requestData[this.targetKey].birthDate = token.birthDate;
+    }
+
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+
 
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
@@ -55,8 +63,9 @@ export class VerifyYourIdentityComponent implements OnInit {
 
   doContinue() {
     // Copy out submitted form data.
-    this.foiRequest.requestData[this.targetKey] = {};
+    // this.foiRequest.requestData[this.targetKey] = {};
     const formData = this.foiForm.value;
+
     Object.keys(formData).map(k => (this.foiRequest.requestData[this.targetKey][k] = formData[k]));
 
     // Update save data & proceed.

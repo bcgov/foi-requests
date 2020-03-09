@@ -4,7 +4,12 @@
   (goBack)="doGoBack()"
 >
   <div class="foi-content">
+    <app-alert-success *ngIf="showBanner">
+     You have been successfully logged in using BC Service Card.<br>
+      Please continue with filling the application.
+    </app-alert-success>
     <h2>Who are you requesting records about?</h2>
+
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group">

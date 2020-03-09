@@ -3,7 +3,7 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
-import {startWith} from "rxjs/operators";
+import {startWith} from 'rxjs/operators';
 // import {KeycloakService} from '../../services/keycloak.service';
 import { Router } from '@angular/router';
 
@@ -19,8 +19,8 @@ export class ChooseIdentityComponent implements OnInit {
   foiRequest: FoiRequest;
   answerYes: boolean = null;
   answerReceived: boolean;
-  continuetext = 'Start your request'
-  targetKey: string;
+  continuetext = 'Start your request';
+  targetKey = 'choose-idenity';
   constructor(private fb: FormBuilder, private dataService: DataService, public router: Router) {}
 
 
@@ -33,27 +33,47 @@ export class ChooseIdentityComponent implements OnInit {
         this.foiForm.patchValue(initialValues);
 
         this.foiForm.valueChanges.pipe(startWith(initialValues)).subscribe(newValue => {
-          this.answerReceived = this.answerYes !== null;
           this.answerYes = newValue.answerYes === 'true';
-          if (this.answerYes) {
-            this.continuetext = 'Login With BC Service Card';
-          } else {
-            this.continuetext = 'Continue without Logging In';
-          }
+          this.answerReceived = this.answerYes !== null;
           this.base.continueDisabled = !this.answerReceived;
         });
       }
     });
   }
   doContinue() {
+    // Update save data & proceed.
+    const state = this.dataService.setCurrentState(
+      this.foiRequest,
+      this.targetKey,
+      this.foiForm
+    );
     if (this.answerYes) {
-      this.router.navigateByUrl('signin')
+      this.router.navigateByUrl('signin');
     } else {
-      sessionStorage.removeItem('KC_TOKEN')
+      sessionStorage.removeItem('KC_TOKEN');
       this.base.goFoiForward();
     }
     //
   }
+
+  doContinueWithoutLogin() {
+    const state = this.dataService.setCurrentState(
+      this.foiRequest,
+      this.targetKey,
+      this.foiForm
+    );
+    sessionStorage.removeItem('KC_TOKEN');
+    this.base.goFoiForward();
+  }
+
+   doLogin() {
+     const state = this.dataService.setCurrentState(
+       this.foiRequest,
+       this.targetKey,
+       this.foiForm
+     );
+     this.router.navigateByUrl('signin');
+   }
   doGoBack() {
     this.base.goFoiBack();
   }

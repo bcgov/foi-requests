@@ -20,7 +20,7 @@ function submitFoiRequest(server, req, res, next) {
   };
   req.log.info(`Sending message to ${foiRequestInbox}`, data);
 
-  const foiHtml = emailLayout.renderEmail(data.params);
+  const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
   const foiAttachments = [];
   if (req.files) {
     Object.keys(req.files).map(f => {

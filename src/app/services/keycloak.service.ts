@@ -35,6 +35,9 @@ export class KeycloakService {
     });
   }
 
+  getToken() {
+    return sessionStorage.getItem('KC_TOKEN');
+  }
 
   getDecodedToken(): any {
     return sessionStorage.getItem('KC_TOKEN') ?
