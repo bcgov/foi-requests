@@ -74,6 +74,7 @@ export class ChooseIdentityComponent implements OnInit {
      );
      this.router.navigateByUrl('signin');
    }
+
   doGoBack() {
     this.base.goFoiBack();
   }
