@@ -32,7 +32,7 @@ export class ReviewSubmitComponent implements OnInit {
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
 
     // see if keycloak token is there.set it to authToken
-    if (this.keycloakService.getDecodedToken() && this.keycloakService.getDecodedToken().email) {
+    if (this.keycloakService.isAuthenticated()) {
       this.authToken = this.keycloakService.getToken();
       this.captchaComplete = true;
       this.captchaNonce = ''
@@ -59,13 +59,24 @@ export class ReviewSubmitComponent implements OnInit {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
       this.isBusy = false;
-      this.base.goFoiForward();
+      // If the user is authenticated, logout the user
+      if(this.keycloakService.isAuthenticated()) {
+        this.keycloakService.logout()
+      } else {
+        this.base.goFoiForward();
+      }
+
     }, error => {
       this.isBusy = false;
       console.log('Submission failed: ', error);
       alert('Temporarily unable to submit your request. Please try again in a few minutes.');
       this.captchaComponent.forceRefresh();
       this.captchaComplete = false;
+      // if (this.keycloakService.isAuthenticated()) {
+      //   this.keycloakService.logout();
+      // } else {
+      //   this.base.goFoiForward();
+      // }
     });
   }
 
