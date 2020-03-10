@@ -5,6 +5,12 @@
       <p>
           To ensure personal information is only provided to a person with the right to access it, we need to verify your identity.
       </p>
+
+      <button type="button" class="btn btn-outline-secondary" ngbPopover="You see, I show up on hover!" triggers="mouseenter:mouseleave" popoverTitle="Pop title">
+        Hover over me!
+      </button>
+
+
       <div class="form-group row">
         <div class="col-lg-6">
           <app-foi-valid
@@ -14,6 +20,8 @@
           >
             <label>First name:</label>
             <input formControlName="firstName" />
+
+
           </app-foi-valid>
         </div>
         <div class="col-lg-6">
@@ -52,7 +60,7 @@
             [form]="foiForm"
             required="Birth Date is a required field."
             noFuture="Birth Date must not be in the future."
-            validDate="Birth Date must be a valid date." 
+            validDate="Birth Date must be a valid date."
             [dateTimeTrigger]="dt1"
           >
             <label>Birth Date:</label>
@@ -85,11 +93,11 @@
     <p>We need your full name and your birthdate to verify your identity.</p>
     <h3>What can I request records about?</h3>
     <p>
-      You can request records from government ministries or agencies using this service. 
+      You can request records from government ministries or agencies using this service.
     </p>
     <p>
-      You <i>cannot</i> use this service to request information about Crown corporations, 
-      school districts, health authorities, police, public colleges, and universities, 
+      You <i>cannot</i> use this service to request information about Crown corporations,
+      school districts, health authorities, police, public colleges, and universities,
       as these institutions all have their own Freedom of Information (FOI) processes.
     </p>
     <p>
