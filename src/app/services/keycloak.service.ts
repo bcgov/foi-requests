@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
-import { default as config } from './keycloak-config.json';
 import {BehaviorSubject, Observable} from 'rxjs';
 import KeyCloak from 'keycloak-js';
 import { KeycloakLoginOptions } from 'keycloak-js';
+import {AppConfigService} from './appconfig.service';
+import {compileNgModule} from '@angular/compiler';
 
 declare var Keycloak: any;
 
@@ -15,9 +16,24 @@ export class KeycloakService {
 
   private keycloakAuth: any;
 
+  constructor(private configService: AppConfigService) {
+
+  }
+
   init(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.keycloakAuth = new Keycloak(config);
+      const config = this.configService.settings;
+      const keycloakConfig = {
+        realm : config.realm,
+        url: config.url,
+        clientId: config.clientId,
+        credentials: {
+          secret: config.secret,
+          'ssl-required': config.sslRequired,
+          'public-client': config.publicClient
+        }
+      };
+      this.keycloakAuth = new Keycloak(keycloakConfig);
       const kcLogin = this.keycloakAuth.login;
       this.keycloakAuth.login = (options?: KeycloakLoginOptions) => {
         options.idpHint = 'bcsc';
