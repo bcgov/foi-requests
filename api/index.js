@@ -89,7 +89,7 @@ transom
         credentials:process.env.FOI_KC_CREDENTIALS,
         secret:process.env.FOI_KC_SECRET,
         sslRequired:process.env.FOI_KC_SSL_REQUIRED,
-        publiCclient:process.env.FOI_KC_PUBLIC_CLIENT
+        publicClient:process.env.FOI_KC_PUBLIC_CLIENT
 
       }
       console.log('kcConfigs'+JSON.stringify(kcConfigs))
