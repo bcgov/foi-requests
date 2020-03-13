@@ -26,8 +26,10 @@ export class KeycloakService {
 
       this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
         .success(() => {
+          debugger
           this.startRefreshTokenTimer(this.keycloakAuth);
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
+          sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
           resolve();
         })
         .error(() => {
@@ -44,32 +46,27 @@ export class KeycloakService {
   refreshToken() {
     if (!this.keycloakAuth) {
       this.keycloakAuth = new Keycloak(config);
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
+      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'),  refreshToken: sessionStorage.getItem('KC_REFRESH')})
         .success(authenticated => {
-          if (authenticated) {
-            this.updateToken();
-          }
+          this.keycloakAuth.updateToken(5).success(() => {
+            console.log('succesfully refreshed token');
+            this.startRefreshTokenTimer(this.keycloakAuth);
+          }).error(() => {
+            debugger;
+            console.error('Failed to refresh the token, or the session has expired');
         });
+      });
       } else {
-        this.updateToken();
+        this.keycloakAuth.updateToken(5).success(() => {
+          console.log('succesfully refreshed token');
+          this.startRefreshTokenTimer(this.keycloakAuth);
+        }).error(() => {
+          debugger;
+          console.error('Failed to refresh the token, or the session has expired');
+      });
       }
     }
 
-
-  updateToken() {
-    alert('Token expired');
-    this.keycloakAuth.updateToken(5)
-    .then(function(refreshed) {
-        if (refreshed) {
-            alert('Token was successfully refreshed');
-        } else {
-            alert('Token is still valid');
-        }
-    }).catch(function() {
-        alert('Failed to refresh the token, or the session has expired');
-    });
-
-  }
 
   getToken() {
     return sessionStorage.getItem('KC_TOKEN');
@@ -81,8 +78,7 @@ export class KeycloakService {
       {
         firstName: '',
         lastName: '',
-        email: '',
-        birthDate: ''
+        email: ''
       };
   }
 
