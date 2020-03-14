@@ -50,8 +50,12 @@ module.exports = function EmailLayout() {
     let result =''
     result += this.tableRow('First Name of the Submitter', data.firstName);
     result += this.tableRow('Last Name of the Submitter', data.lastName);
-    result += this.tableRow('Email of the Submitter', data.email);
-    result += this.tableRow('Date Of Birth of the Submitter', data.birthDate);
+    const anchor = `<a href="mailto:${data.email}" target="_blank">${
+      data.email
+    }</a>`;
+    result += this.tableRow('Email  of the Submitter', anchor);
+    // DOB no longer comes from BCSC
+    //result += this.tableRow('Date Of Birth of the Submitter', data.birthDate);
     return result
   }
   this.general = function(data) {
@@ -115,12 +119,20 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.personal = function(data) {
+  this.personal = function(data ,isAuthorised) {
+    // if isAuthorised , dont print the firstName and LastName
     let result = this.tableHeader('Contact Information');
-    result += this.tableRow(
-      'Name',
-      this.joinBySpace(data.firstName, data.middleName, data.lastName)
-    );
+    if (!isAuthorised) {
+      result += this.tableRow(
+        'Name',
+        this.joinBySpace(data.firstName, data.middleName, data.lastName)
+      );
+    } else if (data.middleName) {
+      result += this.tableRow(
+        'Middle Name',
+        this.joinBySpace(data.middleName)
+      );
+    }
     if (data.alsoKnownAs) {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
@@ -175,7 +187,7 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.contact = function(data) {
+  this.contact = function(data , isAuthorised) {
     let result = '';
     if (data.phonePrimary) {
       result += this.tableRow('Phone (primary)', data.phonePrimary);
@@ -183,7 +195,7 @@ module.exports = function EmailLayout() {
     if (data.phoneSecondary) {
       result += this.tableRow('Phone (secondary)', data.phoneSecondary);
     }
-    if (data.email) {
+    if (data.email && !isAuthorised) {
       const anchor = `<a href="mailto:${data.email}" target="_blank">${
         data.email
       }</a>`;
@@ -260,8 +272,8 @@ module.exports = function EmailLayout() {
     // Ministry or Agency
     content += this.ministry(data.requestData.ministry || {});
     // Contact Information
-    content += this.personal(data.requestData.contactInfo || {});
-    content += this.contact(data.requestData.contactInfoOptions || {});
+    content += this.personal(data.requestData.contactInfo || {} ,isAuthorised);
+    content += this.contact(data.requestData.contactInfoOptions || {},isAuthorised);
     // Adoptive Parents
     content += this.adoptiveParents(data.requestData.adoptiveParents || {});
     // Simple footer
