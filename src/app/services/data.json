@@ -55,7 +55,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicAnother": [
@@ -80,7 +79,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicYourselfAnother": [
@@ -105,7 +103,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ]
   },
