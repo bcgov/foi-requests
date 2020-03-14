@@ -1,7 +1,12 @@
 {
-    "/api": {
-        "target": "http://localhost:7085",
-        "changeOrigin": true,
-        "secure": false
-    }
+  "/api/v1/configs": {
+    "target": "https://foi-requests-dev.pathfinder.gov.bc.ca",
+    "changeOrigin": true,
+    "secure": false
+  },
+  "/api": {
+    "target": "http://localhost:7085",
+    "changeOrigin": true,
+    "secure": false
+  }
 }
