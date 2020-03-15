@@ -5,12 +5,15 @@
       <p>
           To ensure personal information is only provided to a person with the right to access it, we need to verify your identity.
       </p>
+      <div class="alert alert-info" role="alert" *ngIf="isAuthenticated">
+        Your first name and last name are as in BC Service Card and cannot be changed.
+      </div>
       <div class="form-group row">
         <div class="col-lg-6">
           <app-foi-valid
             [form]="foiForm"
             maxLength="First name is longer than the maximum {requiredLength} characters."
-            required="First name is a required field."
+            required="{{isAuthenticated?'': 'First name is a required field.'}}"
           >
             <label>First name:</label>
             <input formControlName="firstName" />
@@ -30,7 +33,7 @@
           <app-foi-valid
             [form]="foiForm"
             maxLength="Last name is longer than the maximum {requiredLength} characters."
-            required="Last name is a required field."
+            required="{{isAuthenticated?'': 'Last name is a required field.'}}"
           >
             <label>Last name:</label>
             <input formControlName="lastName" />
@@ -69,6 +72,10 @@
             <label>Business/Organization name:</label>
             <input formControlName="businessName" />
           </app-foi-valid>
+          <div class="alert alert-light" role="alert">
+            <fa-icon icon="info-circle"></fa-icon>
+            <strong>If you are a law firm:</strong> Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.
+          </div>
         </div>
       </div>
     </form>
