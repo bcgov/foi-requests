@@ -19,6 +19,11 @@
               </div>
             </div>
 
+            <div class="form-group" *ngIf="foiRequest.requestData.contactInfo.birthDate">
+              <label>Date of Birth:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfo.birthDate | date }}</span>
+            </div>
+
             <div class="form-group">
               <label>Email:</label>
               <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.email }}</span>

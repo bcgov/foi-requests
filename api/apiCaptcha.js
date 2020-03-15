@@ -202,6 +202,7 @@ function captchaInit(options) {
         return { valid: false };
       }
     } catch (e) {
+      console.log(e)
       return { valid: false };
     }
   }
@@ -237,7 +238,7 @@ function captchaInit(options) {
       if (ret.valid) {
         next();
       } else {
-        res.send(401, 'Not Authorized');
+        res.  send(401, 'Not Authorized');
         next('Invalid Captcha Token');
       }
     }

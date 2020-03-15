@@ -75,7 +75,6 @@ transom.configure(transomSmtp, {
 transom
   .initialize(apiDefinition)
   .then(function(server) {
-    console.log('--------***s')
     server.get('/', function(req, res, next) {
       res.send('FOI Request API Server');
       next();

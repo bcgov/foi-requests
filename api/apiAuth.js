@@ -9,7 +9,7 @@ var jwksClient = require('jwks-rsa');
 function authInit(options) {
 
   var client = jwksClient({
-    jwksUri: 'https://sso-dev.pathfinder.gov.bc.ca/auth/realms/5k8dbl4h/protocol/openid-connect/certs'
+    jwksUri: options.JWKS_URI
   })
 
   const JWT_TOKEN_HEADER = options.CAPTCHA_TOKEN_HEADER || 'Authorization'; // the request header where we expect the jwt token
