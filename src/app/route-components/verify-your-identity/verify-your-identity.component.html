@@ -69,13 +69,15 @@
             [form]="foiForm"
             maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
           >
-            <label>Business/Organization name:</label>
+            <label>Business/Organization name:
+              <div class="px-4 font-italic">
+                <fa-icon icon="info-circle" size="1x"></fa-icon>
+                <small><strong>[If you are a law firm:</strong> Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.]</small>
+              </div>
+            </label>
             <input formControlName="businessName" />
           </app-foi-valid>
-          <div class="alert alert-light" role="alert">
-            <fa-icon icon="info-circle"></fa-icon>
-            <strong>If you are a law firm:</strong> Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.
-          </div>
+
         </div>
       </div>
     </form>
