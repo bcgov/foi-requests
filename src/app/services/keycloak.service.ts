@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
 import { default as config } from './keycloak-config.json';
-import {BehaviorSubject, Observable} from 'rxjs';
-import KeyCloak from 'keycloak-js';
 import { KeycloakLoginOptions } from 'keycloak-js';
 
 declare var Keycloak: any;
@@ -26,7 +24,6 @@ export class KeycloakService {
 
       this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
         .success(() => {
-          debugger
           this.startRefreshTokenTimer(this.keycloakAuth);
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
           sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
@@ -40,33 +37,33 @@ export class KeycloakService {
 
   startRefreshTokenTimer(kc) {
     const expiresIn = (kc.tokenParsed.exp - (new Date().getTime() / 1000) + kc.timeSkew) * 1000;
-    kc.tokenTimeoutHandle = setTimeout(this.refreshToken, expiresIn);
+    setTimeout(() => this.refreshToken(), expiresIn);
   }
 
   refreshToken() {
     if (!this.keycloakAuth) {
       this.keycloakAuth = new Keycloak(config);
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'),  refreshToken: sessionStorage.getItem('KC_REFRESH')})
-        .success(authenticated => {
-          this.keycloakAuth.updateToken(5).success(() => {
-            console.log('succesfully refreshed token');
-            this.startRefreshTokenTimer(this.keycloakAuth);
-          }).error(() => {
-            debugger;
-            console.error('Failed to refresh the token, or the session has expired');
-        });
+      this.keycloakAuth.init(
+        {
+          token: sessionStorage.getItem('KC_TOKEN'),
+          refreshToken: sessionStorage.getItem('KC_REFRESH')
+        }
+      ).success(() => {
+        this.updateToken();
       });
-      } else {
-        this.keycloakAuth.updateToken(5).success(() => {
-          console.log('succesfully refreshed token');
-          this.startRefreshTokenTimer(this.keycloakAuth);
-        }).error(() => {
-          debugger;
-          console.error('Failed to refresh the token, or the session has expired');
-      });
-      }
+    } else {
+      this.updateToken();
     }
-
+  }
+  updateToken() {
+    this.keycloakAuth.updateToken(-1).success(() => {
+      this.startRefreshTokenTimer(this.keycloakAuth);
+      sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
+      sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
+    }).error(() => {
+      console.error('Failed to refresh the token, or the session has expired');
+    });
+  }
 
   getToken() {
     return sessionStorage.getItem('KC_TOKEN');
