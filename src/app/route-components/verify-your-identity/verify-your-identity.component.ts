@@ -32,8 +32,7 @@ export class VerifyYourIdentityComponent implements OnInit {
       middleName: [null, [Validators.maxLength(255)]],
       lastName: [{value: token.lastName , disabled: this.isAuthenticated },
         Validators.compose([Validators.required, Validators.maxLength(255)])],
-      birthDate: [null,
-        Validators.compose([Validators.required, Validators.maxLength(12)])],
+      birthDate: [null],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
     });
