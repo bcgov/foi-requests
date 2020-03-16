@@ -26,14 +26,13 @@ export class VerifyYourIdentityComponent implements OnInit {
   ngOnInit() {
     const token = this.keycloak.getDecodedToken();
     this.isAuthenticated = token !== undefined && token.sub !== undefined;
-    const birthDate = new Date(token.birthDate + 'T00:00:00');
     this.foiForm = this.fb.group({
       firstName: [{value: token.firstName, disabled: this.isAuthenticated},
         Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
       lastName: [{value: token.lastName , disabled: this.isAuthenticated },
         Validators.compose([Validators.required, Validators.maxLength(255)])],
-      birthDate: [{value: birthDate , disabled: this.isAuthenticated },
+      birthDate: [null,
         Validators.compose([Validators.required, Validators.maxLength(12)])],
       alsoKnownAs: [null, Validators.compose([Validators.maxLength(255)])],
       businessName: [null, [Validators.maxLength(255)]]
@@ -54,7 +53,7 @@ export class VerifyYourIdentityComponent implements OnInit {
       if (data) {
         this.infoBlock = data.infoBlock;
         this.includeBirthDate = data.includeBirthDate;
-        if (this.includeBirthDate && !this.isAuthenticated) {
+        if (this.includeBirthDate) {
           const currentValue = this.foiForm.get("birthDate").value;
           this.foiForm.setControl("birthDate", new FormControl(currentValue, [Validators.required, this.base.noFutureValidator]));
         }

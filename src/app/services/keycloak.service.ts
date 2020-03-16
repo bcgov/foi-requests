@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
 import { default as config } from './keycloak-config.json';
-import {BehaviorSubject, Observable} from 'rxjs';
-import KeyCloak from 'keycloak-js';
 import { KeycloakLoginOptions } from 'keycloak-js';
 
 declare var Keycloak: any;
@@ -28,6 +26,7 @@ export class KeycloakService {
         .success(() => {
           this.startRefreshTokenTimer(this.keycloakAuth);
           sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
+          sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
           resolve();
         })
         .error(() => {
@@ -38,37 +37,32 @@ export class KeycloakService {
 
   startRefreshTokenTimer(kc) {
     const expiresIn = (kc.tokenParsed.exp - (new Date().getTime() / 1000) + kc.timeSkew) * 1000;
-    kc.tokenTimeoutHandle = setTimeout(this.refreshToken, expiresIn);
+    setTimeout(() => this.refreshToken(), expiresIn);
   }
 
   refreshToken() {
     if (!this.keycloakAuth) {
       this.keycloakAuth = new Keycloak(config);
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
-        .success(authenticated => {
-          if (authenticated) {
-            this.updateToken();
-          }
-        });
-      } else {
-        this.updateToken();
-      }
-    }
-
-
-  updateToken() {
-    alert('Token expired');
-    this.keycloakAuth.updateToken(5)
-    .then(function(refreshed) {
-        if (refreshed) {
-            alert('Token was successfully refreshed');
-        } else {
-            alert('Token is still valid');
+      this.keycloakAuth.init(
+        {
+          token: sessionStorage.getItem('KC_TOKEN'),
+          refreshToken: sessionStorage.getItem('KC_REFRESH')
         }
-    }).catch(function() {
-        alert('Failed to refresh the token, or the session has expired');
+      ).success(() => {
+        this.updateToken();
+      });
+    } else {
+      this.updateToken();
+    }
+  }
+  updateToken() {
+    this.keycloakAuth.updateToken(-1).success(() => {
+      this.startRefreshTokenTimer(this.keycloakAuth);
+      sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
+      sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
+    }).error(() => {
+      console.error('Failed to refresh the token, or the session has expired');
     });
-
   }
 
   getToken() {
@@ -81,8 +75,7 @@ export class KeycloakService {
       {
         firstName: '',
         lastName: '',
-        email: '',
-        birthDate: ''
+        email: ''
       };
   }
 

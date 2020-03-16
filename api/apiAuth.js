@@ -42,7 +42,6 @@ function authInit(options) {
           req.userDetails = {"firstName":decoded.firstName,
             "lastName":decoded.lastName,
             "email":decoded.email,
-            "birthDate":decoded.birthDate
           }
           next();
         }
