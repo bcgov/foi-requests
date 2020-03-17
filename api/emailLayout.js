@@ -242,7 +242,7 @@ module.exports = function EmailLayout() {
       this.table()
     if (isAuthorised) {
       content += this.tableRow(
-        'Request Authorisation','BC Service Card'
+        'Request Authorisation','BC Services Card'
       );
 
       content += this.tableRow(

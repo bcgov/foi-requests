@@ -116,8 +116,21 @@ export class DataService {
   saveShowBanner() {
     sessionStorage.setItem('showBanner', 'true');
   }
+
   removeShowBanner() {
     sessionStorage.removeItem('showBanner');
+  }
+
+  getShowEmailAlert() {
+    return sessionStorage.getItem('showEmailAlert');
+  }
+
+  saveShowEmailAlert() {
+    sessionStorage.setItem('showEmailAlert', 'true');
+  }
+
+  removeShowEmailAlert() {
+    sessionStorage.removeItem('showEmailAlert');
   }
 
   removeChildFileAttachment() {

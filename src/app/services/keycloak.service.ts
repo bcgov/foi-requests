@@ -24,10 +24,14 @@ export class KeycloakService {
 
       this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
         .success(() => {
-          this.startRefreshTokenTimer(this.keycloakAuth);
-          sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
-          sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
-          resolve();
+          if (jwt_decode(this.keycloakAuth.token).email) {
+            this.startRefreshTokenTimer(this.keycloakAuth);
+            sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
+            sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
         })
         .error(() => {
           reject();
