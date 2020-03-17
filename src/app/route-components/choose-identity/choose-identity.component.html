@@ -1,9 +1,15 @@
 <foi-base (continue)="doContinue()" (goBack)="doGoBack()" [startupComponent]="true" [showButtons]="false">
 
   <div class="foi-content">
+  <app-alert-warning *ngIf="showEmailAlert">
+    <h2>Your request cannot be processed</h2><br>
+    Please update your email address with BC Services Card to electronically receive records.<br>
+    <a href="https://id.gov.bc.ca/" target="_blank">Login</a> and navigate to <i>Email Preferences</i> to update your email address. Close the browser and start the request again, once email address is updated in BC Services Card.<br><br>
+    If you do not wish to receive records electronically, please <i>Continue without Login</i>
+  </app-alert-warning>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <div class="foi-content">
+      <div class="foi-content" *ngIf="!showEmailAlert">
         <div class="landing-container">
           <div class="landing-content">
             <p class="landing-header ">
@@ -23,7 +29,7 @@
             <div>
               <button type="button" class="btn btn-primary btn-wide" (click)="doLogin()">
                 <fa-icon class="mr-1 mt-1" size="1x" icon="sign-in-alt"></fa-icon>
-                Login with BC Service Card
+                Login with BC Services Card
               </button>
             </div>
           </div>
@@ -33,7 +39,7 @@
         <div class="landing-container">
           <div class="landing-content">
             <p class="landing-header">
-              <fa-icon class="mr-1 mt-1" size="1x" icon="question-circle"></fa-icon> I don't have a BC Service Card
+              <fa-icon class="mr-1 mt-1" size="1x" icon="question-circle"></fa-icon> I don't have a BC Services Card
             </p>
             <p>
               If you prefer electronic delivery of records via email, you must login with BC Services Card.

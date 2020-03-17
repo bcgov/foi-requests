@@ -21,6 +21,8 @@ export class ChooseIdentityComponent implements OnInit {
   answerReceived: boolean;
   continuetext = 'Start your request';
   targetKey = 'choose-idenity';
+  showEmailAlert = false;
+
   constructor(private fb: FormBuilder, private dataService: DataService, public router: Router) {}
 
 
@@ -39,6 +41,11 @@ export class ChooseIdentityComponent implements OnInit {
         });
       }
     });
+    // Set the flag to show alert message for email
+    if (this.dataService.getShowEmailAlert()) {
+      this.showEmailAlert = true;
+      this.dataService.removeShowEmailAlert();
+    }
   }
   doContinue() {
     // Update save data & proceed.
