@@ -21,6 +21,7 @@ export class ReviewSubmitComponent implements OnInit {
   isBusy = false; // during submit!
   authToken = '';
   captchaNonce = '69879887sdsas$#';
+  isAuthenticated = false;
   constructor(private dataService: DataService, private sanitizer: DomSanitizer, private keycloakService: KeycloakService) {}
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class ReviewSubmitComponent implements OnInit {
     }
     // foiRequestPretty is used for debugging only
     this.foiRequestPretty = JSON.stringify(this.foiRequest, null, 2);
+    this.isAuthenticated = this.keycloakService.isAuthenticated();
 
     // see if keycloak token is there.set it to authToken
     if (this.keycloakService.isAuthenticated()) {
