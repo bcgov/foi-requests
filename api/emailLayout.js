@@ -48,12 +48,12 @@ module.exports = function EmailLayout() {
 
   this.getAuthorisedDetailsTable = function (data) {
     let result =''
-    result += this.tableRow('First Name of the Submitter', data.firstName);
-    result += this.tableRow('Last Name of the Submitter', data.lastName);
+    result += this.tableRow('First Name of requestor', data.firstName);
+    result += this.tableRow('Last Name of requestor', data.lastName);
     const anchor = `<a href="mailto:${data.email}" target="_blank">${
       data.email
     }</a>`;
-    result += this.tableRow('Email  of the Submitter', anchor);
+    result += this.tableRow('Email  of requestor', anchor);
     // DOB no longer comes from BCSC
     //result += this.tableRow('Date Of Birth of the Submitter', data.birthDate);
     return result
@@ -242,11 +242,11 @@ module.exports = function EmailLayout() {
       this.table()
     if (isAuthorised) {
       content += this.tableRow(
-        'Request Authorisation','BC Services Card'
+        'Requestor identity verification','BC Services Card'
       );
 
       content += this.tableRow(
-       'Authorised Details',this.table(this.getAuthorisedDetailsTable(authorisedDetails))
+       'Verified details',this.table(this.getAuthorisedDetailsTable(authorisedDetails))
       );
 
     }
