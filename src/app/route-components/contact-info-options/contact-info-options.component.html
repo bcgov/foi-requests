@@ -42,7 +42,7 @@
               <div class="col-lg-12">
                 <app-foi-valid
                   [form]="foiForm"
-                  tip="Email address is required for electronic delivery."
+                  tip={{tip}}
                   maxLength="Email address is longer than the maximum {requiredLength} characters."
                   pattern="Email address does not appear to be valid."
                 >
