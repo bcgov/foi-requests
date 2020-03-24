@@ -6,7 +6,7 @@
           the status of your request or potential fees relating to processing your
           request.
         </p>
-  
+
         <h2>Ways to get in touch with you</h2>
         <p>
           <i
@@ -14,7 +14,7 @@
             records, we need AT LEAST ONE form of contact information.</i
           >
         </p>
-  
+
         <div class="form-group row">
           <div class="col-lg-6">
             <div class="row">
@@ -28,7 +28,7 @@
                   <input formControlName="phonePrimary" />
                 </app-foi-valid>
               </div>
-  
+
               <div class="col-lg-12">
                 <app-foi-valid
                   [form]="foiForm"
@@ -39,7 +39,6 @@
                   <input formControlName="phoneSecondary" />
                 </app-foi-valid>
               </div>
-  
               <div class="col-lg-12">
                 <app-foi-valid
                   [form]="foiForm"
@@ -50,6 +49,12 @@
                   <label>Email address:</label>
                   <input formControlName="email" />
                 </app-foi-valid>
+                <div class="px-4 font-italic"  *ngIf="isAuthenticated">
+                    <fa-icon icon="info-circle" size="1x"></fa-icon>
+                    <small>
+                      Please note: If you would like to update this email address, please <a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card, update the Email Preferences, exit out of this request, and submit a new FOI request. Or you can proceed with this email and this request by hitting Continue below.
+                    </small>
+                  </div>
               </div>
             </div>
             <!-- row -->
@@ -65,7 +70,7 @@
                   <input formControlName="address" />
                 </app-foi-valid>
               </div>
-  
+
               <div class="col-md-6 col-sm-12">
                 <app-foi-valid
                   [form]="foiForm"
@@ -75,7 +80,7 @@
                   <input formControlName="city" />
                 </app-foi-valid>
               </div>
-  
+
               <div class="col-md-6 col-sm-12">
                 <app-foi-valid
                   [form]="foiForm"
@@ -85,7 +90,7 @@
                   <input formControlName="province" />
                 </app-foi-valid>
               </div>
-  
+
               <div class="col-md-6 col-sm-12">
                 <app-foi-valid
                   [form]="foiForm"
@@ -95,7 +100,7 @@
                   <input formControlName="country" />
                 </app-foi-valid>
               </div>
-  
+
               <div class="col-md-6 col-sm-12">
                 <app-foi-valid
                   [form]="foiForm"
@@ -111,9 +116,8 @@
         </div>
       </form>
     </div>
-  
+
     <div class="sidebar">
       <!-- hidden -->
     </div>
   </foi-base>
-  

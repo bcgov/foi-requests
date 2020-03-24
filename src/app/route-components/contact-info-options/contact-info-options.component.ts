@@ -25,15 +25,16 @@ export class ContactInfoOptionsComponent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = 'contactInfoOptions';
+  isAuthenticated:boolean = false;
 
   constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
   ngOnInit() {
     // Update email if the user is authenticated
     const token = this.keycloak.getDecodedToken();
-    const isAuthenticated: boolean = (token !== undefined && token.sub !== undefined);
+    this.isAuthenticated = (token !== undefined && token.sub !== undefined);
     this.foiForm = this.fb.group({
-      email: [{value: token.email, disabled: isAuthenticated}],
+      email: [{value: token.email, disabled: this.isAuthenticated}],
       phonePrimary: [null],
       phoneSecondary: [null],
       address: [null],
@@ -45,7 +46,7 @@ export class ContactInfoOptionsComponent implements OnInit {
 
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    if (isAuthenticated) {
+    if (this.isAuthenticated) {
       this.foiRequest.requestData.contactInfoOptions.email = token.email;
     }
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey], {emitEvent: true});
