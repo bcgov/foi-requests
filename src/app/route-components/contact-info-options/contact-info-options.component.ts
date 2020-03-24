@@ -26,6 +26,7 @@ export class ContactInfoOptionsComponent implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = 'contactInfoOptions';
   isAuthenticated:boolean = false;
+  tip = ''
 
   constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
@@ -43,7 +44,7 @@ export class ContactInfoOptionsComponent implements OnInit {
       province: [null],
       country: [null]
     });
-
+    this.tip = this.isAuthenticated ? '' : 'Email address is required for electronic delivery' ;
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     if (this.isAuthenticated) {
