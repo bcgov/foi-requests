@@ -3,6 +3,8 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
+import {KeycloakService} from '../../services/keycloak.service';
+
 
 @Component({
   templateUrl: './getting-started3.component.html',
@@ -16,8 +18,12 @@ export class GettingStarted3Component implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = 'requestType';
+  token = '';
+  firstName = '';
+  lastName = '';
+  authenticated = false;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private keycloakService: KeycloakService) {}
 
   ngOnInit() {
     // Load the current values & populate the FormGroup.

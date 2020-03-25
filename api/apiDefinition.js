@@ -1,7 +1,10 @@
 const customFunctions = require('./apiCustomFunctions');
 const apiCaptchaFx = require('./apiCaptcha');
+const apiAuthFx = require('./apiAuth');
 const captchaCfg = require('./captchaCfg');
+const authCfg = require('./authCfg');
 const apiCaptcha = apiCaptchaFx(captchaCfg);
+const apiAuth = apiAuthFx(authCfg);
 const RotatingFileStream = require('bunyan-rotating-file-stream');
 
 module.exports = {
@@ -48,7 +51,7 @@ module.exports = {
     functions: {
       submitFoiRequest: {
         methods: ['POST'],
-        preMiddleware: [apiCaptcha.verifyJWTResponseMiddleware],
+        preMiddleware: [apiAuth.verifyJWTResponseMiddleware, apiCaptcha.verifyJWTResponseMiddleware],
         function: customFunctions.submitFoiRequest
       }
     }

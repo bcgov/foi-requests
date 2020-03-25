@@ -42,7 +42,7 @@ export class ProofOfGuardianshipComponent implements OnInit {
     });
   }
 
-  get showAlert(): Boolean {
+  get showAlert(): boolean {
     return this.answerReceived && !this.answerYes;
   }
 

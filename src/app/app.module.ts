@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,13 +13,15 @@ import { ServicesModule } from './services/services.module';
 import { RouteComponentsModule } from './route-components/route-components.module';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SigninComponent } from './route-components/signin/signin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CoreHeaderComponent,
     ProgressBarComponent,
-    FooterComponent
+    FooterComponent,
+    SigninComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +34,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   providers: [
-    TransomApiClientService
+    TransomApiClientService,
+    // {
+    //   provide: APP_INITIALIZER,
+    //   // useFactory: KeyCloakFactory,
+    //   // deps: [KeycloakService],
+    //   multi: true
+    // }
   ],
   bootstrap: [AppComponent, FooterComponent]
 })
