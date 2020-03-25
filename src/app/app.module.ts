@@ -14,6 +14,12 @@ import { RouteComponentsModule } from './route-components/route-components.modul
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SigninComponent } from './route-components/signin/signin.component';
+import {AppConfigService} from './services/app-config.service';
+
+export function init_app(appConfigService: AppConfigService) {
+  return () => appConfigService.load();
+}
+
 
 @NgModule({
   declarations: [
@@ -35,6 +41,9 @@ import { SigninComponent } from './route-components/signin/signin.component';
   ],
   providers: [
     TransomApiClientService,
+    AppConfigService,
+    { provide: APP_INITIALIZER, useFactory: init_app, deps: [AppConfigService], multi: true }
+
     // {
     //   provide: APP_INITIALIZER,
     //   // useFactory: KeyCloakFactory,
