@@ -29,10 +29,11 @@ module.exports = function EmailLayout() {
         let day = dt.getDate();
 
         // Dates should look like 01/03/2019 rather than 1/3/2019.
+        // Dates should look like 01/23/2019 rather than 1/23/2019.
         month = (`0${month}`).slice(-2);
         day = (`0${day}`).slice(-2);
 
-        result = `${day}/${month}/${year}`;
+        result = `${month}/${day}/${year}`;
       }
     }
     return result;
@@ -45,6 +46,18 @@ module.exports = function EmailLayout() {
       .trim();
   };
 
+  this.getAuthorisedDetailsTable = function (data) {
+    let result =''
+    result += this.tableRow('First Name of requestor', data.firstName);
+    result += this.tableRow('Last Name of requestor', data.lastName);
+    const anchor = `<a href="mailto:${data.email}" target="_blank">${
+      data.email
+    }</a>`;
+    result += this.tableRow('Email  of requestor', anchor);
+    // DOB no longer comes from BCSC
+    //result += this.tableRow('Date Of Birth of the Submitter', data.birthDate);
+    return result
+  }
   this.general = function(data) {
     let result = this.tableHeader('Request Description');
     // Removed Topic from the generated email body.
@@ -61,13 +74,13 @@ module.exports = function EmailLayout() {
     }
     if (data.fromDate) {
       result += this.tableRow(
-        'From <small>(dd/mm/yyyy)</small>',
+        'From <small>(mm/dd/yyyy)</small>',
         this.dateFormat(data.fromDate)
       );
     }
     if (data.toDate) {
       result += this.tableRow(
-        'To <small>(dd/mm/yyyy)</small>',
+        'To <small>(mm/dd/yyyy)</small>',
         this.dateFormat(data.toDate)
       );
     }
@@ -106,17 +119,28 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.personal = function(data) {
+  this.personal = function(data ,isAuthorised) {
+    // if isAuthorised , dont print the firstName and LastName
     let result = this.tableHeader('Contact Information');
-    result += this.tableRow(
-      'Name',
-      this.joinBySpace(data.firstName, data.middleName, data.lastName)
-    );
+    if (!isAuthorised) {
+      result += this.tableRow(
+        'Name',
+        this.joinBySpace(data.firstName, data.middleName, data.lastName)
+      );
+    } else if (data.middleName) {
+      result += this.tableRow(
+        'Middle Name',
+        this.joinBySpace(data.middleName)
+      );
+    }
     if (data.alsoKnownAs) {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.businessName) {
       result += this.tableRow('Business Name', data.businessName);
+    }
+    if (data.birthDate) {
+      result += this.tableRow('Birth Date <small>(mm/dd/yyyy)</small>', this.dateFormat(data.birthDate));
     }
     return result;
   };
@@ -131,7 +155,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.dateOfBirth) {
-      result += this.tableRow('Date of Birth <small>(dd/mm/yyyy)</small>', this.dateFormat(data.dateOfBirth));
+      result += this.tableRow('Date of Birth <small>(mm/dd/yyyy)</small>', this.dateFormat(data.dateOfBirth));
     }
     return result;
   };
@@ -146,7 +170,7 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Also Known As', data.alsoKnownAs);
     }
     if (data.dateOfBirth) {
-      result += this.tableRow('Date of Birth <small>(dd/mm/yyyy)</small>', this.dateFormat(data.dateOfBirth));
+      result += this.tableRow('Date of Birth <small>(mm/dd/yyyy)</small>', this.dateFormat(data.dateOfBirth));
     }
     return result;
   };
@@ -163,7 +187,7 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.contact = function(data) {
+  this.contact = function(data , isAuthorised) {
     let result = '';
     if (data.phonePrimary) {
       result += this.tableRow('Phone (primary)', data.phonePrimary);
@@ -171,7 +195,7 @@ module.exports = function EmailLayout() {
     if (data.phoneSecondary) {
       result += this.tableRow('Phone (secondary)', data.phoneSecondary);
     }
-    if (data.email) {
+    if (data.email && !isAuthorised) {
       const anchor = `<a href="mailto:${data.email}" target="_blank">${
         data.email
       }</a>`;
@@ -213,8 +237,19 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.renderEmail = function(data) {
+  this.renderEmail = function(data ,isAuthorised , authorisedDetails) {
     let content = this.tableHeader('Request Records');
+      this.table()
+    if (isAuthorised) {
+      content += this.tableRow(
+        'Requestor identity verification','BC Services Card'
+      );
+
+      content += this.tableRow(
+       'Verified details',this.table(this.getAuthorisedDetailsTable(authorisedDetails))
+      );
+
+    }
     content += this.tableRow(
       'Request Type',
       data.requestData.requestType.requestType
@@ -237,8 +272,8 @@ module.exports = function EmailLayout() {
     // Ministry or Agency
     content += this.ministry(data.requestData.ministry || {});
     // Contact Information
-    content += this.personal(data.requestData.contactInfo || {});
-    content += this.contact(data.requestData.contactInfoOptions || {});
+    content += this.personal(data.requestData.contactInfo || {} ,isAuthorised);
+    content += this.contact(data.requestData.contactInfoOptions || {},isAuthorised);
     // Adoptive Parents
     content += this.adoptiveParents(data.requestData.adoptiveParents || {});
     // Simple footer

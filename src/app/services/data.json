@@ -7,6 +7,7 @@
       { "code": "PSA", "name": "BC Public Service Agency" },
       { "code": "MCF", "name": "Children and Family Development" },
       { "code": "CITZ", "name": "Citizens’ Services" },
+      { "code": "EMBC", "name": "Emergency Management BC" },
       { "code": "EDUC", "name": "Education" },
       { "code": "EMPR", "name": "Energy, Mines and Petroleum Resources" },
       { "code": "ENV", "name": "Environment and Climate Change Strategy" },
@@ -22,7 +23,7 @@
       },
       { "code": "HLTH", "name": "Health" },
       { "code": "IRR", "name": "Indigenous Relations and Reconciliation" },
-      { "code": "JTT", "name": "Jobs, Trade and Technology" },
+      { "code": "JTT", "name": "Jobs, Economic Development and Competitiveness" },
       { "code": "LBR", "name": "Labour" },
       { "code": "MMHA", "name": "Mental Health and Addictions" },
       { "code": "MAH", "name": "Municipal Affairs and Housing" },
@@ -54,7 +55,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicAnother": [
@@ -79,7 +79,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicYourselfAnother": [
@@ -104,7 +103,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ]
   },
@@ -114,7 +112,7 @@
     { "route": "getting-started2", "progress": 1 },
     {
       "route": "getting-started3",
-      "progress": 2,
+      "progress": 3,
       "choices": {
         "general": {
           "routes": [
@@ -132,6 +130,7 @@
         },
         "personal": {
           "routes": [
+            { "route": "choose-identity", "progress": 1 },
             {
               "route": "personal/select-about",
               "progress": 2,
