@@ -1,15 +1,13 @@
 <foi-base [continueDisabled]="!foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
-    <h2>Verify your identity</h2>
+    <!--<h2 *ngIf="!isAuthenticated">Verify your identity</h2> -->
+    <h2>Complete your profile</h2>
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <p *ngIf="!isAuthenticated">
           To ensure personal information is only provided to a person with the right to access it, we need to verify your identity.
       </p>
-      <p *ngIf="isAuthenticated">
-          Enter additional information to complete your profile. Required fields are marked with a red asterisk. Some fields are greyed out and cannot be changed because information has already been verified.
-      </p>
       <div class="alert alert-info" role="alert" *ngIf="isAuthenticated">
-        Your first name and last name are as in BC Services Card and cannot be changed.
+        Information in a grey box has been collected from your BC Services Card and cannot be changed. Please enter additional information to complete your profile.
       </div>
       <div class="form-group row">
         <div class="col-lg-6">
