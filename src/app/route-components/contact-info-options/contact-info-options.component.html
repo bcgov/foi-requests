@@ -1,18 +1,16 @@
 <foi-base [showInfo]="false"  [continueDisabled]="!allowContinue()" (continue)="doContinue()" (goBack)="doGoBack()">
     <div class="foi-content">
       <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-        <p>
+        <!--<p *ngIf="!isAuthenticated">
           We may need to get in touch with you to clarify your request, discuss
           the status of your request or potential fees relating to processing your
           request.
-        </p>
+        </p> -->
 
         <h2>Ways to get in touch with you</h2>
         <p>
-          <i
-            >* Please note that in order to follow up with you and deliver your
-            records, we need AT LEAST ONE form of contact information.</i
-          >
+          <i>* Please note that in order to follow up with you and deliver your
+            records, we need AT LEAST ONE form of contact information.</i>
         </p>
 
         <div class="form-group row">
@@ -52,7 +50,7 @@
                 <div class="px-4 font-italic"  *ngIf="isAuthenticated">
                     <fa-icon icon="info-circle" size="1x"></fa-icon>
                     <small>
-                      Please note: If you would like to update this email address, please <a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card, update the Email Preferences, exit out of this request, and submit a new FOI request. Or you can proceed with this email and this request by hitting Continue below.
+                      Please note: If you would like to change this email address, please <a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card, update the Email Preferences, exit out of this request, and submit a new FOI request.
                     </small>
                   </div>
               </div>

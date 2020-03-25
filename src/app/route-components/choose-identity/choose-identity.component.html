@@ -2,15 +2,17 @@
 
   <div class="foi-content">
   <app-alert-warning *ngIf="showEmailAlert">
-    <h2>Your request cannot be processed</h2><br>
-    Please update your email address with BC Services Card to electronically receive records.<br>
-    <a href="https://id.gov.bc.ca/" target="_blank">Login</a> and navigate to <i>Email Preferences</i> to update your email address. Close the browser and start the request again, once email address is updated in BC Services Card.<br><br>
-    If you do not wish to receive records electronically, please <i>Continue without Login</i>
+    <h2>Unfortunately your identity has not been verified.</h2>
+    <p>If you would like to receive your FOI response package electronically:</p>
+    <ul>
+      <li>You must add a registered email address on your BC Services Card</li>
+      <li>Then you must close this window and submit a new request</li>
+    </ul>
+    <p>Follow the instructions in More Information (on the right hand side) to add an email address to your BC Services Card.</p>
   </app-alert-warning>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="foi-content" *ngIf="!showEmailAlert">
-        <h3>To ensure personal information is only provided to a person with the right to access it, we need to verify your identity.</h3>
         <div class="landing-container">
           <div class="landing-content">
             <p class="landing-header ">
@@ -18,10 +20,19 @@
               Verify your identity using BC Services Card
             </p>
             <p>
-              If you would like to receive your FOI response package electronically,
-              you must have a BC Services Card and you must click the link below to verify your identity.
-              You must also have a registered email address on your BC Services Card.
+              If you would like to receive your FOI response package electronically:
             </p>
+            <ul>
+              <li>You must have a BC Services Card with a photo</li>
+              <li>You must click the link below to verify your identity</li>
+              <li>You must have a registered email address on your BC Services Card</li>
+            </ul>
+              <div>
+                <h3>Information Collection Notice</h3>
+                <p class="information">
+                  Personal information from your BC Services Card is collected under s.26 of the Freedom of Information and Protection of Privacy Act. The information you provide will be only be used in confirming your identity. Upon pressing the [Login with BC Services Card] button you are confirming that you have reviewed this statement. If you have any questions about the collection and use of this information, please contact Information Access Operations at PO Box 9569, Stn Prov Govt, Victoria BC, V8W 9K1 or at <a href="tel:2503871321">250-387-1321</a>
+                </p>
+            </div>
 
             <div>
               <button type="button" class="btn btn-primary btn-wide" (click)="doLogin()">
@@ -31,14 +42,7 @@
             </div>
           </div>
         </div>
-        <div class="terms-container">
-        <div class="landing-content">
-          <h3>Information Collection Notice</h3>
-          <p>
-            Personal information from your BC Services Card is collected under s.26 of the Freedom of Information and Protection of Privacy Act. The information you provide will be only be used in confirming your identity. Upon pressing the [Login with BC Services Card] button you are confirming that you have reviewed this statement. If you have any questions about the collection and use of this information, please contact Information Access Operations at PO Box 9569, Stn Prov Govt, Victoria BC, V8W 9K1 or at 250-387-1321
-          </p>
-        </div>
-        </div>
+
       </div>
       <div class="foi-content">
         <div class="landing-container">
@@ -47,11 +51,15 @@
               <fa-icon class="mr-1 mt-1" size="1x" icon="question-circle"></fa-icon> Continue without BC Services Card Verification
             </p>
             <p>
-              If you would like to receive a paper copy of your FOI response package, or you don’t have a BC Services Card, you must continue with this FOI request form without BC Services Card verification.
+              If you would like to receive a paper copy of your FOI response package,<br/> 
+              OR you don’t have a BC Services Card with a photo:
             </p>
-            <p>
-              At the end of the FOI process, once your response package is ready for delivery, you will need to go to a ministry office to collect your records and verify your identity in person. Click the link below to continue your FOI request without BC Services Card verification.
-            </p>
+            
+            <ul>
+              <li>You must continue with this FOI request form without BC Services Card verification</li>
+              <li>At the end of the FOI process, once your response package is ready for delivery, you will need to go to a ministry office to collect your records and verify your identity in person</li>
+            </ul>
+
             <div>
               <button type="button" class="btn btn-primary btn-wide" (click)="doContinueWithoutLogin()">
                 Continue without Login
@@ -74,25 +82,29 @@
   </div>
   <div class="sidebar">
     <h2>More information</h2>
+    <div *ngIf="showEmailAlert" class="email-update-box">
+      <!--<p>To check whether your BC Services Card has a verified email address:</p>
+      <ul>
+        <li><a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card</li>
+        <li>Look under Email Preferences</li>
+      </ul> -->
+      <p><strong>To add an email address to your BC Services Card: </strong></p>
+      <ul>
+        <li><a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card</li>
+        <li>Look under Email Preferences</li>
+        <li>Click Manage email preferences</li>
+        <li>Click Edit email & preferences</li>
+        <li>Then Update email preferences</li>
+        <li>You will be send an email to verify the new email address.</li>
+        <li>Once your email is added, you will need to start a new FOI request.</li>
+      </ul>
+    </div>
+
+    <p>Click the links below to learn more about the BC Services Card</p>
 
     <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card" target="_blank"> What is a BC Services Card ?</a></p>
     <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/login-with-card" target="_blank"> How do I login with my BC Services Card ?</a></p>
     <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/get-a-card" target="_blank"> I don't have a BC Services Card</a></p>
-    <p>To check whether your BC Services Card has a verified email address:</p>
-    <ul>
-      <li><a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card</li>
-      <li>Look under Email Preferences</li>
-    </ul>
-    <p>To update or add an email address to your BC Services Card: </p>
-    <ul>
-      <li><a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card</li>
-      <li>Look under Email Preferences</li>
-      <li>Click Manage email preferences</li>
-      <li>Click Edit email & preferences</li>
-      <li>Then Update email preferences</li>
-      <li>You will be send an email to verify the new email address.</li>
-      <li>Once your email is added, you will need to start a new FOI request.</li>
-    </ul>
   </div>
 
 </foi-base>
