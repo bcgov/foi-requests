@@ -1,6 +1,8 @@
 # Use the offical nginx (based on debian)
 FROM nginx:mainline
 
+ENV STI_SCRIPTS_PATH=/usr/libexec/s2i
+
 # Required for HTTP Basic feature
 RUN apt-get update && apt-get install openssl
 
