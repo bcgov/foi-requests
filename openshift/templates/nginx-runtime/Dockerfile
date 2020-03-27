@@ -21,7 +21,7 @@ RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
 RUN apt-get -y install nodejs
 RUN node -v
-RUN npm -v
+# RUN npm -v
 
 # Fix up permissions
 RUN chmod -R 0777 /tmp /var /run /etc /mnt /usr/libexec/s2i/
