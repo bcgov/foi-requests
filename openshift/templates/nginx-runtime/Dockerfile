@@ -20,7 +20,7 @@ RUN pwd
 
 # Install Node 10.x
 RUN apt-get -y install curl gnupg
-RUN curl -sL https://deb.nodesource.com/setup_10.x  | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x  | bash -
 RUN apt-get -y install nodejs
 RUN node -v
 # RUN npm -v
