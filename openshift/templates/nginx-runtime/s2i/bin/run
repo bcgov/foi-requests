@@ -8,7 +8,7 @@ if [ -n "$HTTP_BASIC_USERNAME" ] && [ -n "$HTTP_BASIC_PASSWORD" ]; then
     `echo "$HTTP_BASIC_USERNAME:$(openssl passwd -crypt $HTTP_BASIC_PASSWORD)" > /tmp/.htpasswd`
 fi
 
-echo "---> Starting node-no rebuild"
+echo "---> Starting node-no"
 cd /tmp/app/dist/api
 
 node index.js &
