@@ -21,7 +21,7 @@ RUN pwd
 # Install Node 10.x
 RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_8.x  | bash -
-RUN apt-get -y install nodejs
+RUN apt-get install -y --allow-downgrades nodejs=8.16.1-1nodesource1
 RUN node -v
 # RUN npm -v
 
