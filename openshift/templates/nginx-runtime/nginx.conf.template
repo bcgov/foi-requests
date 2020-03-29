@@ -67,7 +67,7 @@ http {
 
         # add in most common security headers
         add_header Content-Security-Policy "default-src * data: blob: filesystem: 'unsafe-inline' 'unsafe-eval'";
-        add_header Strict-Transport-Security "max-age=3153600; includeSubDomains";
+        add_header Strict-Transport-Security "max-age=3153601; includeSubDomains";
         add_header X-Content-Type-Options "nosniff";
         add_header X-XSS-Protection 1;
         add_header X-Frame-Options DENY;
