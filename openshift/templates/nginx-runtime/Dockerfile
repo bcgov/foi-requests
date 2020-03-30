@@ -23,7 +23,7 @@ RUN apt-get -y install curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_8.x  | bash -
 RUN apt-get install -y --allow-downgrades nodejs=8.17.0-1nodesource1
 RUN node -v
-# RUN npm -v
+RUN npm -v
 
 # =================================================================================
 # Fix up permissions
