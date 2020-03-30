@@ -66,7 +66,7 @@ http {
         server_name  localhost;
 
         # add in most common security headers
-        add_header Content-Security-Policy "default-src 'none';frame-src 'self' *.gov.bc.ca; script-src 'self' 'unsafe-inline' *.gov.bc.ca; style-src 'self' 'unsafe-inline'; font-src 'self' *.gov.bc.ca; img-src 'self' *.gov.bc.ca; connect-src 'self' *.gov.bc.ca";
+        add_header Content-Security-Policy "default-src 'none';frame-src 'self' *.gov.bc.ca;media-src 'self'; script-src 'self' 'unsafe-inline' *.gov.bc.ca; style-src 'self' 'unsafe-inline'; font-src 'self' *.gov.bc.ca; img-src 'self' *.gov.bc.ca; connect-src 'self' *.gov.bc.ca";
         add_header Strict-Transport-Security "max-age=315360; includeSubDomains";
         add_header X-Content-Type-Options "nosniff";
         add_header X-XSS-Protection 1;
