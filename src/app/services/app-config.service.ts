@@ -34,7 +34,6 @@ export class AppConfigService {
         catchError(this.handleError) // then handle the error
       ).subscribe((response: Config) => {
         this.config = response
-        console.log(this.config)
         resolve(true);
       });
     });
