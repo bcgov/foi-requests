@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
       if (navTo) {
         this.setCurrentRoute(navTo);
       }
-      console.log('%c snowplow trackPageView invoked for URL:' + navRoute.url , 'color: blue' ,)
+      // console.log('%c snowplow trackPageView invoked for URL:' + navRoute.url , 'color: blue' ,)
       windowRef.nativeWindow.snowplow('trackPageView');
     });
 
