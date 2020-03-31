@@ -40,7 +40,7 @@ To prevent Keycloak asking the user to fill out email if the profile doesn't hav
 To import the BC Services Card configuration,
 1. Login to Keycloak as a realm administrator
 2. Click on 'Import' Link
-3. Select the file [keycloak config](https://github.com/bcgov/foi-requests/blob/dev/config/keycloak_realm_config.jpeg) for 'Exported json file'
+3. Select the file [keycloak config](/config/keycloak_realm_config.json) for 'Exported json file'
 4. Select 'Skip' for 'If a resource exists'
 5. Import
 
