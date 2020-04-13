@@ -20,6 +20,10 @@ The project relies on github branching to build different images and build the a
 |PROD| Built from https://github.com/bcgov/foi-requests/tree/master| https://foi-request-form.pathfinder.gov.bc.ca/
 
 
+Code should be merged to appropriate environments only. The bulds can sometimes be set to autotrigger mode so that if there is a code commit in Master , it will roll into production as well.
+Generally ,Work on DEV branch during development cycle. Commit the code to TEST branch for QA verification. Commit the code to MASTER for production release. 
+
+
 ### Build Details
 
 ###### Contrary to the Pathfinder openshift configurations , the build is done in each projects. Ideally this should be done in the tools project.
