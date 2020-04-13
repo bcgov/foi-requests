@@ -91,7 +91,6 @@ transom
         publicClient:process.env.FOI_KC_PUBLIC_CLIENT
 
       }
-      console.log('kcConfigs'+JSON.stringify(kcConfigs))
       res.json(kcConfigs);
       next();
     });
