@@ -2,10 +2,8 @@
 
   <div class="foi-content">
   <app-alert-warning *ngIf="showEmailAlert">
-    <h2>Unfortunately your identity has not been verified.</h2>
-    <p>If you would like to receive your FOI response package electronically:</p>
     <ul>
-      <li>You must add a registered email address on your BC Services Card</li>
+      <li class="red-text">You must add a registered email address on your BC Services Card</li>
       <li>Then you must close this window and submit a new request</li>
     </ul>
     <p>Follow the instructions in More Information (on the right hand side) to add an email address to your BC Services Card.</p>
@@ -16,18 +14,20 @@
         <div class="landing-container">
           <div class="landing-content">
             <p class="landing-header ">
-              <fa-icon class="mr-1 mt-1" size="1x" icon="id-card-alt"></fa-icon>
+              <fa-icon class="mr-1 mt-1" size="1x" icon="id-card"></fa-icon>
               Verify your identity using BC Services Card
             </p>
             <p>
-              If you would like to receive your FOI response package electronically:
+              To receive your FOI response package electronically:
             </p>
             <ul>
               <li>You must have a BC Services Card with a photo</li>
-              <li>You must click the link below to verify your identity</li>
-              <li>You must have a registered email address on your BC Services Card</li>
+              <li>You must have an email address on your BC Services Card account</li>
             </ul>
-              <div>
+            <span>To use your BC Services Card online you need to <a href='https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/login-with-card' target='_blank'>verify your identity.</a></span>
+            <br/>
+            <br/>
+          <div>
                 <h3>Information Collection Notice</h3>
                 <p class="information">
                   Personal information from your BC Services Card is collected under s.26 of the Freedom of Information and Protection of Privacy Act. The information you provide will be only be used in confirming your identity. Upon pressing the [Login with BC Services Card] button you are confirming that you have reviewed this statement. If you have any questions about the collection and use of this information, please contact Information Access Operations at PO Box 9569, Stn Prov Govt, Victoria BC, V8W 9K1 or at <a href="tel:2503871321">250-387-1321</a>
@@ -36,7 +36,6 @@
 
             <div>
               <button type="button" class="btn btn-primary btn-wide" (click)="doLogin()">
-                <fa-icon class="mr-1 mt-1" size="1x" icon="sign-in-alt"></fa-icon>
                 Login with BC Services Card
               </button>
             </div>
@@ -51,10 +50,10 @@
               <fa-icon class="mr-1 mt-1" size="1x" icon="question-circle"></fa-icon> Continue without BC Services Card Verification
             </p>
             <p>
-              If you would like to receive a paper copy of your FOI response package,<br/> 
+              If you would like to receive a paper copy of your FOI response package,<br/>
               OR you don’t have a BC Services Card with a photo:
             </p>
-            
+
             <ul>
               <li>You must continue with this FOI request form without BC Services Card verification</li>
               <li>At the end of the FOI process, once your response package is ready for delivery, you will need to go to a ministry office to collect your records and verify your identity in person</li>
@@ -82,29 +81,37 @@
   </div>
   <div class="sidebar">
     <h2>More information</h2>
-    <div *ngIf="showEmailAlert" class="email-update-box">
-      <!--<p>To check whether your BC Services Card has a verified email address:</p>
+    <div class="email-update-box" *ngIf="!showEmailAlert">
+      <p><strong>To check whether you have an email address on your BC Services Card account:</strong></p>
       <ul>
         <li><a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card</li>
         <li>Look under Email Preferences</li>
-      </ul> -->
-      <p><strong>To add an email address to your BC Services Card: </strong></p>
+        <li>To add or update your email, click Manage email preferences</li>
+        <li>Click Edit email &amp; preferences</li>
+        <li>Then Update email preferences</li>
+        <li>You will be sent an email to verify the email address</li>
+        <li>Once your email is added, you will need to start a new FOI request</li>
+      </ul>
+    </div>
+
+    <div class="email-update-box" *ngIf="showEmailAlert">
+      <p><strong>To add an email address to your BC Services Card:</strong></p>
       <ul>
         <li><a href="https://id.gov.bc.ca/account/" target="_blank">Login</a> to your BC Services Card</li>
         <li>Look under Email Preferences</li>
         <li>Click Manage email preferences</li>
-        <li>Click Edit email & preferences</li>
+        <li>Click Edit email &amp; preferences</li>
         <li>Then Update email preferences</li>
-        <li>You will be send an email to verify the new email address.</li>
-        <li>Once your email is added, you will need to start a new FOI request.</li>
+        <li>You will be sent an email to verify the email address</li>
+        <li>Once your email is added, you will need to start a new FOI request</li>
       </ul>
     </div>
 
-    <p>Click the links below to learn more about the BC Services Card</p>
+    <p><strong>Click the links below to learn more about the BC Services Card</strong></p>
 
     <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card" target="_blank"> What is a BC Services Card ?</a></p>
     <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/login-with-card" target="_blank"> How do I login with my BC Services Card ?</a></p>
-    <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/get-a-card" target="_blank"> I don't have a BC Services Card</a></p>
+    <p><a href="https://www2.gov.bc.ca/gov/content/governments/government-id/bc-services-card/get-a-card" target="_blank"> How do I get a BC Services Card?</a></p>
   </div>
 
 </foi-base>
