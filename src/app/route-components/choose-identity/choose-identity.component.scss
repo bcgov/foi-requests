@@ -8,6 +8,11 @@
   border-left: 4px solid $color-secondary;
   margin: 1.5rem 0 0 0;
 }
+.error-container {
+  background-color: #ffd2bb;
+  border-left: 4px solid #d6480a;
+  margin: 1.5rem 0 0 0;
+}
 
 .landing-content {
   padding: 1.2rem;
@@ -70,5 +75,5 @@
 }
 
 .red-text {
-  color: red;
+  color: #d6480a
 }

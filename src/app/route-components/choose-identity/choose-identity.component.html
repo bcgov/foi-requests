@@ -1,13 +1,15 @@
 <foi-base (continue)="doContinue()" (goBack)="doGoBack()" [startupComponent]="true" [showButtons]="false">
 
   <div class="foi-content">
-  <app-alert-warning *ngIf="showEmailAlert">
-    <ul>
-      <li class="red-text">You must add a registered email address on your BC Services Card</li>
-      <li>Then you must close this window and submit a new request</li>
-    </ul>
-    <p>Follow the instructions in More Information (on the right hand side) to add an email address to your BC Services Card.</p>
-  </app-alert-warning>
+    <div class="error-container" *ngIf="showEmailAlert">
+      <div class="landing-content">
+        <p class="landing-header">
+          <fa-icon class="mr-1 mt-1 red-text" size="1x" icon="exclamation-triangle" ></fa-icon>You must have an email address on your BC Services Card
+        </p>
+        <p>Follow the instructions in More Information (on the right hand side) to add an email address to your BC Services Card. Then close this browser window completely and submit a new FOI request.</p>
+
+      </div>
+    </div>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="foi-content" *ngIf="!showEmailAlert">
