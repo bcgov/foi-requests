@@ -112,74 +112,6 @@
       ]
     }
   ],
-  "identityProviders": [
-    {
-      "alias": "bcsc",
-      "displayName": "BC Services Card",
-      "providerId": "oidc",
-      "enabled": true,
-      "updateProfileFirstLoginMode": "on",
-      "trustEmail": false,
-      "storeToken": false,
-      "addReadTokenRoleOnCreate": false,
-      "authenticateByDefault": false,
-      "linkOnly": false,
-      "firstBrokerLoginFlowAlias": "BCSC first broker login",
-      "config": {
-        "hideOnLoginPage": "false",
-        "userInfoUrl": "https://id.gov.bc.ca/oauth2/userinfo",
-        "validateSignature": "true",
-        "clientId": "urn.ca.bc.gov.foi.dev",
-        "tokenUrl": "https://id.gov.bc.ca/oauth2/token",
-        "uiLocales": "",
-        "jwksUrl": "https://id.gov.bc.ca/oauth2/jwk.json",
-        "backchannelSupported": "false",
-        "issuer": "https://id.gov.bc.ca/oauth2/",
-        "useJwksUrl": "true",
-        "loginHint": "true",
-        "authorizationUrl": "https://id.gov.bc.ca/login/oidc/authorize",
-        "disableUserInfo": "",
-        "defaultScope": "openid profile email"
-      }
-    }
-  ],
-  "identityProviderMappers": [
-    {
-      "name": "username",
-      "identityProviderAlias": "bcsc",
-      "identityProviderMapper": "oidc-username-idp-mapper",
-      "config": {
-        "template": "${ALIAS}/${CLAIM.sub}"
-      }
-    },
-    {
-      "name": "firstName",
-      "identityProviderAlias": "bcsc",
-      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
-      "config": {
-        "user.attribute": "firstName",
-        "claim": "given_names"
-      }
-    },
-    {
-      "name": "lastName",
-      "identityProviderAlias": "bcsc",
-      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
-      "config": {
-        "claim": "family_name",
-        "user.attribute": "lastName"
-      }
-    },
-    {
-      "name": "email",
-      "identityProviderAlias": "bcsc",
-      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
-      "config": {
-        "claim": "email",
-        "user.attribute": "email"
-      }
-    }
-  ],
   "authenticationFlows": [
     {
       "alias": "BCSC first broker login",
@@ -265,6 +197,74 @@
           "autheticatorFlow": false
         }
       ]
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "bcsc",
+      "displayName": "BC Services Card",
+      "providerId": "oidc",
+      "enabled": true,
+      "updateProfileFirstLoginMode": "on",
+      "trustEmail": false,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "authenticateByDefault": false,
+      "linkOnly": false,
+      "firstBrokerLoginFlowAlias": "BCSC first broker login",
+      "config": {
+        "hideOnLoginPage": "false",
+        "userInfoUrl": "https://id.gov.bc.ca/oauth2/userinfo",
+        "validateSignature": "true",
+        "clientId": "urn.ca.bc.gov.foi.dev",
+        "tokenUrl": "https://id.gov.bc.ca/oauth2/token",
+        "uiLocales": "",
+        "jwksUrl": "https://id.gov.bc.ca/oauth2/jwk.json",
+        "backchannelSupported": "false",
+        "issuer": "https://id.gov.bc.ca/oauth2/",
+        "useJwksUrl": "true",
+        "loginHint": "true",
+        "authorizationUrl": "https://id.gov.bc.ca/login/oidc/authorize",
+        "disableUserInfo": "",
+        "defaultScope": "openid profile email"
+      }
+    }
+  ],
+  "identityProviderMappers": [
+    {
+      "name": "username",
+      "identityProviderAlias": "bcsc",
+      "identityProviderMapper": "oidc-username-idp-mapper",
+      "config": {
+        "template": "${ALIAS}/${CLAIM.sub}"
+      }
+    },
+    {
+      "name": "firstName",
+      "identityProviderAlias": "bcsc",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "user.attribute": "firstName",
+        "claim": "given_names"
+      }
+    },
+    {
+      "name": "lastName",
+      "identityProviderAlias": "bcsc",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "claim": "family_name",
+        "user.attribute": "lastName"
+      }
+    },
+    {
+      "name": "email",
+      "identityProviderAlias": "bcsc",
+      "identityProviderMapper": "oidc-user-attribute-idp-mapper",
+      "config": {
+        "claim": "email",
+        "user.attribute": "email"
+      }
     }
   ]
 }
