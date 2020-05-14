@@ -10,6 +10,7 @@ fi
 
 echo "---> Starting node"
 cd /tmp/app/dist/api
+
 node index.js &
 
 cd /
