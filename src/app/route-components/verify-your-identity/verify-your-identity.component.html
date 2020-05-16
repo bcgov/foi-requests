@@ -10,7 +10,7 @@
         Information in a grey box has been collected from your BC Services Card and cannot be changed. Please enter additional information to complete your profile.
       </div>
       <div class="form-group row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" *ngIf="!isAuthenticated">
           <app-foi-valid
             [form]="foiForm"
             maxLength="First name is longer than the maximum {requiredLength} characters."
@@ -20,7 +20,17 @@
             <input formControlName="firstName" />
           </app-foi-valid>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" *ngIf="isAuthenticated">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Given name is longer than the maximum {requiredLength} characters."
+            required="{{isAuthenticated?'': 'Given name is a required field.'}}"
+          >
+            <label>Given names:</label>
+            <input formControlName="firstName" />
+          </app-foi-valid>
+        </div>
+        <div class="col-lg-6" *ngIf="!isAuthenticated">
           <app-foi-valid
             [form]="foiForm"
             maxLength="Middle name is longer than the maximum {requiredLength} characters."

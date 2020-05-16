@@ -48,7 +48,7 @@ module.exports = function EmailLayout() {
 
   this.getAuthorisedDetailsTable = function (data) {
     let result =''
-    result += this.tableRow('First Name of requestor', data.firstName);
+    result += this.tableRow('Given Names of requestor', data.firstName);
     result += this.tableRow('Last Name of requestor', data.lastName);
     const anchor = `<a href="mailto:${data.email}" target="_blank">${
       data.email
