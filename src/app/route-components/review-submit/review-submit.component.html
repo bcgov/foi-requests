@@ -10,7 +10,7 @@
               <div>
                 <div class="inline-wrap">
                   <span class="form-control review-inline">{{ foiRequest.requestData.contactInfo.firstName }}</span>
-                  <div class="review-inline-label">First</div>
+                  <div class="review-inline-label">{{authToken? 'Given':'First'}}</div>
                 </div>
                 <div class="inline-wrap">
                   <span class="form-control review-inline">{{ foiRequest.requestData.contactInfo.lastName }}</span>
