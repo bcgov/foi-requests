@@ -19,9 +19,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Unit tests w/ coverage
-        run: npm run test:coverage
-      - name: LINTing
-        run: npm run test:lint
+        run: npm run test
+      # - name: Unit tests w/ coverage
+      #   run: npm run test:coverage
+      # - name: LINTing
+      #   run: npm run test:lint
       # - name: OpenAPI Schema
       #   run: npm run test:schema
       # - name: Upload coverage report
