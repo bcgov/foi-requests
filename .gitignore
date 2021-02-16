@@ -40,5 +40,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# SSL
 *.pem
 *.key
+*.csr
