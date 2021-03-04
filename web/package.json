@@ -13,8 +13,7 @@
     "cov": "http-server -c-1 -o -p 9875 ./coverage/bcfoi",
     "test-cov": "concurrently \"http-server -c-1 -o -p 9875 ./coverage/bcfoi\"  \"ng test --code-coverage\" ",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "cd api && npm install"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
