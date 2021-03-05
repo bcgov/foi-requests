@@ -1,29 +1,51 @@
+# Copyright 2020 The Province of British Columbia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
 apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   labels:
-    app: ${NAME}-web
+    app: ${NAME}
   name: ${NAME}-build
-  namespace: devhub-dev
 objects:
 - apiVersion: v1
   kind: ImageStream
   metadata:
-    name: ${NAME}-web
+    name: ${NAME}-artifacts
     labels:
-      app: ${NAME}-web
+      app: ${NAME}
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: ${NAME}
+    labels:
+      app: ${NAME}
 - apiVersion: v1
   kind: BuildConfig
   metadata:
-    name: ${NAME}-web-${GIT_REF}-build
+    name: ${NAME}-artifact-build
     labels:
-      app: ${NAME}-web
-      name: ${NAME}-web-${GIT_REF}-build
+      app: ${NAME}
+      name: ${NAME}-artifact-build
   spec:
+    successfulBuildsHistoryLimit: 1
+    failedBuildsHistoryLimit: 1
     output:
       to:
         kind: ImageStreamTag 
-        name: ${NAME}-web:${OUTPUT_IMAGE_TAG}
+        name: ${NAME}-artifacts:${OUTPUT_IMAGE_TAG}
     resources:
       limits:
         cpu: ${CPU_LIMIT}
@@ -49,8 +71,53 @@ objects:
           namespace: ${SOURCE_IMAGE_NAMESPACE}
         incremental: false
       type: Source
-    triggers:
-    - type: ConfigChange
+    # triggers:
+    # - type: ConfigChange
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: ${NAME}-image-build
+    labels:
+      app: ${NAME}
+      name: ${NAME}-image-build
+  spec:
+    successfulBuildsHistoryLimit: 3
+    failedBuildsHistoryLimit: 3
+    output:
+      to:
+        kind: ImageStreamTag 
+        name: ${NAME}:${OUTPUT_IMAGE_TAG}
+    resources:
+      limits:
+        cpu: ${CPU_LIMIT}
+        memory: ${MEMORY_LIMIT}
+      requests:
+        cpu: ${CPU_REQUEST}
+        memory: ${MEMORY_REQUEST}
+    runPolicy: Serial
+    source:
+      type: Dockerfile
+      dockerfile: |-
+        FROM image-registry.openshift-image-registry.svc:5000/04d1a3-tools/caddy-s2i-v2:latest
+        COPY bcfoi/* /opt/app-root/src
+        RUN ls -lah /opt/app-root/src
+        CMD /usr/libexec/s2i/run
+      images:
+      - from: 
+          kind: ImageStreamTag
+          name: ${NAME}-artifacts:latest
+        paths: 
+        - sourcePath: /opt/app-root/src/dist/bcfoi
+          destinationDir: "bcfoi"
+    strategy:
+      dockerStrategy:
+        from: 
+          kind: DockerImage
+          name: image-registry.openshift-image-registry.svc:5000/04d1a3-tools/caddy-s2i-v2:latest
+      type: Docker
+      # triggers:
+      #   - imageChange: {}
+      #     type: ImageChange
 parameters:
 - description: |
     The name assigned to all of the objects defined in this template.
@@ -58,7 +125,7 @@ parameters:
   displayName: Name
   name: NAME
   required: true
-  value: foi-request
+  value: web
 - description: |
     The URL to your GIT repo, don't use the this default unless
     your just experimenting.
@@ -84,17 +151,17 @@ parameters:
 - description: The openshift project where builds and target images are stored.
   displayName: Build Project
   name: SOURCE_IMAGE_NAMESPACE
-  # value: 'openshift'
+  value: 'openshift'
   required: true
 - description: The name of the source image.
   displayName: Source Image Name
   name: SOURCE_IMAGE_NAME
-  value: 'caddy-s2i-builder'
+  value: 'nodejs'
   required: true
 - description: The tag of the source image.
   displayName: Source Image Tag
   name: SOURCE_IMAGE_TAG
-  value: "latest"
+  value: "10"
   required: true
 - description: The resources CPU limit (in cores) for this build.
   displayName: Resources CPU Limit
@@ -105,7 +172,7 @@ parameters:
   displayName: Resources Memory Limit
   name: MEMORY_LIMIT
   required: true
-  value: 2Gi
+  value: 4Gi
 - description: The resources CPU request (in cores) for this build.
   displayName: Resources CPU Request
   name: CPU_REQUEST

@@ -16,13 +16,13 @@ ST=British Columbia
 L=Victoria
 O=Government of the Province of British Columbia
 OU=Citizens' Services
-CN=foi-request-form.gov.bc.ca
+CN=foirequestform.gov.bc.ca
 emailAddress=jason.leach@gov.bc.ca
 
 [req_ext]
 subjectAltName=@alt_names
 
 [alt_names]
-DNS.1=foi-request-form.gov.bc.ca
-DNS.2=dev.foi-request-form.gov.bc.ca
-DNS.3=test.foi-request-form.gov.bc.ca
+DNS.1=foirequestform.gov.bc.ca
+DNS.2=dev.foirequestform.gov.bc.ca
+DNS.3=test.foirequestform.gov.bc.ca

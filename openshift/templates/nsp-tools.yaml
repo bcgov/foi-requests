@@ -33,22 +33,17 @@ objects:
       podSelector: {}
       policyTypes:
         - Ingress
-  - apiVersion: networking.k8s.io/v1
-    kind: NetworkPolicy
+  - kind: NetworkPolicy
+    apiVersion: networking.k8s.io/v1
     metadata:
-      name: allow-all-internal
+      name: allow-same-namespace
     spec:
       # Allow all pods within the current namespace to communicate
       # to one another.
+      podSelector:
       ingress:
-        - from:
-            - namespaceSelector:
-                matchLabels:
-                  environment: ${ENVIRONMENT}
-                  name: ${NAMESPACE_PREFIX}
-      podSelector: {}
-      policyTypes:
-        - Ingress
+      - from:
+        - podSelector: {}
   - apiVersion: security.devops.gov.bc.ca/v1alpha1
     kind: NetworkSecurityPolicy
     metadata:
@@ -57,7 +52,7 @@ objects:
       description: |
         allow all pods to communicate
       source:
-        - - "$namespace=${NAMESPACE_PREFIX}-${ENVIRONMENT}"
+        - - "$namespace=${NAMESPACE}"
       destination:
         - - "$namespace=*"
   - apiVersion: security.devops.gov.bc.ca/v1alpha1
@@ -68,19 +63,12 @@ objects:
       description: |
         Allow all pods to talk to external systems
       source:
-        - - "$namespace=${NAMESPACE_PREFIX}-${ENVIRONMENT}"
+        - - "$namespace=${NAMESPACE}"
       destination:
         - - "ext:network=any"
 parameters:
-  - name: NAMESPACE_PREFIX
-    displayName: Namespace Prefix
+  - name: NAMESPACE
+    displayName: Namespace
     description: |
-      The prefix (a.k.a license plate) of the namespace this policy
-      is being deployed to;
-    required: true
-  - name: ENVIRONMENT
-    displayName: Environment Name
-    description: |
-      The environment (i.e dev/test/prod/tools) this policy is 
-      being deployed to.
+      The namespace this policy is being deployed to;
     required: true
