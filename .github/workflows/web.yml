@@ -1,12 +1,11 @@
-name: Test & Build
+name: Test & Build Web
 on:
   push:
     paths:
       - "web/src/**/*.ts"
-      - "web/src/**/*.tsx"
-      - "web/package*.json"
-      - "web/public/**/*"
-      - "web/Caddyfile"
+      - "web/src/package*.json"
+      - "web/src/public/**/*"
+  workflow_dispatch:
 defaults:
   run:
     working-directory: ./web
@@ -64,7 +63,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, build]
     steps:
-      - name: S2I Build
+      - name: Artifact Build
+        env:
+          NAMESPACE: 04d1a3-tools
+          BUILD_NAME: web-artifact-build
+          IMAGE_NAME: web-artifacts
         uses: redhat-developer/openshift-actions@v1.1
         with:
           version: "latest"
@@ -72,4 +75,17 @@ jobs:
           parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
           cmd: |
             'version'
-            'start-build platsrv-registry-web-master-build --follow -n platform-registry-tools'
+            'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
+      - name: Image Build
+        env:
+          NAMESPACE: 04d1a3-tools
+          BUILD_NAME: web-image-build 
+          IMAGE_NAME: web
+        uses: redhat-developer/openshift-actions@v1.1
+        with:
+          version: "latest"
+          openshift_server_url: ${{ secrets.OpenShiftServerURL}}
+          parameters: '{"apitoken": "${{ secrets.OpenShiftToken }}", "acceptUntrustedCerts": "true"}'
+          cmd: |
+            'version'
+            'start-build ${BUILD_NAME} -n ${NAMESPACE} --follow'
