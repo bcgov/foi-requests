@@ -35,15 +35,10 @@ objects:
       FOI_REQUEST_SMTP: ${FOI_REQUEST_SMTP}
       FOI_REQUEST_SMTP_PORT: ${FOI_REQUEST_SMTP_PORT}
       FOI_REQUEST_SMTP_SECURE: ${FOI_REQUEST_SMTP_SECURE}
-      FOI_REQUEST_INBOX: ${FOI_REQUEST_INBOX}
       FOI_REQUEST_SENDER: ${FOI_REQUEST_SENDER}
-      FOI_KC_REALM: ${FOI_KC_REALM}
       FOI_KC_URL: ${FOI_KC_URL}
-      FOI_KC_CLIENTID: ${FOI_KC_CLIENTID}
-      FOI_KC_SECRET: ${FOI_KC_SECRET}
       FOI_KC_SSL_REQUIRED: ${FOI_KC_SSL_REQUIRED}
       FOI_KC_PUBLIC_CLIENT: ${FOI_KC_PUBLIC_CLIENT}
-      JWKS_URI: ${JWKS_URI}
   - apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -58,12 +53,12 @@ objects:
 
         # Turn on the Web/file server
         file_server
-        templates {
-          mime  "text/javascript" "application/javascript"
-        }
+        # templates {
+        #   mime  "text/javascript" "application/javascript"
+        # }
 
         # The site root
-        root * /opt/app-root/src/
+        root * /opt/app-root/src
 
         # Because we should
         encode zstd gzip
@@ -79,7 +74,7 @@ objects:
         #rewrite @try_files {http.matchers.file.relative}
 
         # This properly deals with react routes.
-        try_files {path} {path}/ /index.html
+        # try_files {path} {path}/ /index.html
 
         # On OCP we should log to stdout so Prometheus can
         # slurp up the logs for human consumption.
@@ -152,10 +147,10 @@ objects:
         app: foi-request-form
         role: api
       ports:
-        - name: 8000-tcp
-          port: 8000
+        - name: 7085-tcp
+          port: 7085
           protocol: TCP
-          targetPort: 8000
+          targetPort: 7085
   - apiVersion: v1
     kind: Service
     metadata:
@@ -207,22 +202,22 @@ objects:
           containers:
             - name: api
               image: " "
-              # startupProbe:
-              #   httpGet:
-              #     path: /api/v1/ehlo
-              #     port: 8000
-              #   failureThreshold: 11
-              #   periodSeconds: 3
-              # readinessProbe:
-              #   httpGet:
-              #     path: /api/v1/ehlo
-              #     port: 8000
-              #   timeoutSeconds: 3
+              startupProbe:
+                httpGet:
+                  path: /api/v1/configs
+                  port: 7085
+                failureThreshold: 10
+                periodSeconds: 3
+              readinessProbe:
+                httpGet:
+                  path: /api/v1/configs
+                  port: 7085
+                timeoutSeconds: 3
               ports:
                 - containerPort: 7085
               envFrom: 
-                # - secretRef:
-                #     name: api-creds
+                - secretRef:
+                    name: api-creds
                 - configMapRef:
                     name: api-config
               resources:
@@ -358,30 +353,15 @@ parameters:
   - name: FOI_REQUEST_SMTP_SECURE
     description:
     required: true
-  - name: FOI_REQUEST_INBOX
-    description:
-    required: true
   - name: FOI_REQUEST_SENDER
     description:
     required: true
-  - name: FOI_KC_REALM
-    description:
-    required: true
   - name: FOI_KC_URL
-    description:
-    required: true
-  - name: FOI_KC_CLIENTID
-    description:
-    required: true
-  - name: FOI_KC_SECRET
     description:
     required: true
   - name: FOI_KC_SSL_REQUIRED
     description:
     required: true
   - name: FOI_KC_PUBLIC_CLIENT
-    description:
-    required: true
-  - name: JWKS_URI
     description:
     required: true
