@@ -41,6 +41,11 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# OpenShift
+*-secret.yaml
+*-secret.json
+*-secret.properties
+
 # SSL
 *.pem
 *.key
