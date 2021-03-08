@@ -80,6 +80,21 @@ transom
       next();
     });
 
+    server.get('/api/v1/configs', function (req, res, next) {
+      const kcConfigs = {
+        realm:process.env.FOI_KC_REALM,
+        url:process.env.FOI_KC_URL,
+        clientId:process.env.FOI_KC_CLIENTID,
+        credentials:process.env.FOI_KC_CREDENTIALS,
+        secret:process.env.FOI_KC_SECRET,
+        sslRequired:process.env.FOI_KC_SSL_REQUIRED,
+        publicClient:process.env.FOI_KC_PUBLIC_CLIENT
+
+      }
+      res.json(kcConfigs);
+      next();
+    });
+
     server.use(function(req,res,next){
       req.log.info("(" + req.method + ")" + req.url);
       next();

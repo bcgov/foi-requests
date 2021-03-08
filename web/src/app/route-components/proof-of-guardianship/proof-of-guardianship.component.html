@@ -1,0 +1,98 @@
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+  <div class="foi-content">
+    <p *ngIf="proofFor == 'child'">
+      To make sure we give personal information about a child only to a person who has the right to access it, we need
+      to verify your right to access the child’s records.
+    </p>
+    <p *ngIf="proofFor == 'person'">
+      To make sure we give personal information only to a person who has the right to access it, we need to verify your
+      right to access the person’s records.
+    </p>
+    <h2 *ngIf="proofFor == 'child'">Do you have proof of guardianship of the child?</h2>
+    <h2 *ngIf="proofFor == 'person'">Do you have permission to access records on behalf of this person?</h2>
+    <!-- <div> -->
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <div class="form-group">
+        <label>
+          <input type="radio" value="true" formControlName="answerYes" />
+          Yes
+        </label>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="radio" value="false" formControlName="answerYes" />
+          No
+        </label>
+      </div>
+    </form>
+
+    <div *ngIf="showAlert">
+      <app-alert-warning *ngIf="proofFor == 'child'">
+        You must have proof of guardianship to access records about a child. If you don’t have it, please visit our
+        website to view your options. You may complete and sign a <a
+        href="https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/initiatives-plans-strategies/open-government/open-information/guardianship_declaration_form_-_new_version_-_nov_8.docx"
+        _target="blank"
+        >Guardian Declaration Form</a
+      > in order to establish your right to access the requested records.
+      </app-alert-warning>
+      <app-alert-warning *ngIf="proofFor == 'person'">
+        You must have permission to access records on someone else’s behalf. Each ministry or agency has a unique form
+        which you must fill out and have the person sign. For more information about authorization and consent, please
+        review the
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information/freedom-of-information/submit-an-foi-request-for-someone-else"
+          _target="blank"
+          >resources on our website.</a
+        >
+      </app-alert-warning>
+    </div>
+
+    <!-- </div> -->
+  </div>
+
+  <div class="sidebar">
+    <div *ngIf="proofFor == 'child'">
+      <h2>More information</h2>
+      <h3>What is proof of guardianship?</h3>
+      <p>
+        Proof of guardianship may include a court order,
+        <a
+          href="https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/initiatives-plans-strategies/open-government/open-information/guardianship_declaration_form_-_new_version_-_nov_8.docx"
+          _target="blank"
+          >declaration form</a
+        >, or similar legal document. If you aren’t sure if you have the right documentation, visit our website to find
+        out more.
+      </p>
+      <app-static-contact-block></app-static-contact-block>
+    </div>
+    <div *ngIf="proofFor == 'person'">
+      <h2>More information</h2>
+      <h3>How do I get permission to access someone’s records?</h3>
+      <p>
+        You must have permission to access records on someone else’s behalf.
+      </p>
+      <p>
+        Each ministry or agency has a unique form which you must fill out and have the person sign.
+      </p>
+      <ul>
+        <li>
+          <a
+            href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information/freedom-of-information/forms-for-foi"
+            _target="blank"
+            >Ministry authorization for release forms</a
+          >
+        </li>
+      </ul>
+      <p>
+        For more information about authorization and consent, please review the
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information/freedom-of-information/submit-an-foi-request-for-someone-else"
+          _target="blank"
+          >resources on our website.</a
+        >
+      </p>
+
+      <app-static-contact-block></app-static-contact-block>
+    </div>
+  </div>
+</foi-base>
