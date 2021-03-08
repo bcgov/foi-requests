@@ -19,8 +19,8 @@ jobs:
           node-version: "12"
       - name: Install dependencies
         run: npm ci
-      - name: Unit tests w/ coverage
-        run: npm run test -- --coverage --passWithNoTests
+      - name: Unit tests
+        run: npm run test
       # - name: LINTing
       #   run: npm run test:lint
       # - name: Upload coverage report
