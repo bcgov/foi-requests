@@ -145,7 +145,7 @@ describe('emailLayout', function() {
     fx.map(fxName => {
       expect(emailLayout[fxName]).to.exist;
     });
-    expect(Object.keys(emailLayout).length).to.equal(14);
+    expect(Object.keys(emailLayout).length).to.equal(15);
   });
 
   it('should render table and headers', function() {

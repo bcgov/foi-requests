@@ -1,22 +1,36 @@
 <foi-base [continueDisabled]="!foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
-    <h2>Verify your identity</h2>
+    <!--<h2 *ngIf="!isAuthenticated">Verify your identity</h2> -->
+    <h2>Complete your profile</h2>
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <p>
+      <p *ngIf="!isAuthenticated">
           To ensure personal information is only provided to a person with the right to access it, we need to verify your identity.
       </p>
+      <div class="alert alert-info" role="alert" *ngIf="isAuthenticated">
+        Information in a grey box has been collected from your BC Services Card and cannot be changed. Please enter additional information to complete your profile.
+      </div>
       <div class="form-group row">
-        <div class="col-lg-6">
+        <div class="col-lg-6" *ngIf="!isAuthenticated">
           <app-foi-valid
             [form]="foiForm"
             maxLength="First name is longer than the maximum {requiredLength} characters."
-            required="First name is a required field."
+            required="{{isAuthenticated?'': 'First name is a required field.'}}"
           >
             <label>First name:</label>
             <input formControlName="firstName" />
           </app-foi-valid>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6" *ngIf="isAuthenticated">
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Given name is longer than the maximum {requiredLength} characters."
+            required="{{isAuthenticated?'': 'Given name is a required field.'}}"
+          >
+            <label>Given names:</label>
+            <input formControlName="firstName" />
+          </app-foi-valid>
+        </div>
+        <div class="col-lg-6" *ngIf="!isAuthenticated">
           <app-foi-valid
             [form]="foiForm"
             maxLength="Middle name is longer than the maximum {requiredLength} characters."
@@ -30,7 +44,7 @@
           <app-foi-valid
             [form]="foiForm"
             maxLength="Last name is longer than the maximum {requiredLength} characters."
-            required="Last name is a required field."
+            required="{{isAuthenticated?'': 'Last name is a required field.'}}"
           >
             <label>Last name:</label>
             <input formControlName="lastName" />
@@ -52,7 +66,7 @@
             [form]="foiForm"
             required="Birth Date is a required field."
             noFuture="Birth Date must not be in the future."
-            validDate="Birth Date must be a valid date." 
+            validDate="Birth Date must be a valid date."
             [dateTimeTrigger]="dt1"
           >
             <label>Birth Date:</label>
@@ -66,9 +80,15 @@
             [form]="foiForm"
             maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
           >
-            <label>Business/Organization name:</label>
+            <label>Business/Organization name:
+              <div class="px-4 font-italic">
+                <fa-icon icon="info-circle" size="1x"></fa-icon>
+                <small><strong>[If you are a law firm:</strong> Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.]</small>
+              </div>
+            </label>
             <input formControlName="businessName" />
           </app-foi-valid>
+
         </div>
       </div>
     </form>
@@ -85,11 +105,11 @@
     <p>We need your full name and your birthdate to verify your identity.</p>
     <h3>What can I request records about?</h3>
     <p>
-      You can request records from government ministries or agencies using this service. 
+      You can request records from government ministries or agencies using this service.
     </p>
     <p>
-      You <i>cannot</i> use this service to request information about Crown corporations, 
-      school districts, health authorities, police, public colleges, and universities, 
+      You <i>cannot</i> use this service to request information about Crown corporations,
+      school districts, health authorities, police, public colleges, and universities,
       as these institutions all have their own Freedom of Information (FOI) processes.
     </p>
     <p>

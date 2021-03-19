@@ -1,16 +1,16 @@
 {
   "referenceData": {
     "ministries": [
-      { "code": "AEST", "name": "Advanced Education, Skills and Training" },
-      { "code": "AGRI", "name": "Agriculture" },
-      { "code": "AG", "name": "Attorney General" },
+      { "code": "AEST", "name": "Advanced Education and Skills Training" },
+      { "code": "AGRI", "name": "Agriculture, Food, and Fisheries" },
+      { "code": "AG", "name": "Attorney General (and Minister Responsible for Housing)" },
       { "code": "PSA", "name": "BC Public Service Agency" },
       { "code": "MCF", "name": "Children and Family Development" },
       { "code": "CITZ", "name": "Citizens’ Services" },
-      { "code": "EMBC", "name": "Emergency Management BC" },
       { "code": "EDUC", "name": "Education" },
-      { "code": "EMPR", "name": "Energy, Mines and Petroleum Resources" },
-      { "code": "ENV", "name": "Environment and Climate Change Strategy" },
+      { "code": "EMBC", "name": "Emergency Management BC" },
+      { "code": "EMPR", "name": "Energy, Mines and Low Carbon Innovation (and Minister Responsible for the Consular Corps of British Columbia)" },
+      { "code": "ENV", "name": "Environment and Climate Change Strategy (and Minister Responsible for Translink)" },
       { "code": "EAO", "name": "Environmental Assessment Office" },
       { "code": "FIN", "name": "Finance" },
       {
@@ -21,16 +21,16 @@
         "code": "GCPE",
         "name": "Government Communications and Public Engagement"
       },
-      { "code": "HLTH", "name": "Health" },
+      { "code": "HLTH", "name": "Health (and Minister Responsible for Francophone Affairs)" },
       { "code": "IRR", "name": "Indigenous Relations and Reconciliation" },
-      { "code": "JTT", "name": "Jobs, Economic Development and Competitiveness" },
+      { "code": "JTT", "name": "Jobs, Economic Recovery and Innovation" },
       { "code": "LBR", "name": "Labour" },
       { "code": "MMHA", "name": "Mental Health and Addictions" },
-      { "code": "MAH", "name": "Municipal Affairs and Housing" },
+      { "code": "MAH", "name": "Municipal Affairs" },
       { "code": "PREM", "name": "Office of the Premier" },
       { "code": "PSSG", "name": "Public Safety and Solicitor General" },
       { "code": "SDPR", "name": "Social Development and Poverty Reduction" },
-      { "code": "TAC", "name": "Tourism, Arts and Culture" },
+      { "code": "TAC", "name": "Tourism, Arts, Culture and Sport" },
       { "code": "TRAN", "name": "Transportation and Infrastructure" }
     ],
     "topicYourself": [
@@ -55,7 +55,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicAnother": [
@@ -80,7 +79,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicYourselfAnother": [
@@ -105,7 +103,6 @@
         "ministryCode": "MCF"
       },
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
-      { "value": "communityLiving", "text": "Community Living BC", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ]
   },
@@ -115,7 +112,7 @@
     { "route": "getting-started2", "progress": 1 },
     {
       "route": "getting-started3",
-      "progress": 2,
+      "progress": 3,
       "choices": {
         "general": {
           "routes": [
@@ -133,6 +130,7 @@
         },
         "personal": {
           "routes": [
+            { "route": "choose-identity", "progress": 1 },
             {
               "route": "personal/select-about",
               "progress": 2,

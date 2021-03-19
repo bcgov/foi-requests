@@ -3,6 +3,7 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
+import { KeycloakService } from '../../services/keycloak.service';
 
 @Component({
   templateUrl: './contact-info-options.component.html',
@@ -24,13 +25,32 @@ export class ContactInfoOptionsComponent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = 'contactInfoOptions';
+  isAuthenticated:boolean = false;
+  tip = ''
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
   ngOnInit() {
+    // Update email if the user is authenticated
+    const token = this.keycloak.getDecodedToken();
+    this.isAuthenticated = (token !== undefined && token.sub !== undefined);
+    this.foiForm = this.fb.group({
+      email: [{value: token.email, disabled: this.isAuthenticated}],
+      phonePrimary: [null],
+      phoneSecondary: [null],
+      address: [null],
+      city: [null],
+      postal: [null],
+      province: [null],
+      country: [null]
+    });
+    this.tip = this.isAuthenticated ? '' : 'Email address is required for electronic delivery' ;
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
-    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+    if (this.isAuthenticated) {
+      this.foiRequest.requestData.contactInfoOptions.email = token.email;
+    }
+    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey], {emitEvent: true});
   }
 
   /**
@@ -39,7 +59,7 @@ export class ContactInfoOptionsComponent implements OnInit {
   allowContinue() {
     const formData = this.foiForm.value;
     let result = false;
-    if (formData.email) {
+    if (formData.email || this.keycloak.getDecodedToken().email) {
       result = true;
     }
     if (formData.phonePrimary) {
@@ -56,6 +76,7 @@ export class ContactInfoOptionsComponent implements OnInit {
 
   doContinue() {
     // Update save data & proceed.
+    this.foiForm.controls.email.enable()
     this.dataService.setCurrentState(
       this.foiRequest,
       this.targetKey,
@@ -72,7 +93,7 @@ export class ContactInfoOptionsComponent implements OnInit {
       // Personal non-Adoption can skip over the previous route, 'adoptive-parents'.
       this.base.goSkipBack();
       return;
-    }    
+    }
     this.base.goFoiBack();
   }
 }

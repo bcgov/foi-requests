@@ -1,23 +1,25 @@
-import { Component, OnInit } from "@angular/core";
-import { DataService } from "./services/data.service";
-import { FoiRoute } from "./models/FoiRoute";
-import { Router, NavigationEnd } from "@angular/router";
-import { filter } from "rxjs/operators";
-import { FoiRouterService } from "./foi-router.service";
+import { Component, OnInit } from '@angular/core';
+import { DataService } from './services/data.service';
+import { FoiRoute } from './models/FoiRoute';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { FoiRouterService } from './foi-router.service';
+import {WindowRefService} from './services/window-ref.service';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = "bcfoi";
+  title = 'bcfoi';
 
   currentRoute: FoiRoute;
-  currentRouteIndex: number = 0;
+  currentRouteIndex = 0;
 
-  constructor(private dataService: DataService, private router: Router, private foiRouter: FoiRouterService) {
-    const rootRoute: FoiRoute = dataService.getRoute("/");
+  // tslint:disable-next-line:max-line-length
+  constructor(private dataService: DataService, private router: Router, private foiRouter: FoiRouterService , private windowRef: WindowRefService) {
+    const rootRoute: FoiRoute = dataService.getRoute('/');
 
     /**
      * Update the CurrentRoute is a User reloads the page or navigates manually.
@@ -27,6 +29,8 @@ export class AppComponent implements OnInit {
       if (navTo) {
         this.setCurrentRoute(navTo);
       }
+      // console.log('%c snowplow trackPageView invoked for URL:' + navRoute.url , 'color: blue' ,)
+      windowRef.nativeWindow.snowplow('trackPageView');
     });
 
     /**
@@ -71,7 +75,7 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    * @param route - the FoiRoute currently being displayed.
    */
   private setCurrentRoute(route: FoiRoute) {

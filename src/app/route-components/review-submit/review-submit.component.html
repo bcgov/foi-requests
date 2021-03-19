@@ -10,13 +10,18 @@
               <div>
                 <div class="inline-wrap">
                   <span class="form-control review-inline">{{ foiRequest.requestData.contactInfo.firstName }}</span>
-                  <div class="review-inline-label">First</div>
+                  <div class="review-inline-label">{{authToken? 'Given':'First'}}</div>
                 </div>
                 <div class="inline-wrap">
                   <span class="form-control review-inline">{{ foiRequest.requestData.contactInfo.lastName }}</span>
                   <div class="review-inline-label">Last</div>
                 </div>
               </div>
+            </div>
+
+            <div class="form-group" *ngIf="foiRequest.requestData.contactInfo.birthDate">
+              <label>Date of Birth:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfo.birthDate | date }}</span>
             </div>
 
             <div class="form-group">
@@ -139,7 +144,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="!authToken">
               <label>Captcha:</label>
               <captcha
                 #captchaComponent
@@ -172,7 +177,7 @@
         <img [src]="getBase64Data('personFileAttachment')" >
       </div>
     </div> -->
-  
+
     <div class="row">
       <div class="col-lg-6"></div>
       <div class="col-lg-6">
