@@ -71,7 +71,7 @@ export class MockDataService {
 
   getMinistries(): Observable<any[]> {
     return of([
-      { code: "AEST", name: "Advanced Education and Skills and Training" },
+      { code: "AEST", name: "Advanced Education and Skills Training" },
       { code: "AGRI", name: "Agriculture, Food, and Fisheries" },
       { code: "AG", name: "Attorney General (and Minister Responsible for Housing)" },
       { code: "PSSG", name: "Public Safety and Solicitor General" }
