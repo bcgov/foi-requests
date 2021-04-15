@@ -46,7 +46,7 @@ objects:
     data:
       Caddyfile: |
         http://${SOURCE_HOST_NAME}:2015 {
-            redir https://${DESTINATION_HOST_NAME} 301
+            redir https://${DESTINATION_HOST_NAME} permanent
             respond /ehlo 200
 
             log {
