@@ -7,7 +7,7 @@ var wav = require('wav');
 var text2wav = require('text2wav');
 var arrayBufferToBuffer = require('arraybuffer-to-buffer');
 var streamifier = require('streamifier');
-var lame = require('lame');
+//var lame = require('lame'); //ToDO: Remove for Production deployment
 
 function captchaInit(options) {
 
@@ -149,48 +149,51 @@ function captchaInit(options) {
    */
   ////////////////////////////////////////////////////////
   function getMp3DataUriFromText(text, language = 'en') {
-    return new Promise(async function(resolve) {
-      // init wave reader, used to convert WAV to PCM
-      var reader = new wav.Reader();
+    return true;
+    //ToDO: Remove for Production deployment start
+    // return new Promise(async function(resolve) {
+    //   // init wave reader, used to convert WAV to PCM
+    //   var reader = new wav.Reader();
 
-      // we have to wait for the "format" event before we can start encoding
-      reader.on('format', function(format) {
-        // init encoder
-        var encoder = new lame.Encoder(format);
+    //   // we have to wait for the "format" event before we can start encoding
+    //   reader.on('format', function(format) {
+    //     // init encoder
+    //     var encoder = new lame.Encoder(format);
 
-        // Pipe Wav reader to the encoder and capture the output stream
-        // As the stream is encoded, convert the mp3 array buffer chunks into base64 string with mime type
-        var dataUri = 'data:audio/mp3;base64,';
-        encoder.on('data', function(arrayBuffer) {
-          if (!dataUri) {
-            return;
-          }
-          dataUri += arrayBuffer.toString('base64');
-          // by observation encoder hung before finish due to event loop being empty
-          // setTimeout injects an event to mitigate the issue
-          setTimeout(() => {}, 0);
-        });
+    //     // Pipe Wav reader to the encoder and capture the output stream
+    //     // As the stream is encoded, convert the mp3 array buffer chunks into base64 string with mime type
+    //     var dataUri = 'data:audio/mp3;base64,';
+    //     encoder.on('data', function(arrayBuffer) {
+    //       if (!dataUri) {
+    //         return;
+    //       }
+    //       dataUri += arrayBuffer.toString('base64');
+    //       // by observation encoder hung before finish due to event loop being empty
+    //       // setTimeout injects an event to mitigate the issue
+    //       setTimeout(() => {}, 0);
+    //     });
 
-        // When encoding is complete, callback with data uri
-        encoder.on('finish', function() {
-          resolve(dataUri);
-          dataUri = undefined;
-        });
-        reader.pipe(encoder);
-      });
+    //     // When encoding is complete, callback with data uri
+    //     encoder.on('finish', function() {
+    //       resolve(dataUri);
+    //       dataUri = undefined;
+    //     });
+    //     reader.pipe(encoder);
+    //   });
 
-      // Generate audio, Base64 encoded WAV in DataUri format including mime type header
-      text2wav(text, { voice: language }).then(function(audioArrayBuffer) {
-        // convert to buffer
-        var audioBuffer = arrayBufferToBuffer(audioArrayBuffer);
+    //   // Generate audio, Base64 encoded WAV in DataUri format including mime type header
+    //   text2wav(text, { voice: language }).then(function(audioArrayBuffer) {
+    //     // convert to buffer
+    //     var audioBuffer = arrayBufferToBuffer(audioArrayBuffer);
 
-        // Convert ArrayBuffer to Streamable type for input to the encoder
-        var audioStream = streamifier.createReadStream(audioBuffer);
+    //     // Convert ArrayBuffer to Streamable type for input to the encoder
+    //     var audioStream = streamifier.createReadStream(audioBuffer);
 
-        // once all events setup we can the pipeline
-        audioStream.pipe(reader);
-      });
-    });
+    //     // once all events setup we can the pipeline
+    //     audioStream.pipe(reader);
+    //   });
+    // });
+    //ToDO: Remove for Production deployment end
   }
 
   function verifyJWTResponse(token, nonce) {

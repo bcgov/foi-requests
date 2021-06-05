@@ -51,7 +51,9 @@ module.exports = {
     functions: {
       submitFoiRequest: {
         methods: ['POST'],
-        preMiddleware: [apiAuth.verifyJWTResponseMiddleware, apiCaptcha.verifyJWTResponseMiddleware],
+        //ToDO: Remove for Production deployment
+        //preMiddleware: [apiAuth.verifyJWTResponseMiddleware, apiCaptcha.verifyJWTResponseMiddleware],
+        preMiddleware: [apiAuth.verifyJWTResponseMiddleware],
         function: customFunctions.submitFoiRequest
       }
     }

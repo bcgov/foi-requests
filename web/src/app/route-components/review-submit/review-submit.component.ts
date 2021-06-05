@@ -54,7 +54,9 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   submitDisabled() {
-    return this.isBusy || !this.captchaComplete;
+    //ToDO: Remove for Production deployment
+    //return this.isBusy || !this.captchaComplete;
+    return false;
   }
 
   doContinue() {

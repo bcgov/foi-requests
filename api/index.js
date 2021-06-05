@@ -103,10 +103,11 @@ transom
     // ************************************************************************
     // Handle Captcha routes
     // ************************************************************************
-    server.post('/api/captcha', apiCaptcha.getCaptcha);
-    server.post('/api/captcha/verify', apiCaptcha.verifyCaptcha);
-    server.post('/api/captcha/audio', apiCaptcha.getCaptchaAudio);
-
+    ////ToDO: Remove for Production deployment start
+    // server.post('/api/captcha', apiCaptcha.getCaptcha);
+    // server.post('/api/captcha/verify', apiCaptcha.verifyCaptcha);
+    // server.post('/api/captcha/audio', apiCaptcha.getCaptchaAudio);
+    ////ToDO: Remove for Production deployment end
     // ************************************************************************
     // Handle 404 errors when a route is undefined.
     // ************************************************************************
