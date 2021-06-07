@@ -2,6 +2,7 @@
 const fs = require('fs');
 const EmailLayout = require('./emailLayout');
 const restifyErrors = require('restify-errors');
+const { RequestAPI } = require('./requestApiLayout');
 
 function submitFoiRequest(server, req, res, next) {
   const transomMailer = server.registry.get('transomSmtp');
@@ -10,6 +11,10 @@ function submitFoiRequest(server, req, res, next) {
 
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
+
+  const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
+  const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;
+  const requestAPI = new RequestAPI();
 
   req.params.requestData = JSON.parse(req.params.requestData);
 
@@ -22,10 +27,18 @@ function submitFoiRequest(server, req, res, next) {
 
   const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
   const foiAttachments = [];
+  const filesBase64 = [];
   if (req.files) {
     Object.keys(req.files).map(f => {
       const file = req.files[f];
       if (file.size < maxAttachBytes) {
+        const filedata = fs.readFileSync(file.path, {encoding: 'base64'});
+       
+        filesBase64.push({
+          filename:file.name,
+          base64data:filedata
+        });
+
         foiAttachments.push({
           filename: file.name,
           path: file.path
@@ -63,6 +76,14 @@ function submitFoiRequest(server, req, res, next) {
       // }, 5000);
     }
   );
+   //data.params["requestData"].Attachments = ["file.docx","TEST BASE64"];
+   console.log("calling RAW FOI Request");
+   if (req.files) {
+     data.params["requestData"].Attachments = filesBase64;
+   }
+   console.log(`data.params = ${JSON.stringify(data.params)}`);  
+   const apiRespose = requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
+   console.log(`apiResponse = ${apiRespose}`);
 }
 
 module.exports = { submitFoiRequest };
