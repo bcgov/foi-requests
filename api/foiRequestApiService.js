@@ -1,8 +1,9 @@
-/**
- * Keep the email layout functions together, outside of index.js
- */
- 'use strict';
-const FileReader = require('filereader');
+/* Request API integration 
+ *  FOI-Flow python API is getting invoked here
+ *  Save raw request data to DB
+*/
+ 
+'use strict';
 const axios = require("axios");
 
 function RequestAPI() {

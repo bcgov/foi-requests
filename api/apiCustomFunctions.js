@@ -1,14 +1,17 @@
+/* Submit FOI Request
+ *  1. Save raw request data to DB
+ *  2. Send email with request details
+*/
+
 'use strict';
 const fs = require('fs');
 const EmailLayout = require('./emailLayout');
 const restifyErrors = require('restify-errors');
-const { RequestAPI } = require('./requestApiLayout');
+const { RequestAPI } = require('./foiRequestApiService');
 
 const submitFoiRequest = async (server, req, res, next) => {
-  //ToDO: Remove for Production deployment
-  //const transomMailer = server.registry.get('transomSmtp');
-  console.log('submit request')
-  const emailLayout = new EmailLayout();
+  
+  const emailLayout = new EmailLayout();  
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 
   const MAX_ATTACH_MB = 5;
@@ -24,7 +27,7 @@ const submitFoiRequest = async (server, req, res, next) => {
     params: req.params,
     files: req.files
   };
-  req.log.info(`Sending message to ${foiRequestInbox}`, data);
+  req.log.info(`Sending message to ${foiRequestInbox}`, data);  
   
   const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
   const foiAttachments = [];
@@ -53,60 +56,38 @@ const submitFoiRequest = async (server, req, res, next) => {
       }
     });
   }
-//ToDO: Remove for Production deployment start
-  // transomMailer.sendFromNoReply(
-  //   {
-  //     subject: 'New FOI Request',
-  //     to: foiRequestInbox,
-  //     html: foiHtml,
-  //     attachments: foiAttachments
-  //   },
-  //   (err, response) => {
-  //     // Delete all attachments on the submission.
-  //     foiAttachments.map(file => {
-  //       fs.unlinkSync(file.path);
-  //     });
-  //     // After files are deleted, process the result.
-  //     // setTimeout(()=> {
-  //       if (err) {
-  //         req.log.info('Failed:', err);
-  //         const unavailable = new restifyErrors.ServiceUnavailableError(err.message || 'Service is unavailable.');
-  //         return next(unavailable);
-  //       }
-  //       req.log.info('Sent!', response);
-  //       res.send({ result: 'success' });
-  //       next();
-  //     // }, 5000);
-  //   }
-  // );
-  //ToDO: Remove for Production deployment end
-
-  //data.params["requestData"].Attachments = ["file.docx","TEST BASE64"];
+  
   console.log("calling RAW FOI Request");
   if (req.files) {
     data.params["requestData"].Attachments = filesBase64;
   }
-  // console.log(`data.params = ${JSON.stringify(data.params)}`);  
   try {
   const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
   console.log(`API response = ${response.status}`);
-  if(response.status === 200  && response.data.status) {
-    req.log.info('Success!', response.data.message);    
+  if(response.status === 200  && response.data.status) {        
+
+    // var sentResponse = await sendEmail(foiHtml,foiAttachments);    
+    
+    // if(sentResponse.EmailSuccess) {      
+    //   req.log.info('Success:', response.data.message);
+    //   res.send({ result: 'success' });
+    //   next();
+    // }
+    // else {
+    //   console.log(sentResponse.message);
+    //   const unavailable = new restifyErrors.ServiceUnavailableError(sentResponse.message || 'Service is unavailable.');
+    //   return next(unavailable);
+    // }
+    req.log.info('Success:', response.data.message);
     res.send({ result: 'success' });
     next();
    }
-   else if(response.status !== 200) {
+   else {
     req.log.info('Failed:', response);
     const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
     return next(unavailable);
-   }
-   else if( response !== undefined && response.data !== null)
-   {
-    req.log.info('Failed:', response);
-    const unavailable = new restifyErrors.ServiceUnavailableError(response.data.message || 'Service is unavailable.');
-    return next(unavailable);
-   }
+   }  
   }
    catch(error){
      console.log(`${error}`);
@@ -116,4 +97,37 @@ const submitFoiRequest = async (server, req, res, next) => {
    }
 }
 
+const sendEmail = async (foiHtml, foiAttachments) => {
+  var EmailSuccess = true;
+  var message = "";
+  const transomMailer = server.registry.get('transomSmtp');  
+  transomMailer.sendFromNoReply(
+    {
+      subject: 'New FOI Request',
+      to: foiRequestInbox,
+      html: foiHtml,
+      attachments: foiAttachments
+    },
+    (err, response) => {
+      // Delete all attachments on the submission.
+      foiAttachments.map(file => {
+        fs.unlinkSync(file.path);
+      });
+      // After files are deleted, process the result.
+      // setTimeout(()=> {
+        if (err) {
+          EmailSuccess = false;
+          req.log.info('Failed:', err);
+          message = err.message;          
+        }
+        else{
+          EmailSuccess = true;         
+          message = "Email Sent Successfully";
+          req.log.info('EmailSent:', response);
+        }        
+      // }, 5000);
+    });
+    console.log(`bool : ${EmailSuccess}, errorMessage: ${errorMessage}`);
+    return { EmailSuccess, message };
+}
 module.exports = { submitFoiRequest };
