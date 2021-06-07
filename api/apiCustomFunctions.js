@@ -4,9 +4,9 @@ const EmailLayout = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./requestApiLayout');
 
-async function submitFoiRequest(server, req, res, next) {
+const submitFoiRequest = async (server, req, res, next) => {
   //ToDO: Remove for Production deployment
-  // const transomMailer = server.registry.get('transomSmtp');
+  //const transomMailer = server.registry.get('transomSmtp');
   console.log('submit request')
   const emailLayout = new EmailLayout();
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
@@ -86,9 +86,34 @@ async function submitFoiRequest(server, req, res, next) {
   if (req.files) {
     data.params["requestData"].Attachments = filesBase64;
   }
-  console.log(`data.params = ${JSON.stringify(data.params)}`);  
-  const apiRespose = requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
-  console.log(`apiResponse = ${apiRespose}`);
+  // console.log(`data.params = ${JSON.stringify(data.params)}`);  
+  try {
+  const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
+  
+  console.log(`API response = ${response.status}`);
+  if(response.status === 200  && response.data.status) {
+    req.log.info('Success!', response.data.message);    
+    res.send({ result: 'success' });
+    next();
+   }
+   else if(response.status !== 200) {
+    req.log.info('Failed:', response);
+    const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+    return next(unavailable);
+   }
+   else if( response !== undefined && response.data !== null)
+   {
+    req.log.info('Failed:', response);
+    const unavailable = new restifyErrors.ServiceUnavailableError(response.data.message || 'Service is unavailable.');
+    return next(unavailable);
+   }
+  }
+   catch(error){
+     console.log(`${error}`);
+     req.log.info('Failed:', error);
+     const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+     return next(unavailable);
+   }
 }
 
 module.exports = { submitFoiRequest };
