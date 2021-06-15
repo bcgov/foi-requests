@@ -230,7 +230,7 @@ function captchaInit(options) {
         console.log('Request is already validated'+req.userDetails.firstName);
         return next();
       }
-      console.log('req.verified ',req.verified )
+      
       var token = req.headers[CAPTCHA_TOKEN_HEADER.toLowerCase()] || '';
       token = token.replace('Bearer ', '');
       var nonce = req.headers[CAPTCHA_NONCE_HEADER];
