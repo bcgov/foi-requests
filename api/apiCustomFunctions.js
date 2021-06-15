@@ -127,7 +127,7 @@ const sendEmail = async (foiRequestInbox, foiHtml, foiAttachments, server) => {
         }        
       // }, 5000);
     });
-    console.log(`bool : ${EmailSuccess}, errorMessage: ${errorMessage}`);
+    console.log(`Sent Email? : ${EmailSuccess}, Message: ${message}`);
     return { EmailSuccess, message };
 }
 module.exports = { submitFoiRequest };
