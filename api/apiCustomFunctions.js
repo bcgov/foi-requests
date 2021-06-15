@@ -67,7 +67,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   console.log(`API response = ${response.status}`);
   if(response.status === 200  && response.data.status) {        
 
-    var sentResponse = await sendEmail(foiHtml,foiAttachments);    
+    var sentResponse = await sendEmail(foiHtml, foiAttachments, server);    
     
     if(sentResponse.EmailSuccess) {      
       req.log.info('Success:', response.data.message);
@@ -97,7 +97,7 @@ const submitFoiRequest = async (server, req, res, next) => {
    }
 }
 
-const sendEmail = async (foiHtml, foiAttachments) => {
+const sendEmail = async (foiHtml, foiAttachments, server) => {
   var EmailSuccess = true;
   var message = "";
   const transomMailer = server.registry.get('transomSmtp');  
