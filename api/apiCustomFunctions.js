@@ -62,6 +62,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   }
 
   try {
+  console.log('Before apiUrl request', {apiUrl, data: data.params})
   const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
   console.log(`API response = ${response.status}`);
