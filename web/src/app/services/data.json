@@ -13,14 +13,8 @@
       { "code": "ENV", "name": "Environment and Climate Change Strategy (and Minister Responsible for Translink)" },
       { "code": "EAO", "name": "Environmental Assessment Office" },
       { "code": "FIN", "name": "Finance" },
-      {
-        "code": "FLNR",
-        "name": "Forests, Lands, Natural Resource Operations and Rural Development"
-      },
-      {
-        "code": "GCPE",
-        "name": "Government Communications and Public Engagement"
-      },
+      { "code": "FLNR", "name": "Forests, Lands, Natural Resource Operations and Rural Development" },
+      { "code": "GCPE", "name": "Government Communications and Public Engagement" },
       { "code": "HLTH", "name": "Health (and Minister Responsible for Francophone Affairs)" },
       { "code": "IRR", "name": "Indigenous Relations and Reconciliation" },
       { "code": "JERI", "name": "Jobs, Economic Recovery and Innovation" },
