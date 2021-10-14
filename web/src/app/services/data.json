@@ -126,8 +126,8 @@
             { "route": "general/contact-info-options", "progress": 3 },
             { "route": "general/review-submit", "progress": 4 },
             { "route": "general/payment", "progress": 5 },
-            { "route": "general/payment-complete", "progress": 6 },
-            { "route": "general/submit-complete", "progress": 7 }
+            { "route": "general/payment-complete", "progress": 5 },
+            { "route": "general/submit-complete", "progress": 6 }
           ]
         },
         "personal": {
@@ -164,7 +164,7 @@
                       "progress": 3
                     },
                     { "route": "personal/review-submit", "progress": 4 },
-                    { "route": "personal/submit-complete", "progress": 4 }
+                    { "route": "personal/submit-complete", "progress": 6 }
                   ]
                 },
                 "child": {
