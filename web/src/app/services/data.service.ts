@@ -242,6 +242,11 @@ export class DataService {
     return this.apiClient.postFoiRequest(foiRequest);
   }
 
+  getFeeDetails(feeCode: String, details?: Object): Observable<any> {
+
+    return this.apiClient.getFeeDetails(feeCode, details);
+  }
+
   /**
    * Create a flattened copy of the routes defined in data.json.
    * This makes it simpler to derermine what are the

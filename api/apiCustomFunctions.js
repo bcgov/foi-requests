@@ -22,6 +22,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   const requestAPI = new RequestAPI();
 
   req.params.requestData = JSON.parse(req.params.requestData);
+  const needsPayment = req.params.requestData.requestType?.requestType === 'general'
 
   const data = {
     envMessage: process.env.NODE_ENV,
@@ -60,19 +61,24 @@ const submitFoiRequest = async (server, req, res, next) => {
   if (req.files) {
     data.params["requestData"].Attachments = filesBase64;
   }
-
   try {
-  console.log('Before apiUrl request', {apiUrl, data: data.params})
   const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
-  
+ 
   console.log(`API response = ${response.status}`);
-  if(response.status === 200  && response.data.status) {        
+  if(response.status === 200  && response.data.status ) {
 
-    var sentResponse = await sendEmail(foiRequestInbox, foiHtml, foiAttachments, server);    
+    // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
+    if(needsPayment) {
+      req.log.info('Success:', response.data.message);
+      res.send({ result: 'success', id: response.data.id });
+      return next();
+    }
+
+    const sentResponse = await sendEmail(foiHtml,foiAttachments);    
     
     if(sentResponse.EmailSuccess) {      
       req.log.info('Success:', response.data.message);
-      res.send({ result: 'success' });
+      res.send({ result: 'success', id: response.data.id });
       next();
     }
     else {
@@ -80,9 +86,6 @@ const submitFoiRequest = async (server, req, res, next) => {
       const unavailable = new restifyErrors.ServiceUnavailableError(sentResponse.message || 'Service is unavailable.');
       return next(unavailable);
     }
-    // req.log.info('Success:', response.data.message);
-    // res.send({ result: 'success' });
-    // next();
    }
    else {
     req.log.info('Failed:', response);
@@ -98,7 +101,7 @@ const submitFoiRequest = async (server, req, res, next) => {
    }
 }
 
-const sendEmail = async (foiRequestInbox, foiHtml, foiAttachments, server) => {
+const sendEmail = async (foiHtml, foiAttachments) => {
   var EmailSuccess = true;
   var message = "";
   const transomMailer = server.registry.get('transomSmtp');  
