@@ -1,15 +1,25 @@
+/* Submit FOI Request
+ *  1. Save raw request data to DB
+ *  2. Send email with request details
+*/
+
 'use strict';
 const fs = require('fs');
 const EmailLayout = require('./emailLayout');
 const restifyErrors = require('restify-errors');
+const { RequestAPI } = require('./foiRequestApiService');
 
-function submitFoiRequest(server, req, res, next) {
-  const transomMailer = server.registry.get('transomSmtp');
-  const emailLayout = new EmailLayout();
+const submitFoiRequest = async (server, req, res, next) => {
+  
+  const emailLayout = new EmailLayout();  
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
+
+  const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
+  const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;
+  const requestAPI = new RequestAPI();
 
   req.params.requestData = JSON.parse(req.params.requestData);
   const needsPayment = req.params.requestData.requestType?.requestType === 'general'
@@ -19,14 +29,22 @@ function submitFoiRequest(server, req, res, next) {
     params: req.params,
     files: req.files
   };
-  req.log.info(`Sending message to ${foiRequestInbox}`, data);
-
+  req.log.info(`Sending message to ${foiRequestInbox}`, data);  
+  
   const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
   const foiAttachments = [];
+  const filesBase64 = [];
   if (req.files) {
     Object.keys(req.files).map(f => {
-      const file = req.files[f];
-      if (file.size < maxAttachBytes) {
+      const file = req.files[f];      
+      if (file.size < maxAttachBytes) {                
+         const filedata = fs.readFileSync(file.path, {encoding: 'base64'});
+       
+        filesBase64.push({
+          filename:file.name,
+          base64data:filedata
+        });
+        
         foiAttachments.push({
           filename: file.name,
           path: file.path
@@ -102,16 +120,18 @@ const sendEmail = async (foiHtml, foiAttachments) => {
       // After files are deleted, process the result.
       // setTimeout(()=> {
         if (err) {
+          EmailSuccess = false;
           req.log.info('Failed:', err);
-          const unavailable = new restifyErrors.ServiceUnavailableError(err.message || 'Service is unavailable.');
-          return next(unavailable);
+          message = err.message;          
         }
-        req.log.info('Sent!', response);
-        res.send({ result: 'success' });
-        next();
+        else{
+          EmailSuccess = true;         
+          message = "Email Sent Successfully";
+          req.log.info('EmailSent:', response);
+        }        
       // }, 5000);
-    }
-  );
+    });
+    console.log(`Sent Email? : ${EmailSuccess}, Message: ${message}`);
+    return { EmailSuccess, message };
 }
-
 module.exports = { submitFoiRequest };
