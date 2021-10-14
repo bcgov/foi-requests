@@ -23,11 +23,13 @@ import { FoiRequest, BlobFile } from "./models/FoiRequest";
 })
 export class TransomApiClientService  {
   public baseUrl: string;
+  public requestManagementUrl: string
   private headers: any;
   public currentUser: User;
 
   constructor(public http: HttpClient, private storage: LocalStorageService) {
     this.baseUrl = "/api/v1";
+    this.requestManagementUrl = "";
     this.headers = {};
   }
   
@@ -95,6 +97,15 @@ export class TransomApiClientService  {
     }
 
     const obs = this.http.post(url, body, {
+      headers: this.headers
+    });
+    return this.handleResponse(obs);
+  }
+
+  getFeeDetails(feeCode: String, details?: Object): Observable<any> {
+    const url = this.requestManagementUrl + `/payments/${feeCode}`
+
+    const obs = this.http.post(url, JSON.stringify(details), {
       headers: this.headers
     });
     return this.handleResponse(obs);

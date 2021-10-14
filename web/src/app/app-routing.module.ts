@@ -20,7 +20,7 @@ import { RequestTopicComponent } from './route-components/request-topic/request-
 import { ReviewSubmitCompleteComponent } from './route-components/review-submit-complete/review-submit-complete.component';
 import { AdoptiveParentsComponent } from './route-components/adoptive-parents/adoptive-parents.component';
 import { SigninComponent } from './route-components/signin/signin.component';
-
+import { PaymentComponent } from './route-components/payment/payment.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'general/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'general/review-submit', component: ReviewSubmitComponent },
   { path: 'general/submit-complete', component: ReviewSubmitCompleteComponent},
+  { path: 'general/payment', component: PaymentComponent},
 
   // Personal
   { path: 'personal/select-about', component: SelectAboutComponent },

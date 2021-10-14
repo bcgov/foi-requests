@@ -60,6 +60,10 @@ export class ReviewSubmitComponent implements OnInit {
   doContinue() {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
+
+    this.foiRequest.requestData.requestId = result.id;
+    this.dataService.setCurrentState(this.foiRequest);
+
       this.isBusy = false;
       // If the user is authenticated, logout the user
       if(this.keycloakService.isAuthenticated()) {
