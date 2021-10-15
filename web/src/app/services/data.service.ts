@@ -5,6 +5,7 @@ import { FoiRoute } from '../models/FoiRoute';
 import { FoiRequest, BlobFile } from '../models/FoiRequest';
 import { TransomApiClientService } from '../transom-api-client.service';
 import { FormGroup } from '@angular/forms';
+import { FeeRequestDetails } from '../models/FeeRequestDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -242,9 +243,38 @@ export class DataService {
     return this.apiClient.postFoiRequest(foiRequest);
   }
 
-  getFeeDetails(feeCode: String, details?: Object): Observable<any> {
+  /**
+   * Fetches the fee details according to the fee code and the quantity of the fee units.
+   * A selected ministry could be a fee unit and the number of selected ministries could be the quantity.
+   *
+   * @param feeCode
+   * @param date
+   * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
+   */
+  getFeeDetails(feeCode: String, date: string, details?: FeeRequestDetails): Observable<any> {
+    const quantity = details? this.calculateUnitFeeQuantity(details) : 1;
 
-    return this.apiClient.getFeeDetails(feeCode, details);
+    /*
+    uncomment to test page
+    return of({fee: 10})
+    */
+
+    return this.apiClient.getFeeDetails(feeCode, quantity, date);
+  }
+
+  /**
+   * Calculates the quantity of fee units.
+   * e.g. total fee amount could be fee * number of ministries selected (fee units)
+   *
+   * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
+   */
+  private calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
+    if(!details.selectedMinistry || details.selectedMinistry.length < 2) {
+      return 1;
+    }
+
+    //current calculation is just the number of selected ministries
+    return details.selectedMinistry.length;
   }
 
   /**

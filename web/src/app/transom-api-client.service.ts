@@ -29,7 +29,7 @@ export class TransomApiClientService  {
 
   constructor(public http: HttpClient, private storage: LocalStorageService) {
     this.baseUrl = "/api/v1";
-    this.requestManagementUrl = "";
+    this.requestManagementUrl = "/api";
     this.headers = {};
   }
   
@@ -102,10 +102,10 @@ export class TransomApiClientService  {
     return this.handleResponse(obs);
   }
 
-  getFeeDetails(feeCode: String, details?: Object): Observable<any> {
-    const url = this.requestManagementUrl + `/payments/${feeCode}`
+  getFeeDetails(feeCode: String, quantity: Number, date: string): Observable<any> {
+    const url = this.requestManagementUrl + `/payments/${feeCode}?quantity=${quantity}&date=${date}`
 
-    const obs = this.http.post(url, JSON.stringify(details), {
+    const obs = this.http.get(url, {
       headers: this.headers
     });
     return this.handleResponse(obs);
