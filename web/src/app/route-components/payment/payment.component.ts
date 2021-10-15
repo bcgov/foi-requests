@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
+import { FeeRequestDetails } from 'src/app/models/FeeRequestDetails';
 
 @Component({
   selector: 'app-payment',
@@ -22,11 +23,12 @@ export class PaymentComponent implements OnInit {
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
 
-    const feeDetails = {
+    const feeDetails: FeeRequestDetails = {
       selectedMinistry: this.foiRequest.requestData[this.ministryKey].ministry
     }
+    const currentDate = new Date();
 
-    this.dataService.getFeeDetails(this.feeCode, feeDetails).subscribe(result => {
+    this.dataService.getFeeDetails(this.feeCode, currentDate.toISOString(), feeDetails).subscribe(result => {
       this.fee = result.fee;
       this.isBusy = false;
     }, error => {
