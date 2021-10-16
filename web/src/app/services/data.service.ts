@@ -6,6 +6,7 @@ import { FoiRequest, BlobFile } from '../models/FoiRequest';
 import { TransomApiClientService } from '../transom-api-client.service';
 import { FormGroup } from '@angular/forms';
 import { FeeRequestDetails } from '../models/FeeRequestDetails';
+import { CreateTransactionRequest, UpdateTransactionRequest } from '../models/Transaction';
 
 @Injectable({
   providedIn: 'root'
@@ -260,6 +261,16 @@ export class DataService {
     */
 
     return this.apiClient.getFeeDetails(feeCode, quantity, date);
+  }
+
+  createTransaction(transactionRequest: CreateTransactionRequest) {
+
+    return this.apiClient.createTransaction(transactionRequest);
+  }
+  
+  updateTransaction(updateTransactionRequest: UpdateTransactionRequest) {
+
+    return this.apiClient.updateTransaction(updateTransactionRequest);    
   }
 
   /**
