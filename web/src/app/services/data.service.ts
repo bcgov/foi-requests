@@ -112,6 +112,22 @@ export class DataService {
     });
   }
 
+  saveAuthToken(value: string): void {
+    sessionStorage.setItem("authToken", value);
+  }
+
+  getAuthToken(): string {
+    return sessionStorage.getItem("authToken");
+  }
+
+  saveCaptchaNonce(value: string): void {
+    sessionStorage.setItem("captchaNonce", value);
+  }
+
+  getCaptchaNonce(): string {
+    return sessionStorage.getItem("captchaNonce");
+  }
+
   getShowBanner() {
     return sessionStorage.getItem('showBanner');
   }
@@ -213,7 +229,7 @@ export class DataService {
    * @param nonce
    * @param foiRequest - A structure containing the complete request
    */
-  submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
+  submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
     this.apiClient.setHeader('Authorization', 'Bearer ' + authToken);
     this.apiClient.setHeader('captcha-nonce', nonce);
     foiRequest.attachments = [];

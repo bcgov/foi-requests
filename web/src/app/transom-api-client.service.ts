@@ -86,8 +86,8 @@ export class TransomApiClientService  {
    * the functions object of apiDefinition.js (line 122)
    * @param body The body to post to the request.
    */
-  postFoiRequest(foiRequest: FoiRequest): Observable<any> {
-    const functionName = "submitFoiRequest";
+  postFoiRequest(foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
+    const functionName = sendEmailOnly ? "submitFoiRequestEmail" : "submitFoiRequest";
     const url = this.baseUrl + `/fx/${functionName}`;
 
     const body: FormData = new FormData();
