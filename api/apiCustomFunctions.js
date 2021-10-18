@@ -89,14 +89,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 
   req.params.requestData = JSON.parse(req.params.requestData);
 
-  const data = {
-    envMessage: process.env.NODE_ENV,
-    params: req.params,
-    files: req.files
-  };
-  req.log.info(`Sending message to ${foiRequestInbox}`, data);  
+  req.log.info(`Sending message to ${foiRequestInbox}`, req.params);  
   
-  const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
+  const foiHtml = emailLayout.renderEmail(req.params,req.isAuthorised,req.userDetails);
   const foiAttachments = getAttachments(req, maxAttachBytes, next);  
 
   try {
