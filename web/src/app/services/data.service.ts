@@ -257,7 +257,7 @@ export class DataService {
       }
     }
 
-    return this.apiClient.postFoiRequest(foiRequest);
+    return this.apiClient.postFoiRequest(foiRequest, sendEmailOnly);
   }
 
   /**

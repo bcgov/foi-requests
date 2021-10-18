@@ -50,7 +50,7 @@ export class PaymentComponent implements OnInit {
     this.doCreateTransaction()
       .subscribe(transactionDetails => {
         if(transactionDetails.paySystemUrl) {
-          this.windowRefService.goToUrl(transactionDetails.paySystemUr)
+          this.windowRefService.goToUrl(transactionDetails.paySystemUrl)
         }
         else {
           this.transactionError();
@@ -62,7 +62,7 @@ export class PaymentComponent implements OnInit {
   }
 
   private transactionError() {
-    this.isBusy = false;
+    this.payBusy = false;
     alert('Temporary unable to proceed to payment. Please try again in a few minutes.');
   }
 
