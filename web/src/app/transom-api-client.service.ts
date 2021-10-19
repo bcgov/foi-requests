@@ -126,8 +126,8 @@ export class TransomApiClientService  {
     return this.handleResponse(obs);
   }
 
-  getFeeDetails(feeCode: String, quantity: Number, date: string): Observable<any> {
-    const url = this.requestManagementUrl + `/payments/${feeCode}?quantity=${quantity}&date=${date}`
+  getFeeDetails(feeCode: String, quantity: Number): Observable<any> {
+    const url = this.requestManagementUrl + `/payments/${feeCode}?quantity=${quantity}`
 
     const obs = this.http.get(url, {
       headers: this.headers

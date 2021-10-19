@@ -14,7 +14,7 @@ export class PaymentCompleteComponent implements OnInit {
   busy= true;
   completeBusy= false;
   paymentSuccess= false;
-  transactionId = null;
+  paymentId = null;
   requestId= null;
   payResponseUrl= null;
   foiRequest: FoiRequest;
@@ -24,10 +24,13 @@ export class PaymentCompleteComponent implements OnInit {
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.transactionId = params.transactionId
+    this.route.queryParams.subscribe(queryParams => console.log(queryParams))
+    this.route.params.subscribe(params => {
+      console.log(params)
+      console.log(window.location.href.split('?')[1])
+      this.paymentId = params.paymentId
       this.requestId = params.requestId;
-      this.payResponseUrl = params.payResponseUrl;
+      this.payResponseUrl = window.location.href.split('?')[1]
       this.updateTransaction();
     });
     this.foiRequest = this.dataService.getCurrentState();
@@ -37,7 +40,7 @@ export class PaymentCompleteComponent implements OnInit {
 
   updateTransaction() {
     this.dataService.updateTransaction({
-      transactionId: this.transactionId,
+      paymentId: this.paymentId,
       requestId: this.requestId,
       payResponseUrl: this.payResponseUrl
     }).subscribe(result => {

@@ -3,9 +3,7 @@
  */
  export interface CreateTransactionRequest {
      feeCode: string,
-     fee: string,
-     requestId: Number
-     payReturnUrl: string
+     quantity: Number
 }
 
 /**
@@ -13,6 +11,6 @@
  */
  export interface UpdateTransactionRequest {
     payResponseUrl: string,
-    transactionId: Number,
+    paymentId: Number,
     requestId: Number
 }

@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'general/review-submit', component: ReviewSubmitComponent },
   { path: 'general/submit-complete', component: ReviewSubmitCompleteComponent},
   { path: 'general/payment', component: PaymentComponent},
-  { path: 'general/payment-complete', component: PaymentCompleteComponent},
+  { path: 'general/payment-complete/:requestId/:paymentId', component: PaymentCompleteComponent},
 
   // Personal
   { path: 'personal/select-about', component: SelectAboutComponent },

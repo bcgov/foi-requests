@@ -18,18 +18,18 @@ export class PaymentComponent implements OnInit {
   isBusy = true;
   payBusy = false;
   ministryKey = "ministry"
+  feeDetails: FeeRequestDetails;
 
   constructor(private dataService: DataService, private windowRefService: WindowRefService ) { }
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
 
-    const feeDetails: FeeRequestDetails = {
+    this.feeDetails = {
       selectedMinistry: this.foiRequest.requestData[this.ministryKey].ministry
     }
-    const currentDate = new Date();
 
-    this.dataService.getFeeDetails(this.feeCode, currentDate.toISOString(), feeDetails).subscribe(result => {
+    this.dataService.getFeeDetails(this.feeCode, this.feeDetails).subscribe(result => {
       this.fee = result.fee;
       this.isBusy = false;
     }, error => {
@@ -69,9 +69,7 @@ export class PaymentComponent implements OnInit {
   private doCreateTransaction () {
     return this.dataService.createTransaction({
       feeCode: this.feeCode,
-      fee: this.fee,
-      requestId: this.foiRequest.requestData.requestId,
-      payReturnUrl: this.getReturnUrl()
+      quantity: this.dataService.calculateUnitFeeQuantity(this.feeDetails),
     })
   }
 

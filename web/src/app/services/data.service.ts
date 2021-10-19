@@ -268,7 +268,7 @@ export class DataService {
    * @param date
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
-  getFeeDetails(feeCode: String, date: string, details?: FeeRequestDetails): Observable<any> {
+  getFeeDetails(feeCode: String, details?: FeeRequestDetails): Observable<any> {
     const quantity = details? this.calculateUnitFeeQuantity(details) : 1;
 
     /*
@@ -276,7 +276,7 @@ export class DataService {
     return of({fee: 10})
     */
 
-    return this.apiClient.getFeeDetails(feeCode, quantity, date);
+    return this.apiClient.getFeeDetails(feeCode, quantity);
   }
 
   createTransaction(transactionRequest: CreateTransactionRequest) {
@@ -295,7 +295,7 @@ export class DataService {
    *
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
-  private calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
+  calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
     if(!details.selectedMinistry || details.selectedMinistry.length < 2) {
       return 1;
     }
