@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
     this.foiRequest = this.dataService.getCurrentState();
 
     const feeDetails: FeeRequestDetails = {
-      selectedMinistry: this.foiRequest.requestData[this.ministryKey].ministry
+      selectedMinistry: this.foiRequest.requestData[this.ministryKey].selectedMinistry
     }
     const currentDate = new Date();
 
