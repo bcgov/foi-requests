@@ -108,9 +108,14 @@ export class TransomApiClientService  {
   }
 
   createTransaction(transactionRequest): Observable<any> {
+    const {feeCode, quantity} = transactionRequest
+    
     const url = this.requestManagementUrl + `/foirequests/${transactionRequest.requestId}/payments`;
 
-    const obs = this.http.post(url, JSON.stringify(transactionRequest), {
+    const obs = this.http.post(url, JSON.stringify({
+      fee_code: feeCode,
+      quantity: quantity
+    }), {
       headers: this.headers
     });
     return this.handleResponse(obs);

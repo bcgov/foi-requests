@@ -26,11 +26,11 @@ export class PaymentComponent implements OnInit {
     this.foiRequest = this.dataService.getCurrentState();
 
     this.feeDetails = {
-      selectedMinistry: this.foiRequest.requestData[this.ministryKey].ministry
+      selectedMinistry: this.foiRequest.requestData[this.ministryKey].selectedMinistry
     }
 
     this.dataService.getFeeDetails(this.feeCode, this.feeDetails).subscribe(result => {
-      this.fee = result.fee;
+      this.fee = result.total;
       this.isBusy = false;
     }, error => {
       this.isBusy = false;
@@ -68,7 +68,7 @@ export class PaymentComponent implements OnInit {
 
   private doCreateTransaction () {
     return this.dataService.createTransaction({
-      fee_code: this.feeCode,
+      feeCode: this.feeCode,
       quantity: this.dataService.calculateUnitFeeQuantity(this.feeDetails),
       requestId: this.foiRequest.requestData.requestId
     })

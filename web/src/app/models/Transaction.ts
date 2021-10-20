@@ -2,7 +2,7 @@
  * Interface definition for the create transaction request.
  */
  export interface CreateTransactionRequest {
-     fee_code: string,
+     feeCode: string,
      quantity: Number,
      requestId: Number
 }
@@ -11,7 +11,7 @@
  * Interface definition for the update of transactions.
  */
  export interface UpdateTransactionRequest {
-    response_url: string,
+    responseUrl: string,
     paymentId: Number,
     requestId: Number
 }

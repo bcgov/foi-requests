@@ -24,7 +24,6 @@ export class DataService {
   getRoute(routeUrl: string): FoiRoute {
     // Remove any query parameters and (possibly) a leading slash.
     const path = (routeUrl || '/').split('?')[0].replace(/^\/+/g, '');
-    return this.foiRoutes.find(r => r.route === path);
     return this.foiRoutes.find(r => {
       if(r.pattern) {
         return path.match(r.pattern)
