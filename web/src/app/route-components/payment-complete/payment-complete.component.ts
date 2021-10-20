@@ -24,10 +24,7 @@ export class PaymentCompleteComponent implements OnInit {
   constructor(private dataService: DataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(queryParams => console.log(queryParams))
     this.route.params.subscribe(params => {
-      console.log(params)
-      console.log(window.location.href.split('?')[1])
       this.paymentId = params.paymentId
       this.requestId = params.requestId;
       this.payResponseUrl = window.location.href.split('?')[1]
@@ -42,9 +39,9 @@ export class PaymentCompleteComponent implements OnInit {
     this.dataService.updateTransaction({
       paymentId: this.paymentId,
       requestId: this.requestId,
-      payResponseUrl: this.payResponseUrl
+      response_url: this.payResponseUrl
     }).subscribe(result => {
-      if (result.statusCode === 'COMPLETED') {
+      if (result.status === 'PAID') {
         this.paymentSuccess = true;
         this.busy = false;
       } else {

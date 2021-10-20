@@ -25,6 +25,12 @@ export class DataService {
     // Remove any query parameters and (possibly) a leading slash.
     const path = (routeUrl || '/').split('?')[0].replace(/^\/+/g, '');
     return this.foiRoutes.find(r => r.route === path);
+    return this.foiRoutes.find(r => {
+      if(r.pattern) {
+        return path.match(r.pattern)
+      }
+      return path === r.route
+    });
   }
 
   getMinistries(): Observable<any[]> {
@@ -232,6 +238,7 @@ export class DataService {
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
     this.apiClient.setHeader('Authorization', 'Bearer ' + authToken);
     this.apiClient.setHeader('captcha-nonce', nonce);
+    this.apiClient.removeHeader('Content-Type')
     foiRequest.attachments = [];
 
     if (foiRequest.requestData.childInformation) {
@@ -280,11 +287,13 @@ export class DataService {
   }
 
   createTransaction(transactionRequest: CreateTransactionRequest) {
+    this.apiClient.setHeader('Content-Type', 'application/json');
 
     return this.apiClient.createTransaction(transactionRequest);
   }
   
   updateTransaction(updateTransactionRequest: UpdateTransactionRequest) {
+    this.apiClient.setHeader('Content-Type', 'application/json');
 
     return this.apiClient.updateTransaction(updateTransactionRequest);    
   }

@@ -37,6 +37,10 @@ export class TransomApiClientService  {
   setHeader(key: string, value: string) {
     this.headers[key] = value;
   }
+  
+  removeHeader(key: string) {
+    delete this.headers[key]
+  }
   /**
    * Generic API response handler. Passes the response on to the orginal caller
    * and catches any errors as needed using the catchError operator (rxjs).
@@ -104,7 +108,7 @@ export class TransomApiClientService  {
   }
 
   createTransaction(transactionRequest): Observable<any> {
-    const url = this.requestManagementUrl + `/payments/createTransaction`;
+    const url = this.requestManagementUrl + `/foirequests/${transactionRequest.requestId}/payments`;
 
     const obs = this.http.post(url, JSON.stringify(transactionRequest), {
       headers: this.headers
@@ -113,12 +117,12 @@ export class TransomApiClientService  {
   }
 
   updateTransaction(updateTransactionRequest): Observable<any> {
-    const {requestId, payResponseUrl, transactionId} = updateTransactionRequest;
+    const {requestId, response_url, paymentId} = updateTransactionRequest;
 
-    const url = this.requestManagementUrl + `/payments/${requestId}/transactions/${transactionId}`;
+    const url = this.requestManagementUrl + `/foirequests/${requestId}/payments/${paymentId}`;
 
-    const obs = this.http.patch(url, JSON.stringify({      
-      payResponseUrl: payResponseUrl
+    const obs = this.http.put(url, JSON.stringify({      
+      response_url: response_url
     }), {
       headers: this.headers
     });
@@ -127,7 +131,7 @@ export class TransomApiClientService  {
   }
 
   getFeeDetails(feeCode: String, quantity: Number): Observable<any> {
-    const url = this.requestManagementUrl + `/payments/${feeCode}?quantity=${quantity}`
+    const url = this.requestManagementUrl + `/fees/${feeCode}?quantity=${quantity}`
 
     const obs = this.http.get(url, {
       headers: this.headers

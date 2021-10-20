@@ -14,7 +14,7 @@ export class PaymentComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   fee= null;
   foiRequest: FoiRequest;
-  feeCode = 'FOI010'
+  feeCode = 'FOI0001'
   isBusy = true;
   payBusy = false;
   ministryKey = "ministry"
@@ -49,8 +49,8 @@ export class PaymentComponent implements OnInit {
     this.payBusy = true;
     this.doCreateTransaction()
       .subscribe(transactionDetails => {
-        if(transactionDetails.paySystemUrl) {
-          this.windowRefService.goToUrl(transactionDetails.paySystemUrl)
+        if(transactionDetails.paybc_url) {
+          this.windowRefService.goToUrl(transactionDetails.paybc_url)
         }
         else {
           this.transactionError();
@@ -68,8 +68,9 @@ export class PaymentComponent implements OnInit {
 
   private doCreateTransaction () {
     return this.dataService.createTransaction({
-      feeCode: this.feeCode,
+      fee_code: this.feeCode,
       quantity: this.dataService.calculateUnitFeeQuantity(this.feeDetails),
+      requestId: this.foiRequest.requestData.requestId
     })
   }
 
