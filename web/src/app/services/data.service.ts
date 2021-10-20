@@ -26,7 +26,7 @@ export class DataService {
     const path = (routeUrl || '/').split('?')[0].replace(/^\/+/g, '');
     return this.foiRoutes.find(r => {
       if(r.pattern) {
-        return path.match(r.pattern)
+        return path.match(r.pattern) !== null
       }
       return path === r.route
     });

@@ -108,13 +108,14 @@ export class TransomApiClientService  {
   }
 
   createTransaction(transactionRequest): Observable<any> {
-    const {feeCode, quantity} = transactionRequest
+    const {feeCode, quantity, returnRoute} = transactionRequest
     
-    const url = this.requestManagementUrl + `/foirequests/${transactionRequest.requestId}/payments`;
+    const url = this.requestManagementUrl + `/foirawrequests/${transactionRequest.requestId}/payments`;
 
     const obs = this.http.post(url, JSON.stringify({
       fee_code: feeCode,
-      quantity: quantity
+      quantity: quantity,
+      return_route: returnRoute
     }), {
       headers: this.headers
     });
@@ -122,12 +123,12 @@ export class TransomApiClientService  {
   }
 
   updateTransaction(updateTransactionRequest): Observable<any> {
-    const {requestId, response_url, paymentId} = updateTransactionRequest;
+    const {requestId, responseUrl, paymentId} = updateTransactionRequest;
 
-    const url = this.requestManagementUrl + `/foirequests/${requestId}/payments/${paymentId}`;
+    const url = this.requestManagementUrl + `/foirawrequests/${requestId}/payments/${paymentId}`;
 
     const obs = this.http.put(url, JSON.stringify({      
-      response_url: response_url
+      response_url: responseUrl
     }), {
       headers: this.headers
     });

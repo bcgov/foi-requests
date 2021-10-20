@@ -16,7 +16,7 @@ export class PaymentCompleteComponent implements OnInit {
   paymentSuccess= false;
   paymentId = null;
   requestId= null;
-  payResponseUrl= null;
+  responseUrl= null;
   foiRequest: FoiRequest;
   authToken= null;
   captchaNonce= null;
@@ -27,7 +27,7 @@ export class PaymentCompleteComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.paymentId = params.paymentId
       this.requestId = params.requestId;
-      this.payResponseUrl = window.location.href.split('?')[1]
+      this.responseUrl = window.location.href.split('?')[1]
       this.updateTransaction();
     });
     this.foiRequest = this.dataService.getCurrentState();
@@ -39,7 +39,7 @@ export class PaymentCompleteComponent implements OnInit {
     this.dataService.updateTransaction({
       paymentId: this.paymentId,
       requestId: this.requestId,
-      response_url: this.payResponseUrl
+      responseUrl: this.responseUrl
     }).subscribe(result => {
       if (result.status === 'PAID') {
         this.paymentSuccess = true;

@@ -4,7 +4,8 @@
  export interface CreateTransactionRequest {
      feeCode: string,
      quantity: Number,
-     requestId: Number
+     requestId: Number,
+     returnRoute: string
 }
 
 /**
