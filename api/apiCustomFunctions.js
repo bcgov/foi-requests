@@ -62,6 +62,7 @@ const submitFoiRequest = async (server, req, res, next) => {
     data.params["requestData"].Attachments = filesBase64;
   }
   try {
+  omitSensitiveData(data.params.requestData)
   const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
  
   console.log(`API response = ${response.status}`);
@@ -73,7 +74,6 @@ const submitFoiRequest = async (server, req, res, next) => {
       res.send({ result: 'success', id: response.data.id });
       return next();
     }
-
     const sentResponse = await sendEmail(foiHtml,foiAttachments);    
     
     if(sentResponse.EmailSuccess) {      
@@ -134,4 +134,11 @@ const sendEmail = async (foiHtml, foiAttachments) => {
     console.log(`Sent Email? : ${EmailSuccess}, Message: ${message}`);
     return { EmailSuccess, message };
 }
+
+const omitSensitiveData = (requestData) => {
+  delete requestData.descriptionTimeframe;
+  delete requestData.contactInfo;
+  delete requestData.contactInfoOptions;
+}
+
 module.exports = { submitFoiRequest };
