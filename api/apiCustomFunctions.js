@@ -11,9 +11,8 @@ const { RequestAPI } = require('./foiRequestApiService');
 
 const submitFoiRequest = async (server, req, res, next) => {
   
-  const emailLayout = new EmailLayout();  
+  const emailLayout = new EmailLayout();
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
-
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
@@ -29,7 +28,6 @@ const submitFoiRequest = async (server, req, res, next) => {
     params: req.params,
     files: req.files
   };
-  req.log.info(`Sending message to ${foiRequestInbox}`, data);  
   
   const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
   const foiAttachments = getAttachments(req, maxAttachBytes, next);
@@ -40,6 +38,7 @@ const submitFoiRequest = async (server, req, res, next) => {
     data.params["requestData"].Attachments = filesBase64;
   }
   try {
+  omitSensitiveData(data.params.requestData)
   const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
  
   console.log(`API response = ${response.status}`);
@@ -51,8 +50,9 @@ const submitFoiRequest = async (server, req, res, next) => {
       res.send({ result: 'success', id: response.data.id });
       return next();
     }
-
-    const sentResponse = await sendEmail(foiHtml,foiAttachments);    
+    
+    req.log.info(`Sending message to ${foiRequestInbox}`, data);  
+    const sentResponse = await sendEmail(foiHtml,foiAttachments, server, foiRequestInbox);    
     
     if(sentResponse.EmailSuccess) {      
       req.log.info('Success:', response.data.message);
@@ -96,7 +96,7 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 
   try {
 
-    const sentResponse = await sendEmail(foiHtml,foiAttachments);    
+    const sentResponse = await sendEmail(foiHtml,foiAttachments, server, foiRequestInbox);    
     
     if(sentResponse.EmailSuccess) {      
       req.log.info('FOI Request email submission success');
@@ -117,14 +117,14 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
    }
 }
 
-const sendEmail = async (foiHtml, foiAttachments) => {
+const sendEmail = async (foiHtml, foiAttachments, server, inbox) => {
   var EmailSuccess = true;
   var message = "";
-  const transomMailer = server.registry.get('transomSmtp');  
+  const transomMailer = server.registry.get('transomSmtp');
   transomMailer.sendFromNoReply(
     {
       subject: 'New FOI Request',
-      to: foiRequestInbox,
+      to: inbox,
       html: foiHtml,
       attachments: foiAttachments
     },
@@ -149,6 +149,12 @@ const sendEmail = async (foiHtml, foiAttachments) => {
     });
     console.log(`Sent Email? : ${EmailSuccess}, Message: ${message}`);
     return { EmailSuccess, message };
+}
+
+const omitSensitiveData = (requestData) => {
+  delete requestData.descriptionTimeframe;
+  delete requestData.contactInfo;
+  delete requestData.contactInfoOptions;
 }
 
 const getAttachments = (req, maxAttachBytes, filesBase64, foiAttachments, next) => {
