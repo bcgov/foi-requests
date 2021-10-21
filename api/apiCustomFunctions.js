@@ -11,9 +11,8 @@ const { RequestAPI } = require('./foiRequestApiService');
 
 const submitFoiRequest = async (server, req, res, next) => {
   
-  const emailLayout = new EmailLayout();  
+  const emailLayout = new EmailLayout();
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
-
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
@@ -74,7 +73,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       res.send({ result: 'success', id: response.data.id });
       return next();
     }
-    const sentResponse = await sendEmail(foiHtml,foiAttachments);    
+    const sentResponse = await sendEmail(foiHtml,foiAttachments, server);    
     
     if(sentResponse.EmailSuccess) {      
       req.log.info('Success:', response.data.message);
@@ -101,10 +100,11 @@ const submitFoiRequest = async (server, req, res, next) => {
    }
 }
 
-const sendEmail = async (foiHtml, foiAttachments) => {
+const sendEmail = async (foiHtml, foiAttachments, server) => {
   var EmailSuccess = true;
-  var message = "";
-  const transomMailer = server.registry.get('transomSmtp');  
+  var message = "";  
+  const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
+  const transomMailer = server.registry.get('transomSmtp');
   transomMailer.sendFromNoReply(
     {
       subject: 'New FOI Request',
