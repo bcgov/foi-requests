@@ -21,7 +21,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   const requestAPI = new RequestAPI();
 
   req.params.requestData = JSON.parse(req.params.requestData);
-  const needsPayment = req.params.requestData.requestType?.requestType === 'general'
+  const needsPayment = req.params.requestData.requestType && req.params.requestData.requestType.requestType === 'general';
 
   const data = {
     envMessage: process.env.NODE_ENV,
@@ -157,24 +157,19 @@ const omitSensitiveData = (requestData) => {
   delete requestData.contactInfoOptions;
 }
 
-const getAttachments = (req, maxAttachBytes, filesBase64, foiAttachments, next) => {
+const getAttachments = (req, maxAttachBytes, next) => {
 
   const attachments = [];
   if (req.files) {
     Object.keys(req.files).map(f => {
       const file = req.files[f];
       if (file.size < maxAttachBytes) {
-        const filedata = fs.readFileSync(file.path, { encoding: 'base64' });
-
-        filesBase64.push({
-          filename: file.name,
-          base64data: filedata
-        });
 
         attachments.push({
           filename: file.name,
           path: file.path
         });
+
         return attachments;
       } else {
         const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
