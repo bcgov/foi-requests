@@ -8,4 +8,5 @@ export interface FoiRoute {
     choices?: any;
     data?: any;
     forward?: string;
+    pattern?: string;
 }

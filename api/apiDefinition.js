@@ -53,6 +53,11 @@ module.exports = {
         methods: ['POST'],
         preMiddleware: [apiAuth.verifyJWTResponseMiddleware, apiCaptcha.verifyJWTResponseMiddleware],
         function: customFunctions.submitFoiRequest
+      },
+      submitFoiRequestEmail: {
+        methods: ['POST'],
+        preMiddleware: [apiAuth.verifyJWTResponseMiddleware, apiCaptcha.verifyJWTResponseMiddleware],
+        function: customFunctions.submitFoiRequestEmail
       }
     }
   }

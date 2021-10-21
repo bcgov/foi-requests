@@ -32,30 +32,8 @@ const submitFoiRequest = async (server, req, res, next) => {
   req.log.info(`Sending message to ${foiRequestInbox}`, data);  
   
   const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
-  const foiAttachments = [];
-  const filesBase64 = [];
-  if (req.files) {
-    Object.keys(req.files).map(f => {
-      const file = req.files[f];      
-      if (file.size < maxAttachBytes) {                
-         const filedata = fs.readFileSync(file.path, {encoding: 'base64'});
-       
-        filesBase64.push({
-          filename:file.name,
-          base64data:filedata
-        });
-        
-        foiAttachments.push({
-          filename: file.name,
-          path: file.path
-        });
-      } else {
-        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
-        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
-        return next(tooLarge);
-      }
-    });
-  }
+  const foiAttachments = getAttachments(req, maxAttachBytes, next);
+  const filesBase64 = getFileBase64(req, maxAttachBytes, next);
   
   console.log("calling RAW FOI Request");
   if (req.files) {
@@ -101,6 +79,44 @@ const submitFoiRequest = async (server, req, res, next) => {
    }
 }
 
+const submitFoiRequestEmail = async (server, req, res, next) => {
+  
+  const emailLayout = new EmailLayout();  
+  const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
+
+  const MAX_ATTACH_MB = 5;
+  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
+
+  req.params.requestData = JSON.parse(req.params.requestData);
+
+  req.log.info(`Sending message to ${foiRequestInbox}`, req.params);  
+  
+  const foiHtml = emailLayout.renderEmail(req.params,req.isAuthorised,req.userDetails);
+  const foiAttachments = getAttachments(req, maxAttachBytes, next);  
+
+  try {
+
+    const sentResponse = await sendEmail(foiHtml,foiAttachments);    
+    
+    if(sentResponse.EmailSuccess) {      
+      req.log.info('FOI Request email submission success');
+      res.send({EmailSuccess: true, message: 'success'});
+      next();
+    }
+    else {
+      console.log(sentResponse.message);
+      const unavailable = new restifyErrors.ServiceUnavailableError(sentResponse.message || 'Service is unavailable.');
+      return next(unavailable);
+    }
+  }  
+   catch(error){
+     console.log(`${error}`);
+     req.log.info('Failed:', error);
+     const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+     return next(unavailable);
+   }
+}
+
 const sendEmail = async (foiHtml, foiAttachments) => {
   var EmailSuccess = true;
   var message = "";
@@ -134,4 +150,57 @@ const sendEmail = async (foiHtml, foiAttachments) => {
     console.log(`Sent Email? : ${EmailSuccess}, Message: ${message}`);
     return { EmailSuccess, message };
 }
-module.exports = { submitFoiRequest };
+
+const getAttachments = (req, maxAttachBytes, filesBase64, foiAttachments, next) => {
+
+  const attachments = [];
+  if (req.files) {
+    Object.keys(req.files).map(f => {
+      const file = req.files[f];
+      if (file.size < maxAttachBytes) {
+        const filedata = fs.readFileSync(file.path, { encoding: 'base64' });
+
+        filesBase64.push({
+          filename: file.name,
+          base64data: filedata
+        });
+
+        attachments.push({
+          filename: file.name,
+          path: file.path
+        });
+        return attachments;
+      } else {
+        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
+        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
+        return next(tooLarge);
+      }
+    });
+  }
+}
+
+const getFileBase64 = (req, maxAttachBytes, next) => {
+
+  const filesBase64 = [];
+  if (req.files) {
+    Object.keys(req.files).map(f => {
+      const file = req.files[f];
+      if (file.size < maxAttachBytes) {
+        const filedata = fs.readFileSync(file.path, { encoding: 'base64' });
+
+        filesBase64.push({
+          filename: file.name,
+          base64data: filedata
+        });
+
+        return filesBase64;
+      } else {
+        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
+        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
+        return next(tooLarge);
+      }
+    });
+  }
+}
+
+module.exports = { submitFoiRequest, submitFoiRequestEmail};

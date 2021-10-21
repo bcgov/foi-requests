@@ -5,6 +5,7 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { map, catchError } from "rxjs/operators";
 import { LocalStorageService } from "ngx-webstorage";
 import { FoiRequest, BlobFile } from "./models/FoiRequest";
+import { CreateTransactionRequest } from "./models/Transaction";
 
 /**
  * Generic implementation of calls to the API. It supports making
@@ -35,6 +36,10 @@ export class TransomApiClientService  {
   
   setHeader(key: string, value: string) {
     this.headers[key] = value;
+  }
+  
+  removeHeader(key: string) {
+    delete this.headers[key]
   }
   /**
    * Generic API response handler. Passes the response on to the orginal caller
@@ -85,8 +90,8 @@ export class TransomApiClientService  {
    * the functions object of apiDefinition.js (line 122)
    * @param body The body to post to the request.
    */
-  postFoiRequest(foiRequest: FoiRequest): Observable<any> {
-    const functionName = "submitFoiRequest";
+  postFoiRequest(foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
+    const functionName = sendEmailOnly ? "submitFoiRequestEmail" : "submitFoiRequest";
     const url = this.baseUrl + `/fx/${functionName}`;
 
     const body: FormData = new FormData();
@@ -102,8 +107,37 @@ export class TransomApiClientService  {
     return this.handleResponse(obs);
   }
 
-  getFeeDetails(feeCode: String, quantity: Number, date: string): Observable<any> {
-    const url = this.requestManagementUrl + `/payments/${feeCode}?quantity=${quantity}&date=${date}`
+  createTransaction(transactionRequest): Observable<any> {
+    const {feeCode, quantity, returnRoute} = transactionRequest
+    
+    const url = this.requestManagementUrl + `/foirawrequests/${transactionRequest.requestId}/payments`;
+
+    const obs = this.http.post(url, JSON.stringify({
+      fee_code: feeCode,
+      quantity: quantity,
+      return_route: returnRoute
+    }), {
+      headers: this.headers
+    });
+    return this.handleResponse(obs);
+  }
+
+  updateTransaction(updateTransactionRequest): Observable<any> {
+    const {requestId, responseUrl, paymentId} = updateTransactionRequest;
+
+    const url = this.requestManagementUrl + `/foirawrequests/${requestId}/payments/${paymentId}`;
+
+    const obs = this.http.put(url, JSON.stringify({      
+      response_url: responseUrl
+    }), {
+      headers: this.headers
+    });
+    
+    return this.handleResponse(obs);
+  }
+
+  getFeeDetails(feeCode: String, quantity: Number): Observable<any> {
+    const url = this.requestManagementUrl + `/fees/${feeCode}?quantity=${quantity}`
 
     const obs = this.http.get(url, {
       headers: this.headers

@@ -1,0 +1,24 @@
+<foi-base [showButtons]="false" [continueText]="continueText" [showInfo]="false">
+  <div class="foi-content">
+    <h2>Payment</h2>
+    <p *ngIf="paymentSuccess">
+      We have successfully received your payment. Please proceed to complete your request.
+    </p>
+    <p *ngIf="!paymentSuccess">
+      We had an issue while trying to process your payment. Please retry after a few minutes.
+    </p>
+
+    <div class="buttonbar">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="doContinue()"
+        [disabled]="!paymentSuccess"
+      >
+        Continue
+      </button>
+    </div>
+      
+  </div>
+  
+</foi-base>
