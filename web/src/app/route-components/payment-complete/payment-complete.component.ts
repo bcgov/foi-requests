@@ -31,6 +31,10 @@ export class PaymentCompleteComponent implements OnInit {
       this.updateTransaction();
     });
     this.foiRequest = this.dataService.getCurrentState();
+    
+    this.foiRequest.requestData.requestId = this.paymentId;
+    this.dataService.setCurrentState(this.foiRequest);
+
     this.authToken = this.dataService.getAuthToken();
     this.captchaNonce = this.dataService.getCaptchaNonce();
   }

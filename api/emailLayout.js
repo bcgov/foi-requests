@@ -235,6 +235,18 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Requesting info about', selected.join(' and '));
     }
     return result;
+  };  
+
+  this.requestInformation = function(data) {
+    let result = this.tableHeader('RequestInformation');
+    result += this.tableRow(
+      'Request id',
+      data.requestId
+    );
+    if (data.paymentId) {
+      result += this.tableRow('Payment id', data.paymentId);
+    }
+    return result;
   };
 
   this.renderEmail = function(data ,isAuthorised , authorisedDetails) {
@@ -276,6 +288,14 @@ module.exports = function EmailLayout() {
     content += this.contact(data.requestData.contactInfoOptions || {},isAuthorised);
     // Adoptive Parents
     content += this.adoptiveParents(data.requestData.adoptiveParents || {});
+    // Request info
+    if(data.requestData.requestId) {
+      content += this.requestInformation({
+        requestId: data.requestData.requestId,
+        paymentId: data.requestData.paymentId
+      })
+    }
+
     // Simple footer
     content += this.tableHeader(`Submitted ${new Date().toString()}`);
     content = this.table(content);
