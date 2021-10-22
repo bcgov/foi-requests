@@ -9,16 +9,17 @@ const EmailLayout = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
 
+const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
+const requestAPI = new RequestAPI();
+
 const submitFoiRequest = async (server, req, res, next) => {
   
   const emailLayout = new EmailLayout();
   const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
-
-  const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
-  const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;
-  const requestAPI = new RequestAPI();
+  
+  const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;  
 
   req.params.requestData = JSON.parse(req.params.requestData);
   const needsPayment = req.params.requestData.requestType && req.params.requestData.requestType.requestType === 'general';
@@ -81,8 +82,7 @@ const submitFoiRequest = async (server, req, res, next) => {
 
 const submitFoiRequestEmail = async (server, req, res, next) => {
   
-  const emailLayout = new EmailLayout();  
-  const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
+  const emailLayout = new EmailLayout();
 
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
@@ -115,6 +115,63 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
      const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
      return next(unavailable);
    }
+}
+
+const getFeeDetails = (server, req, res, next) => {
+  const apiUrl = `${foiRequestAPIBackend}/fees/${req.params.feeCode}?quantity=${req.params.quantity}`;
+  requestAPI.invokeGetFeeDetails(apiUrl)
+  .then(response => {
+    return res.json(response.data);
+  })
+  .catch(error => {
+    if(error.response) {
+      return res.send(error.response.status, error.response.data)
+    }
+
+    req.log.info('Failed:', error);
+    const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+    return next(unavailable);
+  })
+  
+}
+
+const createPayment = (server, req, res, next) => {
+  const {requestId, requestData} = req.params;
+
+  const apiUrl = `${foiRequestAPIBackend}/foirawrequests/${requestId}/payments`;
+  requestAPI.invokeCreatePayment(JSON.stringify(requestData), apiUrl)
+  .then(response => {
+    return res.json(response.data);
+  })
+  .catch(error => {
+    if(error.response) {
+      return res.send(error.response.status, error.response.data)
+    }
+    
+    req.log.info('Failed:', error);
+    const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+    return next(unavailable);
+  });  
+}
+
+const updatePayment = (server, req, res, next) => {
+  const {requestId, requestData, paymentId} = req.params;
+
+  const apiUrl = `${foiRequestAPIBackend}/foirawrequests/${requestId}/payments/${paymentId}`;
+
+  requestAPI.invokeUpdatePayment(JSON.stringify(requestData), apiUrl)
+  .then(response => {
+    return res.json(response.data);
+  })
+  .catch(error => {
+    if(error.response) {
+      return res.send(error.response.status, error.response.data)
+    }
+    
+    req.log.info('Failed:', error);
+    const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+    return next(unavailable);
+  });
 }
 
 const sendEmail = async (foiHtml, foiAttachments, server, inbox) => {
@@ -204,4 +261,4 @@ const getFileBase64 = (req, maxAttachBytes, next) => {
   }
 }
 
-module.exports = { submitFoiRequest, submitFoiRequestEmail};
+module.exports = { submitFoiRequest, submitFoiRequestEmail, getFeeDetails, createPayment, updatePayment};
