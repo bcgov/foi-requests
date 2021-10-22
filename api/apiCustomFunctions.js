@@ -10,12 +10,12 @@ const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
 
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
+const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
 
 const submitFoiRequest = async (server, req, res, next) => {
   
   const emailLayout = new EmailLayout();
-  const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
   
