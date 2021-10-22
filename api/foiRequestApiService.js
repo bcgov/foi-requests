@@ -16,6 +16,33 @@ function RequestAPI() {
           };
         return axios.post(apiUrl, data, axiosConfig);
         
-     };   
+     };
+
+     this.invokeGetFeeDetails = (apiUrl) => {
+        const axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json'              
+            }
+          };
+        return axios.get(apiUrl, axiosConfig);        
+     };
+
+     this.invokeCreatePayment = (data, apiUrl) => {
+        const axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json'              
+            }
+          };
+        return axios.post(apiUrl, data, axiosConfig);        
+     };
+
+     this.invokeUpdatePayment = (data, apiUrl) => {
+        const axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json'              
+            }
+          };
+        return axios.put(apiUrl, data, axiosConfig);        
+     };
   };  
   module.exports = { RequestAPI };

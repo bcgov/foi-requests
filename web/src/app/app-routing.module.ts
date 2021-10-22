@@ -21,6 +21,7 @@ import { ReviewSubmitCompleteComponent } from './route-components/review-submit-
 import { AdoptiveParentsComponent } from './route-components/adoptive-parents/adoptive-parents.component';
 import { SigninComponent } from './route-components/signin/signin.component';
 import { PaymentComponent } from './route-components/payment/payment.component';
+import { PaymentCompleteComponent } from './route-components/payment-complete/payment-complete.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'general/review-submit', component: ReviewSubmitComponent },
   { path: 'general/submit-complete', component: ReviewSubmitCompleteComponent},
   { path: 'general/payment', component: PaymentComponent},
+  { path: 'general/payment-complete/:requestId/:paymentId', component: PaymentCompleteComponent},
 
   // Personal
   { path: 'personal/select-about', component: SelectAboutComponent },

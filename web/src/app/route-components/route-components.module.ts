@@ -29,6 +29,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { PaymentComponent } from './payment/payment.component';
+import { PaymentCompleteComponent } from './payment-complete/payment-complete.component';
 
 // Add an icon to the library for convenient access in other components
 library.add(faSpinner);
@@ -58,6 +59,7 @@ library.add(faSpinner);
     AnotherInformationComponent,
     AdoptiveParentsComponent,
     PaymentComponent,
+    PaymentCompleteComponent,
   ],
   imports: [
     // Required to use these in children of RouteComponentsModule

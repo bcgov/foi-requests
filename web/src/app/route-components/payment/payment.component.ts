@@ -3,6 +3,7 @@ import { DataService } from 'src/app/services/data.service';
 import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { FeeRequestDetails } from 'src/app/models/FeeRequestDetails';
+import { WindowRefService } from 'src/app/services/window-ref.service';
 
 @Component({
   selector: 'app-payment',
@@ -13,23 +14,24 @@ export class PaymentComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   fee= null;
   foiRequest: FoiRequest;
-  feeCode = 'FOI010'
+  feeCode = 'FOI0001'
   isBusy = true;
-
+  payBusy = false;
   ministryKey = "ministry"
+  feeDetails: FeeRequestDetails;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private windowRefService: WindowRefService ) { }
 
   ngOnInit() {
+    console.log(this.getReturRoute())
     this.foiRequest = this.dataService.getCurrentState();
 
-    const feeDetails: FeeRequestDetails = {
+    this.feeDetails = {
       selectedMinistry: this.foiRequest.requestData[this.ministryKey].selectedMinistry
     }
-    const currentDate = new Date();
 
-    this.dataService.getFeeDetails(this.feeCode, currentDate.toISOString(), feeDetails).subscribe(result => {
-      this.fee = result.fee;
+    this.dataService.getFeeDetails(this.feeCode, this.feeDetails).subscribe(result => {
+      this.fee = result.total;
       this.isBusy = false;
     }, error => {
       this.isBusy = false;
@@ -45,6 +47,37 @@ export class PaymentComponent implements OnInit {
   }
 
   doContinue() {
+    this.payBusy = true;
+    this.doCreateTransaction()
+      .subscribe(transactionDetails => {
+        if(transactionDetails.paybc_url) {
+          this.windowRefService.goToUrl(transactionDetails.paybc_url)
+        }
+        else {
+          this.transactionError();
+        }
+      }, error => {
+        console.log('Submission failed: ', error);
+        this.transactionError()
+      })
+  }
 
+  private transactionError() {
+    this.payBusy = false;
+    alert('Temporary unable to proceed to payment. Please try again in a few minutes.');
+  }
+
+  private doCreateTransaction () {
+    return this.dataService.createTransaction({
+      feeCode: this.feeCode,
+      quantity: this.dataService.calculateUnitFeeQuantity(this.feeDetails),
+      requestId: this.foiRequest.requestData.requestId,
+      returnRoute: this.getReturRoute()
+    })
+  }
+
+  private getReturRoute() {
+    const nextRoute = this.base.getCurrentRoute() + "-complete";
+    return nextRoute;
   }
 }

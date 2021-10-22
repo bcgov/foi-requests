@@ -63,6 +63,8 @@ export class ReviewSubmitComponent implements OnInit {
 
     this.foiRequest.requestData.requestId = result.id;
     this.dataService.setCurrentState(this.foiRequest);
+    this.dataService.saveAuthToken(this.authToken)
+    this.dataService.saveCaptchaNonce(this.captchaNonce)
 
       this.isBusy = false;
       // If the user is authenticated, logout the user

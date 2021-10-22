@@ -6,6 +6,7 @@ import { FoiRequest, BlobFile } from '../models/FoiRequest';
 import { TransomApiClientService } from '../transom-api-client.service';
 import { FormGroup } from '@angular/forms';
 import { FeeRequestDetails } from '../models/FeeRequestDetails';
+import { CreateTransactionRequest, UpdateTransactionRequest } from '../models/Transaction';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,12 @@ export class DataService {
   getRoute(routeUrl: string): FoiRoute {
     // Remove any query parameters and (possibly) a leading slash.
     const path = (routeUrl || '/').split('?')[0].replace(/^\/+/g, '');
-    return this.foiRoutes.find(r => r.route === path);
+    return this.foiRoutes.find(r => {
+      if(r.pattern) {
+        return path.match(r.pattern) !== null
+      }
+      return path === r.route
+    });
   }
 
   getMinistries(): Observable<any[]> {
@@ -109,6 +115,22 @@ export class DataService {
       };
       reader.readAsDataURL(f);
     });
+  }
+
+  saveAuthToken(value: string): void {
+    sessionStorage.setItem("authToken", value);
+  }
+
+  getAuthToken(): string {
+    return sessionStorage.getItem("authToken");
+  }
+
+  saveCaptchaNonce(value: string): void {
+    sessionStorage.setItem("captchaNonce", value);
+  }
+
+  getCaptchaNonce(): string {
+    return sessionStorage.getItem("captchaNonce");
   }
 
   getShowBanner() {
@@ -212,9 +234,10 @@ export class DataService {
    * @param nonce
    * @param foiRequest - A structure containing the complete request
    */
-  submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest): Observable<any> {
+  submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
     this.apiClient.setHeader('Authorization', 'Bearer ' + authToken);
     this.apiClient.setHeader('captcha-nonce', nonce);
+    this.apiClient.removeHeader('Content-Type')
     foiRequest.attachments = [];
 
     if (foiRequest.requestData.childInformation) {
@@ -240,7 +263,7 @@ export class DataService {
       }
     }
 
-    return this.apiClient.postFoiRequest(foiRequest);
+    return this.apiClient.postFoiRequest(foiRequest, sendEmailOnly);
   }
 
   /**
@@ -251,7 +274,7 @@ export class DataService {
    * @param date
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
-  getFeeDetails(feeCode: String, date: string, details?: FeeRequestDetails): Observable<any> {
+  getFeeDetails(feeCode: String, details?: FeeRequestDetails): Observable<any> {
     const quantity = details? this.calculateUnitFeeQuantity(details) : 1;
 
     /*
@@ -259,16 +282,28 @@ export class DataService {
     return of({fee: 10})
     */
 
-    return this.apiClient.getFeeDetails(feeCode, quantity, date);
+    return this.apiClient.getFeeDetails(feeCode, quantity);
+  }
+
+  createTransaction(transactionRequest: CreateTransactionRequest) {
+    this.apiClient.setHeader('Content-Type', 'application/json');
+
+    return this.apiClient.createTransaction(transactionRequest);
+  }
+  
+  updateTransaction(updateTransactionRequest: UpdateTransactionRequest) {
+    this.apiClient.setHeader('Content-Type', 'application/json');
+
+    return this.apiClient.updateTransaction(updateTransactionRequest);    
   }
 
   /**
    * Calculates the quantity of fee units.
-   * e.g. total fee amount could be fee * number of ministries selected (fee units)
+   * e.g. total fee amount could be fee * number of public bodies selected (fee units)
    *
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
-  private calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
+  calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
     if(!details.selectedMinistry) {
       return null;
     }
