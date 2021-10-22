@@ -299,17 +299,25 @@ export class DataService {
 
   /**
    * Calculates the quantity of fee units.
-   * e.g. total fee amount could be fee * number of ministries selected (fee units)
+   * e.g. total fee amount could be fee * number of public bodies selected (fee units)
    *
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
   calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
-    if(!details.selectedMinistry || details.selectedMinistry.length < 2) {
+    if(!details.selectedMinistry) {
+      return null;
+    }
+
+    if(details.selectedMinistry.length < 2) {
       return 1;
     }
 
-    //current calculation is just the number of selected ministries
-    return details.selectedMinistry.length;
+    // Map to public body then store in Set to get unique ones selected
+    const publicBodySet = new Set(
+      details.selectedMinistry.map(ministry => ministry["publicBody"])
+      )
+      
+    return publicBodySet.size;   
   }
 
   /**
