@@ -110,12 +110,14 @@ export class TransomApiClientService  {
   createTransaction(transactionRequest): Observable<any> {
     const {feeCode, quantity, returnRoute} = transactionRequest
     
-    const url = this.requestManagementUrl + `/foirawrequests/${transactionRequest.requestId}/payments`;
+    const url = this.baseUrl + `/fx/createPayment?requestId=${transactionRequest.requestId}`;
 
     const obs = this.http.post(url, JSON.stringify({
-      fee_code: feeCode,
-      quantity: quantity,
-      return_route: returnRoute
+      requestData: {
+        fee_code: feeCode,
+        quantity: quantity,
+        return_route: returnRoute
+      }
     }), {
       headers: this.headers
     });
@@ -125,10 +127,12 @@ export class TransomApiClientService  {
   updateTransaction(updateTransactionRequest): Observable<any> {
     const {requestId, responseUrl, paymentId} = updateTransactionRequest;
 
-    const url = this.requestManagementUrl + `/foirawrequests/${requestId}/payments/${paymentId}`;
+    const url = this.baseUrl + `/fx/updatePayment?requestId=${requestId}&paymentId=${paymentId}`;
 
-    const obs = this.http.put(url, JSON.stringify({      
-      response_url: responseUrl
+    const obs = this.http.post(url, JSON.stringify({
+      requestData: {
+        response_url: responseUrl
+      }
     }), {
       headers: this.headers
     });
@@ -137,7 +141,7 @@ export class TransomApiClientService  {
   }
 
   getFeeDetails(feeCode: String, quantity: Number): Observable<any> {
-    const url = this.requestManagementUrl + `/fees/${feeCode}?quantity=${quantity}`
+    const url = this.baseUrl + `/fx/fees?feeCode=${feeCode}&quantity=${quantity}`
 
     const obs = this.http.get(url, {
       headers: this.headers

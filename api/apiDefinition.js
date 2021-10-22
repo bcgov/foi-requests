@@ -58,6 +58,18 @@ module.exports = {
         methods: ['POST'],
         preMiddleware: [apiAuth.verifyJWTResponseMiddleware, apiCaptcha.verifyJWTResponseMiddleware],
         function: customFunctions.submitFoiRequestEmail
+      },
+      fees: {
+        methods: ['GET'],
+        function: customFunctions.getFeeDetails
+      },
+      createPayment: {
+        methods: ['POST'],
+        function: customFunctions.createPayment
+      },
+      updatePayment: {
+        methods: ['POST'],
+        function: customFunctions.updatePayment
       }
     }
   }
