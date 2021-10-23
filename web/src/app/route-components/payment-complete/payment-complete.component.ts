@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { DataService } from 'src/app/services/data.service';
 import { BaseComponent } from 'src/app/utils-components/base/base.component';
+import { WindowRefService } from 'src/app/services/window-ref.service';
 
 @Component({
   selector: 'app-payment-complete',
@@ -12,7 +13,6 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 export class PaymentCompleteComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
   busy= true;
-  completeBusy= false;
   paymentSuccess= false;
   paymentId = null;
   requestId= null;
@@ -20,20 +20,34 @@ export class PaymentCompleteComponent implements OnInit {
   foiRequest: FoiRequest;
   authToken= null;
   captchaNonce= null;
+  paybcUrl= null;
+  retry = false;
 
-  constructor(private dataService: DataService, private route: ActivatedRoute) { }
+  transactionNumber = null;
+  amount = null;
+  paymentStatusMessage = null;
 
+  constructor(private dataService: DataService, private route: ActivatedRoute, private windowRefService: WindowRefService) { }
+  
   ngOnInit() {
+    this.route.queryParams.subscribe(queryParams => {
+      this.transactionNumber = queryParams.pbcTxnNumber;
+      this.amount = queryParams.trnAmount;
+      this.paymentStatusMessage = queryParams.messageText;
+    })
+
     this.route.params.subscribe(params => {
       this.paymentId = params.paymentId
       this.requestId = params.requestId;
       this.responseUrl = window.location.href.split('?')[1]
+
+      this.foiRequest = this.dataService.getCurrentState();
+      this.foiRequest.requestData.requestId = this.paymentId;
+      this.dataService.setCurrentState(this.foiRequest);
+
       this.updateTransaction();
+      
     });
-    this.foiRequest = this.dataService.getCurrentState();
-    
-    this.foiRequest.requestData.requestId = this.paymentId;
-    this.dataService.setCurrentState(this.foiRequest);
 
     this.authToken = this.dataService.getAuthToken();
     this.captchaNonce = this.dataService.getCaptchaNonce();
@@ -47,29 +61,38 @@ export class PaymentCompleteComponent implements OnInit {
     }).subscribe(result => {
       if (result.status === 'PAID') {
         this.paymentSuccess = true;
-        this.busy = false;
+        this.submitEmail();
       } else {
         this.paymentSuccess = false;
-        this.busy = false;
+
+        if(result.paybc_url) {
+          this.retry = true;
+          this.paybcUrl = result.paybc_url
+        } else {
+          alert(`It seems there was an error completing your payment of transaction number: ${this.transactionNumber}.`
+          + `Please contact us to investigate`)
+
+        }
       }
     })
   }
 
   doContinue() {
-    this.completeBusy= true;
-    this.submitEmail();
+    this.base.goFoiForward();
+  }
+
+  doRetry() {
+    this.windowRefService.goToUrl(this.paybcUrl)
   }
 
   submitEmail() {
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest, true).subscribe(result => {
-      if(result.EmailSuccess) {
-        this.base.goFoiForward();
+      if(!result.EmailSuccess) {
+        alert('Temporarily unable to complete your request. Please contact us to complete your request.');
       }
-    }, error => {      
-      this.completeBusy = false;
+    }, error => {
       console.log('Email submission failed: ', error);
-      alert('Temporarily unable to complete your request. Please try again in a few minutes.'
-      + ' If you\'re still having issues please contact us to complete your request.');
+      alert('Temporarily unable to complete your request. Please contact us to complete your request.');
     })
   }
 }

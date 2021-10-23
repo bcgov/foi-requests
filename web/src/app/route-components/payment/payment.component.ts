@@ -20,7 +20,7 @@ export class PaymentComponent implements OnInit {
   ministryKey = "ministry"
   feeDetails: FeeRequestDetails;
 
-  constructor(private dataService: DataService, private windowRefService: WindowRefService ) { }
+  constructor(private dataService: DataService, private windowRefService: WindowRefService) { }
 
   ngOnInit() {
     console.log(this.getReturRoute())
