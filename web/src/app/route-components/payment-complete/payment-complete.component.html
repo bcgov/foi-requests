@@ -1,21 +1,29 @@
 <foi-base [showButtons]="false" [showInfo]="false">
-  <div class="foi-content">
+  <div class="foi-content" *ngIf="paymentSuccess !== null">
     <h2>Payment</h2>
     <p *ngIf="paymentSuccess">
-      We have successfully received your payment. Please proceed to complete your request.
+      We have successfully received your payment. You may proceed via the button below.
     </p>
-    <p *ngIf="!paymentSuccess">
-      We had an issue while trying to process your payment. Please retry after a few minutes.
+    <p *ngIf="paymentSuccess === false">
+      We had an issue while trying to complete your payment.
     </p>
+
+    <p>Your payment info</p>
+    <ul>
+      <li *ngIf="transactionNumber">Transaction number: {{transactionNumber}}</li>      
+      <li *ngIf="amount">Amount: ${{amount}}</li>
+    </ul>
+
+    <p>Please write down your transaction number for your reference.</p>
 
     <div class="buttonbar">
       <button
         type="button"
         class="btn btn-primary"
-        (click)="doContinue()"
-        [disabled]="!paymentSuccess"
+        (click)="retry ? doRetry() : doContinue()"
+        [disabled]="(!paymentSuccess && !retry)"
       >
-        Continue
+        {{ retry ? "Retry payment" : "Continue"}}
       </button>
     </div>
       

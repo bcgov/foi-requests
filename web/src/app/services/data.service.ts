@@ -125,12 +125,20 @@ export class DataService {
     return sessionStorage.getItem("authToken");
   }
 
+  removeAuthToken(): void {
+    sessionStorage.removeItem("authToken");
+  }
+
   saveCaptchaNonce(value: string): void {
     sessionStorage.setItem("captchaNonce", value);
   }
 
   getCaptchaNonce(): string {
     return sessionStorage.getItem("captchaNonce");
+  }
+
+  removeCaptchaNonce(): void {
+    sessionStorage.removeItem("captchaNonce");
   }
 
   getShowBanner() {
