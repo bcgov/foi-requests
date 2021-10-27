@@ -25,6 +25,7 @@ export class PaymentCompleteComponent implements OnInit {
 
   transactionNumber = null;
   amount = null;
+  transactionOrderId = null;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private windowRefService: WindowRefService) { }
   
@@ -32,6 +33,7 @@ export class PaymentCompleteComponent implements OnInit {
     this.route.queryParams.subscribe(queryParams => {
       this.transactionNumber = queryParams.pbcTxnNumber;
       this.amount = queryParams.trnAmount;
+      this.transactionOrderId = queryParams.trnOrderId;
     })
 
     this.route.params.subscribe(params => {

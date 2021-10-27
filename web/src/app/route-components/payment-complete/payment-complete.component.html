@@ -5,16 +5,18 @@
       We have successfully received your payment. You may proceed via the button below.
     </p>
     <p *ngIf="paymentSuccess === false">
-      We had an issue while trying to complete your payment.
+      We had an issue while processing your payment. {{ !retry && " Please call us to complete your request."}}
     </p>
 
-    <p>Your payment info</p>
-    <ul>
-      <li *ngIf="transactionNumber">Transaction number: {{transactionNumber}}</li>      
-      <li *ngIf="amount">Amount: ${{amount}}</li>
-    </ul>
-
-    <p>Please write down your transaction number for your reference.</p>
+    <div *ngIf="paymentSuccess || (!paymentSuccess && !retry)">
+      <p>Your payment info</p>
+      <ul>
+        <li *ngIf="transactionNumber">Transaction number: {{transactionNumber}}</li>
+        <li *ngIf="amount">Order id: {{transactionOrderId}}</li>
+        <li *ngIf="amount">Amount: ${{amount}}</li>
+      </ul>
+      <p>Please write down your transaction number for your reference.</p>    
+    </div>
 
     <div class="buttonbar">
       <button
