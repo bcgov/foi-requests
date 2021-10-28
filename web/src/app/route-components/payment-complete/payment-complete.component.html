@@ -5,7 +5,7 @@
       We have successfully received your payment. You may proceed via the button below.
     </p>
     <p *ngIf="paymentSuccess === false">
-      We had an issue while processing your payment. {{ !retry && " Please call us to complete your request."}}
+      We had an issue while processing your payment. {{ !retry ? " Please call us to complete your request." : ""}}
     </p>
 
     <div *ngIf="paymentSuccess || (!paymentSuccess && !retry)">
