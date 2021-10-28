@@ -86,6 +86,11 @@ export class PaymentCompleteComponent implements OnInit {
   }
 
   submitEmail() {
+    this.foiRequest.requestData.paymentInfo = {
+      transactionNumber: this.transactionNumber,
+      amount: this.amount,
+      transactionOrderId: this.transactionOrderId
+    }
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest, true).subscribe(result => {
       if(!result.EmailSuccess) {
         alert('Temporarily unable to complete your request. Please contact us to complete your request.');
