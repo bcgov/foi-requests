@@ -25,6 +25,7 @@ export class PaymentCompleteComponent implements OnInit {
 
   transactionNumber = null;
   amount = null;
+  transactionOrderId = null;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private windowRefService: WindowRefService) { }
   
@@ -32,6 +33,7 @@ export class PaymentCompleteComponent implements OnInit {
     this.route.queryParams.subscribe(queryParams => {
       this.transactionNumber = queryParams.pbcTxnNumber;
       this.amount = queryParams.trnAmount;
+      this.transactionOrderId = queryParams.trnOrderId;
     })
 
     this.route.params.subscribe(params => {
@@ -84,6 +86,11 @@ export class PaymentCompleteComponent implements OnInit {
   }
 
   submitEmail() {
+    this.foiRequest.requestData.paymentInfo = {
+      transactionNumber: this.transactionNumber,
+      amount: this.amount,
+      transactionOrderId: this.transactionOrderId
+    }
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest, true).subscribe(result => {
       if(!result.EmailSuccess) {
         alert('Temporarily unable to complete your request. Please contact us to complete your request.');

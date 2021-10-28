@@ -235,16 +235,29 @@ module.exports = function EmailLayout() {
       result += this.tableRow('Requesting info about', selected.join(' and '));
     }
     return result;
-  };  
+  };
 
   this.requestInformation = function(data) {
-    let result = this.tableHeader('RequestInformation');
+    let result = this.tableHeader('Request Information');
     result += this.tableRow(
       'Request id',
       data.requestId
     );
-    if (data.paymentId) {
-      result += this.tableRow('Payment id', data.paymentId);
+
+    return result;
+  };
+
+  this.paymentInformation = function(data) {
+    let result = this.tableHeader('Payment Information');
+
+    if (data.transactionNumber) {
+      result += this.tableRow('Transaction number', data.transactionNumber);
+    }
+    if (data.transactionOrderId) {
+      result += this.tableRow('Transaction order id', data.transactionOrderId);
+    }
+    if (data.amount) {
+      result += this.tableRow('Amount', `$${data.amount}`);
     }
     return result;
   };
@@ -291,9 +304,12 @@ module.exports = function EmailLayout() {
     // Request info
     if(data.requestData.requestId) {
       content += this.requestInformation({
-        requestId: data.requestData.requestId,
-        paymentId: data.requestData.paymentId
+        requestId: data.requestData.requestId
       })
+    }
+    // Payment info
+    if(data.requestData.paymentInfo) {
+      content += this.paymentInformation(data.requestData.paymentInfo);
     }
 
     // Simple footer

@@ -23,7 +23,6 @@ export class PaymentComponent implements OnInit {
   constructor(private dataService: DataService, private windowRefService: WindowRefService) { }
 
   ngOnInit() {
-    console.log(this.getReturRoute())
     this.foiRequest = this.dataService.getCurrentState();
 
     this.feeDetails = {
@@ -72,11 +71,11 @@ export class PaymentComponent implements OnInit {
       feeCode: this.feeCode,
       quantity: this.dataService.calculateUnitFeeQuantity(this.feeDetails),
       requestId: this.foiRequest.requestData.requestId,
-      returnRoute: this.getReturRoute()
+      returnRoute: this.getReturnRoute()
     })
   }
 
-  private getReturRoute() {
+  private getReturnRoute() {
     const nextRoute = this.base.getCurrentRoute() + "-complete";
     return nextRoute;
   }
