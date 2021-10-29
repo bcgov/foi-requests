@@ -74,6 +74,9 @@ export class PaymentCompleteComponent implements OnInit {
 
         }
       }
+      this.busy = false;
+    }, error => {
+      this.busy = false
     })
   }
 
