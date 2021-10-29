@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { FoiRequest } from 'src/app/models/FoiRequest';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data.service';
 import { KeycloakService } from '../../services/keycloak.service';
 
@@ -11,18 +11,7 @@ import { KeycloakService } from '../../services/keycloak.service';
 })
 export class ContactInfoOptionsComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
-  foiForm = this.fb.group({
-    phonePrimary: [null, [Validators.minLength(10), Validators.maxLength(25)]],
-    phoneSecondary: [null, [Validators.minLength(10), Validators.maxLength(25)]],
-    // Regex: (non-whitespace) + '@' + (non-whitespace) + '.' + (non-whitespace)
-    email: [null, [Validators.maxLength(255), Validators.pattern(/\S+@\S+\.\S/)]],
-    address: [null, [Validators.maxLength(255)]],
-    city: [null, [Validators.maxLength(255)]],
-    postal: [null, [Validators.maxLength(255)]],
-    province: [null, [Validators.maxLength(255)]],
-    country: [null, [Validators.maxLength(255)]]
-  });
-
+  foiForm : FormGroup
   foiRequest: FoiRequest;
   targetKey: string = 'contactInfoOptions';
   isAuthenticated:boolean = false;
@@ -34,15 +23,20 @@ export class ContactInfoOptionsComponent implements OnInit {
     // Update email if the user is authenticated
     const token = this.keycloak.getDecodedToken();
     this.isAuthenticated = (token !== undefined && token.sub !== undefined);
+
     this.foiForm = this.fb.group({
-      email: [{value: token.email, disabled: this.isAuthenticated}],
-      phonePrimary: [null],
-      phoneSecondary: [null],
-      address: [null],
-      city: [null],
-      postal: [null],
-      province: [null],
-      country: [null]
+      phonePrimary: [null, [Validators.minLength(10), Validators.maxLength(25)]],
+      phoneSecondary: [null, [Validators.minLength(10), Validators.maxLength(25)]],
+      email: [
+        {value: token.email, disabled: this.isAuthenticated},
+        // Regex: (non-whitespace) + '@' + (non-whitespace) + '.' + (non-whitespace)
+         [Validators.maxLength(255), Validators.pattern(/\S+@\S+\.\S/)]
+        ],
+      address: [null, [Validators.maxLength(255)]],
+      city: [null, [Validators.maxLength(255)]],
+      postal: [null, [Validators.maxLength(255)]],
+      province: [null, [Validators.maxLength(255)]],
+      country: [null, [Validators.maxLength(255)]]
     });
     this.tip = this.isAuthenticated ? '' : 'Email address is required for electronic delivery' ;
     // Load the current values & populate the FormGroup.
