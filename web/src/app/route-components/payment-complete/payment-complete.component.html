@@ -1,6 +1,6 @@
 <foi-base [showButtons]="false" [showInfo]="false">
   <div class="foi-content">
-    <div *ngIf="!busy; else loader">
+    <div *ngIf="!busy">
       <h2>Payment</h2>
       <p *ngIf="paymentSuccess">
         We have successfully received your payment. You may proceed via the button below.
@@ -30,7 +30,7 @@
         </button>
       </div>
     </div>
-    <div class="row" *ngIf="busy" #loader>
+    <div class="row" *ngIf="busy">
       <div class="col-6"></div><div class="loader"></div>    
     </div>
 
