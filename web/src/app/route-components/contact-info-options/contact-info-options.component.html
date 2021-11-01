@@ -1,4 +1,4 @@
-<foi-base [showInfo]="false"  [continueDisabled]="!allowContinue()" (continue)="doContinue()" (goBack)="doGoBack()">
+<foi-base [showInfo]="false"  [continueDisabled]="!allowContinue() || !foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
     <div class="foi-content">
       <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
         <!--<p *ngIf="!isAuthenticated">
