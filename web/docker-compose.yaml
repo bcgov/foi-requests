@@ -1,0 +1,29 @@
+# version: "3.7"
+# services:
+#     foi-requests:
+#        container_name: foi-requests
+#        build: .
+#        ports:
+#            - "4200:80"
+
+version: "3.7"
+
+services:
+  foi-requests:
+    # image: caddy:2-alpine
+    container_name: foi-requests
+    build: .
+    restart: unless-stopped
+    ports:
+      - "443:443"
+      - "4200:4200"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./dist/bcfoi:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+    external: true
+  caddy_config:
