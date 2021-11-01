@@ -183,7 +183,7 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - api
+              - api-pay-integration
             from:
               kind: ImageStreamTag
               name: "api:${API_SOURCE_IMAGE_TAG}"
@@ -191,12 +191,12 @@ objects:
       replicas: ${{REPLICA_COUNT}}
       selector:
         app: foi-request-form-pay-integration
-        role: api
+        role: api-pay-integration
       template:
         metadata:
           labels:
             app: foi-request-form-pay-integration
-            role: api
+            role: api-pay-integration
           name: foi-request-form-pay-integration
         spec:
           containers:
@@ -243,7 +243,7 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - web
+              - web-pay-integration
             from:
               kind: ImageStreamTag
               name: "web:${WEB_SOURCE_IMAGE_TAG}"
