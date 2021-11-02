@@ -76,6 +76,30 @@ objects:
         # This properly deals with react routes.
         try_files {path} {path}/ /index.html
 
+        ## Add security headers identified via OWASP ZAP scan
+        header {
+          # keep referrer data off of HTTP connections
+          Referrer-Policy no-referrer-when-downgrade
+          # Referrer-Policy "strict-origin-when-cross-origin"
+
+          # enable HSTS
+          Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+          # Enable cross-site filter (XSS) and tell browser to block detected attacks
+          X-Xss-Protection "1; mode=block"
+
+          # disable clients from sniffing the media type
+          X-Content-Type-Options "nosniff"
+
+          # clickjacking protection
+          X-Frame-Options "DENY"
+
+          Content-Security-Policy "upgrade-insecure-requests; default-src 'none';frame-src 'self' *.gov.bc.ca; script-src 'nonce-windowsp' 'self' 'sha256-pZnbNPIfOei9ilUoMWWMGwdDOdUXHcx4f1TgyL71ADE=' *.gov.bc.ca https://maps.googleapis.com; style-src 'self' 'unsafe-inline'; font-src 'self' *.gov.bc.ca; img-src 'self' *.gov.bc.ca data:  https://maps.googleapis.com ; connect-src 'self' *.gov.bc.ca; manifest-src 'self';"
+          # Turn off all caddy caching
+          Cache-Control "no-cache,no-store,must-revalidate";
+          Pragma "no-cache";
+        }
+        
         # On OCP we should log to stdout so Prometheus can
         # slurp up the logs for human consumption.
         log {
