@@ -1,4 +1,4 @@
-:4200 {
+:80 {
 
     header {
       # keep referrer data off of HTTP connections
