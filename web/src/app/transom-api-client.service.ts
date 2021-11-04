@@ -37,6 +37,10 @@ export class TransomApiClientService  {
   setHeader(key: string, value: string) {
     this.headers[key] = value;
   }
+
+  getHeader(key: string) {
+    return this.headers[key]
+  }
   
   removeHeader(key: string) {
     delete this.headers[key]

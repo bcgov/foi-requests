@@ -129,18 +129,6 @@ export class DataService {
     sessionStorage.removeItem("authToken");
   }
 
-  saveCaptchaNonce(value: string): void {
-    sessionStorage.setItem("captchaNonce", value);
-  }
-
-  getCaptchaNonce(): string {
-    return sessionStorage.getItem("captchaNonce");
-  }
-
-  removeCaptchaNonce(): void {
-    sessionStorage.removeItem("captchaNonce");
-  }
-
   getShowBanner() {
     return sessionStorage.getItem('showBanner');
   }
@@ -244,8 +232,15 @@ export class DataService {
    */
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
     this.apiClient.setHeader('Authorization', 'Bearer ' + authToken);
-    this.apiClient.setHeader('captcha-nonce', nonce);
-    this.apiClient.removeHeader('Content-Type')
+    if(nonce) {
+      this.apiClient.setHeader('captcha-nonce', nonce);
+    }
+
+    // Let header like application/json be removed to allow multipart/form-data to be automatically set
+    if(this.apiClient.getHeader('Content-Type')) {
+      this.apiClient.removeHeader('Content-Type')
+    }
+
     foiRequest.attachments = [];
 
     if (foiRequest.requestData.childInformation) {
