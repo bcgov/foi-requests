@@ -19,7 +19,6 @@ export class PaymentCompleteComponent implements OnInit {
   responseUrl= null;
   foiRequest: FoiRequest;
   authToken= null;
-  captchaNonce= null;
   paybcUrl= null;
   retry = false;
 
@@ -50,7 +49,6 @@ export class PaymentCompleteComponent implements OnInit {
     });
 
     this.authToken = this.dataService.getAuthToken();
-    this.captchaNonce = this.dataService.getCaptchaNonce();
   }
 
   updateTransaction() {
@@ -94,7 +92,7 @@ export class PaymentCompleteComponent implements OnInit {
       amount: this.amount,
       transactionOrderId: this.transactionOrderId
     }
-    this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest, true).subscribe(result => {
+    this.dataService.submitRequest(this.authToken, null, this.foiRequest, true).subscribe(result => {
       if(!result.EmailSuccess) {
         alert('Temporarily unable to complete your request. Please contact us to complete your request.');
       }
