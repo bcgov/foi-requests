@@ -332,7 +332,7 @@ function ConfirmationEmailLayout() {
     + `<p>Dear ${data.firstName},</p>`
     + "<p>"
     + "  We have successfuly received your request."
-    + "  If you have any questions, please contact us by telephone at 250-387-1321. Please do not submit a duplicate request." +
+    + "  If you have any questions, please contact us by telephone at 250-387-1321. Please do not submit a duplicate request."
     + "</p>"
     + "<p>"
     + "  Most requests are filled within 30 business days. We will work with you to provide you with copies of the records."
