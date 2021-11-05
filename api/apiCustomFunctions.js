@@ -15,10 +15,6 @@ const requestAPI = new RequestAPI();
 
 const submitFoiRequest = async (server, req, res, next) => {
   
-  const emailLayout = new EmailLayout();
-  const MAX_ATTACH_MB = 5;
-  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
-  
   const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;  
 
   req.params.requestData = JSON.parse(req.params.requestData);
@@ -30,52 +26,41 @@ const submitFoiRequest = async (server, req, res, next) => {
     files: req.files
   };
   
-  const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
-  const foiAttachments = getAttachments(req.files, maxAttachBytes, next);
-  const filesBase64 = getFileBase64(req.files, maxAttachBytes, next);
   
-  console.log("calling RAW FOI Request");
-  if (req.files) {
-    data.params["requestData"].Attachments = filesBase64;
-  }
   try {
-  omitSensitiveData(data.params.requestData)
-  const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
- 
-  console.log(`API response = ${response.status}`);
-  if(response.status === 200  && response.data.status ) {
+    console.log("calling RAW FOI Request");
+    omitSensitiveData(data.params.requestData)
+    const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
+  
+    console.log(`API response = ${response.status}`);
+    if(response.status === 200  && response.data.status ) {
 
-    // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
-    if(needsPayment) {
-      req.log.info('Success:', response.data.message);
-      res.send({ result: 'success', id: response.data.id });
-      return next();
-    }
-    
-    req.log.info(`Sending message to ${foiRequestInbox}`, data);  
-    const sentResponse = await sendEmail(foiHtml,foiAttachments, server, foiRequestInbox, 'New FOI Request');    
-    
-    if(sentResponse.EmailSuccess) {      
-      req.log.info('Success:', response.data.message);
-      res.send({ result: 'success', id: response.data.id });
-      next();
+      // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
+      if(needsPayment) {
+        req.log.info('Success:', response.data.message);
+        res.send({ result: 'success', id: response.data.id });
+        return next();
+      }
+      
+      req.log.info(`Sending message to ${foiRequestInbox}`);  
+      await sendSubmissionEmail(req, next, server);
+
+      res.send({
+        EmailSuccess: true, 
+        message: 'success',
+      });
+
     }
     else {
-      console.log(sentResponse.message);
-      const unavailable = new restifyErrors.ServiceUnavailableError(sentResponse.message || 'Service is unavailable.');
+      req.log.info('Failed:', response);
+      const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
       return next(unavailable);
-    }
-   }
-   else {
-    req.log.info('Failed:', response);
-    const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
-    return next(unavailable);
-   }  
+    }  
   }
    catch(error){
      console.log(`${error}`);
      req.log.info('Failed:', error);
-     const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+     const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
      return next(unavailable);
    }
 }
@@ -84,15 +69,22 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 
   req.params.requestData = JSON.parse(req.params.requestData);
 
-  req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
-
+  
   try {
-
+    
+    req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server);
-    await sendConfirmationEmail(req, server)
+    const confirmationResponse = await sendConfirmationEmail(req, server)
          
     req.log.info('FOI Request email submission success');
-    res.send({EmailSuccess: true, message: 'success'});
+
+    res.send({
+      EmailSuccess: true, 
+      message: 'success', 
+      ConfirmationEmailSuccess: confirmationResponse.EmailSuccess, 
+      ConfirmationEmailMessage: confirmationResponse.message
+    });
+
     next();
 
   } catch(error) {
@@ -107,11 +99,10 @@ const sendSubmissionEmail = async (req, next, server) => {
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
   const foiAttachments = getAttachments(req.files, maxAttachBytes, next)
-  console.log(foiAttachments)
 
   const submissionEmailLayout = new EmailLayout();
   const submissionHtml = submissionEmailLayout.renderEmail(req.params ,req.isAuthorised, req.authorisedDetails)
-  const response = await sendEmail(submissionHtml, foiAttachments, server, foiRequestInbox,'FOI Request Submission' ,req);
+  const response = await sendEmail(submissionHtml, foiAttachments, server, foiRequestInbox, 'FOI Request Submission', req);
 
   if(!response.EmailSuccess) {
     throw Error('Submission email failed')
@@ -122,21 +113,23 @@ const sendSubmissionEmail = async (req, next, server) => {
 }
 
 const sendConfirmationEmail = async (req, server) => {
-  const requestData = req.params.requestData
-  const userEmail = requestData.contactInfoOptions.email
-
-  if(!userEmail) {
-    return { success: true }
-  }
-  const comfirmationEmailLayout = new ConfirmationEmailLayout();
-  const confirmationHtml = comfirmationEmailLayout.renderEmail(requestData.contactInfo)
-  const response = await sendEmail(confirmationHtml, [], server, userEmail, 'FOI Request Confirmation', req);
-
-  if(!response.EmailSuccess) {
-    throw Error('Confirmation email failed')
-  }
+  try {
+    const requestData = req.params.requestData
+    const userEmail = requestData.contactInfoOptions.email
   
-  return response;
+    if(!userEmail) {
+      return { success: true }
+    }
+    const comfirmationEmailLayout = new ConfirmationEmailLayout();
+    const confirmationHtml = comfirmationEmailLayout.renderEmail(requestData.contactInfo)
+    const response = await sendEmail(confirmationHtml, [], server, userEmail, 'FOI Request Confirmation', req);
+    
+    return response;
+
+  } catch(e) {
+
+    return {EmailSuccess: false, message: "Failed to send confirmation email"}
+  }
 }
 
 const getFeeDetails = (server, req, res, next) => {
@@ -218,14 +211,14 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
         });
         // After files are deleted, process the result.
         // setTimeout(()=> {
-          if (err) {            
+          if (err) {
+            result.message = err.message;
             result.EmailSuccess = false;
             req.log.info('Failed:', err);
-            result.message = err.message;     
           }
           else{
-            result.EmailSuccess = true;
             result.message = "Email \"" + subject + "\" Sent Successfully";
+            result.EmailSuccess = true;
             req.log.info('EmailSent:', response);
           }     
           console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
@@ -253,6 +246,7 @@ const omitSensitiveData = (requestData) => {
   delete requestData.descriptionTimeframe;
   delete requestData.contactInfo;
   delete requestData.contactInfoOptions;
+  delete requestData.Attachments;
 }
 
 const getAttachments = (files, maxAttachBytes, next) => {
@@ -276,30 +270,6 @@ const getAttachments = (files, maxAttachBytes, next) => {
     });
   }
   return attachments;
-}
-
-const getFileBase64 = (files, maxAttachBytes, next) => {
-
-  const filesBase64 = [];
-  if (files && Object.keys(files).length > 0) {
-    Object.keys(files).map(f => {
-      const file = files[f];
-      if (file.size < maxAttachBytes) {
-        const filedata = fs.readFileSync(file.path, { encoding: 'base64' });
-
-        filesBase64.push({
-          filename: file.name,
-          base64data: filedata
-        });
-
-      } else {
-        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
-        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
-        return next(tooLarge);
-      }
-    });
-  }
-  return filesBase64;
 }
 
 module.exports = { submitFoiRequest, submitFoiRequestEmail, getFeeDetails, createPayment, updatePayment};
