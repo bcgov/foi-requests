@@ -5,7 +5,7 @@
 
 'use strict';
 const fs = require('fs');
-const EmailLayout = require('./emailLayout');
+const {EmailLayout, ConfirmationEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
 
@@ -31,8 +31,8 @@ const submitFoiRequest = async (server, req, res, next) => {
   };
   
   const foiHtml = emailLayout.renderEmail(data.params,req.isAuthorised,req.userDetails);
-  const foiAttachments = getAttachments(req, maxAttachBytes, next);
-  const filesBase64 = getFileBase64(req, maxAttachBytes, next);
+  const foiAttachments = getAttachments(req.files, maxAttachBytes, next);
+  const filesBase64 = getFileBase64(req.files, maxAttachBytes, next);
   
   console.log("calling RAW FOI Request");
   if (req.files) {
@@ -53,7 +53,7 @@ const submitFoiRequest = async (server, req, res, next) => {
     }
     
     req.log.info(`Sending message to ${foiRequestInbox}`, data);  
-    const sentResponse = await sendEmail(foiHtml,foiAttachments, server, foiRequestInbox);    
+    const sentResponse = await sendEmail(foiHtml,foiAttachments, server, foiRequestInbox, 'New FOI Request');    
     
     if(sentResponse.EmailSuccess) {      
       req.log.info('Success:', response.data.message);
@@ -81,40 +81,62 @@ const submitFoiRequest = async (server, req, res, next) => {
 }
 
 const submitFoiRequestEmail = async (server, req, res, next) => {
-  
-  const emailLayout = new EmailLayout();
-
-  const MAX_ATTACH_MB = 5;
-  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
   req.params.requestData = JSON.parse(req.params.requestData);
 
-  req.log.info(`Sending message to ${foiRequestInbox}`, req.params);  
-  
-  const foiHtml = emailLayout.renderEmail(req.params,req.isAuthorised,req.userDetails);
-  const foiAttachments = getAttachments(req, maxAttachBytes, next);  
+  req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
 
   try {
 
-    const sentResponse = await sendEmail(foiHtml,foiAttachments, server, foiRequestInbox);    
-    
-    if(sentResponse.EmailSuccess) {      
-      req.log.info('FOI Request email submission success');
-      res.send({EmailSuccess: true, message: 'success'});
-      next();
-    }
-    else {
-      console.log(sentResponse.message);
-      const unavailable = new restifyErrors.ServiceUnavailableError(sentResponse.message || 'Service is unavailable.');
-      return next(unavailable);
-    }
-  }  
-   catch(error){
+    await sendSubmissionEmail(req, next, server);
+    await sendConfirmationEmail(req, server)
+         
+    req.log.info('FOI Request email submission success');
+    res.send({EmailSuccess: true, message: 'success'});
+    next();
+
+  } catch(error) {
      console.log(`${error}`);
      req.log.info('Failed:', error);
-     const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
+     const unavailable = new restifyErrors.InternalServerError(error.message || 'Service is unavailable.');
      return next(unavailable);
    }
+}
+
+const sendSubmissionEmail = async (req, next, server) => {
+  const MAX_ATTACH_MB = 5;
+  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
+  const foiAttachments = getAttachments(req.files, maxAttachBytes, next)
+  console.log(foiAttachments)
+
+  const submissionEmailLayout = new EmailLayout();
+  const submissionHtml = submissionEmailLayout.renderEmail(req.params ,req.isAuthorised, req.authorisedDetails)
+  const response = await sendEmail(submissionHtml, foiAttachments, server, foiRequestInbox,'FOI Request Submission' ,req);
+
+  if(!response.EmailSuccess) {
+    throw Error('Submission email failed')
+  }
+  
+  return response;
+
+}
+
+const sendConfirmationEmail = async (req, server) => {
+  const requestData = req.params.requestData
+  const userEmail = requestData.contactInfoOptions.email
+
+  if(!userEmail) {
+    return { success: true }
+  }
+  const comfirmationEmailLayout = new ConfirmationEmailLayout();
+  const confirmationHtml = comfirmationEmailLayout.renderEmail(requestData.contactInfo)
+  const response = await sendEmail(confirmationHtml, [], server, userEmail, 'FOI Request Confirmation', req);
+
+  if(!response.EmailSuccess) {
+    throw Error('Confirmation email failed')
+  }
+  
+  return response;
 }
 
 const getFeeDetails = (server, req, res, next) => {
@@ -174,38 +196,57 @@ const updatePayment = (server, req, res, next) => {
   });
 }
 
-const sendEmail = async (foiHtml, foiAttachments, server, inbox) => {
-  var EmailSuccess = true;
-  var message = "";
-  const transomMailer = server.registry.get('transomSmtp');
-  transomMailer.sendFromNoReply(
-    {
-      subject: 'New FOI Request',
-      to: inbox,
-      html: foiHtml,
-      attachments: foiAttachments
-    },
-    (err, response) => {
-      // Delete all attachments on the submission.
-      foiAttachments.map(file => {
-        fs.unlinkSync(file.path);
-      });
-      // After files are deleted, process the result.
-      // setTimeout(()=> {
-        if (err) {
-          EmailSuccess = false;
-          req.log.info('Failed:', err);
-          message = err.message;          
-        }
-        else{
-          EmailSuccess = true;         
-          message = "Email Sent Successfully";
-          req.log.info('EmailSent:', response);
-        }        
-      // }, 5000);
-    });
-    console.log(`Sent Email? : ${EmailSuccess}, Message: ${message}`);
-    return { EmailSuccess, message };
+const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) => {
+  try {
+    let pollingAttempts = 0;
+    const result = {
+      EmailSuccess: null,
+      message: ""
+    }
+    const transomMailer = server.registry.get('transomSmtp');
+    transomMailer.sendFromNoReply(
+      {
+        subject: subject,
+        to: inbox,
+        html: foiHtml,
+        attachments: foiAttachments
+      },
+      async (err, response) => {
+        // Delete all attachments on the submission.
+        foiAttachments.map(file => {
+          fs.unlinkSync(file.path);
+        });
+        // After files are deleted, process the result.
+        // setTimeout(()=> {
+          if (err) {            
+            result.EmailSuccess = false;
+            req.log.info('Failed:', err);
+            result.message = err.message;     
+          }
+          else{
+            result.EmailSuccess = true;
+            result.message = "Email \"" + subject + "\" Sent Successfully";
+            req.log.info('EmailSent:', response);
+          }     
+          console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
+          // }, 500);
+        });
+
+        const executePoll = async (resolve, reject) => {
+          pollingAttempts++;
+          if (result.EmailSuccess !== null) {
+            return resolve(result);
+          } else if (pollingAttempts > 20) {
+            return reject(new Error('Exceeded max attempts'));
+          } else {
+            setTimeout(executePoll, 300, resolve, reject);
+          }
+        };
+
+        return new Promise(executePoll);
+      } catch (e) {
+    return {EmailSuccess: false, message: e}
+  }
 }
 
 const omitSensitiveData = (requestData) => {
@@ -214,12 +255,12 @@ const omitSensitiveData = (requestData) => {
   delete requestData.contactInfoOptions;
 }
 
-const getAttachments = (req, maxAttachBytes, next) => {
+const getAttachments = (files, maxAttachBytes, next) => {
 
   const attachments = [];
-  if (req.files) {
-    Object.keys(req.files).map(f => {
-      const file = req.files[f];
+  if (files && Object.keys(files).length > 0) {
+    Object.keys(files).map(f => {
+      const file = files[f];
       if (file.size < maxAttachBytes) {
 
         attachments.push({
@@ -227,7 +268,6 @@ const getAttachments = (req, maxAttachBytes, next) => {
           path: file.path
         });
 
-        return attachments;
       } else {
         const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
         console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
@@ -235,14 +275,15 @@ const getAttachments = (req, maxAttachBytes, next) => {
       }
     });
   }
+  return attachments;
 }
 
-const getFileBase64 = (req, maxAttachBytes, next) => {
+const getFileBase64 = (files, maxAttachBytes, next) => {
 
   const filesBase64 = [];
-  if (req.files) {
-    Object.keys(req.files).map(f => {
-      const file = req.files[f];
+  if (files && Object.keys(files).length > 0) {
+    Object.keys(files).map(f => {
+      const file = files[f];
       if (file.size < maxAttachBytes) {
         const filedata = fs.readFileSync(file.path, { encoding: 'base64' });
 
@@ -251,7 +292,6 @@ const getFileBase64 = (req, maxAttachBytes, next) => {
           base64data: filedata
         });
 
-        return filesBase64;
       } else {
         const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
         console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
@@ -259,6 +299,7 @@ const getFileBase64 = (req, maxAttachBytes, next) => {
       }
     });
   }
+  return filesBase64;
 }
 
 module.exports = { submitFoiRequest, submitFoiRequestEmail, getFeeDetails, createPayment, updatePayment};
