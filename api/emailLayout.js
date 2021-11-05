@@ -361,8 +361,8 @@ function ConfirmationEmailLayout() {
     + "  </li>"
     + "</ul>"
     + "<p>Best regards</p>"
+    return content;
   }
-  return content;
 }
 
 module.exports = { EmailLayout, ConfirmationEmailLayout }
