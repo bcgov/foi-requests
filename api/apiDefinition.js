@@ -56,7 +56,6 @@ module.exports = {
       },
       submitFoiRequestEmail: {
         methods: ['POST'],
-        preMiddleware: [apiAuth.verifyJWTResponseMiddleware],
         function: customFunctions.submitFoiRequestEmail
       },
       fees: {
