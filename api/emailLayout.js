@@ -1,7 +1,7 @@
 /**
  * Keep the email layout functions together, outside of index.js
  */
-module.exports = function EmailLayout() {
+function EmailLayout() {
   this.table = function(rows) {
     return `<table width="95%" border="0" cellpadding="5" cellspacing="0"><tbody
           style="font-size:12px;font-family:sans-serif;background-color:#fff;"
@@ -262,7 +262,7 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.renderEmail = function(data ,isAuthorised , authorisedDetails) {
+  this.renderEmail = function(data ,isAuthorised ,authorisedDetails) {
     let content = this.tableHeader('Request Records');
       this.table()
     if (isAuthorised) {
@@ -324,3 +324,44 @@ module.exports = function EmailLayout() {
     return content;
   };
 };
+
+function ConfirmationEmailLayout() {
+  this.renderEmail = function(data) {
+    let content = ""
+    + "<h2>Your request has been submitted to the Consolidated Intake Team for processing.</h2>"
+    + `<p>Dear ${data.firstName},</p>`
+    + "<p>"
+    + "  We have successfuly received your request."
+    + "  If you have any questions, please contact us by telephone at 250-387-1321. Please do not submit a duplicate request." +
+    + "</p>"
+    + "<p>"
+    + "  Most requests are filled within 30 business days. We will work with you to provide you with copies of the records."
+    + "  Some information may not be disclosed in order to prevent harms, including protecting personal privacy or cabinet"
+    + "  confidences."
+    + "</p>"
+    + "<h3>Time extensions</h3>"
+    + "<ul>"
+    + "  <li>"
+    + "    If a request is too broad or complex in nature, a time extension may be required to process the request. If so,"
+    + "    we’ll contact you to let you know."
+    + "  </li>"
+    + "</ul>"
+    + "<h3>Processing fees</h3>"
+    + "<ul>"
+    + "  <li>"
+    + "    If your request is large and complicated, a fee may be charged. If so, we’ll contact you with an estimate and to"
+    + "    see if we can work together to clarify your request and reduce the processing time."
+    + "  </li>"
+    + "</ul>"
+    + "<h3>Change of address</h3>"
+    + "<ul>"
+    + "  <li>"
+    + "    Please inform us as soon as possible if your address or contact information changes so that we can get in"
+    + "    contact with you."
+    + "  </li>"
+    + "</ul>"
+    + "<p>Best regards</p>"
+  }
+}
+
+module.exports = { EmailLayout, ConfirmationEmailLayout }
