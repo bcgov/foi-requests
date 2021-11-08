@@ -347,43 +347,41 @@ function ConfirmationEmailLayout() {
 
     if (paymentInfoData.amount) {
       result =
-        result + `<p>Amount: ${paymentInfoData.amount}</p>`;
+        result + `<p>Amount: $${paymentInfoData.amount}</p>`; 
     }
     
     return result;
   }
 
   this.renderEmail = function(data) {
-    let content = ""
-		+ "<div style='width:40em;font-family:sans-serif;'>"
-		+ "	<p>This email confirms your recent payment on DATE for your FOI Request Submission.</p>"
-
-    + this.paymentInfo(data.paymentInfo)
-
-		+ "	<p>Please do not reply to this email, this is an acknowledgment of payment.</p>"
-		+ "	<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>"	
-		+ "	<p>Regards,</p>"	
-		+ "	<p>Information Access Operations</p>"
-		+ "	<hr/>"		
-		+ "	<p style='margin:0;'>"
-		+ "		<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>"
-		+ "		<span style='color:#00326A'>Information Access Operations</span>"
-		+ "	</p>"	
-		+ "	<p style='margin:0;'>"
-		+ "		<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9K1</span>"
-		+ "	</p>"	
-		+ "	<p style='margin:0;'>"
-		+ "		<a href=\"http://www.gov.bc.ca/freedomofinformation/\">"
-		+ "			http://www.gov.bc.ca/freedomofinformation/"
-		+ "		</a>"
-		+ "	</p>"			
-		+ "	<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>"
-		+ "	<p style='margin:0;'>"
-		+ "		<span>250-387-1321 or 1-833-283-8200"
-		+ "			<i>(ask for Information Access Operations)</i>"
-		+ "		</span>"
-		+ "	</p>"
-		+ "</div>"
+    let content = `
+		<div style='width:40em;font-family:sans-serif;'>
+			<p>This email confirms your recent payment on DATE for your FOI Request Submission.</p>
+      ${this.paymentInfo(data.paymentInfo)}
+			<p>Please do not reply to this email, this is an acknowledgment of payment.</p>
+			<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>	
+			<p>Regards,</p>	
+			<p>Information Access Operations</p>
+			<hr/>		
+			<p style='margin:0;'>
+				<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>
+				<span style='color:#00326A'>Information Access Operations</span>
+			</p>	
+			<p style='margin:0;'>
+				<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9K1</span>
+			</p>	
+			<p style='margin:0;'>
+				<a href=\"http://www.gov.bc.ca/freedomofinformation/\">
+					http://www.gov.bc.ca/freedomofinformation/
+				</a>
+			</p>			
+			<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>
+			<p style='margin:0;'>
+				<span>250-387-1321 or 1-833-283-8200
+					<i>(ask for Information Access Operations)</i>
+				</span>
+			</p>
+		</div>`
 
     return content;
   }
