@@ -326,41 +326,63 @@ function EmailLayout() {
 };
 
 function ConfirmationEmailLayout() {
+
+
+  const paymentInfo = paymentInfoData => {
+    if(!paymentInfoData || Object.keys(paymentInfoData).length === 0) {
+      return "";
+    }
+    
+    let result = "<p>Your transaction details are as follows:</p>";
+
+    if(paymentInfoData.transactionNumber) {
+      result = result + `<p>Transaction Number: ${paymentInfoData.transactionNumber}</p>`;
+    }
+
+    if (paymentInfoData.transactionOrderId) {
+      result =
+        result +
+        `<p>Transaction Order ID: ${paymentInfoData.transactionOrderId}</p>`;
+    }
+
+    if (paymentInfoData.amount) {
+      result =
+        result + `<p>Amount: ${paymentInfoData.amount}</p>`;
+    }
+  }
+
   this.renderEmail = function(data) {
     let content = ""
-    + "<h2>Your request has been submitted to the Consolidated Intake Team for processing.</h2>"
-    + `<p>Dear ${data.firstName},</p>`
-    + "<p>"
-    + "  We have successfuly received your request."
-    + "  If you have any questions, please contact us by telephone at 250-387-1321. Please do not submit a duplicate request."
-    + "</p>"
-    + "<p>"
-    + "  Most requests are filled within 30 business days. We will work with you to provide you with copies of the records."
-    + "  Some information may not be disclosed in order to prevent harms, including protecting personal privacy or cabinet"
-    + "  confidences."
-    + "</p>"
-    + "<h3>Time extensions</h3>"
-    + "<ul>"
-    + "  <li>"
-    + "    If a request is too broad or complex in nature, a time extension may be required to process the request. If so,"
-    + "    we’ll contact you to let you know."
-    + "  </li>"
-    + "</ul>"
-    + "<h3>Processing fees</h3>"
-    + "<ul>"
-    + "  <li>"
-    + "    If your request is large and complicated, a fee may be charged. If so, we’ll contact you with an estimate and to"
-    + "    see if we can work together to clarify your request and reduce the processing time."
-    + "  </li>"
-    + "</ul>"
-    + "<h3>Change of address</h3>"
-    + "<ul>"
-    + "  <li>"
-    + "    Please inform us as soon as possible if your address or contact information changes so that we can get in"
-    + "    contact with you."
-    + "  </li>"
-    + "</ul>"
-    + "<p>Best regards</p>"
+		+ "<div style='width:40em;font-family:sans-serif;'>"
+		+ "	<p>This email confirms your recent payment on DATE for your FOI Request Submission.</p>"
+
+    + paymentInfo(data.paymentInfo)
+    
+		+ "	<p>Please do not reply to this email, this is an acknowledgment of payment.</p>"
+		+ "	<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>"	
+		+ "	<p>Regards,</p>"	
+		+ "	<p>Information Access Operations</p>"
+		+ "	<hr/>"		
+		+ "	<p style='margin:0;'>"
+		+ "		<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>"
+		+ "		<span style='color:#00326A'>Information Access Operations</span>"
+		+ "	</p>"	
+		+ "	<p style='margin:0;'>"
+		+ "		<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9K1</span>"
+		+ "	</p>"	
+		+ "	<p style='margin:0;'>"
+		+ "		<a href=\"http://www.gov.bc.ca/freedomofinformation/\">"
+		+ "			http://www.gov.bc.ca/freedomofinformation/"
+		+ "		</a>"
+		+ "	</p>"			
+		+ "	<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>"
+		+ "	<p style='margin:0;'>"
+		+ "		<span>250-387-1321 or 1-833-283-8200"
+		+ "			<i>(ask for Information Access Operations)</i>"
+		+ "		</span>"
+		+ "	</p>"
+		+ "</div>"
+
     return content;
   }
 }
