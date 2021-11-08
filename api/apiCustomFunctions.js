@@ -121,7 +121,7 @@ const sendConfirmationEmail = async (req, server) => {
       return { success: true }
     }
     const comfirmationEmailLayout = new ConfirmationEmailLayout();
-    const confirmationHtml = comfirmationEmailLayout.renderEmail(requestData.contactInfo)
+    const confirmationHtml = comfirmationEmailLayout.renderEmail(requestData)
     const response = await sendEmail(confirmationHtml, [], server, userEmail, 'FOI Request Confirmation', req);
     
     return response;
