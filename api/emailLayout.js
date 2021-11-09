@@ -330,10 +330,10 @@ function ConfirmationEmailLayout() {
   this.paymentInfo = function(paymentInfoData) {
 
     if(!paymentInfoData || Object.keys(paymentInfoData).length === 0) {
-      return "";
+      return ``;
     }
     
-    let result = "<p>Your transaction details are as follows:</p>";
+    let result = `<p>Your transaction details are as follows:</p>`;
 
     if(paymentInfoData.transactionNumber) {
       result = result + `<p>Transaction Number: ${paymentInfoData.transactionNumber}</p>`;
@@ -356,7 +356,7 @@ function ConfirmationEmailLayout() {
   this.renderEmail = function(data) {
     let content = `
 		<div style='width:40em;font-family:sans-serif;'>
-			<p>This email confirms your recent payment on DATE for your FOI Request Submission.</p>
+			<p>This email confirms your recent payment on ${data.paymentInfo.transactionDate} for your FOI Request Submission.</p>
       ${this.paymentInfo(data.paymentInfo)}
 			<p>Please do not reply to this email, this is an acknowledgment of payment.</p>
 			<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>	
