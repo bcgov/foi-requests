@@ -25,6 +25,7 @@ export class PaymentCompleteComponent implements OnInit {
   transactionNumber = null;
   amount = null;
   transactionOrderId = null;
+  transactionDate = null;
 
   constructor(private dataService: DataService, private route: ActivatedRoute, private windowRefService: WindowRefService) { }
   
@@ -33,6 +34,7 @@ export class PaymentCompleteComponent implements OnInit {
       this.transactionNumber = queryParams.pbcTxnNumber;
       this.amount = queryParams.trnAmount;
       this.transactionOrderId = queryParams.trnOrderId;
+      this.transactionDate = queryParams.trnDate
     })
 
     this.route.params.subscribe(params => {
@@ -90,7 +92,8 @@ export class PaymentCompleteComponent implements OnInit {
     this.foiRequest.requestData.paymentInfo = {
       transactionNumber: this.transactionNumber,
       amount: this.amount,
-      transactionOrderId: this.transactionOrderId
+      transactionOrderId: this.transactionOrderId,
+      transactionDate: this.transactionDate
     }
     this.dataService.submitRequest(this.authToken, null, this.foiRequest, true).subscribe(result => {
       if(!result.EmailSuccess) {
