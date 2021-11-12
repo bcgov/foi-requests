@@ -20,16 +20,18 @@ const submitFoiRequest = async (server, req, res, next) => {
   req.params.requestData = JSON.parse(req.params.requestData);
   const needsPayment = req.params.requestData.requestType && req.params.requestData.requestType.requestType === 'general';
 
+  const filteredRequestData = omitSensitiveData(req.params.requestData)
   const data = {
     envMessage: process.env.NODE_ENV,
-    params: req.params,
+    params: {
+      ...req.params,
+      requestData: filteredRequestData
+    },
     files: req.files
-  };
-  
+  };  
   
   try {
     console.log("calling RAW FOI Request");
-    omitSensitiveData(data.params.requestData)
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
     console.log(`API response = ${response.status}`);
@@ -42,7 +44,7 @@ const submitFoiRequest = async (server, req, res, next) => {
         return next();
       }
       
-      req.log.info(`Sending message to ${foiRequestInbox}`);  
+      req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
 
       res.send({
@@ -68,12 +70,22 @@ const submitFoiRequest = async (server, req, res, next) => {
 const submitFoiRequestEmail = async (server, req, res, next) => {
 
   req.params.requestData = JSON.parse(req.params.requestData);
-
   
   try {
-    
+
+    const receiptResponse = await postGenerateReceipt({
+      requestData: req.params.requestData,
+      requestId: req.params.requestData.requestId,
+      paymentId: req.params.requestData.paymentInfo.paymentId,
+    });
+
+    const receiptAttachement = {
+      content: receiptResponse.data,
+      fileName: 'Receipt.pdf'
+    }
+
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
-    await sendSubmissionEmail(req, next, server);
+    await sendSubmissionEmail(req, next, server, [receiptAttachement]);
     const confirmationResponse = await sendConfirmationEmail(req, server)
          
     req.log.info('FOI Request email submission success');
@@ -95,10 +107,15 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
    }
 }
 
-const sendSubmissionEmail = async (req, next, server) => {
+const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
-  const foiAttachments = getAttachments(req.files, maxAttachBytes, next)
+
+  const foiAttachments = getAttachments(req.files, maxAttachBytes, next);
+
+  if (extraAttachements.length > 0) {
+    foiAttachments = [...foiAttachments, ...extraAttachements];
+  }
 
   const submissionEmailLayout = new EmailLayout();
   const submissionHtml = submissionEmailLayout.renderEmail(req.params ,req.isAuthorised, req.authorisedDetails)
@@ -189,15 +206,23 @@ const updatePayment = (server, req, res, next) => {
   });
 }
 
+const postGenerateReceipt = ({requestData, requestId, paymentId}) => {
+  
+    const receiptData = formReceiptData(requestData);
+
+    const apiUrl = `${foiRequestAPIBackend}/foirawrequests/${requestId}/payments/${paymentId}/receipt`;
+
+    return requestAPI.invokeGenerateReceipt(
+      JSON.stringify(receiptData),
+      apiUrl
+    );
+}
+
 const generateReceipt = (server, req, res, next) => {
   try {
     const { requestId, requestData, paymentId } = req.params;
-    const receiptData = formReceiptData(requestData)
-  
-    const apiUrl = `${foiRequestAPIBackend}/foirawrequests/${requestId}/payments/${paymentId}/receipt`;
-  
-    requestAPI
-      .invokeGenerateReceipt(JSON.stringify(receiptData), apiUrl)
+
+    postGenerateReceipt({requestData, requestId, paymentId})
       .then((response) => {
         [
           "Content-Disposition",
@@ -215,9 +240,7 @@ const generateReceipt = (server, req, res, next) => {
           return res.send(error.response.status, error.response.data);
         }
 
-        const unavailable = new restifyErrors.ServiceUnavailableError(
-          error
-        );
+        const unavailable = new restifyErrors.ServiceUnavailableError(error);
         return next(unavailable);
       });;
       
@@ -285,7 +308,12 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
       async (err, response) => {
         // Delete all attachments on the submission.
         foiAttachments.map(file => {
-          fs.unlinkSync(file.path);
+          if(file.path) {
+            fs.unlinkSync(file.path);
+          }
+          else if (file.content) {
+            delete file.content
+          }
         });
         // After files are deleted, process the result.
         // setTimeout(()=> {
@@ -321,10 +349,13 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
 }
 
 const omitSensitiveData = (requestData) => {
-  delete requestData.descriptionTimeframe;
-  delete requestData.contactInfo;
-  delete requestData.contactInfoOptions;
-  delete requestData.Attachments;
+  const fiteredRequestData = Object.assign({}, requestData);
+  delete fiteredRequestData.descriptionTimeframe;
+  delete fiteredRequestData.contactInfo;
+  delete fiteredRequestData.contactInfoOptions;
+  delete fiteredRequestData.Attachments;
+
+  return fiteredRequestData;
 }
 
 const getAttachments = (files, maxAttachBytes, next) => {

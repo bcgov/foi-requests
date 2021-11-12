@@ -56,7 +56,8 @@ export class PaymentCompleteComponent implements OnInit {
           amount: this.amount,
           transactionOrderId: this.transactionOrderId,
           transactionDate: this.transactionDate,
-          cardType: this.cardType
+          cardType: this.cardType,
+          paymentId: this.paymentId
         };
         this.dataService.setCurrentState(this.foiRequest);
   
