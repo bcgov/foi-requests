@@ -144,6 +144,20 @@ export class TransomApiClientService  {
     return this.handleResponse(obs);
   }
 
+  generateReceipt(generateReceiptRequest): Observable<any> {
+    const { requestId, requestData, paymentId } = generateReceiptRequest;
+    const url = this.baseUrl + `/fx/generateReceipt?requestId=${requestId}&paymentId=${paymentId}`;
+
+    const obs = this.http.post(url, JSON.stringify({
+      requestData: requestData
+    }), {
+      headers: this.headers,
+      responseType: 'blob'
+    });
+    
+    return this.handleResponse(obs);
+  }
+
   getFeeDetails(feeCode: String, quantity: Number): Observable<any> {
     const url = this.baseUrl + `/fx/fees?feeCode=${feeCode}&quantity=${quantity}`
 

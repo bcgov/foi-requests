@@ -9,12 +9,12 @@ import { FeeRequestDetails } from '../models/FeeRequestDetails';
 import { CreateTransactionRequest, UpdateTransactionRequest } from '../models/Transaction';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class DataService {
   foiRoutes: FoiRoute[];
-  childFileKey = 'childFileAttachment';
-  personFileKey = 'personFileAttachment';
+  childFileKey = "childFileAttachment";
+  personFileKey = "personFileAttachment";
 
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
@@ -23,12 +23,12 @@ export class DataService {
 
   getRoute(routeUrl: string): FoiRoute {
     // Remove any query parameters and (possibly) a leading slash.
-    const path = (routeUrl || '/').split('?')[0].replace(/^\/+/g, '');
-    return this.foiRoutes.find(r => {
-      if(r.pattern) {
-        return path.match(r.pattern) !== null
+    const path = (routeUrl || "/").split("?")[0].replace(/^\/+/g, "");
+    return this.foiRoutes.find((r) => {
+      if (r.pattern) {
+        return path.match(r.pattern) !== null;
       }
-      return path === r.route
+      return path === r.route;
     });
   }
 
@@ -37,8 +37,8 @@ export class DataService {
   }
 
   capitalize(str) {
-    if (typeof str !== 'string') {
-      return '';
+    if (typeof str !== "string") {
+      return "";
     }
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -56,15 +56,12 @@ export class DataService {
   getTopicsObj(about: Object): Array<any> {
     const topics = [];
     for (const key in about) {
-      if (key !== 'child' && about[key]) {
+      if (key !== "child" && about[key]) {
         topics.push(this.capitalize(key));
       }
     }
-    topics
-      .sort()
-      .reverse()
-      .unshift('topic');
-    const topicKey = topics.join('');
+    topics.sort().reverse().unshift("topic");
+    const topicKey = topics.join("");
     return this.getTopics(topicKey);
   }
 
@@ -76,7 +73,7 @@ export class DataService {
   }
 
   getCurrentState(...dataKeys: string[]): FoiRequest {
-    const state = this.loadState('foi-request');
+    const state = this.loadState("foi-request");
     // Ensure that each entry in dataKeys exists before returning.
     if (dataKeys) {
       for (const key of dataKeys) {
@@ -95,14 +92,14 @@ export class DataService {
     if (key && foiForm) {
       // Clear the current node and populate it with values from the FormGroup.
       foi.requestData[key] = {};
-      Object.keys(foiForm.value).map(k => (foi.requestData[key][k] = foiForm.value[k]));
+      Object.keys(foiForm.value).map((k) => (foi.requestData[key][k] = foiForm.value[k]));
     }
-    this.saveState('foi-request', foi);
+    this.saveState("foi-request", foi);
     return foi;
   }
 
   setChildFileAttachment(f: File): Observable<boolean> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
         try {
@@ -130,26 +127,26 @@ export class DataService {
   }
 
   getShowBanner() {
-    return sessionStorage.getItem('showBanner');
+    return sessionStorage.getItem("showBanner");
   }
   saveShowBanner() {
-    sessionStorage.setItem('showBanner', 'true');
+    sessionStorage.setItem("showBanner", "true");
   }
 
   removeShowBanner() {
-    sessionStorage.removeItem('showBanner');
+    sessionStorage.removeItem("showBanner");
   }
 
   getShowEmailAlert() {
-    return sessionStorage.getItem('showEmailAlert');
+    return sessionStorage.getItem("showEmailAlert");
   }
 
   saveShowEmailAlert() {
-    sessionStorage.setItem('showEmailAlert', 'true');
+    sessionStorage.setItem("showEmailAlert", "true");
   }
 
   removeShowEmailAlert() {
-    sessionStorage.removeItem('showEmailAlert');
+    sessionStorage.removeItem("showEmailAlert");
   }
 
   removeChildFileAttachment() {
@@ -157,15 +154,15 @@ export class DataService {
   }
 
   getStorageErrorText(err: any) {
-    let result = 'Error saving your file, try submitting a smaller file';
-    if (err && err.name && err.name === 'QuotaExceededError') {
-      result = 'File(s) too large, try submitting smaller files';
+    let result = "Error saving your file, try submitting a smaller file";
+    if (err && err.name && err.name === "QuotaExceededError") {
+      result = "File(s) too large, try submitting smaller files";
     }
     return result;
   }
 
   setPersonFileAttachment(f: File): Observable<boolean> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       const reader: FileReader = new FileReader();
       reader.onload = () => {
         try {
@@ -185,7 +182,7 @@ export class DataService {
   }
 
   private b64toBlob(b64Data, contentType, sliceSize?): Blob {
-    contentType = contentType || '';
+    contentType = contentType || "";
     sliceSize = sliceSize || 512;
 
     const byteCharacters = atob(b64Data);
@@ -214,8 +211,8 @@ export class DataService {
     if (!base64) {
       return null;
     }
-    const base64Parts = base64.split(',');
-    const fileFormat = base64Parts[0].split(';')[1];
+    const base64Parts = base64.split(",");
+    const fileFormat = base64Parts[0].split(";")[1];
     const fileContent = base64Parts[1];
     const blob = this.b64toBlob(fileContent, fileFormat);
     return blob;
@@ -231,14 +228,14 @@ export class DataService {
    * @param foiRequest - A structure containing the complete request
    */
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
-    this.apiClient.setHeader('Authorization', 'Bearer ' + authToken);
-    if(nonce) {
-      this.apiClient.setHeader('captcha-nonce', nonce);
+    this.apiClient.setHeader("Authorization", "Bearer " + authToken);
+    if (nonce) {
+      this.apiClient.setHeader("captcha-nonce", nonce);
     }
 
     // Let header like application/json be removed to allow multipart/form-data to be automatically set
-    if(this.apiClient.getHeader('Content-Type')) {
-      this.apiClient.removeHeader('Content-Type')
+    if (this.apiClient.getHeader("Content-Type")) {
+      this.apiClient.removeHeader("Content-Type");
     }
 
     foiRequest.attachments = [];
@@ -249,7 +246,7 @@ export class DataService {
       if (childFile) {
         const blobFile: BlobFile = {
           file: childFile,
-          filename
+          filename,
         };
         foiRequest.attachments.push(blobFile);
       }
@@ -260,7 +257,7 @@ export class DataService {
       if (personFile) {
         const blobFile: BlobFile = {
           file: personFile,
-          filename
+          filename,
         };
         foiRequest.attachments.push(blobFile);
       }
@@ -278,7 +275,7 @@ export class DataService {
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
   getFeeDetails(feeCode: String, details?: FeeRequestDetails): Observable<any> {
-    const quantity = details? this.calculateUnitFeeQuantity(details) : 1;
+    const quantity = details ? this.calculateUnitFeeQuantity(details) : 1;
 
     /*
     uncomment to test page
@@ -289,15 +286,21 @@ export class DataService {
   }
 
   createTransaction(transactionRequest: CreateTransactionRequest) {
-    this.apiClient.setHeader('Content-Type', 'application/json');
+    this.apiClient.setHeader("Content-Type", "application/json");
 
     return this.apiClient.createTransaction(transactionRequest);
   }
-  
-  updateTransaction(updateTransactionRequest: UpdateTransactionRequest) {
-    this.apiClient.setHeader('Content-Type', 'application/json');
 
-    return this.apiClient.updateTransaction(updateTransactionRequest);    
+  updateTransaction(updateTransactionRequest: UpdateTransactionRequest) {
+    this.apiClient.setHeader("Content-Type", "application/json");
+
+    return this.apiClient.updateTransaction(updateTransactionRequest);
+  }
+
+  generateReceipt(generateReceiptRequest) {
+    this.apiClient.setHeader("Content-Type", "application/json");
+
+    return this.apiClient.generateReceipt(generateReceiptRequest);
   }
 
   /**
@@ -307,20 +310,18 @@ export class DataService {
    * @param details - The details that would affect the calculation of the quantity of fee units e.g. ministries selected
    */
   calculateUnitFeeQuantity(details: FeeRequestDetails): Number {
-    if(!details.selectedMinistry) {
+    if (!details.selectedMinistry) {
       return null;
     }
 
-    if(details.selectedMinistry.length < 2) {
+    if (details.selectedMinistry.length < 2) {
       return 1;
     }
 
     // Map to public body then store in Set to get unique ones selected
-    const publicBodySet = new Set(
-      details.selectedMinistry.map(ministry => ministry["publicBody"])
-      )
-      
-    return publicBodySet.size;   
+    const publicBodySet = new Set(details.selectedMinistry.map((ministry) => ministry["publicBody"]));
+
+    return publicBodySet.size;
   }
 
   /**
@@ -343,9 +344,9 @@ export class DataService {
       }
       flatRoutes.push(rt);
       if (rt.choices) {
-        Object.keys(rt.choices).map(choice => {
+        Object.keys(rt.choices).map((choice) => {
           const choiceObj = rt.choices[choice];
-          this.flattenRoutes(choiceObj.routes, rt.route).map(r => flatRoutes.push(r));
+          this.flattenRoutes(choiceObj.routes, rt.route).map((r) => flatRoutes.push(r));
         });
       }
       goBackRoute = rt.route;
