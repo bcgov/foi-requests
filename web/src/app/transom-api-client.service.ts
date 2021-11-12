@@ -5,7 +5,6 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { map, catchError } from "rxjs/operators";
 import { LocalStorageService } from "ngx-webstorage";
 import { FoiRequest, BlobFile } from "./models/FoiRequest";
-import { CreateTransactionRequest } from "./models/Transaction";
 
 /**
  * Generic implementation of calls to the API. It supports making
