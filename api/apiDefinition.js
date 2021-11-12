@@ -69,7 +69,11 @@ module.exports = {
       updatePayment: {
         methods: ['POST'],
         function: customFunctions.updatePayment
-      }
+      },
+      generateReceipt: {
+        methods: ['POST'],
+        function: customFunctions.generateReceipt,
+      },
     }
   }
 };

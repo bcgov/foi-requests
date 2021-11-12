@@ -28,6 +28,17 @@
         >
           {{ retry ? "Retry payment" : "Continue"}}
         </button>
+        <button
+          *ngIf="paymentSuccess"
+          type="button"
+          class="btn btn-info"
+          (click)="generateReceipt()"
+          [disabled]="receiptBusy"
+        >
+          <fa-icon *ngIf="receiptBusy" icon="spinner" [spin]="true"></fa-icon>
+          Download Receipt
+        </button>
+          
       </div>
     </div>
     <div class="row" *ngIf="busy">

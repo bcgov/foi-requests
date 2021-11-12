@@ -10,4 +10,13 @@
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
+  }  
+
+.buttonbar {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.buttonbar .btn-info {
+  margin-left: 10px;
+}

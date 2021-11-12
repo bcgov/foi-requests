@@ -189,6 +189,84 @@ const updatePayment = (server, req, res, next) => {
   });
 }
 
+const generateReceipt = (server, req, res, next) => {
+  try {
+    const { requestId, requestData, paymentId } = req.params;
+    const receiptData = formReceiptData(requestData)
+  
+    const apiUrl = `${foiRequestAPIBackend}/foirawrequests/${requestId}/payments/${paymentId}/receipt`;
+  
+    requestAPI
+      .invokeGenerateReceipt(JSON.stringify(receiptData), apiUrl)
+      .then((response) => {
+        [
+          "Content-Disposition",
+          "Content-Type",
+          "Content-Length",
+          "Content-Transfer-Encoding",
+          "X-Report-Name",
+        ].forEach((h) => {
+          res.setHeader(h.toLowerCase(), response.headers[h.toLowerCase()]);
+        });
+        return res.end(response.data);
+      })
+      .catch((error) => {
+        if (error.response) {
+          return res.send(error.response.status, error.response.data);
+        }
+
+        const unavailable = new restifyErrors.ServiceUnavailableError(
+          error
+        );
+        return next(unavailable);
+      });;
+      
+  } catch(error) {
+        const unavailable = new restifyErrors.ServiceUnavailableError(
+          error
+        );
+        return next(unavailable);
+  }
+};
+
+const formReceiptData = (requestData) => {
+  const ministryMap = new Map();
+
+  requestData.ministry.selectedMinistry.forEach((ministry) => {
+    if (ministryMap.has(ministry.publicBody)) {
+      ministryMap.get(ministry.publicBody).push(ministry.name);
+    } else {
+      ministryMap.set(ministry.publicBody, [ministry.name]);
+    }
+  });
+
+  const receiptData = {
+    selectedPublicBodies: Array.from(ministryMap).map(([key, value]) => {
+      return {
+        publicBody: key,
+        ministry: value
+          .filter((ministry) => ministry !== key)
+          .map((ministry) => {
+            return { name: ministry };
+          }),
+      };
+    }),
+    header: {
+      firstName: requestData.contactInfo.firstName,
+      lastName: requestData.contactInfo.lastName,
+      dateSubmitted: requestData.paymentInfo.transactionDate
+    },
+    paymentInfo: {
+      totalAmount: requestData.paymentInfo.amount,
+      transactionNumber: requestData.paymentInfo.transactionNumber,
+      transactionOrderId: requestData.paymentInfo.transactionOrderId,
+      cardType: requestData.paymentInfo.cardType
+    }
+  };
+  
+  return receiptData;
+};
+
 const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) => {
   try {
     let pollingAttempts = 0;
@@ -272,4 +350,11 @@ const getAttachments = (files, maxAttachBytes, next) => {
   return attachments;
 }
 
-module.exports = { submitFoiRequest, submitFoiRequestEmail, getFeeDetails, createPayment, updatePayment};
+module.exports = {
+  submitFoiRequest,
+  submitFoiRequestEmail,
+  getFeeDetails,
+  createPayment,
+  updatePayment,
+  generateReceipt,
+};

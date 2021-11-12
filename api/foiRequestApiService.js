@@ -44,5 +44,15 @@ function RequestAPI() {
           };
         return axios.put(apiUrl, data, axiosConfig);        
      };
+
+     this.invokeGenerateReceipt = (data, apiUrl) => {
+       const axiosConfig = {
+         headers: {
+           "Content-Type": "application/json",
+         },
+         responseType: "arraybuffer",
+       };
+       return axios.post(apiUrl, data, axiosConfig);
+     };
   };  
   module.exports = { RequestAPI };
