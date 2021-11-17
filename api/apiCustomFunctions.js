@@ -79,14 +79,22 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       paymentId: req.params.requestData.paymentInfo.paymentId,
     });
 
+    var base64String = btoa(
+      String.fromCharCode.apply(null, new Uint8Array(receiptResponse.data))
+    );
+
+    console.log(base64String)
+    console.log("blaaa")
+    console.log(receiptResponse.data.toString("base64"));
+
     const receiptAttachement = {
-      content: receiptResponse.data,
+      content: base64String,
       fileName: "Receipt.pdf",
-      encoding: "base64"
-    };    
+      encoding: "base64",
+    };
 
     const receiptAttachementTwo = {
-      content: Buffer.from(receiptResponse.data),
+      content: receiptResponse.data.toString("base64"),
       fileName: "Receipt.pdf",
       encoding: "base64",
     };
@@ -233,16 +241,18 @@ const generateReceipt = (server, req, res, next) => {
     const { requestId, requestData, paymentId } = req.params;
 
     postGenerateReceipt({requestData, requestId, paymentId})
-      .then((response) => {
-        [
-          "Content-Disposition",
-          "Content-Type",
-          "Content-Length",
-          "Content-Transfer-Encoding",
-          "X-Report-Name",
-        ].forEach((h) => {
-          res.setHeader(h.toLowerCase(), response.headers[h.toLowerCase()]);
-        });
+      .then(
+        (response) => {
+          [
+            "Content-Disposition",
+            "Content-Type",
+            "Content-Length",
+            "Content-Transfer-Encoding",
+            "X-Report-Name",
+          ].forEach((h) => {
+            res.setHeader(h.toLowerCase(), response.headers[h.toLowerCase()]);
+          });
+          console.log(response)
         return res.end(response.data);
       })
       .catch((error) => {
