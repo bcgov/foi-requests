@@ -104,7 +104,10 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       receiptAttachement,
       receiptAttachementTwo,
     ]);
-    const confirmationResponse = await sendConfirmationEmail(req, server)
+    const confirmationResponse = await sendConfirmationEmail(req, server, [
+      receiptAttachement,
+      receiptAttachementTwo,
+    ]);
          
     req.log.info('FOI Request email submission success');
 
@@ -147,7 +150,7 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
 
 }
 
-const sendConfirmationEmail = async (req, server) => {
+const sendConfirmationEmail = async (req, server, attachmets = []) => {
   try {
     const requestData = req.params.requestData
     const userEmail = requestData.contactInfoOptions.email
@@ -157,7 +160,14 @@ const sendConfirmationEmail = async (req, server) => {
     }
     const comfirmationEmailLayout = new ConfirmationEmailLayout();
     const confirmationHtml = comfirmationEmailLayout.renderEmail(requestData)
-    const response = await sendEmail(confirmationHtml, [], server, userEmail, 'FOI Request Confirmation', req);
+    const response = await sendEmail(
+      confirmationHtml,
+      attachmets,
+      server,
+      userEmail,
+      "FOI Request Confirmation",
+      req
+    );
     
     return response;
 
