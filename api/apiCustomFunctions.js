@@ -79,11 +79,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       paymentId: req.params.requestData.paymentInfo.paymentId,
     });
 
-    var base64String = btoa(
-      String.fromCharCode.apply(null, new Uint8Array(receiptResponse.data))
-    );
+    var base64String = Buffer.from(receiptResponse.data).toString("base64");
 
-    console.log(base64String)
+    console.log(base64String);
     console.log("blaaa")
     console.log(receiptResponse.data.toString("base64"));
 
