@@ -81,8 +81,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 
     const receiptAttachement = {
       content: receiptResponse.data,
-      fileName: 'Receipt.pdf'
-    }
+      fileName: "Receipt.pdf",
+      encoding: "base64"
+    };
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server, [receiptAttachement]);
@@ -111,7 +112,7 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
-  const foiAttachments = getAttachments(req.files, maxAttachBytes, next);
+  let foiAttachments = getAttachments(req.files, maxAttachBytes, next);
 
   if (extraAttachements.length > 0) {
     foiAttachments = [...foiAttachments, ...extraAttachements];
