@@ -83,10 +83,19 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       content: receiptResponse.data,
       fileName: "Receipt.pdf",
       encoding: "base64"
+    };    
+
+    const receiptAttachementTwo = {
+      content: Buffer.from(receiptResponse.data),
+      fileName: "Receipt.pdf",
+      encoding: "base64",
     };
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
-    await sendSubmissionEmail(req, next, server, [receiptAttachement]);
+    await sendSubmissionEmail(req, next, server, [
+      receiptAttachement,
+      receiptAttachementTwo,
+    ]);
     const confirmationResponse = await sendConfirmationEmail(req, server)
          
     req.log.info('FOI Request email submission success');
