@@ -81,8 +81,7 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       paymentId: req.params.requestData.paymentInfo.paymentId,
     });
 
-    console.log(receiptResponse)
-    if(receiptResponse.data) {
+    if(receiptResponse.status === 200 && receiptResponse.data) {
       var base64String = Buffer.from(receiptResponse.data).toString("base64");
   
       const receiptAttachement = {
@@ -94,7 +93,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       receipt.push(receiptAttachement)
 
     }
-
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server, receipt);
@@ -257,7 +255,6 @@ const generateReceipt = (server, req, res, next) => {
           ].forEach((h) => {
             res.setHeader(h.toLowerCase(), response.headers[h.toLowerCase()]);
           });
-          console.log(response)
         return res.end(response.data);
       })
       .catch((error) => {
@@ -316,7 +313,6 @@ const formReceiptData = (requestData) => {
 };
 
 const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) => {
-  console.log(foiAttachments)
   try {
     let pollingAttempts = 0;
     const result = {
