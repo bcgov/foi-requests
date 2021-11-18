@@ -81,7 +81,8 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       paymentId: req.params.requestData.paymentInfo.paymentId,
     });
 
-    if(receiptResponse.statusCode === 200) {
+    console.log(receiptResponse)
+    if(receiptResponse.data) {
       var base64String = Buffer.from(receiptResponse.data).toString("base64");
   
       const receiptAttachement = {
