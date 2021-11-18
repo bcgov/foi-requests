@@ -73,39 +73,34 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
   
   try {
 
+    const receipt = [];
+
     const receiptResponse = await postGenerateReceipt({
       requestData: req.params.requestData,
       requestId: req.params.requestData.requestId,
       paymentId: req.params.requestData.paymentInfo.paymentId,
     });
 
-    var base64String = Buffer.from(receiptResponse.data).toString("base64");
+    if(receiptResponse.status === 200 && receiptResponse.data) {
+      var base64String = Buffer.from(receiptResponse.data).toString("base64");
+  
+      const receiptAttachement = {
+        content: base64String,
+        filename: "Receipt.pdf",
+        encoding: "base64"
+      };
 
-    console.log(base64String);
-    console.log("blaaa")
-    console.log(receiptResponse.data.toString("base64"));
+      receipt.push(receiptAttachement)
 
-    const receiptAttachement = {
-      content: base64String,
-      fileName: "Receipt.pdf",
-      encoding: "base64",
-    };
-
-    const receiptAttachementTwo = {
-      content: receiptResponse.data.toString("base64"),
-      fileName: "Receipt.pdf",
-      encoding: "base64",
-    };
+    }
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
-    await sendSubmissionEmail(req, next, server, [
-      receiptAttachement,
-      receiptAttachementTwo,
-    ]);
-    const confirmationResponse = await sendConfirmationEmail(req, server, [
-      receiptAttachement,
-      receiptAttachementTwo,
-    ]);
+    await sendSubmissionEmail(req, next, server, receipt);
+    const confirmationResponse = await sendConfirmationEmail(
+      req,
+      server,
+      receipt
+    );
          
     req.log.info('FOI Request email submission success');
 
@@ -260,7 +255,6 @@ const generateReceipt = (server, req, res, next) => {
           ].forEach((h) => {
             res.setHeader(h.toLowerCase(), response.headers[h.toLowerCase()]);
           });
-          console.log(response)
         return res.end(response.data);
       })
       .catch((error) => {
@@ -338,9 +332,6 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
         foiAttachments.map(file => {
           if(file.path) {
             fs.unlinkSync(file.path);
-          }
-          else if (file.content) {
-            delete file.content
           }
         });
         // After files are deleted, process the result.
