@@ -23,7 +23,7 @@
       { "code": "MUNI", "name": "Municipal Affairs", "publicBody": "Municipal Affairs" },
       { "code": "PREM", "name": "Office of the Premier", "publicBody": "Office of the Premier" },
       { "code": "PSSG", "name": "Public Safety and Solicitor General", "publicBody": "Public Safety and Solicitor General" },
-      { "code": "SDPR", "name": "Social Development and Poverty Reduction", "publicBody": "Emergency Management BC" },
+      { "code": "SDPR", "name": "Social Development and Poverty Reduction", "publicBody": "Social Development and Poverty Reduction" },
       { "code": "TACS", "name": "Tourism, Arts, Culture and Sport", "publicBody": "Tourism, Arts, Culture and Sport" },
       { "code": "TRAN", "name": "Transportation and Infrastructure", "publicBody": "Transportation and Infrastructure" }
     ],
