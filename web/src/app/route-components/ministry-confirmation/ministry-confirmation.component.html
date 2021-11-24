@@ -1,6 +1,7 @@
 <foi-base (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>What ministry or agency has the records you are looking for?</h2>
+    <h6 class="warning">*A non-refundable application fee of $10 is required for all General FOI requests, for every public body selected.</h6>
 
     <div *ngIf="(ministries$ | async) as minis">
       <div class="form-group">
@@ -32,6 +33,8 @@
         before submitting your request.
       </p>
     </app-alert-info>
+
+    <p>Based on the public bodies you have selected your application fee is: ${{feeAmount}}</p>
   </div>
 
   <div class="sidebar">
