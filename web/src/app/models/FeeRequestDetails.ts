@@ -1,3 +1,3 @@
 export interface FeeRequestDetails {
-  selectedMinistry?: [Object]
+  selectedMinistry?: any[]
   }

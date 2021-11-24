@@ -18,6 +18,7 @@ export class MinistryConfirmationComponent implements OnInit {
   ministries: Array<any>;
   defaultMinistry: any;
   targetKey: string = "ministry";
+  feeAmount: number = 0;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -53,7 +54,17 @@ export class MinistryConfirmationComponent implements OnInit {
 
   setContinueDisabled() {
     let selected = this.ministries.filter(m => m.selected);
-    this.base.continueDisabled = selected.length == 0;
+    
+    if(selected.length == 0) {
+      this.base.continueDisabled = true
+      this.feeAmount = 0;
+    } else {
+      this.base.continueDisabled = false
+      const feeQuantity = this.dataService.calculateUnitFeeQuantity({
+        selectedMinistry: selected,
+      });
+      this.feeAmount = feeQuantity.valueOf() * 10;
+    }
   }
 
   ministryListClasses(m: any): string {
