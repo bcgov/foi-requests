@@ -14,8 +14,7 @@ export class ProgressBarComponent implements OnInit {
   {"route":"Your Request", "progress": 2},
   {"route":"Contact Info", "progress": 3},
   {"route":"Review & Submit", "progress": 4},
-  {"route":"Payment", "progress": 5},
-  {"route":"Complete", "progress": 6}
+  {"route":"Complete", "progress": 5}
 ];
   @Input() public currentProgress: number = 0;
 
