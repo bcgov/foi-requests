@@ -119,8 +119,8 @@
             { "route": "general/contact-info", "progress": 3 },
             { "route": "general/contact-info-options", "progress": 3 },
             { "route": "general/review-submit", "progress": 4 },
-            { "route": "general/payment", "progress": 5 },
-            { "route": "general/payment-complete/:requestId/:paymentId", "pattern":"general\/payment-complete\/\\d+\/\\d+", "progress": 5 },
+            { "route": "general/payment", "progress": 4 },
+            { "route": "general/payment-complete/:requestId/:paymentId", "pattern":"general\/payment-complete\/\\d+\/\\d+", "progress": 4 },
             { "route": "general/submit-complete", "progress": 6 }
           ]
         },
