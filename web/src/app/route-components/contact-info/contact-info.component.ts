@@ -14,7 +14,8 @@ export class ContactInfoComponent implements OnInit {
     firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
     middleName:  [null, [Validators.maxLength(255)]],
     lastName:  [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-    businessName:  [null, [Validators.maxLength(255)]]
+    businessName:  [null, [Validators.maxLength(255)]],
+    IGE: [null]
   });
 
   foiRequest: FoiRequest;
@@ -35,7 +36,7 @@ export class ContactInfoComponent implements OnInit {
       this.targetKey,
       this.foiForm
     );
-    this.base.goFoiForward();
+    this.base.goFoiForward(this.foiForm.value.IGE ? "noPaymentPath" : "paymentPath");
   }
 
   doGoBack() {

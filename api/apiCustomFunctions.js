@@ -18,8 +18,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;  
 
   req.params.requestData = JSON.parse(req.params.requestData);
-  const needsPayment = req.params.requestData.requestType && req.params.requestData.requestType.requestType === 'general';
-
+  
   const filteredRequestData = omitSensitiveData(req.params.requestData)
   const data = {
     envMessage: process.env.NODE_ENV,
@@ -31,6 +30,9 @@ const submitFoiRequest = async (server, req, res, next) => {
   };  
   
   try {
+
+    const needsPayment = doesNeedPayment(req);
+
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
@@ -40,7 +42,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
       if(needsPayment) {
         req.log.info('Success:', response.data.message);
-        res.send({ result: 'success', id: response.data.id });
+        res.send({ result: 'success', id: response.data.id, pendingPayment: true });
         return next();
       }
       
@@ -50,6 +52,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       res.send({
         EmailSuccess: true, 
         message: 'success',
+        pendingPayment: false
       });
 
     }
@@ -398,6 +401,30 @@ const getAttachments = (files, maxAttachBytes, next) => {
     });
   }
   return attachments;
+}
+
+const doesNeedPayment = (req) => {
+  const data = req.params.requestData
+
+  if (!data.requestType) {
+    throw new Error("Request type is missing")
+  }
+
+  if (!data.contactInfo) {
+    throw new Error("Contant info is missing")
+  }
+
+  if (data.requestType.requestType === "general") {
+    if(data.contactInfo.IGE) {
+      return false
+    }
+    return true
+  }
+  else if (data.requestType.requestType === "personal") {
+    return false
+  }
+
+  throw new Error("Invalid input data")
 }
 
 module.exports = {
