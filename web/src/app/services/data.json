@@ -123,6 +123,7 @@
                 "paymentPath": {
                   "routes": [
                     { "route": "general/contact-info-options", "progress": 3 },
+                    { "route": "general/review-submit", "progress": 4 },
                     { "route": "general/payment", "progress": 4 },
                     {
                       "route": "general/payment-complete/:requestId/:paymentId",
@@ -135,6 +136,7 @@
                 "noPaymentPath": {
                   "routes": [
                     { "route": "general/ige/contact-info-options", "progress": 3 },
+                    { "route": "general/ige/review-submit", "progress": 4 }, 
                     { "route": "general/ige/submit-complete", "progress": 5 }
                   ]
                 }

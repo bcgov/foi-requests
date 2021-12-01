@@ -45,6 +45,7 @@ const routes: Routes = [
   //General; IGE
 
   { path: "general/ige/contact-info-options", component: ContactInfoOptionsComponent },
+  { path: "general/ige/review-submit", component: ReviewSubmitComponent },
   { path: "general/ige/submit-complete", component: ReviewSubmitCompleteComponent },
 
   // Personal

@@ -20,6 +20,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   req.params.requestData = JSON.parse(req.params.requestData);
   
   const filteredRequestData = omitSensitiveData(req.params.requestData)
+  filteredRequestData.isPIIRedacted = true
   const data = {
     envMessage: process.env.NODE_ENV,
     params: {
@@ -32,6 +33,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   try {
 
     const needsPayment = doesNeedPayment(req);
+    data.params.requestData.requiresPayment = needsPayment    
 
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
