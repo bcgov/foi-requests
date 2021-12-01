@@ -50,9 +50,13 @@
             [form]="foiForm"
             maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
           >
-            <label>Business/Organization name:</label>
+            <label>Business/Organization name<span class="label-required" *ngIf="businessNameRequired">*</span>:</label>
             <input formControlName="businessName" />
           </app-foi-valid>
+          <label *ngIf="generalRequest">
+            <input type="checkbox" value="IGE" formControlName="IGE"/> IGE
+          </label>
+
           <div class="alert alert-light" role="alert">
             <fa-icon icon="info-circle"></fa-icon>
             If you are a law firm: Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.

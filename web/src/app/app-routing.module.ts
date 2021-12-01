@@ -42,6 +42,12 @@ const routes: Routes = [
   { path: 'general/payment', component: PaymentComponent},
   { path: 'general/payment-complete/:requestId/:paymentId', component: PaymentCompleteComponent},
 
+  //General; IGE
+
+  { path: "general/ige/contact-info-options", component: ContactInfoOptionsComponent },
+  { path: "general/ige/review-submit", component: ReviewSubmitComponent },
+  { path: "general/ige/submit-complete", component: ReviewSubmitCompleteComponent },
+
   // Personal
   { path: 'personal/select-about', component: SelectAboutComponent },
 
