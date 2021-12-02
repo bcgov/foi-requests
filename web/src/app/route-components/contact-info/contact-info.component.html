@@ -50,11 +50,11 @@
             [form]="foiForm"
             maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
           >
-            <label>Business/Organization name<span class="label-required" *ngIf="businessNameRequired">*</span>:</label>
+            <label>Business/Organization name<span class="label-required" *ngIf="businessNameRequired"> *</span>:</label>
             <input formControlName="businessName" />
           </app-foi-valid>
           <label *ngIf="generalRequest">
-            <input type="checkbox" value="IGE" formControlName="IGE"/> IGE
+            <input type="checkbox" value="IGE" formControlName="IGE"/> I certify that I am a representative of, and authorized to make a request on behalf of, an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees.
           </label>
 
           <div class="alert alert-light" role="alert">
