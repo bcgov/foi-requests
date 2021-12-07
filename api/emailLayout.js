@@ -263,88 +263,64 @@ function EmailLayout() {
   };
 
   this.renderEmail = function(data ,isAuthorised ,authorisedDetails) {
-    console.log("A")
     let content = this.tableHeader('Request Records');
       this.table()
-    console.log("B")
     if (isAuthorised) {
-      console.log("C")
       content += this.tableRow(
         'Requestor identity verification','BC Services Card'
       );
-      console.log("D")
 
       content += this.tableRow(
        'Verified details',this.table(this.getAuthorisedDetailsTable(authorisedDetails))
       );
-      console.log("E")
 
     }
     content += this.tableRow(
       'Request Type',
       data.requestData.requestType.requestType
     );
-    console.log("F")
     // Request is About
     data.requestData.selectAbout = data.requestData.selectAbout || {};
     content += this.about(data.requestData.selectAbout || {});
-    console.log("G")
     // if we have 'anotherInformation' then include the block
     if (data.requestData.selectAbout.another) {
-      console.log("H")
       content += this.anotherInformation(
         data.requestData.anotherInformation || {}
       );
-      console.log("I")
     }
     // if we have 'childInformation' then include the block
     if (data.requestData.selectAbout.child) {
-      console.log("J")
       content += this.childInformation(data.requestData.childInformation || {});
-      console.log("K")
     }
     // Request Records
     content += this.general(data.requestData.descriptionTimeframe || {});
-    console.log("L")
     // Ministry or Agency
     content += this.ministry(data.requestData.ministry || {});
-    console.log("M")
     // Contact Information
     content += this.personal(data.requestData.contactInfo || {} ,isAuthorised);
-    console.log("N")
     content += this.contact(data.requestData.contactInfoOptions || {},isAuthorised);
-    console.log("p")
     // Adoptive Parents
     content += this.adoptiveParents(data.requestData.adoptiveParents || {});
-    console.log("Q")
     // Request info
     if(data.requestData.requestId) {
-      console.log("R")
       content += this.requestInformation({
         requestId: data.requestData.requestId
       })
-      console.log("S")
     }
     // Payment info
     if(data.requestData.paymentInfo) {
-      console.log("T")
       content += this.paymentInformation(data.requestData.paymentInfo);
-      console.log("U")
     }
 
     // Simple footer
     content += this.tableHeader(`Submitted ${new Date().toString()}`);
-    console.log("V")
     content = this.table(content);
-    console.log("W")
     // End of the Table
 
     // Include raw JSON in the email, for local instances only.
     if (!process.env.OPENSHIFT_BUILD_NAME) {
-      console.log("X")
       content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
-    console.log("Y")
     return content;
   };
 };
