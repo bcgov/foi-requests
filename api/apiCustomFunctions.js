@@ -49,6 +49,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       }
       
       req.log.info(`Sending message to ${foiRequestInbox}`);
+      console.log('submitFoiRequest.sendSubmissionEmail. Req:', req)
       await sendSubmissionEmail(req, next, server);
 
       res.send({
@@ -137,6 +138,7 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
   }
 
   const submissionEmailLayout = new EmailLayout();
+  console.log('sendSubmissionEmail.renderEmail, req.authorisedDetails', req.authorisedDetails)
   const submissionHtml = submissionEmailLayout.renderEmail(req.params ,req.isAuthorised, req.authorisedDetails)
   const response = await sendEmail(submissionHtml, foiAttachments, server, foiRequestInbox, 'FOI Request Submission', req);
 
