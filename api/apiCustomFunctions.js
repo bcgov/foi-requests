@@ -127,6 +127,7 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 }
 
 const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
+  return {EmailSuccess: true}
   const MAX_ATTACH_MB = 5;
   const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
@@ -149,6 +150,7 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {
+  return { EmailSuccess: true };
   try {
     const requestData = req.params.requestData
     const userEmail = requestData.contactInfoOptions.email
