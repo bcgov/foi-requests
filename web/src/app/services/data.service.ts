@@ -13,6 +13,8 @@ export class DataService {
   foiRoutes: FoiRoute[];
   childFileKey = 'childFileAttachment';
   personFileKey = 'personFileAttachment';
+  childFileName = 'Intake - Proof of Guardianship';
+  personFileName = 'Intake - Signed Consent';
 
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
@@ -217,7 +219,7 @@ export class DataService {
     foiRequest.attachments = [];
 
     if (foiRequest.requestData.childInformation) {
-      const filename = foiRequest.requestData.childInformation.proofOfGuardianship;
+      const filename = this.renameAttachment(foiRequest.requestData.childInformation.proofOfGuardianship, this.childFileName);
       const childFile = this.getBlobFrom(this.childFileKey);
       if (childFile) {
         const blobFile: BlobFile = {
@@ -228,7 +230,7 @@ export class DataService {
       }
     }
     if (foiRequest.requestData.anotherInformation) {
-      const filename = foiRequest.requestData.anotherInformation.proofOfAuthorization;
+      const filename = this.renameAttachment(foiRequest.requestData.anotherInformation.proofOfAuthorization, this.personFileName);
       const personFile = this.getBlobFrom(this.personFileKey);
       if (personFile) {
         const blobFile: BlobFile = {
@@ -274,5 +276,10 @@ export class DataService {
       previousRoute = rt;
     }
     return flatRoutes;
+  }
+
+  renameAttachment(filename: string, newFileName: string) {
+    const extension = filename.lastIndexOf('.') === -1 ? '' : filename.substring(filename.lastIndexOf('.') + 1);
+    return `${newFileName}.${extension}`;
   }
 }
