@@ -53,10 +53,27 @@
             <label>Business/Organization name<span class="label-required" *ngIf="businessNameRequired"> *</span>:</label>
             <input formControlName="businessName" />
           </app-foi-valid>
-          <label *ngIf="generalRequest">
-            <input type="checkbox" value="IGE" formControlName="IGE"/> I certify that I am a representative of, and authorized to make a request on behalf of, an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees.
+        </div>
+        <div class="col-lg-12" *ngIf="generalRequest">
+          <label>
+            <input 
+              type="checkbox" 
+              value="IGE" 
+              formControlName="IGE"
+            /> {{igeStatement}}
           </label>
 
+          <app-foi-valid
+            [form]="foiForm"
+            maxLength="Indigenous Governing Entity name is longer than the maximum {requiredLength} characters."
+            *ngIf="igeNameRequired"
+          >
+            <label>Name of Indigenous Governing Entity<span class="label-required" *ngIf="igeNameRequired"> *</span>:</label>
+            <input formControlName="igeName" />
+          </app-foi-valid>
+        </div>
+
+        <div class="col-lg-12">
           <div class="alert alert-light" role="alert">
             <fa-icon icon="info-circle"></fa-icon>
             If you are a law firm: Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.
