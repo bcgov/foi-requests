@@ -24,6 +24,12 @@
               <span class="form-control">{{ foiRequest.requestData.contactInfo.birthDate | date }}</span>
             </div>
 
+            <div class="form-group" *ngIf="foiRequest.requestData.requestType.requestType === 'general'">
+              <label>
+                <input type="checkbox" value="IGE" formControlName="IGE" disabled [checked]="foiRequest.requestData.contactInfo.IGE"/> I certify that I am a representative of, and authorized to make a request on behalf of, an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees.
+              </label>
+            </div>
+
             <div class="form-group">
               <label>Email:</label>
               <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.email }}</span>

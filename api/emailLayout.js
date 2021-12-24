@@ -1,7 +1,7 @@
 /**
  * Keep the email layout functions together, outside of index.js
  */
-module.exports = function EmailLayout() {
+function EmailLayout() {
   this.table = function(rows) {
     return `<table width="95%" border="0" cellpadding="5" cellspacing="0"><tbody
           style="font-size:12px;font-family:sans-serif;background-color:#fff;"
@@ -237,7 +237,32 @@ module.exports = function EmailLayout() {
     return result;
   };
 
-  this.renderEmail = function(data ,isAuthorised , authorisedDetails) {
+  this.requestInformation = function(data) {
+    let result = this.tableHeader('Request Information');
+    result += this.tableRow(
+      'Request id',
+      data.requestId
+    );
+
+    return result;
+  };
+
+  this.paymentInformation = function(data) {
+    let result = this.tableHeader('Payment Information');
+
+    if (data.transactionNumber) {
+      result += this.tableRow('Transaction number', data.transactionNumber);
+    }
+    if (data.transactionOrderId) {
+      result += this.tableRow('Transaction order id', data.transactionOrderId);
+    }
+    if (data.amount) {
+      result += this.tableRow('Amount', `$${data.amount}`);
+    }
+    return result;
+  };
+
+  this.renderEmail = function(data ,isAuthorised ,authorisedDetails) {
     let content = this.tableHeader('Request Records');
       this.table()
     if (isAuthorised) {
@@ -276,6 +301,17 @@ module.exports = function EmailLayout() {
     content += this.contact(data.requestData.contactInfoOptions || {},isAuthorised);
     // Adoptive Parents
     content += this.adoptiveParents(data.requestData.adoptiveParents || {});
+    // Request info
+    if(data.requestData.requestId) {
+      content += this.requestInformation({
+        requestId: data.requestData.requestId
+      })
+    }
+    // Payment info
+    if(data.requestData.paymentInfo) {
+      content += this.paymentInformation(data.requestData.paymentInfo);
+    }
+
     // Simple footer
     content += this.tableHeader(`Submitted ${new Date().toString()}`);
     content = this.table(content);
@@ -288,3 +324,67 @@ module.exports = function EmailLayout() {
     return content;
   };
 };
+
+function ConfirmationEmailLayout() {
+
+  this.paymentInfo = function(paymentInfoData) {
+
+    if(!paymentInfoData || Object.keys(paymentInfoData).length === 0) {
+      return ``;
+    }
+    
+    let result = `<p>Your transaction details are as follows:</p>`;
+
+    if(paymentInfoData.transactionNumber) {
+      result = result + `<p>Transaction Number: ${paymentInfoData.transactionNumber}</p>`;
+    }
+
+    if (paymentInfoData.transactionOrderId) {
+      result =
+        result +
+        `<p>Transaction Order ID: ${paymentInfoData.transactionOrderId}</p>`;
+    }
+
+    if (paymentInfoData.amount) {
+      result =
+        result + `<p>Amount: $${paymentInfoData.amount}</p>`; 
+    }
+    
+    return result;
+  }
+
+  this.renderEmail = function(data) {
+    let content = `
+		<div style='width:40em;font-family:sans-serif;'>
+			<p>This email confirms your recent payment on ${data.paymentInfo.transactionDate} for your FOI Request Submission.</p>
+      ${this.paymentInfo(data.paymentInfo)}
+			<p>Please do not reply to this email, this is an acknowledgment of payment.</p>
+			<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>	
+			<p>Regards,</p>	
+			<p>Information Access Operations</p>
+			<hr/>		
+			<p style='margin:0;'>
+				<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>
+				<span style='color:#00326A'>Information Access Operations</span>
+			</p>	
+			<p style='margin:0;'>
+				<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9K1</span>
+			</p>	
+			<p style='margin:0;'>
+				<a href=\"http://www.gov.bc.ca/freedomofinformation/\">
+					http://www.gov.bc.ca/freedomofinformation/
+				</a>
+			</p>			
+			<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>
+			<p style='margin:0;'>
+				<span>250-387-1321 or 1-833-283-8200
+					<i>(ask for Information Access Operations)</i>
+				</span>
+			</p>
+		</div>`
+
+    return content;
+  }
+}
+
+module.exports = { EmailLayout, ConfirmationEmailLayout }

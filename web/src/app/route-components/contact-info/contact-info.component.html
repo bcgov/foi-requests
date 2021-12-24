@@ -7,9 +7,8 @@
   <div class="foi-content">
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <p>
-        We may need to get in touch with you to clarify your request, discuss
-        the status of your request or potential fees relating to processing your
-        request.
+        We may need to get in touch with you to clarify your request, discuss the status of 
+        your request or arrange payment of any additional processing fees related to your request.
       </p>
 
       <h2>Your name</h2>
@@ -51,9 +50,13 @@
             [form]="foiForm"
             maxLength="Business/Organization name is longer than the maximum {requiredLength} characters."
           >
-            <label>Business/Organization name:</label>
+            <label>Business/Organization name<span class="label-required" *ngIf="businessNameRequired"> *</span>:</label>
             <input formControlName="businessName" />
           </app-foi-valid>
+          <label *ngIf="generalRequest">
+            <input type="checkbox" value="IGE" formControlName="IGE"/> I certify that I am a representative of, and authorized to make a request on behalf of, an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees.
+          </label>
+
           <div class="alert alert-light" role="alert">
             <fa-icon icon="info-circle"></fa-icon>
             If you are a law firm: Please identify whether you are representing this client or representing someone else. Please also include a file # where possible.
