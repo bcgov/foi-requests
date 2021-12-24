@@ -19,21 +19,21 @@ const submitFoiRequest = async (server, req, res, next) => {
 
   req.params.requestData = JSON.parse(req.params.requestData);
   
-  const filteredRequestData = omitSensitiveData(req.params.requestData)
-  filteredRequestData.isPIIRedacted = true
+  req.params.requestData.isPIIRedacted = false;
+
   const data = {
     envMessage: process.env.NODE_ENV,
     params: {
       ...req.params,
-      requestData: filteredRequestData
+      requestData: req.params.requestData,
     },
-    files: req.files
+    files: req.files,
   };  
   
   try {
 
     const needsPayment = doesNeedPayment(req);
-    data.params.requestData.requiresPayment = needsPayment    
+    data.params.requestData.requiresPayment = needsPayment  
 
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
@@ -370,16 +370,6 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
       } catch (e) {
     return {EmailSuccess: false, message: e}
   }
-}
-
-const omitSensitiveData = (requestData) => {
-  const fiteredRequestData = Object.assign({}, requestData);
-  delete fiteredRequestData.descriptionTimeframe;
-  delete fiteredRequestData.contactInfo;
-  delete fiteredRequestData.contactInfoOptions;
-  delete fiteredRequestData.Attachments;
-
-  return fiteredRequestData;
 }
 
 const getAttachments = (files, maxAttachBytes, next) => {
