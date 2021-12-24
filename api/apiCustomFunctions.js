@@ -395,6 +395,34 @@ const getAttachments = (files, maxAttachBytes, next) => {
   return attachments;
 }
 
+const convertFilesToBase64 = (files, maxAttachBytes, next) => {
+  const attachments = [];
+  if (files && Object.keys(files).length > 0) {
+    Object.keys(files).map((f) => {
+      const file = files[f];
+      if (file.size < maxAttachBytes) {
+        const filedata = fs.readFileSync(file.path, { encoding: "base64" });
+        attachments.push({
+          filename: file.name,
+          base64data: filedata,
+        });
+      } else {
+        const tooLarge = new restifyErrors.PayloadTooLargeError(
+          `Attachment is too large! Max file size is ${maxAttachBytes} bytes.`
+        );
+        console.log(
+          "Attachment too large; size:",
+          file.size,
+          "max:",
+          maxAttachBytes
+        );
+        return next(tooLarge);
+      }
+    });
+  }
+  return attachments;
+};
+
 const doesNeedPayment = (req) => {
   const data = req.params.requestData
 
