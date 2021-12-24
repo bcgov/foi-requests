@@ -12,6 +12,8 @@ const { RequestAPI } = require('./foiRequestApiService');
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
+const MAX_ATTACH_MB = 5;
+const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
 
 const submitFoiRequest = async (server, req, res, next) => {
   
@@ -28,7 +30,15 @@ const submitFoiRequest = async (server, req, res, next) => {
       requestData: req.params.requestData,
     },
     files: req.files,
-  };  
+  };
+
+  if (req.files) {
+    data.params["requestData"].Attachments = convertFilesToBase64(
+      req.files,
+      maxAttachBytes,
+      next
+    );
+  }
   
   try {
 
@@ -127,8 +137,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 }
 
 const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
-  const MAX_ATTACH_MB = 5;
-  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
   let foiAttachments = getAttachments(req.files, maxAttachBytes, next);
 
@@ -372,13 +380,13 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
   }
 }
 
-const getAttachments = (files, maxAttachBytes, next) => {
+const getAttachments = (files, maxFileSize, next) => {
 
   const attachments = [];
   if (files && Object.keys(files).length > 0) {
     Object.keys(files).map(f => {
       const file = files[f];
-      if (file.size < maxAttachBytes) {
+      if (file.size < maxFileSize) {
 
         attachments.push({
           filename: file.name,
@@ -386,8 +394,8 @@ const getAttachments = (files, maxAttachBytes, next) => {
         });
 
       } else {
-        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
-        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
+        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxFileSize} bytes.`);
+        console.log('Attachment too large; size:', file.size, 'max:', maxFileSize);
         return next(tooLarge);
       }
     });
@@ -395,12 +403,12 @@ const getAttachments = (files, maxAttachBytes, next) => {
   return attachments;
 }
 
-const convertFilesToBase64 = (files, maxAttachBytes, next) => {
+const convertFilesToBase64 = (files, maxFileSize, next) => {
   const attachments = [];
   if (files && Object.keys(files).length > 0) {
     Object.keys(files).map((f) => {
       const file = files[f];
-      if (file.size < maxAttachBytes) {
+      if (file.size < maxFileSize) {
         const filedata = fs.readFileSync(file.path, { encoding: "base64" });
         attachments.push({
           filename: file.name,
@@ -408,13 +416,13 @@ const convertFilesToBase64 = (files, maxAttachBytes, next) => {
         });
       } else {
         const tooLarge = new restifyErrors.PayloadTooLargeError(
-          `Attachment is too large! Max file size is ${maxAttachBytes} bytes.`
+          `Attachment is too large! Max file size is ${maxFileSize} bytes.`
         );
         console.log(
           "Attachment too large; size:",
           file.size,
           "max:",
-          maxAttachBytes
+          maxFileSize
         );
         return next(tooLarge);
       }
