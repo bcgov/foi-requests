@@ -33,7 +33,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   };
 
   if (req.files) {
-    data.params["requestData"].Attachments = convertFilesToBase64(
+    data.params.requestData.Attachments = convertFilesToBase64(
       req.files,
       maxAttachBytes,
       next
