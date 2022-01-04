@@ -142,7 +142,8 @@ function EmailLayout() {
     if (data.IGE) {
       result += this.tableRow(
         "Indigenous Governing Entity Statement",
-        data.igeStatement
+        "I certify that I am a representative of, and authorized to make a request on behalf of," +
+        " an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees."
       );
       result += this.tableRow(
         "Name of Indigenous Governing Entity",

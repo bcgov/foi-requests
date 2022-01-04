@@ -20,9 +20,7 @@ export class ContactInfoComponent implements OnInit {
   targetKey: string = "contactInfo";
   igeNameValidators = [Validators.maxLength(255)];
   igeNameRequired = false;
-  igeStatement = "I certify that I am a representative of, and authorized to make a request on behalf of," +
-    " an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees.";
-
+  
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
@@ -53,9 +51,6 @@ export class ContactInfoComponent implements OnInit {
   }
 
   doContinue() {
-    if (this.foiForm.value.IGE) {
-      this.foiForm.value.igeStatement = this.igeStatement;
-    }
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     this.base.goFoiForward(this.foiForm.value.IGE ? "noPaymentPath" : "paymentPath");
