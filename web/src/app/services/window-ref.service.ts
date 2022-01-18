@@ -20,4 +20,12 @@ export class WindowRefService {
   get nativeWindow(): any {
     return _window();
   }
+
+  /**
+   * Changes location.href in the window object to cause redirect
+   *
+   */
+  goToUrl (url:string) {
+    window.location.href = url;
+  }
 }

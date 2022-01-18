@@ -1,0 +1,25 @@
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()" [showButtons]="false" [showInfo]="false">
+  <div class="foi-content">
+    <h2>Fee details</h2>
+    <p>
+      This application fee is calculated based on your selections
+    </p>    
+    <p>
+      <strong>We have calculated that the basic fee of this application is: $<fa-icon *ngIf="isBusy" icon="spinner" [spin]="true"></fa-icon>{{fee}}</strong>
+    </p>
+    <h6 class="warning"><strong>Reminder: This application fee is non-refundable</strong></h6>
+
+    <div class="buttonbar">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="doContinue()"
+      >
+        <fa-icon *ngIf="payBusy" icon="spinner" [spin]="true"></fa-icon>
+        Proceed to payment
+      </button>
+    </div>
+      
+  </div>
+  
+</foi-base>

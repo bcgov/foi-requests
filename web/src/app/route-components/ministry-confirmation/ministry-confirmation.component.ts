@@ -18,6 +18,8 @@ export class MinistryConfirmationComponent implements OnInit {
   ministries: Array<any>;
   defaultMinistry: any;
   targetKey: string = "ministry";
+  feeAmount: number = 0;
+  requiresPayment: boolean = null;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -25,6 +27,7 @@ export class MinistryConfirmationComponent implements OnInit {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.defaultMinistry = this.foiRequest.requestData[this.targetKey].defaultMinistry;
     let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
+    this.requiresPayment = this.foiRequest.requestData.requestType.requestType === 'general'
 
     // Fetch Ministries from the data service.
     this.ministries$ = this.dataService.getMinistries().pipe(
@@ -37,6 +40,12 @@ export class MinistryConfirmationComponent implements OnInit {
       }),
       map(ministries => {
         this.base.continueDisabled = !ministries.find(m => m.selected);
+
+        const feeQuantity = this.dataService.calculateUnitFeeQuantity({
+          selectedMinistry: ministries.filter((m) => m.selected),
+        });
+        this.feeAmount = feeQuantity.valueOf() * 10
+        
         return ministries;
       }),
       map(ministries => {
@@ -53,7 +62,17 @@ export class MinistryConfirmationComponent implements OnInit {
 
   setContinueDisabled() {
     let selected = this.ministries.filter(m => m.selected);
-    this.base.continueDisabled = selected.length == 0;
+    
+    if(selected.length == 0) {
+      this.base.continueDisabled = true
+      this.feeAmount = 0;
+    } else {
+      this.base.continueDisabled = false
+      const feeQuantity = this.dataService.calculateUnitFeeQuantity({
+        selectedMinistry: selected,
+      });
+      this.feeAmount = feeQuantity.valueOf() * 10;
+    }
   }
 
   ministryListClasses(m: any): string {
