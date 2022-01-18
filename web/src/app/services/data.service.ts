@@ -94,7 +94,9 @@ export class DataService {
     if (key && foiForm) {
       // Clear the current node and populate it with values from the FormGroup.
       foi.requestData[key] = {};
-      Object.keys(foiForm.value).map((k) => (foi.requestData[key][k] = foiForm.value[k]));
+      Object.keys(foiForm.value).forEach((k) => {
+        foi.requestData[key][k] = foiForm.value[k];
+      });
     }
     this.saveState("foi-request", foi);
     return foi;

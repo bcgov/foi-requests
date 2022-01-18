@@ -139,6 +139,18 @@ function EmailLayout() {
     if (data.businessName) {
       result += this.tableRow('Business Name', data.businessName);
     }
+    if (data.IGE) {
+      result += this.tableRow(
+        "Indigenous Governing Entity Statement",
+        "I certify that I am a representative of, and authorized to make a request on behalf of," +
+        " an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees."
+      );
+      result += this.tableRow(
+        "Name of Indigenous Governing Entity",
+        data.igeName
+      );
+
+    }
     if (data.birthDate) {
       result += this.tableRow('Birth Date <small>(mm/dd/yyyy)</small>', this.dateFormat(data.birthDate));
     }

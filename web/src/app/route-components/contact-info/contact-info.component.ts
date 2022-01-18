@@ -9,18 +9,18 @@ const conditionalRequired = (condition) => {
 }
 
 @Component({
-  templateUrl: './contact-info.component.html',
-  styleUrls: ['./contact-info.component.scss']
+  templateUrl: "./contact-info.component.html",
+  styleUrls: ["./contact-info.component.scss"],
 })
 export class ContactInfoComponent implements OnInit {
   @ViewChild(BaseComponent) base: BaseComponent;
-  foiForm = null
+  foiForm = null;
   generalRequest = null;
   foiRequest: FoiRequest;
   targetKey: string = "contactInfo";
-  businessNameValidators = [Validators.maxLength(255)]
-  businessNameRequired = false;
-
+  igeNameValidators = [Validators.maxLength(255)];
+  igeNameRequired = false;
+  
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {
@@ -28,21 +28,26 @@ export class ContactInfoComponent implements OnInit {
       firstName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
       middleName: [null, [Validators.maxLength(255)]],
       lastName: [null, Validators.compose([Validators.required, Validators.maxLength(255)])],
-      businessName: [null, this.businessNameValidators],
+      businessName: [null, Validators.maxLength(255)],
       IGE: [null],
+      igeName: [null, this.igeNameRequired],
     });
 
-    this.foiForm.get("IGE").valueChanges.subscribe((value) => {
-      const businessName = this.foiForm.get("businessName");
-      businessName.setValidators(this.businessNameValidators.concat(conditionalRequired(value)));
-      businessName.updateValueAndValidity()
-      this.businessNameRequired=value
-    });
+    this.igeNameRequiredSubscription();
 
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.generalRequest = this.foiRequest.requestData.requestType.requestType === "general";
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+  }
+
+  igeNameRequiredSubscription() {
+    this.foiForm.get("IGE").valueChanges.subscribe((value) => {
+      const igeName = this.foiForm.get("igeName");
+      igeName.setValidators(this.igeNameValidators.concat(conditionalRequired(value)));
+      igeName.updateValueAndValidity();
+      this.igeNameRequired = value;
+    });
   }
 
   doContinue() {
