@@ -19,6 +19,7 @@
       { "code": "IRR", "name": "Indigenous Relations and Reconciliation", "publicBody": "Indigenous Relations and Reconciliation" },
       { "code": "JERI", "name": "Jobs, Economic Recovery and Innovation", "publicBody": "Jobs, Economic Recovery and Innovation" },
       { "code": "LBR", "name": "Labour", "publicBody": "Labour" },
+      { "code": "LWRS", "name": "Land, Water and Resource Stewardship" },
       { "code": "MMHA", "name": "Mental Health and Addictions", "publicBody": "Mental Health and Addictions" },
       { "code": "MUNI", "name": "Municipal Affairs", "publicBody": "Municipal Affairs" },
       { "code": "PREM", "name": "Office of the Premier", "publicBody": "Office of the Premier" },
