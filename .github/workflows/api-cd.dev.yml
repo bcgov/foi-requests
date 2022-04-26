@@ -8,6 +8,7 @@ on:
       - dev-AC-1355
     paths:
       - "api/**"
+      - ".github/workflows/api-cd.dev.yml"
   workflow_dispatch:
     inputs:
       environment:
