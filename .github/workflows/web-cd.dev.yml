@@ -64,4 +64,4 @@ jobs:
       - name: Tag+Deploy for dev
         shell: bash
         run: |
-          oc tag web-image-build:latest web-image-build:${{ env.TAG_NAME }}
+          oc tag web:latest web:${{ env.TAG_NAME }}
