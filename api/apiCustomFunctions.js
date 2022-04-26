@@ -12,6 +12,8 @@ const { RequestAPI } = require('./foiRequestApiService');
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
+const MAX_ATTACH_MB = 5;
+const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
 
 const submitFoiRequest = async (server, req, res, next) => {
   
@@ -19,21 +21,29 @@ const submitFoiRequest = async (server, req, res, next) => {
 
   req.params.requestData = JSON.parse(req.params.requestData);
   
-  const filteredRequestData = omitSensitiveData(req.params.requestData)
-  filteredRequestData.isPIIRedacted = true
+  req.params.requestData.isPIIRedacted = false;
+
   const data = {
     envMessage: process.env.NODE_ENV,
     params: {
       ...req.params,
-      requestData: filteredRequestData
+      requestData: req.params.requestData,
     },
-    files: req.files
-  };  
+    files: req.files,
+  };
+
+  if (req.files) {
+    data.params["requestData"].Attachments = convertFilesToBase64(
+      req.files,
+      maxAttachBytes,
+      next
+    );
+  }
   
   try {
 
     const needsPayment = doesNeedPayment(req);
-    data.params.requestData.requiresPayment = needsPayment    
+    data.params.requestData.requiresPayment = needsPayment  
 
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
@@ -127,8 +137,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 }
 
 const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
-  const MAX_ATTACH_MB = 5;
-  const maxAttachBytes = MAX_ATTACH_MB * 1024 *1024;
 
   let foiAttachments = getAttachments(req.files, maxAttachBytes, next);
 
@@ -372,23 +380,13 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
   }
 }
 
-const omitSensitiveData = (requestData) => {
-  const fiteredRequestData = Object.assign({}, requestData);
-  delete fiteredRequestData.descriptionTimeframe;
-  delete fiteredRequestData.contactInfo;
-  delete fiteredRequestData.contactInfoOptions;
-  delete fiteredRequestData.Attachments;
-
-  return fiteredRequestData;
-}
-
-const getAttachments = (files, maxAttachBytes, next) => {
+const getAttachments = (files, maxFileSize, next) => {
 
   const attachments = [];
   if (files && Object.keys(files).length > 0) {
     Object.keys(files).map(f => {
       const file = files[f];
-      if (file.size < maxAttachBytes) {
+      if (file.size < maxFileSize) {
 
         attachments.push({
           filename: file.name,
@@ -396,14 +394,42 @@ const getAttachments = (files, maxAttachBytes, next) => {
         });
 
       } else {
-        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxAttachBytes} bytes.`);
-        console.log('Attachment too large; size:', file.size, 'max:', maxAttachBytes);
+        const tooLarge = new restifyErrors.PayloadTooLargeError(`Attachment is too large! Max file size is ${maxFileSize} bytes.`);
+        console.log('Attachment too large; size:', file.size, 'max:', maxFileSize);
         return next(tooLarge);
       }
     });
   }
   return attachments;
 }
+
+const convertFilesToBase64 = (files, maxFileSize, next) => {
+  const attachments = [];
+  if (files && Object.keys(files).length > 0) {
+    Object.keys(files).map((f) => {
+      const file = files[f];
+      if (file.size < maxFileSize) {
+        const filedata = fs.readFileSync(file.path, { encoding: "base64" });
+        attachments.push({
+          filename: file.name,
+          base64data: filedata,
+        });
+      } else {
+        const tooLarge = new restifyErrors.PayloadTooLargeError(
+          `Attachment is too large! Max file size is ${maxFileSize} bytes.`
+        );
+        console.log(
+          "Attachment too large; size:",
+          file.size,
+          "max:",
+          maxFileSize
+        );
+        return next(tooLarge);
+      }
+    });
+  }
+  return attachments;
+};
 
 const doesNeedPayment = (req) => {
   const data = req.params.requestData
