@@ -4,7 +4,7 @@ name: Deploy web to test
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - "web/**"
       - ".github/workflows/web-cd.test.yml"
