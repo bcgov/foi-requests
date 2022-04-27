@@ -4,8 +4,7 @@ name: Deploy API to test
 on:
   push:
     branches:
-      - test
-      - dev-AC-1355
+      - main
     paths:
       - "api/**"
       - ".github/workflows/api-cd.test.yml"
