@@ -1,0 +1,67 @@
+name: Deploy web to dev
+
+
+on:
+  push:
+    branches:
+      - dev
+      - dev-AC-1355
+    paths:
+      - "web/**"
+      - ".github/workflows/web-cd.dev.yml"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment (dev/test/prod)"
+        required: true
+        default: "dev"
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./web
+
+env:
+  APP_NAME: "web"
+  TAG_NAME: "dev"
+
+jobs:
+  web-cd-by-push:
+    runs-on: ubuntu-20.04
+
+    if: github.event_name == 'push' && github.repository == 'bcgov/foi-requests'
+    environment:
+      name: "dev"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login Openshift
+        shell: bash
+        run: |
+          oc login --server=${{secrets.OPENSHIFT4_LOGIN_REGISTRY}} --token=${{secrets.OPENSHIFT4_SA_TOKEN}}
+
+      - name: Tools project
+        shell: bash
+        run: |
+          oc project ${{ secrets.OPENSHIFT4_FRONTEND_REPOSITORY }}-tools
+
+      - name: Build from text branch
+        shell: bash
+        run: |
+          oc patch bc/web-artifact-build -p '{"spec":{"source":{"git":{"ref":"dev"}}}}'
+
+      - name: Start Build Openshift part 1/2
+        shell: bash
+        run: |
+          oc start-build web-artifact-build --wait
+
+      - name: Start Build Openshift part 2/2
+        shell: bash
+        run: |
+          oc start-build web-image-build --wait
+
+      - name: Tag+Deploy for dev
+        shell: bash
+        run: |
+          oc tag web:latest web:${{ env.TAG_NAME }}

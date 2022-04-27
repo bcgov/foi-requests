@@ -24,7 +24,7 @@ function authInit(options) {
 
   return {
 
-    verifyJWTResponseMiddleware: function(req, res, next) {
+    verifyJWTResponseMiddleware: function(req, res, next) {  
       if (req.headers[CAPTCHA_NONCE_HEADER]) {
         req.isAuthorised = false
         return next();
@@ -36,7 +36,6 @@ function authInit(options) {
         if (err){
           req.isAuthorised = false
           return next();
-
         } else {
           req.isAuthorised = true
           req.userDetails = {"firstName":decoded.firstName,

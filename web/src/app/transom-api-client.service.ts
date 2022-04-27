@@ -23,16 +23,26 @@ import { FoiRequest, BlobFile } from "./models/FoiRequest";
 })
 export class TransomApiClientService  {
   public baseUrl: string;
+  public requestManagementUrl: string
   private headers: any;
   public currentUser: User;
 
   constructor(public http: HttpClient, private storage: LocalStorageService) {
     this.baseUrl = "/api/v1";
+    this.requestManagementUrl = "/api";
     this.headers = {};
   }
   
   setHeader(key: string, value: string) {
     this.headers[key] = value;
+  }
+
+  getHeader(key: string) {
+    return this.headers[key]
+  }
+  
+  removeHeader(key: string) {
+    delete this.headers[key]
   }
   /**
    * Generic API response handler. Passes the response on to the orginal caller
@@ -83,8 +93,8 @@ export class TransomApiClientService  {
    * the functions object of apiDefinition.js (line 122)
    * @param body The body to post to the request.
    */
-  postFoiRequest(foiRequest: FoiRequest): Observable<any> {
-    const functionName = "submitFoiRequest";
+  postFoiRequest(foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
+    const functionName = sendEmailOnly ? "submitFoiRequestEmail" : "submitFoiRequest";
     const url = this.baseUrl + `/fx/${functionName}`;
 
     const body: FormData = new FormData();
@@ -95,6 +105,62 @@ export class TransomApiClientService  {
     }
 
     const obs = this.http.post(url, body, {
+      headers: this.headers
+    });
+    return this.handleResponse(obs);
+  }
+
+  createTransaction(transactionRequest): Observable<any> {
+    const {feeCode, quantity, returnRoute} = transactionRequest
+    
+    const url = this.baseUrl + `/fx/createPayment?requestId=${transactionRequest.requestId}`;
+
+    const obs = this.http.post(url, JSON.stringify({
+      requestData: {
+        fee_code: feeCode,
+        quantity: quantity,
+        return_route: returnRoute
+      }
+    }), {
+      headers: this.headers
+    });
+    return this.handleResponse(obs);
+  }
+
+  updateTransaction(updateTransactionRequest): Observable<any> {
+    const {requestId, responseUrl, paymentId} = updateTransactionRequest;
+
+    const url = this.baseUrl + `/fx/updatePayment?requestId=${requestId}&paymentId=${paymentId}`;
+
+    const obs = this.http.post(url, JSON.stringify({
+      requestData: {
+        response_url: responseUrl
+      }
+    }), {
+      headers: this.headers
+    });
+    
+    return this.handleResponse(obs);
+  }
+
+  generateReceipt(generateReceiptRequest): Observable<any> {
+    const { requestId, requestData, paymentId } = generateReceiptRequest;
+    const url = this.baseUrl + `/fx/generateReceipt?requestId=${requestId}&paymentId=${paymentId}`;
+
+    const obs = this.http.post(url, JSON.stringify({
+      requestData: requestData
+    }), {
+      headers: this.headers,
+      responseType: 'blob'
+    });
+    
+    return this.handleResponse(obs);
+  }
+
+  getFeeDetails(feeCode: String, quantity: Number): Observable<any> {
+    const url = this.baseUrl + `/fx/fees?feeCode=${feeCode}&quantity=${quantity}`
+
+    const obs = this.http.get(url, {
       headers: this.headers
     });
     return this.handleResponse(obs);

@@ -1,0 +1,50 @@
+<foi-base [showButtons]="false" [showInfo]="false">
+  <div class="foi-content">
+    <div *ngIf="!busy">
+      <h2>Payment</h2>
+      <p *ngIf="paymentSuccess">
+        We have successfully received your payment. You may proceed via the button below.
+      </p>
+      <p *ngIf="!paymentSuccess">
+        We had an issue while processing your payment. {{ !retry ? " Please call us to complete your request." : ""}}
+      </p>
+
+      <div *ngIf="paymentSuccess || (!paymentSuccess && !retry)">
+        <p>Your payment info</p>
+        <ul>
+          <li *ngIf="transactionNumber">Transaction number: {{transactionNumber}}</li>
+          <li *ngIf="amount">Order id: {{transactionOrderId}}</li>
+          <li *ngIf="amount">Amount: ${{amount}}</li>
+        </ul>
+        <p>Please write down your transaction number for your reference.</p>
+      </div>
+
+      <div class="buttonbar">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="retry ? doRetry() : doContinue()"
+          [disabled]="(!paymentSuccess && !retry)"
+        >
+          {{ retry ? "Retry payment" : "Continue"}}
+        </button>
+        <button
+          *ngIf="paymentSuccess"
+          type="button"
+          class="btn btn-info"
+          (click)="generateReceipt()"
+          [disabled]="receiptBusy"
+        >
+          <fa-icon *ngIf="receiptBusy" icon="spinner" [spin]="true"></fa-icon>
+          Download Receipt
+        </button>
+          
+      </div>
+    </div>
+    <div class="row" *ngIf="busy">
+      <div class="col-6"></div><div class="loader"></div>    
+    </div>
+
+  </div>
+  
+</foi-base>
