@@ -9,7 +9,6 @@ oc project 04d1a3-tools
 
 # Pre-emptively set output tag
 # Two stage web-build
-oc patch bc/web-artifact-build -p '{"spec":{"source":{"git":{"ref":"dev-payment-integration"}}}}'
 oc start-build web-artifact-build --wait
 oc patch bc/web-image-build -p '{"spec":{"output":{"to":{"name":"web:pay-integration"}}}}'
 oc start-build web-image-build --wait
@@ -48,4 +47,30 @@ oc tag request-management-api:latest request-management-api:pay-integration
 
 ## Update secrets like email - this assumes test-screts.properties is on your local.
 # oc process -f secrets.yaml --param-file ../test-secrets.properties  -o yaml | oc apply -f - 
+# oc process -f secrets.yaml --param-file ../staging.properties  -o yaml | oc apply -f - 
 ```
+
+
+```bash
+
+# Version two, after CI/CD refactoring with dev/master branches
+# Mostly using "latest" tag and not changing output tag.
+
+oc patch bc/web-artifact-build -p '{"spec":{"source":{"git":{"ref":"dev-payment-integration"}}}}'
+oc patch bc/api-master-build -p '{"spec":{"source":{"git":{"ref":"dev-payment-integration"}}}}'
+
+oc start-build web-artifact-build --wait
+oc start-build web-image-build --wait
+oc tag web:latest web:pay-integration
+
+```
+
+
+----
+
+
+## Deploy new Staging environment
+
+
+oc process -f deploy.yaml -p SUFFIX=staging --param-file ../staging.properties -o yaml
+oc process -f deploy.yaml -p SUFFIX=-staging -p NAMESPACE=04d1a3  --param-file ../staging.properties -o yaml | oc apply -f - --dry-run=client
