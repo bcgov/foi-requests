@@ -90,24 +90,24 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 
     const receipt = [];
 
-    const receiptResponse = await postGenerateReceipt({
-      requestData: req.params.requestData,
-      requestId: req.params.requestData.requestId,
-      paymentId: req.params.requestData.paymentInfo.paymentId,
-    });
+    // const receiptResponse = await postGenerateReceipt({
+    //   requestData: req.params.requestData,
+    //   requestId: req.params.requestData.requestId,
+    //   paymentId: req.params.requestData.paymentInfo.paymentId,
+    // });
 
-    if(receiptResponse.status === 200 && receiptResponse.data) {
-      var base64String = Buffer.from(receiptResponse.data).toString("base64");
+    // if(receiptResponse.status === 200 && receiptResponse.data) {
+    //   var base64String = Buffer.from(receiptResponse.data).toString("base64");
   
-      const receiptAttachement = {
-        content: base64String,
-        filename: "Receipt.pdf",
-        encoding: "base64"
-      };
+    //   const receiptAttachement = {
+    //     content: base64String,
+    //     filename: "Receipt.pdf",
+    //     encoding: "base64"
+    //   };
 
-      receipt.push(receiptAttachement)
+    //   receipt.push(receiptAttachement)
 
-    }
+    // }
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server, receipt);

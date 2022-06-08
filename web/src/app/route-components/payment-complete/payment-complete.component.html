@@ -16,7 +16,7 @@
           <li *ngIf="amount">Order id: {{transactionOrderId}}</li>
           <li *ngIf="amount">Amount: ${{amount}}</li>
         </ul>
-        <p>Please write down your transaction number for your reference.</p>
+        <p>Please write down your transaction number for your reference. Receipts are currently unavailable. You will receive confirmation of payment by email.</p>
       </div>
 
       <div class="buttonbar">
@@ -28,7 +28,7 @@
         >
           {{ retry ? "Retry payment" : "Continue"}}
         </button>
-        <button
+        <!-- <button
           *ngIf="paymentSuccess"
           type="button"
           class="btn btn-info"
@@ -37,7 +37,7 @@
         >
           <fa-icon *ngIf="receiptBusy" icon="spinner" [spin]="true"></fa-icon>
           Download Receipt
-        </button>
+        </button> -->
           
       </div>
     </div>
