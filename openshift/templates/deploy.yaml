@@ -21,15 +21,15 @@ metadata:
       Deployment template for the Platform Serices
       RocketChat helper app reggie.
     iconClass: icon-node
-  name: foi-request-form
+  name: foi-request-form${SUFFIX}
 objects:
   - apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: api-config
+      name: api-config${SUFFIX}
       labels:
-        app: foi-request-form
-        role: api
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
     data:
       FOI_REQUEST_API_PORT: ${FOI_REQUEST_API_PORT}
       FOI_REQUEST_SMTP: ${FOI_REQUEST_SMTP}
@@ -42,10 +42,10 @@ objects:
   - apiVersion: v1
     kind: ConfigMap
     metadata:
-      name: web-caddy-config
+      name: web-caddy-config${SUFFIX}
       labels:
-        app: foi-request-form
-        role: web
+        app: foi-request-form${SUFFIX}
+        role: web${SUFFIX}
     data:
       Caddyfile: |
         # Where caddy should listen
@@ -87,11 +87,11 @@ objects:
   - apiVersion: v1
     kind: Route
     metadata:
-      name: api
+      name: api${SUFFIX}
       annotations:
         description: Route for reggies API services
       labels:
-        app: foi-request-form
+        app: foi-request-form${SUFFIX}
         role: api
     spec:
       host: "${HOSTNAME_HTTPS}"
@@ -100,24 +100,24 @@ objects:
         targetPort: 7085-tcp
       to:
         kind: Service 
-        name: api
+        name: api${SUFFIX}
       tls:
         termination: edge
-        insecureEdgeTerminationPolicy: Redirect
-        certificate: |-
-          ${TLS_CERT_PEM}
-        key: |-
-          ${TLS_KEY_PEM}
-        caCertificate: |-
-          ${TLS_CACERT_PEM}
+        # insecureEdgeTerminationPolicy: Redirect
+        # certificate: |-
+        #   ${TLS_CERT_PEM}
+        # key: |-
+        #   ${TLS_KEY_PEM}
+        # caCertificate: |-
+        #   ${TLS_CACERT_PEM}
   - apiVersion: v1
     kind: Route
     metadata:
-      name: web
+      name: web${SUFFIX}
       annotations:
         description: Route for reggies Web front end
       labels:
-        app: foi-request-form
+        app: foi-request-form${SUFFIX}
         role: web
     spec:
       host: "${HOSTNAME_HTTPS}"
@@ -125,27 +125,27 @@ objects:
         targetPort: 2015-tcp
       to:
         kind: Service 
-        name: web
+        name: web${SUFFIX}
       tls:
         termination: edge
-        insecureEdgeTerminationPolicy: Redirect
-        certificate: |-
-          ${TLS_CERT_PEM}
-        key: |-
-          ${TLS_KEY_PEM}
-        caCertificate: |-
-          ${TLS_CACERT_PEM}
+        # insecureEdgeTerminationPolicy: Redirect
+        # certificate: |-
+        #   ${TLS_CERT_PEM}
+        # key: |-
+        #   ${TLS_KEY_PEM}
+        # caCertificate: |-
+        #   ${TLS_CACERT_PEM}
   - apiVersion: v1
     kind: Service
     metadata:
       labels:
-        app: foi-request-form
-        role: api
-      name: api
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+      name: api${SUFFIX}
     spec:
       selector:
-        app: foi-request-form
-        role: api
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
       ports:
         - name: 7085-tcp
           port: 7085
@@ -157,7 +157,7 @@ objects:
       labels:
         app: foi-request-form
         role: web
-      name: web
+      name: web${SUFFIX}
     spec:
       selector:
         app: foi-request-form
@@ -171,9 +171,9 @@ objects:
     kind: DeploymentConfig
     metadata:
       labels:
-        app: foi-request-form
-        role: api
-      name: api
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+      name: api${SUFFIX}
     spec:
       strategy:
         type: Rolling
@@ -183,24 +183,24 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - api
+              - api${SUFFIX}
             from:
               kind: ImageStreamTag
               name: "api:${API_SOURCE_IMAGE_TAG}"
               namespace: ${SOURCE_IMAGE_NAMESPACE}
       replicas: ${{REPLICA_COUNT}}
       selector:
-        app: foi-request-form
-        role: api
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
       template:
         metadata:
           labels:
-            app: foi-request-form
-            role: api
-          name: foi-request-form
+            app: foi-request-form${SUFFIX}
+            role: api${SUFFIX}
+          name: foi-request-form${SUFFIX}
         spec:
           containers:
-            - name: api
+            - name: api${SUFFIX}
               image: " "
               startupProbe:
                 httpGet:
@@ -217,9 +217,9 @@ objects:
                 - containerPort: 7085
               envFrom: 
                 - secretRef:
-                    name: api-creds
+                    name: api-creds${SUFFIX}
                 - configMapRef:
-                    name: api-config
+                    name: api-config${SUFFIX}
               resources:
                 limits:
                   cpu: 50m
@@ -231,9 +231,9 @@ objects:
     kind: DeploymentConfig
     metadata:
       labels:
-        app: foi-request-form
-        role: web
-      name: web
+        app: foi-request-form${SUFFIX}
+        role: web${SUFFIX}
+      name: web${SUFFIX}
     spec:
       strategy:
         type: Rolling
@@ -243,24 +243,24 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - web
+              - web${SUFFIX}
             from:
               kind: ImageStreamTag
               name: "web:${WEB_SOURCE_IMAGE_TAG}"
               namespace: ${SOURCE_IMAGE_NAMESPACE}
       replicas: ${{REPLICA_COUNT}}
       selector:
-        app: foi-request-form
-        role: web
+        app: foi-request-form${SUFFIX}
+        role: web${SUFFIX}
       template:
         metadata:
           labels:
-            app: foi-request-form
-            role: web
-          name: foi-request-form
+            app: foi-request-form${SUFFIX}
+            role: web${SUFFIX}
+          name: foi-request-form${SUFFIX}
         spec:
           containers:
-            - name: web
+            - name: web${SUFFIX}
               image: " "
               startupProbe:
                 httpGet:
@@ -314,23 +314,28 @@ parameters:
       The name of the source image for the Web component
     displayName: Web Source Image Tag
     required: true
-  - name: TLS_CERT_PEM
-    description: TLS certificate data in PEM format.
-    displayName: TLS Certificate
-    required: true
-  - name: TLS_KEY_PEM
+  - name: SUFFIX
     description: |
-      TLS certificate private key data in PEM format. This will be in
-      the possesion of the person who created the Certificate Signing
-      Request (CSR).
-    displayName: TLS Private Key
+      The name of the source image for the Web component
+    displayName: Web Source Image Tag
     required: true
-  - name: TLS_CACERT_PEM
-    description: |
-      TLS certificate cuthority certificate data in PEM format. If you 
-      got your certificate from an iStore request, use L1KChain.txt.
-    displayName: TLS Certificate Authority Certificate
-    required: true
+  # - name: TLS_CERT_PEM
+  #   description: TLS certificate data in PEM format.
+  #   displayName: TLS Certificate
+  #   required: true
+  # - name: TLS_KEY_PEM
+  #   description: |
+  #     TLS certificate private key data in PEM format. This will be in
+  #     the possesion of the person who created the Certificate Signing
+  #     Request (CSR).
+  #   displayName: TLS Private Key
+  #   required: true
+  # - name: TLS_CACERT_PEM
+  #   description: |
+  #     TLS certificate cuthority certificate data in PEM format. If you 
+  #     got your certificate from an iStore request, use L1KChain.txt.
+  #   displayName: TLS Certificate Authority Certificate
+  #   required: true
   - name: HOSTNAME_HTTPS
     description: Hostname serving the application
     displayName: Route Name
