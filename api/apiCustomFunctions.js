@@ -111,7 +111,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
     }
   }
   catch(genreceipterror){
-    console.log(`${genreceipterror}`);
+    console.log("---submitFoiRequestEmail Generate Receipt Error starts--");
+    console.log(genreceipterror);
+    console.log("---submitFoiRequestEmail Generate Receipt Error ends--");
   }
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
