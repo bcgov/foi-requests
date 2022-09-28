@@ -30,6 +30,12 @@
       { "code": "TRAN", "name": "Transportation and Infrastructure", "publicBody": "Transportation and Infrastructure" }
     ],
     "topicYourself": [
+      { "value": "childprotectionparent", "text": "Child protection – Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "childprotectionchild", "text": "Child protection – Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincareparent", "text": "Youth in care - Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincarechild", "text": "Youth in care - Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "fosterparent", "text": "Foster Parent", "ministryCode": "MCF" },
+      
       {
         "value": "publicServiceEmployment",
         "text": "Your employment with the public service",
@@ -54,6 +60,11 @@
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicAnother": [
+      { "value": "childprotectionparent", "text": "Child protection – Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "childprotectionchild", "text": "Child protection – Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincareparent", "text": "Youth in care - Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincarechild", "text": "Youth in care - Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "fosterparent", "text": "Foster Parent", "ministryCode": "MCF" },
       {
         "value": "publicServiceEmployment",
         "text": "The person's employment with the public service",
@@ -78,6 +89,11 @@
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicYourselfAnother": [
+      { "value": "childprotectionparent", "text": "Child protection – Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "childprotectionchild", "text": "Child protection – Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincareparent", "text": "Youth in care - Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincarechild", "text": "Youth in care - Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "fosterparent", "text": "Foster Parent", "ministryCode": "MCF" },
       {
         "value": "publicServiceEmployment",
         "text": "Employment with the public service",
