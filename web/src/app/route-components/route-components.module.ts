@@ -16,6 +16,7 @@ import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { ReviewSubmitComponent } from './review-submit/review-submit.component';
 import { SelectAboutComponent } from './select-about/select-about.component';
 import { RequestTopicComponent } from './request-topic/request-topic.component';
+import { ChildProtectionParent } from './childprotection-parent/childprotection-parent.component';
 import { ContactInfoOptionsComponent } from './contact-info-options/contact-info-options.component';
 import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './child-information/child-information.component';
@@ -52,6 +53,7 @@ library.add(faSpinner);
     ReviewSubmitComponent,
     SelectAboutComponent,
     RequestTopicComponent,
+    ChildProtectionParent,
     ContactInfoOptionsComponent,
     ProofOfGuardianshipComponent,
     ChildInformationComponent,

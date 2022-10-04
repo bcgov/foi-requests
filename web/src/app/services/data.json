@@ -172,25 +172,99 @@
                 "yourself": {
                   "routes": [
                     { "route": "personal/verify-your-identity", "progress": 2, "data": { "includeBirthDate": true } },
-                    {
-                      "route": "personal/request-topic",
-                      "data": {
-                        "topics": "topicYourself"
+                    { "route": "personal/request-topic","data": {"topics": "topicYourself" } ,
+                    "choices":{
+
+                      
+                      "childprotectionparent":{
+
+                        "routes":[
+                          { "route": "personal/childprotectionparent","progress": 2},
+                          { "route": "personal/ministry-confirmation","progress": 2},
+                          {"route": "personal/description-timeframe","progress": 2},                     
+                          { "route": "personal/adoptive-parents","progress": 3},
+                          {"route": "personal/contact-info-options","progress": 3},
+                          { "route": "personal/review-submit", "progress": 4 },
+                          { "route": "personal/submit-complete", "progress": 6 }
+                        ]
+
                       },
-                      "progress": 2
-                    },
-                    {
-                      "route": "personal/ministry-confirmation",
-                      "progress": 2
-                    },
-                    {
-                      "route": "personal/description-timeframe",
-                      "progress": 2
-                    },
-                    {
-                      "route": "personal/adoptive-parents",
-                      "progress": 3
-                    },
+                      "childprotectionchild":{
+                        "routes":[
+                          { "route": "personal/childprotectionchild","progress": 2},
+                          { "route": "personal/ministry-confirmation","progress": 2},
+                          {"route": "personal/description-timeframe","progress": 2},                     
+                          { "route": "personal/adoptive-parents","progress": 3},
+                          {"route": "personal/contact-info-options","progress": 3},
+                          { "route": "personal/review-submit", "progress": 4 },
+                          { "route": "personal/submit-complete", "progress": 6 }
+                        ]
+
+                      },
+                      "youthincareparent":{ "routes":[
+                        { "route": "personal/youthincareparent","progress": 2},
+                          { "route": "personal/ministry-confirmation","progress": 2},
+                          {"route": "personal/description-timeframe","progress": 2},                     
+                          { "route": "personal/adoptive-parents","progress": 3},
+                          {"route": "personal/contact-info-options","progress": 3},
+                          { "route": "personal/review-submit", "progress": 4 },
+                          { "route": "personal/submit-complete", "progress": 6 }
+
+                      ]},
+                      "youthincarechild":{ "routes":[
+
+                        { "route": "personal/youthincarechild","progress": 2},
+                        { "route": "personal/ministry-confirmation","progress": 2},
+                        {"route": "personal/description-timeframe","progress": 2},                     
+                        { "route": "personal/adoptive-parents","progress": 3},
+                        {"route": "personal/contact-info-options","progress": 3},
+                        { "route": "personal/review-submit", "progress": 4 },
+                        { "route": "personal/submit-complete", "progress": 6 }
+
+
+                      ]},
+                      "fosterparent":{ "routes":[
+
+                        { "route": "personal/fosterparent","progress": 2},
+                        { "route": "personal/ministry-confirmation","progress": 2},
+                        {"route": "personal/description-timeframe","progress": 2},                     
+                        { "route": "personal/adoptive-parents","progress": 3},
+                        {"route": "personal/contact-info-options","progress": 3},
+                        { "route": "personal/review-submit", "progress": 4 },
+                        { "route": "personal/submit-complete", "progress": 6 }
+
+                      ]},
+                      "adoption":{ "routes":[
+                        { "route": "personal/adoption","progress": 2},
+                        { "route": "personal/ministry-confirmation","progress": 2},
+                        {"route": "personal/description-timeframe","progress": 2},                     
+                        { "route": "personal/adoptive-parents","progress": 3},
+                        {"route": "personal/contact-info-options","progress": 3},
+                        { "route": "personal/review-submit", "progress": 4 },
+                        { "route": "personal/submit-complete", "progress": 6 }
+
+
+                      ]},
+                      "others":{
+                        "routes":[
+                                    { "route": "personal/ministry-confirmation","progress": 2},
+                                    {"route": "personal/description-timeframe","progress": 2},                     
+                                    { "route": "personal/adoptive-parents","progress": 3},
+                                    {"route": "personal/contact-info-options","progress": 3},
+                                    { "route": "personal/review-submit", "progress": 4 },
+                                    { "route": "personal/submit-complete", "progress": 6 }
+                                  ]
+                      }
+                      
+
+
+                    }
+                    },   
+                              
+                    { "route": "personal/ministry-confirmation","progress": 2},
+                    {"route": "personal/description-timeframe","progress": 2},
+                     
+                    { "route": "personal/adoptive-parents","progress": 3},
                     {
                       "route": "personal/contact-info-options",
                       "progress": 3
