@@ -1,0 +1,57 @@
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
+
+    <div class="foi-content">
+
+
+        <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="childincardrecords" formControlName="youthincarechildselection" />
+                    Child in Card Records  
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="mentalhealthrecords" formControlName="youthincarechildselection" />
+                    Child in Youth Mental Health Records   
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="specialneeds" formControlName="youthincarechildselection" />
+                    Child in Youth Special Needs Records    
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="youthagreement" formControlName="youthincarechildselection" />
+                    Youth Agreement     
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="youthjustice" formControlName="youthincarechildselection" />
+                    Youth Justice     
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="otheryouthincarechild"
+                        formControlName="youthincarechildselection" />
+                    Other
+                </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="sidebar">
+        <!-- hidden -->
+    </div>
+
+
+</foi-base>

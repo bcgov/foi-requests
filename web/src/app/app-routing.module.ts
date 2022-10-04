@@ -24,7 +24,9 @@ import { PaymentComponent } from './route-components/payment/payment.component';
 import { PaymentCompleteComponent } from './route-components/payment-complete/payment-complete.component';
 import { ChildProtectionParent } from './route-components/childprotection-parent/childprotection-parent.component';
 import { ChildProtectionChild } from './route-components/childprotection-child/childprotection-child.component';
-
+import { YouthInCareParent } from './route-components/youthincare-parent/youthincare-parent.component';
+import { YouthInCareChild } from './route-components/youthincare-child/youthincare-child.component';
+import { FosterParent } from './route-components/foster-parent/foster-parent.component';
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
@@ -58,6 +60,9 @@ const routes: Routes = [
   { path: 'personal/request-topic', component: RequestTopicComponent },
   { path: 'personal/childprotectionparent', component: ChildProtectionParent },
   { path: 'personal/childprotectionchild', component: ChildProtectionChild },
+  { path: 'personal/youthincareparent', component: YouthInCareParent },
+  { path: 'personal/youthincarechild', component: YouthInCareChild },
+  { path: 'personal/fosterparent', component: FosterParent },
   { path: 'personal/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },  
   { path: 'personal/adoptive-parents', component: AdoptiveParentsComponent },

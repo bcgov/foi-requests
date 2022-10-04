@@ -18,6 +18,9 @@ import { SelectAboutComponent } from './select-about/select-about.component';
 import { RequestTopicComponent } from './request-topic/request-topic.component';
 import { ChildProtectionParent } from './childprotection-parent/childprotection-parent.component';
 import { ChildProtectionChild } from './childprotection-child/childprotection-child.component';
+import { YouthInCareParent } from './youthincare-parent/youthincare-parent.component';
+import { YouthInCareChild } from './youthincare-child/youthincare-child.component';
+import { FosterParent } from './foster-parent/foster-parent.component';
 import { ContactInfoOptionsComponent } from './contact-info-options/contact-info-options.component';
 import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './child-information/child-information.component';
@@ -56,6 +59,9 @@ library.add(faSpinner);
     RequestTopicComponent,
     ChildProtectionParent,
     ChildProtectionChild,
+    YouthInCareParent,
+    YouthInCareChild,
+    FosterParent,
     ContactInfoOptionsComponent,
     ProofOfGuardianshipComponent,
     ChildInformationComponent,
