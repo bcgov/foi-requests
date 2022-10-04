@@ -21,6 +21,7 @@ import { ChildProtectionChild } from './childprotection-child/childprotection-ch
 import { YouthInCareParent } from './youthincare-parent/youthincare-parent.component';
 import { YouthInCareChild } from './youthincare-child/youthincare-child.component';
 import { FosterParent } from './foster-parent/foster-parent.component';
+import { Adoption } from './adoption/adoption.component';
 import { ContactInfoOptionsComponent } from './contact-info-options/contact-info-options.component';
 import { ProofOfGuardianshipComponent } from './proof-of-guardianship/proof-of-guardianship.component';
 import { ChildInformationComponent } from './child-information/child-information.component';
@@ -62,6 +63,7 @@ library.add(faSpinner);
     YouthInCareParent,
     YouthInCareChild,
     FosterParent,
+    Adoption,
     ContactInfoOptionsComponent,
     ProofOfGuardianshipComponent,
     ChildInformationComponent,

@@ -27,6 +27,7 @@ import { ChildProtectionChild } from './route-components/childprotection-child/c
 import { YouthInCareParent } from './route-components/youthincare-parent/youthincare-parent.component';
 import { YouthInCareChild } from './route-components/youthincare-child/youthincare-child.component';
 import { FosterParent } from './route-components/foster-parent/foster-parent.component';
+import { Adoption } from './route-components/adoption/adoption.component';
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
@@ -63,6 +64,7 @@ const routes: Routes = [
   { path: 'personal/youthincareparent', component: YouthInCareParent },
   { path: 'personal/youthincarechild', component: YouthInCareChild },
   { path: 'personal/fosterparent', component: FosterParent },
+  { path: 'personal/adoption', component: Adoption },
   { path: 'personal/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },  
   { path: 'personal/adoptive-parents', component: AdoptiveParentsComponent },

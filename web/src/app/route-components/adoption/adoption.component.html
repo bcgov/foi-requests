@@ -1,0 +1,43 @@
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
+
+    <div class="foi-content">
+
+
+        <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="biologicalparent" formControlName="adoptionselection" />
+                    Are you the biological parent? 
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="adoptiveparent" formControlName="adoptionselection" />
+                    Are you the adoptive parent?  
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="adoptedchild" formControlName="adoptionselection" />
+                    Are you the adopted child?  
+                </label>
+
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="radio" value="otheradoption"
+                        formControlName="adoptionselection" />
+                    Other
+                </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="sidebar">
+        <!-- hidden -->
+    </div>
+
+
+</foi-base>
