@@ -23,6 +23,7 @@ import { SigninComponent } from './route-components/signin/signin.component';
 import { PaymentComponent } from './route-components/payment/payment.component';
 import { PaymentCompleteComponent } from './route-components/payment-complete/payment-complete.component';
 import { ChildProtectionParent } from './route-components/childprotection-parent/childprotection-parent.component';
+import { ChildProtectionChild } from './route-components/childprotection-child/childprotection-child.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -56,7 +57,7 @@ const routes: Routes = [
   { path: 'personal/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/request-topic', component: RequestTopicComponent },
   { path: 'personal/childprotectionparent', component: ChildProtectionParent },
-
+  { path: 'personal/childprotectionchild', component: ChildProtectionChild },
   { path: 'personal/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },  
   { path: 'personal/adoptive-parents', component: AdoptiveParentsComponent },
