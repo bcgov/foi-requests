@@ -51,11 +51,7 @@
         "text": "Your income assistance history",
         "ministryCode": "SDPR"
       },
-      {
-        "value": "childProtection",
-        "text": "Child protection and youth care",
-        "ministryCode": "MCF"
-      },
+      
       { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
