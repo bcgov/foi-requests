@@ -38,6 +38,10 @@ export class DataService {
     return of(data.referenceData.ministries);
   }
 
+  getYouthinCareChild(): Observable<any[]> {
+    return of(data.referenceData.youthincarechild);
+  }
+
   capitalize(str) {
     if (typeof str !== "string") {
       return "";
