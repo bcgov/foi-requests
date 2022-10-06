@@ -366,7 +366,7 @@
                 "yourself": {
                   "routes": [
                     { "route": "personal/verify-your-identity", "progress": 2, "data": { "includeBirthDate": true } },
-                    { "route": "personal/request-topic","data": {"topics": "topicYourself" } ,
+                    { "route": "personal/request-topic","data": {"topics": "topicYourself" } ,  "progress": 2,
                     "choices":{
 
                       
