@@ -4,107 +4,28 @@
 
 
         <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-            <div class="form-group">
-                <label>
-                    <input type="radio" value="investigationrecords" formControlName="childprotectionparentselection" />
-                    Child Protection Investigation Records (Family Service File)
-                </label>
-                <div class="subgroup">
-                    <div class="row">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Personal History and Recording
-                            </label>
+
+            <div *ngIf="(fulllistoptions | async) as mainoptions">
+                <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
+                    <label>
+                        <input type="checkbox" [value]="item.mainoption" [checked]="item.selected"
+                            formControlName="ischildincardrecords" (change)="showsubsection(item)" />
+                       {{item.mainoption}}
+                    </label>
+                    <div class="subgroup" *ngIf="item.selected">
+                        <div class="row" >
+
+                            <div class="form-check form-check-inline" *ngFor="let subitem of item.suboptions; let si = subindex">
+                                <input class="form-check-input" type="checkbox" [value]="subitem.option"  [checked]="subitem.selected" (change)="selectedsuboption(subitem)" />
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{subitem.option}}
+                                </label>
+                            </div>
+
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Intake & Incident, Service Request & Memo
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Legal & Agreements
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Financial Documentation
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                External Assessment & Reports
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Medical 
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Internal Assessments & Service Plans 
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Reviews 
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Adoption 
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Out of Care Services 
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                General Correspondence
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Collaborative Planning & Decisions Making  
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Practitioner Case Notes 
-                            </label>
-                        </div>
-                      
-                       
+
                     </div>
                 </div>
-
-            </div>
-            <div class="form-group">
-                <label>
-                    <input type="radio" value="otherchildprotectionparent"
-                        formControlName="childprotectionparentselection" />
-                    Other
-                </label>
             </div>
         </form>
     </div>
