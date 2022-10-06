@@ -114,7 +114,7 @@
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "youthincarechild":[
-      { "main":"Child in Card Records" , "suboptions":[
+      { "mainoption":"Child in Card Records" , "suboptions":[
         {"option":"Personal History, Recordings & Service Plans"},
         {"option":"Cultural Planning / Roots"},
         {"option":"Legal & Agreements"},
@@ -132,7 +132,7 @@
         
         ] },
         {
-          "main":"Child in Youth Mental Health Records " ,"suboptions":[
+          "mainoption":"Child in Youth Mental Health Records" ,"suboptions":[
             {"option":"Clinical History"},
             {"option":"Complex Care Intervention"},
             {"option":"Assessment & Reports"},
@@ -141,6 +141,38 @@
             {"option":"Artwork & Photos"},
             {"option":"Child & Youth Mental Health Case Files "}
           ]
+        },
+        {
+          "mainoption":"Child in Youth Special Needs Records" ,"suboptions":[
+            {"option":"Personal History & Recording"},
+            {"option":"Intake / Service Request & Memo"},
+            {"option":"Legal and Financial Documentation "},
+            {"option":"Reports"},
+            {"option":"Correspondence"},
+            {"option":"At Home Program Legal & Financial"},
+            {"option":"Autism Funding"},
+            {"option":"Respite Benefits"},
+            {"option":"Practitioner Case Notes"}
+          ]
+        },
+        {
+          "mainoption":"Youth Agreement" ,"suboptions":[
+            {"option":"Personal History & Recordings"},
+            {"option":"Service Request & Memo"},
+            {"option":"Agreements"},
+            {"option":"Reports"},
+            {"option":"Financial Documentation"},
+            {"option":"Program Planning Documentation"}           
+          ]
+        },
+        {
+          "mainoption":"Youth Justice" ,"suboptions":[
+            {"option":"We do not hold these records. Your records can be requested here.","istext":true}
+                      
+          ]
+        },
+        {
+          "mainoption":"Other" ,"suboptions":[]
         }
     ]
   },

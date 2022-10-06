@@ -3,8 +3,9 @@ import { BaseComponent } from 'src/app/utils-components/base/base.component';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { FoiRequest } from 'src/app/models/FoiRequest';
 import { DataService } from 'src/app/services/data.service';
-
-
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { ContactInfoOptionsComponent } from '../contact-info-options/contact-info-options.component';
 @Component({
   templateUrl: './youthincare-child.component.html',
   styleUrls: ['./youthincare-child.component.scss']
@@ -20,65 +21,69 @@ export class YouthInCareChild implements OnInit {
     isspecialneedsrecords:false,
     isyouthagreement:false,
     isyouthjustice:false,
-    isother:false,
+    isother:false
+    
   });
 
   foiRequest: FoiRequest;
   targetKey: string = "youthincarechild";
-  ischildincardrecords: boolean = false; // hidden by default
-  ismentalhealthrecords: boolean = false; // hidden by default
-  isspecialneedsrecords: boolean = false; // hidden by default
-  isyouthagreement: boolean = false; // hidden by default
-  isyouthjustice: boolean = false; // hidden by default
-  isother: boolean = false; // hidden by default
+ 
+  youthincareoptions: Observable<any>;
+  mainoptions:Array<any>;
 
   constructor(private fb: FormBuilder, private dataService: DataService) { }
 
   ngOnInit() {
 
-    console.log(this.dataService.getYouthinCareChild())
+    
+
+    //console.log(JSON.stringify(this.youthincareoptions))
 
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);    
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
-    this.ischildincardrecords = this.foiRequest.requestData[this.targetKey].ischildincardrecords;
-    this.ismentalhealthrecords = this.foiRequest.requestData[this.targetKey].ismentalhealthrecords;
-    this.isspecialneedsrecords = this.foiRequest.requestData[this.targetKey].isspecialneedsrecords;
-    this.isyouthagreement = this.foiRequest.requestData[this.targetKey].isyouthagreement;
-    this.isyouthjustice = this.foiRequest.requestData[this.targetKey].isyouthjustice;
-    this.isother= this.foiRequest.requestData[this.targetKey].isother;
+    let selectedyouthincare = this.foiRequest.requestData[this.targetKey].selectedyouthincare;
+
+    this.youthincareoptions = this.dataService.getYouthinCareChild().pipe(
+      map(mainoptions=>{
+          mainoptions.forEach(mainoption =>{
+            mainoption.selected =  mainoption.selected || (selectedyouthincare ? !! selectedyouthincare.find(ms => ms.selected === mainoption.selected) : false);
+          })
+
+          return mainoptions;
+      }),
+      map(mainoptions => {
+        this.mainoptions = mainoptions;
+        return mainoptions;
+      })
+    );
+   
   }
 
-  togglechildincardrecordsShow() {
-    this.ischildincardrecords = !this.ischildincardrecords;
+  showsubsection(item:any)
+  {
+    item.selected=!item.selected   
   }
 
-  togglementalhealthrecordsShow() {
-    this.ismentalhealthrecords = !this.ismentalhealthrecords;
+  selectedsuboption(item:any)
+  {
+    item.selected=!item.selected 
+
   }
 
-  toggleyouthagreementShow() {
-    this.isyouthagreement = !this.isyouthagreement;
-  }
-
-  togglespecialneedsrecordsShow() {
-    this.isspecialneedsrecords = !this.isspecialneedsrecords;
-  }
+ 
 
   doContinue() {
 
     const formData = this.foiForm.value;
 
-    this.foiRequest.requestData[this.targetKey].ischildincardrecords = this.ischildincardrecords 
-    this.foiRequest.requestData[this.targetKey].ismentalhealthrecords =this.ismentalhealthrecords;
-    this.foiRequest.requestData[this.targetKey].isyouthagreement =this.isyouthagreement;
-    this.foiRequest.requestData[this.targetKey].isspecialneedsrecords = this.isspecialneedsrecords;
-    this.foiRequest.requestData[this.targetKey].isyouthjustice = this.isyouthjustice;
-    this.foiRequest.requestData[this.targetKey].isother = this.isother;
+    let selected = this.mainoptions.filter(m => m.selected);
+    this.foiRequest.requestData[this.targetKey].selectedyouthincare = selected; 
+    
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
-    console.log(`Key  ${JSON.stringify(this.foiRequest.requestData[this.targetKey])}`);
+    console.log(`Key  ${JSON.stringify(selected)}`);
 
     this.base.goFoiForward();
   }
