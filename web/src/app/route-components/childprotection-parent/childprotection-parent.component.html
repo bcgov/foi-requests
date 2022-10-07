@@ -9,7 +9,7 @@
                 <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
                     <label>
                         <input type="checkbox" [value]="item.mainoption" [checked]="item.selected"
-                            formControlName="ischildincardrecords" (change)="showsubsection(item)" />
+                            (change)="showsubsection(item)" />
                        {{item.mainoption}}
                     </label>
                     <div class="subgroup" *ngIf="item.selected">
