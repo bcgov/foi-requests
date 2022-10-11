@@ -30,6 +30,8 @@ export class ChildProtectionParent implements OnInit {
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
+
+    console.log(`ngOnInit-childprot parent -selectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
     let selectedoptions = this.foiRequest.requestData[this.targetKey].selectedoptions;
 
     this.fulllistoptions = this.dataService.getChildInProtectionParent().pipe(

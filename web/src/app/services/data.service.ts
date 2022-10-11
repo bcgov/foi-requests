@@ -62,6 +62,10 @@ export class DataService {
     return of(data.referenceData.childprotectionparent);
   }
 
+  getYourselfTopics(): Observable<any[]> {
+    return of(data.referenceData.topicYourself);
+  }
+
   capitalize(str) {
     if (typeof str !== "string") {
       return "";

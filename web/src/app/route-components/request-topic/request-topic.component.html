@@ -3,11 +3,14 @@
     <h2>What kinds of records are you looking for?</h2>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <div class="form-group" *ngFor="let topic of topics">
-        <label>
-          <input type="radio" [value]="topic" formControlName="requestTopic" />
-          {{ topic.text }}
-        </label>
+      <div *ngIf="(yourselftopics | async) as topics">
+        <div class="form-group" *ngFor="let topic of topics">
+          <label>
+            <input type="checkbox" [value]="topic" formControlName="requestTopic" [checked]="topic.selected"
+              (change)="selecttopic(topic)" />
+            {{ topic.text }}
+          </label>
+        </div>
       </div>
     </form>
   </div>

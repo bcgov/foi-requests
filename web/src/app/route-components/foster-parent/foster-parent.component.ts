@@ -32,6 +32,8 @@ export class FosterParent implements OnInit {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
+    console.log(`ngOnInit-fosterparent-selectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
+
     let selectedoptions = this.foiRequest.requestData[this.targetKey].selectedoptions;
 
     this.fulllistoptions = this.dataService.getFosterParent().pipe(
