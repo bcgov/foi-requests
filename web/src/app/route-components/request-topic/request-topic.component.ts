@@ -53,7 +53,8 @@ export class RequestTopicComponent implements OnInit {
         this.yourselftopics = this.dataService.getYourselfTopics().pipe(
           map(topics=>{
             topics.forEach(topic =>{
-              topic.selected =  topic.selected || (selectedtopics ? !! selectedtopics.find(ms => ms.selected === topic.selected) : false);
+              topic.selected =  topic.selected || (selectedtopics ? !! selectedtopics.find(ms => ms.value === topic.value) : false);
+             
             })
   
             return topics;
@@ -64,12 +65,15 @@ export class RequestTopicComponent implements OnInit {
         })
         );
 
+        console.log(`ngOnInit load event this.yourselftopics ${JSON.stringify(this.yourselftopics)}`)
+
       }
     });
 
     // Set the continue button state
     this.foiForm.valueChanges.subscribe(() => {
       
+      console.log(`this.foiForm.valueChanges.subscribe ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
      //this.base.continueDisabled = !this.allowContinue();
      
      
@@ -83,9 +87,11 @@ export class RequestTopicComponent implements OnInit {
     const itemindex: number = this.foiForm.value.selectedoptions.indexOf(item);
     if(!this.foiForm.value.selectedoptions.includes(item) && itemindex === -1) 
     {
+      console.log('added')
       this.foiForm.value.selectedoptions.push(item)
     } 
     else{
+      console.log('revmoved')
       this.foiForm.value.selectedoptions.splice(itemindex,1)
     }
 
