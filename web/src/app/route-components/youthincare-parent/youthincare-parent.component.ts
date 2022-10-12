@@ -21,7 +21,7 @@ export class YouthInCareParent implements OnInit {
 
   foiRequest: FoiRequest;
   targetKey: string = "youthincareparent";
-
+  checkstates:Array<string> = ['adoption','childprotectionchild','childprotectionparent','fosterparent','youthincarechild','youthincareparent'];
   youthincareoptions: Observable<any>;
   mainoptions:Array<any>;
 
@@ -91,7 +91,7 @@ export class YouthInCareParent implements OnInit {
       let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
       let next = this.foiRequest.requestData.selectedtopics[ci+1];
       console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
-      if(next!=undefined)
+      if(next!=undefined  && this.checkstates.includes(next.value))
       {
         this.route.navigate([`/personal/${next.value}`])
       }

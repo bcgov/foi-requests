@@ -23,6 +23,7 @@ export class Adoption implements OnInit {
   targetKey: string = "adoption";
   fulllistoptions: Observable<any>;
   mainoptions:Array<any>;
+  checkstates:Array<string> = ['adoption','childprotectionchild','childprotectionparent','fosterparent','youthincarechild','youthincareparent'];
 
   constructor(private fb: FormBuilder, private dataService: DataService,private route:Router) {}
 
@@ -74,6 +75,7 @@ export class Adoption implements OnInit {
     this.forwardforSelectedPersonalTopics()
   }
 
+  
   forwardforSelectedPersonalTopics()
   {
     if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
@@ -83,7 +85,7 @@ export class Adoption implements OnInit {
       let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
       let next = this.foiRequest.requestData.selectedtopics[ci+1];
       console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
-      if(next!=undefined)
+      if(next!=undefined && this.checkstates.includes(next.value))
       {
         this.route.navigate([`/personal/${next.value}`])
       }
