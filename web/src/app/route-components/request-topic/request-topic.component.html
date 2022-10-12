@@ -7,7 +7,7 @@
         <div class="form-group" *ngFor="let topic of topics">
           <label>
             <input type="checkbox" [value]="topic" formControlName="requestTopic" [checked]="topic.selected"
-              (change)="selecttopic(topic)" />
+              (change)="selecttopic(topic,$event.target.checked)" />
             {{ topic.text }}
           </label>
         </div>

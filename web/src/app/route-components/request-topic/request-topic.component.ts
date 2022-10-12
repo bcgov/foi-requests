@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder, Validators } from "@angular/forms";
@@ -6,6 +6,7 @@ import { DataService } from "src/app/services/data.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
+import { componentNeedsResolution } from "@angular/core/src/metadata/resource_loading";
 @Component({
   templateUrl: "./request-topic.component.html",
   styleUrls: ["./request-topic.component.scss"]
@@ -24,7 +25,7 @@ export class RequestTopicComponent implements OnInit {
   targetKey: string = "requestTopic";
   ministryKey: string = "ministry";
   checkstates: Array<string> = ['adoption', 'childprotectionchild', 'childprotectionparent', 'fosterparent', 'youthincarechild', 'youthincareparent'];
-  constructor(private fb: FormBuilder, private dataService: DataService,private route:Router) { }
+  constructor(private fb: FormBuilder, private dataService: DataService, private route: Router, private elRef: ElementRef) { }
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey, this.ministryKey);
@@ -33,74 +34,57 @@ export class RequestTopicComponent implements OnInit {
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
 
-        //this.topics = this.dataService.getTopics(data.topics);
-
-
         const formInit = {
           requestTopic: null,
           selectedoptions: []
         };
         formInit.requestTopic = this.topics.find(t => t.value === this.foiRequest.requestData.selectedtopics[0]);
-        //formInit.requestTopic = "fosterparent";
+
         formInit.selectedoptions = this.foiRequest.requestData.selectedtopics
-
-        this.foiForm.patchValue(formInit);
-
-
-
+      
         let selectedtopics = this.foiRequest.requestData.selectedtopics;
-        console.log(`ngOnInit load event ${JSON.stringify(selectedtopics)}`)
+
 
         this.yourselftopics = this.dataService.getYourselfTopics().pipe(
-          map(topics => {
-            topics.forEach(topic => {
+          map(_topics => {
+            _topics.forEach(topic => {
               topic.selected = topic.selected || (selectedtopics ? !!selectedtopics.find(ms => ms.value === topic.value) : false);
 
             })
 
-            return topics;
+            return _topics;
           }),
           map(topics => {
             this.topics = topics;
             return topics;
           })
         );
-
-        console.log(`ngOnInit load event this.yourselftopics ${JSON.stringify(this.yourselftopics)}`)
-
       }
     });
 
-    // Set the continue button state
-    this.foiForm.valueChanges.subscribe(() => {
+    let hasselectedtopics = this.foiRequest.requestData.selectedtopics.find(st => st.selected === true)
+    console.log(`hasselectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
+    this.base.continueDisabled = !hasselectedtopics
 
-      console.log(`this.foiForm.valueChanges.subscribe ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
-      //this.base.continueDisabled = !this.allowContinue();
-
-
-    });
   }
 
-  selecttopic(item: any) {
+  selecttopic(item: any, _checked) {
     item.selected = !item.selected
-    console.log(`item.value ${item.value}`)
+    let current = this.foiRequest.requestData.selectedtopics.find(st => st.value === item.value)
+    const itemindex: number = this.foiRequest.requestData.selectedtopics.indexOf(current)
 
-    if (this.checkstates.includes(item.value)) {
-      console.log(`adding or removing item.value ${item.value}`)
-      const itemindex: number = this.foiRequest.requestData.selectedtopics.indexOf(item);
+    if (!this.foiRequest.requestData.selectedtopics.includes(item) && itemindex === -1) {
 
-      if (!this.foiRequest.requestData.selectedtopics.includes(item) && itemindex === -1) {
-
-        this.foiRequest.requestData.selectedtopics.push(item)
-      }
-      else {
-        console.log('revmoved')
-        this.foiRequest.requestData.selectedtopics.splice(itemindex, 1)
-      }
-
-      //this.foiRequest.requestData.selectedtopics = this.foiForm.value.selectedoptions;
-      console.log(`selecttopic event ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
+      this.foiRequest.requestData.selectedtopics.push(item)
     }
+    else {
+
+      this.foiRequest.requestData.selectedtopics.splice(itemindex, 1)
+    }
+
+    let hasselectedtopics = this.foiRequest.requestData.selectedtopics.find(st => st.selected === true)
+    this.base.continueDisabled = !hasselectedtopics
+
   }
 
   /**
@@ -110,7 +94,7 @@ export class RequestTopicComponent implements OnInit {
     let result = false;
     const formData = this.foiForm.value;
 
-    if (formData.requestTopic && formData.requestTopic.value) {
+    if (formData.selectedoptions && formData.selectedoptions.length > 0) {
       result = true;
     }
     return result;
@@ -121,18 +105,21 @@ export class RequestTopicComponent implements OnInit {
     this.foiRequest.requestData[this.targetKey] = {};
     const formData = this.foiForm.value;
 
-    console.log(`formData.selectedoptions -doContinue ${JSON.stringify(formData.selectedoptions)}`)
-
     let selected = this.topics.filter(m => m.selected && m.hassubscreen === "true");
     this.foiRequest.requestData.selectedtopics = selected.sort((a, b) => a.value.localeCompare(b.value));
 
-    console.log(`doContinue-selectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
-
     this.dataService.getMinistries().subscribe(ministries => {
-      this.foiRequest.requestData[this.targetKey] = this.foiRequest.requestData.selectedtopics[0];
+
+      let _selectedtopic = this.foiRequest.requestData.selectedtopics[0];
+
+      if (_selectedtopic === undefined) {
+        _selectedtopic = this.topics.filter(m => m.selected)[0]
+      }
+
+      this.foiRequest.requestData[this.targetKey] = _selectedtopic
 
       const selection = this.foiRequest.requestData[this.targetKey].value;
-      console.log(`selection ${selection}`)
+
       const ministryCode = this.foiRequest.requestData[this.targetKey].ministryCode;
       const ministryMatch = ministries.find(m => m.code === ministryCode);
       if (ministryCode && !ministryMatch) {
@@ -144,7 +131,7 @@ export class RequestTopicComponent implements OnInit {
     });
   }
 
-  
+
 
   doGoBack() {
     this.base.goFoiBack();
