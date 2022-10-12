@@ -100,7 +100,7 @@ export class MinistryConfirmationComponent implements OnInit {
 
   forwardforSelectedPersonalTopics()
   {
-    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
+    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0 && this.foiRequest.requestData.requestType === "personal")
     {
       
       let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
@@ -123,7 +123,7 @@ export class MinistryConfirmationComponent implements OnInit {
   }
 
   doGoBack() {
-    console.log(`Topic  ${this.foiRequest.requestData.requestTopic.value}`)
+    //console.log(`Topic  ${this.foiRequest.requestData.requestTopic.value}`)
     this.base.goFoiBack();
   }
 }
