@@ -5,6 +5,7 @@ import { FoiRequest } from 'src/app/models/FoiRequest';
 import { DataService } from 'src/app/services/data.service';
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Component({
   templateUrl: './foster-parent.component.html',
@@ -23,7 +24,7 @@ export class FosterParent implements OnInit {
   fulllistoptions: Observable<any>;
   mainoptions:Array<any>;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService,private route:Router) {}
 
   ngOnInit() {
   
@@ -72,12 +73,36 @@ export class FosterParent implements OnInit {
     
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
-    this.base.goFoiForward();
+    //this.base.goFoiForward();
+    this.forwardforSelectedPersonalTopics()
   }
 
   doGoBack() {
     this.base.goFoiBack();
   }
 
+  forwardforSelectedPersonalTopics()
+  {
+    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
+    {
+      
+      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
+      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
+      let next = this.foiRequest.requestData.selectedtopics[ci+1];
+      console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
+      if(next!=undefined)
+      {
+        this.route.navigate([`/personal/${next.value}`])
+      }
+      else{
+        this.base.goFoiForward();
+      }
+        
+    }
+    else
+    {
+      this.base.goFoiForward();
+    }
+  }
  
 }

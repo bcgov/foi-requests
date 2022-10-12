@@ -84,19 +84,20 @@ export class RequestTopicComponent implements OnInit {
   {    
     item.selected=!item.selected
      
-    const itemindex: number = this.foiForm.value.selectedoptions.indexOf(item);
-    if(!this.foiForm.value.selectedoptions.includes(item) && itemindex === -1) 
+    const itemindex: number = this.foiRequest.requestData.selectedtopics.indexOf(item);
+
+    if(!this.foiRequest.requestData.selectedtopics.includes(item) && itemindex === -1) 
     {
       console.log('added')
-      this.foiForm.value.selectedoptions.push(item)
+      this.foiRequest.requestData.selectedtopics.push(item)
     } 
     else{
       console.log('revmoved')
-      this.foiForm.value.selectedoptions.splice(itemindex,1)
+      this.foiRequest.requestData.selectedtopics.splice(itemindex,1)
     }
 
-    this.foiRequest.requestData.selectedtopics = this.foiForm.value.selectedoptions;
-    console.log(`selecttopic event ${JSON.stringify(this.foiForm.value.selectedoptions)}`)
+    //this.foiRequest.requestData.selectedtopics = this.foiForm.value.selectedoptions;
+    console.log(`selecttopic event ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
      
   }
 
@@ -121,7 +122,7 @@ export class RequestTopicComponent implements OnInit {
     console.log(`formData.selectedoptions -doContinue ${JSON.stringify(formData.selectedoptions)}`)
 
     let selected = this.topics.filter(m => m.selected);
-    this.foiRequest.requestData.selectedtopics = selected; 
+    this.foiRequest.requestData.selectedtopics = selected.sort((a, b) => a.value.localeCompare(b.value)); 
 
     console.log(`doContinue-selectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
 
