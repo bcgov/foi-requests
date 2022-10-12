@@ -41,14 +41,16 @@ export class FosterParent implements OnInit {
     this.fulllistoptions = this.dataService.getFosterParent().pipe(
       map(_mainoptions => {
         _mainoptions.forEach(_mainoption => {
-          _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo=>smo.mainoption === _mainoption.mainoption) : false);
-          
+          _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : false);
+
           let _suboptions = _mainoption.suboptions
-          let selectedmainoption= selectedoptions.find(smo=>smo.mainoption === _mainoption.mainoption)
-         
+          let selectedmainoption = selectedoptions ? selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : []
+
           _suboptions.forEach(_suboption => {
-             _suboption.selected =  (selectedmainoption ? !!selectedmainoption.suboptions.find(sso => sso.option === _suboption.option && sso.selected === true):false)
-           })
+            if (selectedmainoption != undefined) {
+              _suboption.selected = (selectedmainoption && selectedmainoption.suboptions ? !!selectedmainoption.suboptions.find(sso => sso.option === _suboption.option && sso.selected === true) : false)
+            }
+          })
         })
 
         return _mainoptions;

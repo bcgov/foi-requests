@@ -22,28 +22,37 @@ export class Adoption implements OnInit {
   foiRequest: FoiRequest;
   targetKey: string = "adoption";
   fulllistoptions: Observable<any>;
-  mainoptions:Array<any>;
-  checkstates:Array<string> = ['adoption','childprotectionchild','childprotectionparent','fosterparent','youthincarechild','youthincareparent'];
+  mainoptions: Array<any>;
+  checkstates: Array<string> = ['adoption', 'childprotectionchild', 'childprotectionparent', 'fosterparent', 'youthincarechild', 'youthincareparent'];
 
-  constructor(private fb: FormBuilder, private dataService: DataService,private route:Router) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) { }
 
   ngOnInit() {
-  
-  
+
+
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
 
-    let selectedoptions = this.foiRequest.requestData[this.targetKey].selectedoptions;
+    let selectedoptions = this.foiRequest.requestData.requestType.adoption;
 
     this.fulllistoptions = this.dataService.getAdoptionData().pipe(
-      map(mainoptions=>{
-          mainoptions.forEach(mainoption =>{
-            mainoption.selected =  mainoption.selected || (selectedoptions ? !! selectedoptions.find(ms => ms.selected === mainoption.selected) : false);
-          })
+      map(_mainoptions => {
+        _mainoptions.forEach(_mainoption => {
+          _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : false);
 
-          return mainoptions;
+          let _suboptions = _mainoption.suboptions
+          let selectedmainoption = selectedoptions ? selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : []
+
+          _suboptions.forEach(_suboption => {
+            if (selectedmainoption != undefined) {
+              _suboption.selected = (selectedmainoption && selectedmainoption.suboptions ? !!selectedmainoption.suboptions.find(sso => sso.option === _suboption.option && sso.selected === true) : false)
+            }
+          })
+        })
+
+        return _mainoptions;
       }),
       map(mainoptions => {
         this.mainoptions = mainoptions;
@@ -52,14 +61,12 @@ export class Adoption implements OnInit {
     );
   }
 
-  showsubsection(item:any)
-  {
-    item.selected=!item.selected   
+  showsubsection(item: any) {
+    item.selected = !item.selected
   }
 
-  selectedsuboption(item:any)
-  {
-    item.selected=!item.selected 
+  selectedsuboption(item: any) {
+    item.selected = !item.selected
 
   }
 
@@ -68,34 +75,30 @@ export class Adoption implements OnInit {
     const formData = this.foiForm.value;
 
     let selected = this.mainoptions.filter(m => m.selected);
-    this.foiRequest.requestData[this.targetKey].selectedoptions = selected; 
+    this.foiRequest.requestData.requestType.adoption = selected;
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     //this.base.goFoiForward();
     this.forwardforSelectedPersonalTopics()
   }
 
-  
-  forwardforSelectedPersonalTopics()
-  {
-    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
-    {
-      
-      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
+
+  forwardforSelectedPersonalTopics() {
+    if (this.foiRequest.requestData.selectedtopics != undefined && this.foiRequest.requestData.selectedtopics.length > 0) {
+
+      let current = this.foiRequest.requestData.selectedtopics.find(st => st.value === this.targetKey)
       let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
-      let next = this.foiRequest.requestData.selectedtopics[ci+1];
+      let next = this.foiRequest.requestData.selectedtopics[ci + 1];
       console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
-      if(next!=undefined && this.checkstates.includes(next.value))
-      {
+      if (next != undefined && this.checkstates.includes(next.value)) {
         this.route.navigate([`/personal/${next.value}`])
       }
-      else{
+      else {
         this.base.goFoiForward();
       }
-        
+
     }
-    else
-    {
+    else {
       this.base.goFoiForward();
     }
   }
@@ -104,5 +107,5 @@ export class Adoption implements OnInit {
     this.base.goFoiBack();
   }
 
- 
+
 }
