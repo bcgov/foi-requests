@@ -90,7 +90,8 @@ export class YouthInCareChild implements OnInit {
   }
 
   doGoBack() {
-    this.base.goFoiBack();
+    //this.base.goFoiBack();
+    this.rewindforSelectedPersonalTopics();
   }
 
   forwardforSelectedPersonalTopics()
@@ -114,6 +115,30 @@ export class YouthInCareChild implements OnInit {
     else
     {
       this.base.goFoiForward();
+    }
+  }
+
+  rewindforSelectedPersonalTopics()
+  {
+    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
+    {
+      
+      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
+      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
+      let previous = this.foiRequest.requestData.selectedtopics[ci-1];
+      console.log(`next childprotectionparent : ${JSON.stringify(previous)}`)
+      if(previous!=undefined)
+      {
+        this.route.navigate([`/personal/${previous.value}`])
+      }
+      else{
+        this.base.goFoiBack();
+      }
+        
+    }
+    else
+    {
+      this.base.goFoiBack();
     }
   }
 
