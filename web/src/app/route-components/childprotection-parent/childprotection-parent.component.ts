@@ -34,15 +34,24 @@ export class ChildProtectionParent implements OnInit {
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
     console.log(`ngOnInit-childprot parent -selectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
-    let selectedoptions = this.foiRequest.requestData[this.targetKey].selectedoptions;
+    let selectedoptions = this.foiRequest.requestData.requestType.childprotectionparent;
 
     this.fulllistoptions = this.dataService.getChildInProtectionParent().pipe(
-      map(mainoptions=>{
-          mainoptions.forEach(mainoption =>{
-            mainoption.selected =  mainoption.selected || (selectedoptions ? !! selectedoptions.find(ms => ms.selected === mainoption.selected) : false);
-          })
+      map(_mainoptions => {
+        _mainoptions.forEach(_mainoption => {
+          _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : false);
 
-          return mainoptions;
+          let _suboptions = _mainoption.suboptions
+          let selectedmainoption = selectedoptions ? selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : []
+
+          _suboptions.forEach(_suboption => {
+            if (selectedmainoption != undefined) {
+              _suboption.selected = (selectedmainoption && selectedmainoption.suboptions ? !!selectedmainoption.suboptions.find(sso => sso.option === _suboption.option && sso.selected === true) : false)
+            }
+          })
+        })
+
+        return _mainoptions;
       }),
       map(mainoptions => {
         this.mainoptions = mainoptions;
@@ -67,7 +76,7 @@ export class ChildProtectionParent implements OnInit {
     const formData = this.foiForm.value;
 
     let selected = this.mainoptions.filter(m => m.selected);
-    this.foiRequest.requestData[this.targetKey].selectedoptions = selected; 
+    this.foiRequest.requestData.requestType.childprotectionparent = selected; 
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
    
