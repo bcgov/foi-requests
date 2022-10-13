@@ -5,6 +5,7 @@ import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder, Validators, FormControl } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Component({
   templateUrl: "./ministry-confirmation.component.html",
@@ -21,7 +22,7 @@ export class MinistryConfirmationComponent implements OnInit {
   feeAmount: number = 0;
   requiresPayment: boolean = null;
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService,private route:Router) {}
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
@@ -92,10 +93,37 @@ export class MinistryConfirmationComponent implements OnInit {
     this.foiRequest.requestData[this.targetKey].ministryPage = this.base.getCurrentRoute();
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
-    this.base.goFoiForward();
+    
+    this.forwardforSelectedPersonalTopics();
+
+  }
+
+  forwardforSelectedPersonalTopics()
+  {
+    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0 && this.foiRequest.requestData.requestType === "personal")
+    {
+      
+      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
+      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
+      let next = this.foiRequest.requestData.selectedtopics[ci+1];
+      console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
+      if(next!=undefined)
+      {
+        this.route.navigate([`/personal/${next.value}`])
+      }
+      else{
+        this.base.goFoiForward();
+      }
+        
+    }
+    else
+    {
+      this.base.goFoiForward();
+    }
   }
 
   doGoBack() {
+    //console.log(`Topic  ${this.foiRequest.requestData.requestTopic.value}`)
     this.base.goFoiBack();
   }
 }

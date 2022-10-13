@@ -1,0 +1,38 @@
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
+
+    <div class="foi-content">
+
+        <h3>Child protection – Child Submitting Request</h3>
+        <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+
+            <div *ngIf="(fulllistoptions | async) as mainoptions">
+                <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
+                    <label>
+                        <input type="checkbox" [value]="item.mainoption" [checked]="item.selected"
+                             (change)="showsubsection(item)" />
+                       {{item.mainoption}}
+                    </label>
+                    <div class="subgroup" *ngIf="item.selected">
+                        <div class="row" >
+
+                            <div class="form-check form-check-inline" *ngFor="let subitem of item.suboptions; let si = subindex">
+                                <input class="form-check-input" type="checkbox" [value]="subitem.option"  [checked]="subitem.selected" (change)="selectedsuboption(subitem)" />
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{subitem.option}}
+                                </label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="sidebar">
+        <!-- hidden -->
+    </div>
+
+
+</foi-base>

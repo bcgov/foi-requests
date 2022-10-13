@@ -48,7 +48,7 @@ jobs:
       - name: Build from text branch
         shell: bash
         run: |
-          oc patch bc/api-master-build -p '{"spec":{"source":{"git":{"ref":"test"}}}}'
+          oc patch bc/api-master-build -p '{"spec":{"source":{"git":{"ref":"master"}}}}'
 
       - name: Start Build Openshift
         shell: bash
