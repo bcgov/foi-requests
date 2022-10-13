@@ -275,7 +275,7 @@
     ],
     "adoption":[
 
-      { "mainoption":"Are you the biological parent?" , "suboptions":[
+      { "mainoption":"Are you the biological parent?" , "mainoptionvalue":"Biological Parent", "suboptions":[
         {"option":"Adoptive Parent(s)’ Background"},
         {"option":"Child & Birth Family Background"},
         {"option":"Post Placement Documentation & Correspondence"},
@@ -285,7 +285,7 @@
         {"option":"Information and Correspondence"}
                        
         ] },
-        { "mainoption":"Are you the adoptive parent?" , "suboptions":[
+        { "mainoption":"Are you the adoptive parent?" , "mainoptionvalue":"Adoptive Parent", "suboptions":[
           {"option":"Adoptive Parent(s)’ Background"},
           {"option":"Child & Birth Family Background"},
           {"option":"Post Placement Documentation & Correspondence"},
@@ -295,7 +295,7 @@
           {"option":"Information and Correspondence"}
                          
           ] },
-          { "mainoption":"Are you the adopted child?" , "suboptions":[
+          { "mainoption":"Are you the adopted child?" , "mainoptionvalue":"Adoptive Child", "suboptions":[
             {"option":"Adoptive Parent(s)’ Background"},
             {"option":"Child & Birth Family Background"},
             {"option":"Post Placement Documentation & Correspondence"},

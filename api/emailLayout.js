@@ -187,6 +187,81 @@ function EmailLayout() {
     return result;
   };
 
+  this.requesttopicsubpartcontent = function(mainoptions)
+  {
+
+    let topicvalue=''
+    mainoptions.forEach(mainoption=>{
+      let selectedsuboptions =''
+      if(mainoption!=undefined)
+      {
+      
+      mainoption.suboptions.forEach(suboption =>{
+
+        if(suboption.selected === true)
+        {
+          selectedsuboptions += suboption.option + "&nbsp;|&nbsp;"
+        }
+      })
+    }
+    let mainoptionvalue = mainoption.mainoptionvalue !=undefined ?mainoption.mainoptionvalue : mainoption.mainoption;
+      topicvalue+= `<b>${mainoptionvalue}</b> : ${selectedsuboptions} </br>`
+      topicvalue+='<hr style="color:#e0e0e0"/>'
+    });
+
+    return topicvalue;
+
+  }
+
+  this.requesttopic = function(topics, adoption, childprotectionchild,childprotectionparent,fosterparent,youthincarechild,youthincareparent)
+  {
+    let result = this.tableHeader('Specific Personal MCFD Records Looking For');
+
+    topics.forEach(topic =>{
+
+      let topicvalue = ""
+
+      if(topic.value === "adoption")
+      {
+        topicvalue = this.requesttopicsubpartcontent(adoption)
+      }
+
+      if(topic.value === "childprotectionchild")
+      {
+        topicvalue = this.requesttopicsubpartcontent(childprotectionchild)
+      }
+
+      if(topic.value === "childprotectionparent")
+      {
+        topicvalue = this.requesttopicsubpartcontent(childprotectionparent)
+      }
+
+      if(topic.value === "fosterparent")
+      {
+        topicvalue = this.requesttopicsubpartcontent(fosterparent)
+      }
+
+      if(topic.value === "youthincarechild")
+      {
+        topicvalue = this.requesttopicsubpartcontent(youthincarechild)
+      }
+
+      if(topic.value === "youthincareparent")
+      {
+        topicvalue = this.requesttopicsubpartcontent(youthincareparent)
+      }
+
+      result += this.tableRow(
+        topic.text,
+        topicvalue)
+
+
+      });
+
+    return result;
+    
+  }
+
   this.adoptiveParents = function(data) {
     const mother = this.joinBySpace(data.motherFirstName, data.motherLastName);
     const father = this.joinBySpace(data.fatherFirstName, data.fatherLastName);
@@ -291,6 +366,9 @@ function EmailLayout() {
       'Request Type',
       data.requestData.requestType.requestType
     );
+
+    
+
     // Request is About
     data.requestData.selectAbout = data.requestData.selectAbout || {};
     content += this.about(data.requestData.selectAbout || {});
@@ -300,6 +378,15 @@ function EmailLayout() {
         data.requestData.anotherInformation || {}
       );
     }
+
+if(data.requestData.selectAbout.yourself && !data.requestData.selectAbout.child && !data.requestData.selectAbout.another)
+{ 
+  content += this.requesttopic(data.requestData.selectedtopics,data.requestData.requestType.adoption,
+    data.requestData.requestType.childprotectionchild,data.requestData.requestType.childprotectionparent,
+    data.requestData.requestType.fosterparent,data.requestData.requestType.youthincarechild,data.requestData.requestType.youthincareparent
+    )    
+}
+
     // if we have 'childInformation' then include the block
     if (data.requestData.selectAbout.child) {
       content += this.childInformation(data.requestData.childInformation || {});
@@ -331,7 +418,7 @@ function EmailLayout() {
 
     // Include raw JSON in the email, for local instances only.
     if (!process.env.OPENSHIFT_BUILD_NAME) {
-      content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+      //content += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
     }
     return content;
   };
