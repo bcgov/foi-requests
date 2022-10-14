@@ -40,6 +40,9 @@ export class MinistryConfirmationComponent implements OnInit {
           if (m.name === "Forests" && m.selected === true) {
             this.isforestministry = true;
           }
+          else if((m.name === "Forests" && m.selected === false)){
+            this.isforestministry = false;
+          }
         });
         return ministries;
       }),
@@ -65,7 +68,7 @@ export class MinistryConfirmationComponent implements OnInit {
     if (m.name === "Forests" && m.selected === true) {
       this.isforestministry = true;
     }
-    else{
+    else if((m.name === "Forests" && m.selected === false)){
       this.isforestministry = false;
     }
     this.setContinueDisabled();
