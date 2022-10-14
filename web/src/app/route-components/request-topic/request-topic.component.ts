@@ -29,7 +29,11 @@ export class RequestTopicComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey, this.ministryKey);
-    console.log(`this.foiRequest.requestData.selectedtopics ${this.foiRequest.requestData.selectedtopics}`)
+    
+    if(this.foiRequest.requestData.selectedtopics === undefined)
+    {
+      this.foiRequest.requestData.selectedtopics = []
+    }
 
     this.base.getFoiRouteData().subscribe(data => {
       if (data) {
@@ -62,10 +66,23 @@ export class RequestTopicComponent implements OnInit {
       }
     });
 
-    let hasselectedtopics = this.foiRequest.requestData.selectedtopics.find(st => st.selected === true)
-    console.log(`hasselectedtopics ${JSON.stringify(this.foiRequest.requestData.selectedtopics)}`)
-    this.base.continueDisabled = !hasselectedtopics
+    
+    this.base.continueDisabled = this.disablecontinue("init")
+  }
 
+  disablecontinue(loadingpoint :string)
+  {
+    let selectedoptions = this.foiRequest.requestData.selectedtopics;
+    let disable = false;
+    if(selectedoptions !=undefined && loadingpoint === "init")
+    {
+      disable = selectedoptions.length > 0  ?  selectedoptions.filter(so=>so.selected === true).length === 0 : true
+    }  
+
+    if (loadingpoint === "select") {
+      disable = (this.topics === undefined || this.topics.filter(mo=>mo.selected === true).length === 0)
+    }   
+     return disable;
   }
 
   selecttopic(item: any, _checked) {
@@ -82,8 +99,7 @@ export class RequestTopicComponent implements OnInit {
       this.foiRequest.requestData.selectedtopics.splice(itemindex, 1)
     }
 
-    let hasselectedtopics = this.foiRequest.requestData.selectedtopics.find(st => st.selected === true)
-    this.base.continueDisabled = !hasselectedtopics
+    this.base.continueDisabled = this.disablecontinue("select")
 
   }
 

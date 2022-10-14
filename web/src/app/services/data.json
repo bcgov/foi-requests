@@ -165,12 +165,7 @@
             {"option":"Program Planning Documentation"}           
           ]
         },
-        {
-          "mainoption":"Youth Justice" ,"suboptions":[
-            {"option":"We do not hold these records. Your records can be requested here.","istext":true}
-                      
-          ]
-        },
+        
         {
           "mainoption":"Other" ,"suboptions":[]
         }
