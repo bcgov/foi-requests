@@ -35,11 +35,17 @@ export class ChildProtectionChild implements OnInit {
 
     let selectedoptions = this.foiRequest.requestData.requestType.childprotectionchild;
 
+    this.base.continueDisabled = this.disablecontinue("init")
+
     this.fulllistoptions = this.dataService.getChildInProtectionChild().pipe(
       map(_mainoptions => {
         _mainoptions.forEach(_mainoption => {
           _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : false);
 
+          if(_mainoption.selected === true)
+              {
+                this.base.continueDisabled = false
+              }
           let _suboptions = _mainoption.suboptions
           let selectedmainoption = selectedoptions ? selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : []
 
@@ -58,7 +64,7 @@ export class ChildProtectionChild implements OnInit {
       })
     );
 
-    this.base.continueDisabled = this.disablecontinue("init")
+    
   }
 
   disablecontinue(loadingpoint :string)

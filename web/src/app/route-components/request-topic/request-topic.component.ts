@@ -48,11 +48,17 @@ export class RequestTopicComponent implements OnInit {
       
         let selectedtopics = this.foiRequest.requestData.selectedtopics;
 
+        this.base.continueDisabled = this.disablecontinue("init")
 
         this.yourselftopics = this.dataService.getYourselfTopics().pipe(
           map(_topics => {
             _topics.forEach(topic => {
               topic.selected = topic.selected || (selectedtopics ? !!selectedtopics.find(ms => ms.value === topic.value) : false);
+
+              if(topic.selected === true)
+              {
+                this.base.continueDisabled = false
+              }
 
             })
 
@@ -64,10 +70,11 @@ export class RequestTopicComponent implements OnInit {
           })
         );
       }
+      
     });
 
     
-    this.base.continueDisabled = this.disablecontinue("init")
+    
   }
 
   disablecontinue(loadingpoint :string)
@@ -75,7 +82,7 @@ export class RequestTopicComponent implements OnInit {
     let selectedoptions = this.foiRequest.requestData.selectedtopics;
     let disable = false;
     if(selectedoptions !=undefined && loadingpoint === "init")
-    {
+    {      
       disable = selectedoptions.length > 0  ?  selectedoptions.filter(so=>so.selected === true).length === 0 : true
     }  
 
@@ -150,6 +157,7 @@ export class RequestTopicComponent implements OnInit {
 
 
   doGoBack() {
+    this.foiRequest.requestData.selectedtopics = this.yourselftopics
     this.base.goFoiBack();
   }
 }
