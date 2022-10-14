@@ -21,8 +21,9 @@ export class MinistryConfirmationComponent implements OnInit {
   targetKey: string = "ministry";
   feeAmount: number = 0;
   requiresPayment: boolean = null;
+  isforestministry: boolean = false;
 
-  constructor(private fb: FormBuilder, private dataService: DataService,private route:Router) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) { }
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
@@ -36,6 +37,9 @@ export class MinistryConfirmationComponent implements OnInit {
         ministries.forEach(m => {
           m.selected = m.defaulted = this.defaultMinistry && (m.code === this.defaultMinistry.code);
           m.selected = m.selected || (selectedMinistry ? !!selectedMinistry.find(ms => ms.code === m.code) : false);
+          if (m.name === "Forests" && m.selected === true) {
+            this.isforestministry = true;
+          }
         });
         return ministries;
       }),
@@ -46,7 +50,7 @@ export class MinistryConfirmationComponent implements OnInit {
           selectedMinistry: ministries.filter((m) => m.selected),
         });
         this.feeAmount = feeQuantity.valueOf() * 10
-        
+
         return ministries;
       }),
       map(ministries => {
@@ -58,13 +62,19 @@ export class MinistryConfirmationComponent implements OnInit {
 
   selectMinistry(m: any) {
     m.selected = !m.selected;
+    if (m.name === "Forests" && m.selected === true) {
+      this.isforestministry = true;
+    }
+    else{
+      this.isforestministry = false;
+    }
     this.setContinueDisabled();
   }
 
   setContinueDisabled() {
     let selected = this.ministries.filter(m => m.selected);
-    
-    if(selected.length == 0) {
+
+    if (selected.length == 0) {
       this.base.continueDisabled = true
       this.feeAmount = 0;
     } else {
@@ -93,31 +103,27 @@ export class MinistryConfirmationComponent implements OnInit {
     this.foiRequest.requestData[this.targetKey].ministryPage = this.base.getCurrentRoute();
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);
-    
+
     this.forwardforSelectedPersonalTopics();
 
   }
 
-  forwardforSelectedPersonalTopics()
-  {
-    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0 && this.foiRequest.requestData.requestType === "personal")
-    {
-      
-      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
+  forwardforSelectedPersonalTopics() {
+    if (this.foiRequest.requestData.selectedtopics != undefined && this.foiRequest.requestData.selectedtopics.length > 0 && this.foiRequest.requestData.requestType === "personal") {
+
+      let current = this.foiRequest.requestData.selectedtopics.find(st => st.value === this.targetKey)
       let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
-      let next = this.foiRequest.requestData.selectedtopics[ci+1];
+      let next = this.foiRequest.requestData.selectedtopics[ci + 1];
       console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
-      if(next!=undefined)
-      {
+      if (next != undefined) {
         this.route.navigate([`/personal/${next.value}`])
       }
-      else{
+      else {
         this.base.goFoiForward();
       }
-        
+
     }
-    else
-    {
+    else {
       this.base.goFoiForward();
     }
   }
