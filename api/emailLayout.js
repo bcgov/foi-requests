@@ -195,14 +195,17 @@ function EmailLayout() {
       let selectedsuboptions =''
       if(mainoption!=undefined)
       {
-      
+        selectedsuboptions += '<br/><ul>'
       mainoption.suboptions.forEach(suboption =>{
 
         if(suboption.selected === true)
         {
-          selectedsuboptions += suboption.option + "&nbsp;|&nbsp;"
+         
+          selectedsuboptions += `<li>${suboption.option}</li>` 
+          
         }
       })
+      selectedsuboptions+='</ul>' 
     }
     let mainoptionvalue = mainoption.mainoptionvalue !=undefined ?mainoption.mainoptionvalue : mainoption.mainoption;
       topicvalue+= `<b>${mainoptionvalue}</b> : ${selectedsuboptions} </br>`
@@ -215,7 +218,7 @@ function EmailLayout() {
 
   this.requesttopic = function(topics, adoption, childprotectionchild,childprotectionparent,fosterparent,youthincarechild,youthincareparent)
   {
-    let result = this.tableHeader('Specific Personal MCFD Records Looking For');
+    let result = this.tableHeader('MCFD Records');
 
     topics.forEach(topic =>{
 
