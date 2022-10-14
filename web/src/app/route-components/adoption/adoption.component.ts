@@ -37,12 +37,17 @@ export class Adoption implements OnInit {
 
     let selectedoptions = this.foiRequest.requestData.requestType.adoption;
 
-    console.log(`selectedoptions ${JSON.stringify(selectedoptions)}`)
+    this.base.continueDisabled = this.disablecontinue('init');
 
     this.fulllistoptions = this.dataService.getAdoptionData().pipe(
       map(_mainoptions => {
         _mainoptions.forEach(_mainoption => {
           _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : false);
+
+          if(_mainoption.selected === true)
+              {
+                this.base.continueDisabled = false
+              }
 
           let _suboptions = _mainoption.suboptions
           let selectedmainoption = selectedoptions ? selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : []
@@ -63,7 +68,7 @@ export class Adoption implements OnInit {
     );
 
     
-    this.base.continueDisabled = this.disablecontinue('init');
+    
   }
 
   disablecontinue(loadingpoint :string)
