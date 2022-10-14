@@ -37,6 +37,8 @@ export class Adoption implements OnInit {
 
     let selectedoptions = this.foiRequest.requestData.requestType.adoption;
 
+    console.log(`selectedoptions ${JSON.stringify(selectedoptions)}`)
+
     this.fulllistoptions = this.dataService.getAdoptionData().pipe(
       map(_mainoptions => {
         _mainoptions.forEach(_mainoption => {
@@ -59,10 +61,30 @@ export class Adoption implements OnInit {
         return mainoptions;
       })
     );
+
+    
+    this.base.continueDisabled = this.disablecontinue('init');
+  }
+
+  disablecontinue(loadingpoint :string)
+  {
+    let selectedoptions = this.foiRequest.requestData.requestType.adoption;
+    let disable = false;
+    if(loadingpoint === "init")
+    {
+      disable = selectedoptions !=undefined ? selectedoptions.length > 0 && selectedoptions.filter(so=>so.selected === true).length===0: true;
+    }  
+
+    if (loadingpoint === "select") {
+      disable = (this.mainoptions === undefined || this.mainoptions.filter(mo=>mo.selected === true).length === 0)
+    }   
+     return disable;
   }
 
   showsubsection(item: any) {
     item.selected = !item.selected
+    this.base.continueDisabled = this.disablecontinue('select');
+    
   }
 
   selectedsuboption(item: any) {
