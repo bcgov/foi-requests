@@ -17,6 +17,14 @@ export class ReviewSubmitCompleteComponent implements OnInit {
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState();
+    this.foiRequest.requestData.selectedtopics = []
+    this.foiRequest.requestData.requestType.adoption = []
+    this.foiRequest.requestData.requestType.childprotectionchild=[]
+    this.foiRequest.requestData.requestType.childprotectionparent=[]    
+    this.foiRequest.requestData.requestType.fosterparent = []
+    this.foiRequest.requestData.requestType.youthincarechild = []
+    this.foiRequest.requestData.requestType.youthincareparent = []
+
     // Clear the current state!
     const blankState: FoiRequest = {
       requestData: {}

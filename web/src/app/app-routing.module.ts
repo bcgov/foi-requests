@@ -22,7 +22,12 @@ import { AdoptiveParentsComponent } from './route-components/adoptive-parents/ad
 import { SigninComponent } from './route-components/signin/signin.component';
 import { PaymentComponent } from './route-components/payment/payment.component';
 import { PaymentCompleteComponent } from './route-components/payment-complete/payment-complete.component';
-
+import { ChildProtectionParent } from './route-components/childprotection-parent/childprotection-parent.component';
+import { ChildProtectionChild } from './route-components/childprotection-child/childprotection-child.component';
+import { YouthInCareParent } from './route-components/youthincare-parent/youthincare-parent.component';
+import { YouthInCareChild } from './route-components/youthincare-child/youthincare-child.component';
+import { FosterParent } from './route-components/foster-parent/foster-parent.component';
+import { Adoption } from './route-components/adoption/adoption.component';
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
@@ -54,12 +59,61 @@ const routes: Routes = [
   // Personal / Yourself
   { path: 'personal/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/request-topic', component: RequestTopicComponent },
+  { path: 'personal/childprotectionparent', component: ChildProtectionParent },
+  { path: 'personal/childprotectionchild', component: ChildProtectionChild },
+  { path: 'personal/youthincareparent', component: YouthInCareParent },
+  { path: 'personal/youthincarechild', component: YouthInCareChild },
+  { path: 'personal/fosterparent', component: FosterParent },
+  { path: 'personal/adoption', component: Adoption },
+
   { path: 'personal/ministry-confirmation', component: MinistryConfirmationComponent },
-  { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/youthincarechild/ministry-confirmation', component: MinistryConfirmationComponent },
+  { path: 'personal/childprotectionparent/ministry-confirmation', component: MinistryConfirmationComponent },
+  { path: 'personal/childprotectionchild/ministry-confirmation', component: MinistryConfirmationComponent },
+  { path: 'personal/youthincareparent/ministry-confirmation', component: MinistryConfirmationComponent },
+  { path: 'personal/fosterparent/ministry-confirmation', component: MinistryConfirmationComponent },
+  { path: 'personal/adoption/ministry-confirmation', component: MinistryConfirmationComponent },
+
+  { path: 'personal/youthincarechild/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/description-timeframe', component: DescriptionTimeframeComponent }, 
+  { path: 'personal/childprotectionparent/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/childprotectionchild/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/youthincareparent/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/fosterparent/description-timeframe', component: DescriptionTimeframeComponent },
+  { path: 'personal/adoption/description-timeframe', component: DescriptionTimeframeComponent },
+  
   { path: 'personal/adoptive-parents', component: AdoptiveParentsComponent },
+  { path: 'personal/youthincarechild/adoptive-parents', component: AdoptiveParentsComponent },
+  { path: 'personal/childprotectionparent/adoptive-parents', component: AdoptiveParentsComponent },
+  { path: 'personal/childprotectionparent/adoptive-parents', component: AdoptiveParentsComponent },
+  { path: 'personal/youthincareparent/adoptive-parents', component: AdoptiveParentsComponent },
+  { path: 'personal/fosterparent/adoptive-parents', component: AdoptiveParentsComponent },
+  { path: 'personal/adoption/adoptive-parents', component: AdoptiveParentsComponent },
+
   { path: 'personal/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/youthincarechild/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/childprotectionparent/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/childprotectionparent/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/youthincareparent/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/fosterparent/contact-info-options', component: ContactInfoOptionsComponent },
+  { path: 'personal/adoption/contact-info-options', component: ContactInfoOptionsComponent },
+
+
   { path: 'personal/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/youthincarechild/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/childprotectionparent/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/childprotectionparent/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/youthincareparent/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/fosterparent/review-submit', component: ReviewSubmitComponent },
+  { path: 'personal/adoption/review-submit', component: ReviewSubmitComponent },
+
   { path: 'personal/submit-complete', component: ReviewSubmitCompleteComponent},
+  { path: 'personal/youthincarechild/submit-complete', component: ReviewSubmitCompleteComponent },
+  { path: 'personal/childprotectionparent/submit-complete', component: ReviewSubmitCompleteComponent },
+  { path: 'personal/childprotectionparent/submit-complete', component: ReviewSubmitCompleteComponent },
+  { path: 'personal/youthincareparent/submit-complete', component: ReviewSubmitCompleteComponent },
+  { path: 'personal/fosterparent/submit-complete', component: ReviewSubmitCompleteComponent },
+  { path: 'personal/adoption/submit-complete', component: ReviewSubmitCompleteComponent },
 
   // Personal / Child
   { path: 'personal/child/proof-of-guardianship', component: ProofOfGuardianshipComponent },

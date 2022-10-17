@@ -3,11 +3,43 @@
     <h2>What kinds of records are you looking for?</h2>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <div class="form-group" *ngFor="let topic of topics">
-        <label>
-          <input type="radio" [value]="topic" formControlName="requestTopic" />
-          {{ topic.text }}
-        </label>
+      <div *ngIf="(yourselftopics | async) as topics">
+        <div class="form-group" *ngFor="let topic of topics">
+          <label>
+            <input type="checkbox" [value]="topic" formControlName="requestTopic" [checked]="topic.selected"
+              (change)="selecttopic(topic,$event.target.checked)" />
+            <div class="optiontext" [innerHTML]="topic.text"></div>
+          </label>
+        </div>
+      </div>
+      <div class="form-group warningsection">
+        <h2>Are you looking for these types of records?</h2>
+        <br/>
+        <div class="subgroup">
+          <div>
+            <h5><strong>Police Records from a Police visit?</strong></h5>
+
+            We do not hold these records.
+            Your records can be requested through the RCMP or the municipal police force where the incident occurred
+            would.
+
+          </div>
+          <br />
+          <div>
+            <h5><strong>Report Cards, Individualized Education Plans and/or School Records?</strong></h5>
+
+            We do not hold these records.
+            Your records can be request through in the school district office of the school you were attending.
+
+          </div>
+          <br />
+          <div>
+            <h5><strong>Your own health records?</strong></h5>
+
+            We do not hold these records.
+            Your records can be requested through the Health Authorities that provided care.
+          </div>
+        </div>
       </div>
     </form>
   </div>

@@ -38,6 +38,34 @@ export class DataService {
     return of(data.referenceData.ministries);
   }
 
+  getYouthinCareChild(): Observable<any[]> {
+    return of(data.referenceData.youthincarechild);
+  }
+
+  getYouthinCareParent(): Observable<any[]> {
+    return of(data.referenceData.youthincareparent);
+  }
+
+  getAdoptionData(): Observable<any[]> {
+    return of(data.referenceData.adoption);
+  }
+
+  getFosterParent(): Observable<any[]> {
+    return of(data.referenceData.fosterparent);
+  }
+
+  getChildInProtectionChild(): Observable<any[]> {
+    return of(data.referenceData.childprotectionchild);
+  }
+
+  getChildInProtectionParent(): Observable<any[]> {
+    return of(data.referenceData.childprotectionparent);
+  }
+
+  getYourselfTopics(): Observable<any[]> {
+    return of(data.referenceData.topicYourself);
+  }
+
   capitalize(str) {
     if (typeof str !== "string") {
       return "";
