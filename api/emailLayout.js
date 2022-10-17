@@ -195,21 +195,21 @@ function EmailLayout() {
       let selectedsuboptions =''
       if(mainoption!=undefined)
       {
-        selectedsuboptions += '<br/><ul>'
+        
       mainoption.suboptions.forEach(suboption =>{
 
         if(suboption.selected === true)
         {
          
-          selectedsuboptions += `<li>${suboption.option}</li>` 
+          selectedsuboptions += `${suboption.option}, ` 
           
         }
       })
-      selectedsuboptions+='</ul>' 
+       
     }
     let mainoptionvalue = mainoption.mainoptionvalue !=undefined ?mainoption.mainoptionvalue : mainoption.mainoption;
-      topicvalue+= `<b>${mainoptionvalue}</b> : ${selectedsuboptions} </br>`
-      topicvalue+='<hr style="color:#e0e0e0"/>'
+      topicvalue+= `<b>${mainoptionvalue}</b> : ${selectedsuboptions.replace(/,\s*$/, "")} </br>`
+      
     });
 
     return topicvalue;

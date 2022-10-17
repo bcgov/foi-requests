@@ -2,15 +2,16 @@
 
     <div class="foi-content">
 
-        <h3>Youth in care - Child Submitting Request</h3>
+        <h3>Your records as a <strong>child</strong> in youth care</h3>
+        <hr/>
         <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-
+            <p><i>Select the corresponding types of records you would like to receive in your request</i></p>
             <div *ngIf="(youthincareoptions | async) as mainoptions">
                 <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
                     <label>
                         <input type="checkbox" [value]="item.mainoption" [checked]="item.selected"
                             (change)="showsubsection(item)" />
-                        {{item.mainoption}}
+                       <strong> {{item.mainoption}}</strong>
                     </label>
                     <div class="subgroup" *ngIf="item.selected">
                         <div class="row">
@@ -30,8 +31,8 @@
                 </div>
             </div>
             <div class="form-group warningsection">
-                <div>Requests for <i><b>youth justice</b></i> records cannot be processed under FOIPPA and must be submitted directly
-                    to the Ministry of Children and Family Development.</div>
+                <h4><strong>Requests for <i><b>youth justice</b></i> records cannot be processed under FOIPPA and must be submitted directly
+                    to the Ministry of Children and Family Development.</strong></h4>
                 <p>Please submit your request to: <br />
                     <b>
                         Manager, Document Disclosure and Management <br />
