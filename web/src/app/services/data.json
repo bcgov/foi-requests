@@ -114,7 +114,7 @@
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "youthincarechild":[
-      { "mainoption":"Child in Card Records" , "suboptions":[
+      { "mainoption":"Child in Care Records" , "suboptions":[
         {"option":"Personal History, Recordings & Service Plans"},
         {"option":"Cultural Planning / Roots"},
         {"option":"Legal & Agreements"},
@@ -132,7 +132,7 @@
         
         ] },
         {
-          "mainoption":"Child in Youth Mental Health Records" ,"suboptions":[
+          "mainoption":"Child and Youth Mental Health Records" ,"suboptions":[
             {"option":"Clinical History"},
             {"option":"Complex Care Intervention"},
             {"option":"Assessment & Reports"},
@@ -143,7 +143,7 @@
           ]
         },
         {
-          "mainoption":"Child in Youth Special Needs Records" ,"suboptions":[
+          "mainoption":"Child and Youth Special Needs Records" ,"suboptions":[
             {"option":"Personal History & Recording"},
             {"option":"Intake / Service Request & Memo"},
             {"option":"Legal and Financial Documentation "},
