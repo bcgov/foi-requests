@@ -2,15 +2,16 @@
 
     <div class="foi-content">
 
-        <h3>Foster Parent</h3>
+        <h3>Your records as a foster parent</h3>
+        <hr/>
         <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-
+            <p><i>Select the corresponding types of records you would like to receive in your request</i></p>
             <div *ngIf="(fulllistoptions | async) as mainoptions">
                 <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
                     <label>
                         <input type="checkbox" [value]="item.mainoption" [checked]="item.selected"
                              (change)="showsubsection(item)" />
-                       {{item.mainoption}}
+                      <strong> {{item.mainoption}}</strong>
                     </label>
                     <div class="subgroup" *ngIf="item.selected">
                         <div class="row" >

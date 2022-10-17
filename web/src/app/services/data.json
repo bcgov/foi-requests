@@ -47,12 +47,12 @@
         "text": "Your income assistance history",
         "ministryCode": "SDPR"
       },
-      { "value": "childprotectionparent", "text": "Child protection – Parent Submitting Request", "ministryCode": "MCF","hassubscreen":"true" },
-      { "value": "childprotectionchild", "text": "Child protection – Child Submitting Request", "ministryCode": "MCF" ,"hassubscreen":"true" },
-      { "value": "youthincareparent", "text": "Youth in care - Parent Submitting Request", "ministryCode": "MCF" ,"hassubscreen":"true" },
-      { "value": "youthincarechild", "text": "Youth in care - Child Submitting Request", "ministryCode": "MCF" ,"hassubscreen":"true" },
-      { "value": "fosterparent", "text": "Foster Parent", "ministryCode": "MCF" ,"hassubscreen":"true"},
-      { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "childprotectionparent", "text": "Your records as a <strong>parent</strong> in a child protection investigation", "ministryCode": "MCF","hassubscreen":"true" },
+      { "value": "childprotectionchild", "text": "Your records as a <strong>child</strong> in a child protection investigation", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "youthincareparent", "text": "Your records as a <strong>parent</strong> of a child in youth care", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "youthincarechild", "text": "Your records as a <strong>child</strong> in youth care", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "fosterparent", "text": "Your records as a foster parent", "ministryCode": "MCF" ,"hassubscreen":"true"},
+      { "value": "adoption", "text": "Your records from an adoption", "ministryCode": "MCF" ,"hassubscreen":"true" },
       { "value": "anotherTopic", "text": "Other", "ministryCode": null }
     ],
     "topicAnother": [
