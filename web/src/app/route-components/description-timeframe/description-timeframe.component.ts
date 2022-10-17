@@ -18,6 +18,7 @@ export class DescriptionTimeframeComponent implements OnInit {
   personalRequest: boolean = false;
   showPublicServiceEmployeeNumber: boolean = false;
   showCorrectionalServiceNumber: boolean = false;
+  hasmcfdspecificrecordsrequests:boolean =false;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -43,6 +44,7 @@ export class DescriptionTimeframeComponent implements OnInit {
     if (this.personalRequest) {
       this.showPublicServiceEmployeeNumber = !!currentMinistries.find(m => m.code === "PSA");
       this.showCorrectionalServiceNumber = !!currentMinistries.find(m => m.code === "PSSG");
+      this.hasmcfdspecificrecordsrequests =  this.foiRequest.requestData.selectedtopics != undefined && this.foiRequest.requestData.selectedtopics.length > 0
     }
 
     let ministryTopic = "General Request";

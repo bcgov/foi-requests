@@ -3,6 +3,9 @@
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
 
       <h2>Describe the records you are looking for:</h2>
+      <app-alert-info *ngIf="hasmcfdspecificrecordsrequests">
+        You have previously selected your type of records. Please describe or provide any additional information that would assist the ministry in searching for your requested records on the below description.
+      </app-alert-info>
       <div class="form-group">
         <textarea class="form-control" formControlName="description" id="description" rows="6"></textarea>
       </div>
