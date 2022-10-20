@@ -3,7 +3,7 @@
     <h2>What kinds of records are you looking for?</h2>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <p><i>Select the corresponding categories of records you are requesting(the more you select the larger your resulting request will be)</i></p>
+      <p><em>Select the corresponding categories of records you are requesting(the more you select the larger your resulting request will be)</em></p>
       <div *ngIf="(yourselftopics | async) as topics">
         <div class="form-group" *ngFor="let topic of topics">
           <label>
