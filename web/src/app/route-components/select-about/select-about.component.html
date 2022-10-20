@@ -11,6 +11,7 @@
 
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <p><i>Select the corresponding types of records you are requesting(the more you select the larger your resulting request will be)</i></p>
       <div class="form-group">
         <label>
           <input type="checkbox" value="yourself" formControlName="yourself" />

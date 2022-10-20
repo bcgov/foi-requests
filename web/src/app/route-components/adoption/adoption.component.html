@@ -5,7 +5,7 @@
         <h3>Your records from an adoption</h3>
         <hr/>
         <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-            <p><i>Select the corresponding types of records you would like to receive in your request</i></p>
+            <p><i>Select the corresponding types of records you would like to receive in your request (the more you select the larger your resulting request will be)</i></p>
             <div *ngIf="(fulllistoptions | async) as mainoptions">
                 <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
                     <label>
