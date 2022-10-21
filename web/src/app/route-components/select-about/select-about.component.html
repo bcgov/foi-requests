@@ -8,9 +8,10 @@
      Thank you for verifying your identity using BC Services Card.
     </app-alert-success>
     <h2>Who are you requesting records about?</h2>
-
+    <hr/>
 
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <p><em>Select the corresponding types of records you are requesting (the more you select the larger your resulting request will be)</em></p>
       <div class="form-group">
         <label>
           <input type="checkbox" value="yourself" formControlName="yourself" />
