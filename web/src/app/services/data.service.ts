@@ -34,8 +34,14 @@ export class DataService {
     });
   }
 
+ 
+  sortgreater(a:any,b:any) :number{
+
+      return ((b.name > a.name) ? -1 : 0)
+  }
+
   getMinistries(): Observable<any[]> {
-    let _ministrylistsorted = data.referenceData.ministries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+    let _ministrylistsorted = data.referenceData.ministries.sort((a,b) => (a.name > b.name) ? 1 : this.sortgreater(a,b))
     return of(_ministrylistsorted);
   }
 
