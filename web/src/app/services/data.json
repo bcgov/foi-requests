@@ -12,7 +12,7 @@
       { "code": "ENV", "name": "Environment and Climate Change Strategy", "publicBody": "Environment and Climate Change Strategy" },
       { "code": "EAO", "name": "Environmental Assessment Office", "publicBody": "Environment and Climate Change Strategy (and Minister Responsible for Translink)" },
       { "code": "FIN", "name": "Finance", "publicBody":"Finance" },
-      { "code": "FOR", "name": "Forests (and Minister Responsible for Consular Corps)", "publicBody": " Forests (and Minister Responsible for Consular Corps)" },
+      { "code": "FOR", "name": "Forests (and Minister Responsible for Consular Corps)", "publicBody": "Forests (and Minister Responsible for Consular Corps)" },
       { "code": "GCPE", "name": "Government Communications and Public Engagement", "publicBody": "Finance" },
       { "code": "HLTH", "name": "Health (and Minister Responsible for Francophone Affairs)", "publicBody": "Health (and Minister Responsible for Francophone Affairs)" },
       { "code": "IRR", "name": "Indigenous Relations and Reconciliation", "publicBody": "Indigenous Relations and Reconciliation" },

@@ -37,10 +37,10 @@ export class MinistryConfirmationComponent implements OnInit {
         ministries.forEach(m => {
           m.selected = m.defaulted = this.defaultMinistry && (m.code === this.defaultMinistry.code);
           m.selected = m.selected || (selectedMinistry ? !!selectedMinistry.find(ms => ms.code === m.code) : false);
-          if (m.name === "Forests" && m.selected === true) {
+          if (m.code === "FOR" && m.selected === true) {
             this.isforestministry = true;
           }
-          else if((m.name === "Forests" && m.selected === false)){
+          else if((m.code === "FOR" && m.selected === false)){
             this.isforestministry = false;
           }
         });
@@ -65,10 +65,10 @@ export class MinistryConfirmationComponent implements OnInit {
 
   selectMinistry(m: any) {
     m.selected = !m.selected;
-    if (m.name === "Forests" && m.selected === true) {
+    if (m.code === "FOR" && m.selected === true) {
       this.isforestministry = true;
     }
-    else if((m.name === "Forests" && m.selected === false)){
+    else if((m.code === "FOR" && m.selected === false)){
       this.isforestministry = false;
     }
     this.setContinueDisabled();
