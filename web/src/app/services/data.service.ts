@@ -35,7 +35,8 @@ export class DataService {
   }
 
   getMinistries(): Observable<any[]> {
-    return of(data.referenceData.ministries);
+    let _ministrylistsorted = data.referenceData.ministries.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+    return of(_ministrylistsorted);
   }
 
   getYouthinCareChild(): Observable<any[]> {
