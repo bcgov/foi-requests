@@ -1,7 +1,7 @@
 {
   "referenceData": {
     "ministries": [
-      { "code": "AEST", "name": "Post-Secondary Education and Future Skills", "publicBody": "Post-Secondary Education and Future Skills" },
+      { "code": "PSE", "name": "Post-Secondary Education and Future Skills", "publicBody": "Post-Secondary Education and Future Skills" },
       { "code": "AGR", "name": "Agriculture and Food", "publicBody": "Agriculture and Food" },
       { "code": "AG", "name": "Attorney General", "publicBody": "Attorney General" },
       { "code": "PSA", "name": "BC Public Service Agency", "publicBody": "Finance" },
