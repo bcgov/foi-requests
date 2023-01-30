@@ -49,8 +49,9 @@ const submitFoiRequest = async (server, req, res, next) => {
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
     console.log(`API response = ${response.status}`);
-    if(response.status === 200  && response.data.status ) {
 
+    if(response.status === 200  && response.data.status ) {
+      console.log(`response id: ${response.data.id}`);
       // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
       if(needsPayment) {
         req.log.info('Success:', response.data.message);
@@ -58,6 +59,7 @@ const submitFoiRequest = async (server, req, res, next) => {
         return next();
       }
       
+      console.log(`Sending message to ${foiRequestInbox}`);
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
 
@@ -373,11 +375,14 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
 
         const executePoll = async (resolve, reject) => {
           pollingAttempts++;
+          console.log('pollingAttempts:', pollingAttempts);
           if (result.EmailSuccess !== null) {
+            console.log('Result:',result);
             return resolve(result);
           } else if (pollingAttempts > 20) {
             return reject(new Error('Exceeded max attempts'));
           } else {
+            console.log('Inside Timeout');
             setTimeout(executePoll, 300, resolve, reject);
           }
         };

@@ -27,6 +27,7 @@ function authInit(options) {
     verifyJWTResponseMiddleware: function(req, res, next) {  
       if (req.headers[CAPTCHA_NONCE_HEADER]) {
         req.isAuthorised = false
+        console.log('Request is already validated in verifyJWTResponseMiddleware');
         return next();
       }
       var token = req.headers[JWT_TOKEN_HEADER.toLowerCase()] || '';

@@ -236,6 +236,7 @@ function captchaInit(options) {
       var nonce = req.headers[CAPTCHA_NONCE_HEADER];
       var ret = verifyJWTResponse(token, nonce); //TODO retrieve the nonce and pass it in
       if (ret.valid) {
+        console.log('Captcha validated in apiCaptcha');
         next();
       } else {
         res.  send(401, 'Not Authorized');
