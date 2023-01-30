@@ -269,6 +269,7 @@ export class DataService {
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
     this.apiClient.setHeader("Authorization", "Bearer " + authToken);
     if (nonce) {
+      console.log('nonce: ', nonce);
       this.apiClient.setHeader("captcha-nonce", nonce);
     }
 
@@ -301,6 +302,7 @@ export class DataService {
         foiRequest.attachments.push(blobFile);
       }
     }
+    console.log('Foi Request: ', foiRequest);
 
     return this.apiClient.postFoiRequest(foiRequest, sendEmailOnly);
   }
