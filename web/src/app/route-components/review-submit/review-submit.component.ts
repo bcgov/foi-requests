@@ -60,7 +60,7 @@ export class ReviewSubmitComponent implements OnInit {
   doContinue() {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(result => {
-    console.log('Submit Request: ', result);
+    
     this.foiRequest.requestData.requestId = result.id;
     this.dataService.setCurrentState(this.foiRequest);
     this.dataService.saveAuthToken(this.authToken)
@@ -68,7 +68,7 @@ export class ReviewSubmitComponent implements OnInit {
       this.isBusy = false;
       // If the user is authenticated, logout the user
       if(this.keycloakService.isAuthenticated()) {
-        console.log('User authenticated??: ', this.authToken);
+        
         this.keycloakService.logout()
       } else {
         this.base.goFoiForward();
@@ -76,7 +76,7 @@ export class ReviewSubmitComponent implements OnInit {
 
     }, error => {
       this.isBusy = false;
-      console.log('Submission failed: ', error);
+      
       alert('Temporarily unable to submit your request. Please try again in a few minutes.');
       this.captchaComponent.forceRefresh();
       this.captchaComplete = false;
