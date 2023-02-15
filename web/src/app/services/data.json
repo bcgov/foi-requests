@@ -48,8 +48,8 @@
         "text": "Your income assistance history",
         "ministryCode": "SDPR"
       },
-      { "value": "childprotectionparent", "text": "Your records from a <strong>parent</strong> in a child protection investigation", "ministryCode": "MCF","hassubscreen":"true" },
-      { "value": "childprotectionchild", "text": "Your records from a <strong>child</strong> in a child protection investigation", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "childprotectionparent", "text": "Your records as a <strong>parent</strong> from a child protection investigation", "ministryCode": "MCF","hassubscreen":"true" },
+      { "value": "childprotectionchild", "text": "Your records as a <strong>child</strong> from a child protection investigation", "ministryCode": "MCF" ,"hassubscreen":"true" },
       { "value": "youthincareparent", "text": "Your records as a <strong>parent</strong> of a child/youth in care or receiving services", "ministryCode": "MCF" ,"hassubscreen":"true" },
       { "value": "youthincarechild", "text": "Your records as a <strong>child/youth</strong> in care or receiving services", "ministryCode": "MCF" ,"hassubscreen":"true" },
       { "value": "fosterparent", "text": "Your records as a foster parent", "ministryCode": "MCF" ,"hassubscreen":"true"},
