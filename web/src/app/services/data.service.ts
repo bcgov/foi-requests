@@ -360,7 +360,7 @@ export class DataService {
     }
 
     // Map to public body then store in Set to get unique ones selected
-    const publicBodySet = new Set(details.selectedMinistry.map((ministry) => ministry["publicBody"]));
+    const publicBodySet = new Set(details.selectedMinistry.map((ministry) => ministry["key"]));
 
     return publicBodySet.size;
   }
