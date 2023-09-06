@@ -43,6 +43,11 @@
         For FOI requests relating to wildfires, records might not be released if there is an active and ongoing investigation into the fire in order to protect the integrity of the investigation. If you have questions whether an FOI request relates to a wildfire under investigation please contact <a href="mailto:BCWSFOI@gov.bc.ca">BCWSFOI@gov.bc.ca</a> for more information before submitting the FOI request.
       </p>
     </app-alert-warning>
+    <app-alert-warning *ngIf="isforestministry">
+      <p>
+        Please be advised that, due to the ongoing wildfire and drought-related developments around the Province, many Ministry of Forests personnel have been deployed across the Province to support the response and recovery. While every effort will be taken by staff to manage our FOI responsibilities, our response time may be impacted during this situation.
+      </p>
+    </app-alert-warning>
     <div *ngIf="requiresPayment">
       <p>Based on the public bodies you have selected your application fee is: ${{feeAmount}}</p>    
     </div>
