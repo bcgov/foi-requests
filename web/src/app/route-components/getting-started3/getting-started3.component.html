@@ -11,8 +11,11 @@
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
       <div class="form-group">
         <label>
-          <input type="radio" value="general" formControlName="requestType" />
+          <input type="radio" value="general" formControlName="requestType" disabled="disabled" />
           General information about government business
+        </label>
+        <label class="warning">
+          Due to a technical issue we have temporarily disabled submitting <b>general requests</b> through the online form. Please submit your FOI request through email to <a href="mailto:FOI.Requests@gov.bc.ca">FOI.Requests@gov.bc.ca</a>. We expect that the online form will be back online by November 21st.
         </label>
       </div>
       <h2>
