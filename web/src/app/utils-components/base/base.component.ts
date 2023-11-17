@@ -72,7 +72,10 @@ export class BaseComponent implements OnInit {
   }
 
   goSkipForward() {
+     if(selection !== "general")
+    {
     this.foiRouter.progress({ direction: 2 });
+    }
   }
 
   toDateValidator(c: FormControl){
