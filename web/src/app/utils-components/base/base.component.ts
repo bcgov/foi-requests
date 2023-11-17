@@ -68,14 +68,14 @@ export class BaseComponent implements OnInit {
   }
 
   goFoiForward(selection?: string) {
+      if(selection !== "general")
+    {
     this.foiRouter.progress({ direction: 1, selection });
+    }
   }
 
-  goSkipForward() {
-     if(selection !== "general")
-    {
+  goSkipForward() {   
     this.foiRouter.progress({ direction: 2 });
-    }
   }
 
   toDateValidator(c: FormControl){
