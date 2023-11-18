@@ -68,10 +68,10 @@ export class BaseComponent implements OnInit {
   }
 
   goFoiForward(selection?: string) {
-      if(selection !== "general")
-    {
+    //   if(selection !== "general")
+    // {
     this.foiRouter.progress({ direction: 1, selection });
-    }
+    // }
   }
 
   goSkipForward() {   
