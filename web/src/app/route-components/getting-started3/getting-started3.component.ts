@@ -38,8 +38,8 @@ export class GettingStarted3Component implements OnInit {
       this.targetKey,
       this.foiForm
     );
-    console.log(this.targetKey)
-    console.log(state.requestData[this.targetKey].requestType)
+    // console.log(this.targetKey)
+    // console.log(state.requestData[this.targetKey].requestType)
     this.base.goFoiForward(state.requestData[this.targetKey].requestType);
   }
 
