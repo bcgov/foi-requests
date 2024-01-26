@@ -22,6 +22,7 @@ export class MinistryConfirmationComponent implements OnInit {
   feeAmount: number = 0;
   requiresPayment: boolean = null;
   isforestministry: boolean = false;
+  isEAOministry: boolean = false;
 
   constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) { }
 
@@ -37,6 +38,12 @@ export class MinistryConfirmationComponent implements OnInit {
         ministries.forEach(m => {
           m.selected = m.defaulted = this.defaultMinistry && (m.code === this.defaultMinistry.code);
           m.selected = m.selected || (selectedMinistry ? !!selectedMinistry.find(ms => ms.code === m.code) : false);
+          if (m.code === "EAO" && m.selected === true) {
+            this.isEAOministry = true;
+          }
+          else if(m.code === "EAO" && m.selected === false){
+            this.isEAOministry = false;
+          }
           if (m.code === "FOR" && m.selected === true) {
             this.isforestministry = true;
           }
@@ -65,6 +72,12 @@ export class MinistryConfirmationComponent implements OnInit {
 
   selectMinistry(m: any) {
     m.selected = !m.selected;
+    if (m.code === "EAO" && m.selected === true) {
+      this.isEAOministry = true;
+    }
+    else if(m.code === "EAO" && m.selected === false){
+      this.isEAOministry = false;
+    }
     if (m.code === "FOR" && m.selected === true) {
       this.isforestministry = true;
     }

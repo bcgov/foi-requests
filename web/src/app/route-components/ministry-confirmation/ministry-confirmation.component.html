@@ -38,6 +38,11 @@
         before submitting your request.
       </p>
     </app-alert-info>
+    <app-alert-warning *ngIf="isEAOministry">
+      <p>
+        Before continuing to submit your FOI request, please note that the Environmental Assessment Office (EAO) is involved in <a href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments/frequently-asked-questions">major projects</a> in B.C., such as industrial, energy, mines, water management, waste management, transportation and tourist destinations and resorts that meet the thresholds under the Reviewable Project Regulation of the Environmental Assessment Act. When a major project is proposed in British Columbia, it must undergo an Environmental Assessment (EA). All major projects are searchable on the Environmental Assessment Office Project Information Centre (EPIC) website at: <a href="https://projects.eao.gov.bc.ca/">https://projects.eao.gov.bc.ca/</a>. If your request does not relate to a major project and/or is not found at this website, please consider submitting to the Ministry of Environment or other appropriate Ministries. For more information about the EAO, you may visit their website at: <a href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments">https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments</a>
+      </p>
+    </app-alert-warning>
     <app-alert-warning *ngIf="isforestministry">
       <p>
         For FOI requests relating to wildfires, records might not be released if there is an active and ongoing investigation into the fire in order to protect the integrity of the investigation. If you have questions whether an FOI request relates to a wildfire under investigation please contact <a href="mailto:BCWSFOI@gov.bc.ca">BCWSFOI@gov.bc.ca</a> for more information before submitting the FOI request.
