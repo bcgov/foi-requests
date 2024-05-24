@@ -1,0 +1,212 @@
+<foi-base [showButtons]="false" [showInfo]="false">
+  <div class="foi-content">
+    <h2>Review your request</h2>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Name:</label>
+              <div>
+                <div class="inline-wrap">
+                  <span class="form-control review-inline">{{ foiRequest.requestData.contactInfo.firstName }}</span>
+                  <div class="review-inline-label">{{authToken? 'Given':'First'}}</div>
+                </div>
+                <div class="inline-wrap">
+                  <span class="form-control review-inline">{{ foiRequest.requestData.contactInfo.lastName }}</span>
+                  <div class="review-inline-label">Last</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf="foiRequest.requestData.contactInfo.birthDate">
+              <label>Date of Birth:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfo.birthDate | date }}</span>
+            </div>
+
+            <div class="form-group" *ngIf="foiRequest.requestData.requestType.requestType === 'general'">
+              <label>
+                <input type="checkbox" value="IGE" formControlName="IGE" disabled [checked]="foiRequest.requestData.contactInfo.IGE"/> I certify that I am a representative of, and authorized to make a request on behalf of, an Indigenous Governing Entity. An Indigenous Governing Entity is not required to pay application fees.
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label>Email:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.email }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>Phone Number (primary):</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.phonePrimary }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>Phone Number (secondary):</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.phoneSecondary }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>Address:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.address }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>City:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.city }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>Province:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.province }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>Postal Code:</label>
+              <span class="form-control">{{ foiRequest.requestData.contactInfoOptions.postal }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-12">
+              <label>Ministry:</label>
+            <div class="form-group" >
+                <div class="form-control description-text">
+              <ng-container *ngFor="let ministry of foiRequest.requestData.ministry.selectedMinistry; let i = index ">
+                   {{ ministry.name }} <br>
+              </ng-container>
+            </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12" *ngIf="foiRequest.requestData.childInformation">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Child's Name:</label>
+              <div>
+                <div class="inline-wrap">
+                  <span class="form-control review-inline">{{
+                    foiRequest.requestData.childInformation.firstName
+                  }}</span>
+                  <div class="review-inline-label">First</div>
+                </div>
+                <div class="inline-wrap">
+                  <span class="form-control review-inline">{{ foiRequest.requestData.childInformation.lastName }}</span>
+                  <div class="review-inline-label">Last</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12" *ngIf="foiRequest.requestData.adoptiveParents">
+            <div class="form-group">
+              <label>Adoptive mother:</label>
+              <span class="form-control"
+                >{{ foiRequest.requestData.adoptiveParents.motherFirstName }}
+                {{ foiRequest.requestData.adoptiveParents.motherLastName }}</span
+              >
+            </div>
+          </div>
+          <div class="col-lg-12" *ngIf="foiRequest.requestData.adoptiveParents">
+            <div class="form-group">
+              <label>Adoptive father:</label>
+              <span class="form-control"
+                >{{ foiRequest.requestData.adoptiveParents.fatherFirstName }}
+                {{ foiRequest.requestData.adoptiveParents.fatherLastName }}</span
+              >
+            </div>
+          </div>
+
+          <div class="col-lg-12" *ngIf="foiRequest.requestData.childInformation">
+            <div class="form-group">
+              <label>Date of Birth:</label>
+              <span class="form-control">{{ foiRequest.requestData.childInformation.dateOfBirth | date }}</span>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label>Your request description:</label>
+              <div class="form-control description-text">
+                {{ foiRequest.requestData.descriptionTimeframe.description }}
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>Date range:</label>
+              <div>
+                <div class="inline-wrap">
+                  <span class="form-control review-inline">{{
+                    foiRequest.requestData.descriptionTimeframe.fromDate | date
+                  }}</span>
+                  <div class="review-inline-label">From</div>
+                </div>
+                <div class="inline-wrap">
+                  <span class="form-control review-inline">{{
+                    foiRequest.requestData.descriptionTimeframe.toDate | date
+                  }}</span>
+                  <div class="review-inline-label">To</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" *ngIf="!authToken">
+              <label>Captcha:</label>
+              <captcha
+                #captchaComponent
+                [apiBaseUrl]="captchaApiBaseUrl"
+                [nonce]="captchaNonce"
+                (onValidToken)="onValidToken($event)"
+                successMessage="You can submit your request now."
+              >
+              </captcha>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+      <div class="col-lg-6">
+        <pre>{{ foiRequestPretty }}</pre>
+        <img [src]="" >
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6">
+        Child Proof
+        <img [src]="getBase64Data('childFileAttachment')" >
+      </div>
+      <div class="col-lg-6">
+        Person Proof
+        <img [src]="getBase64Data('personFileAttachment')" >
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-lg-6"></div>
+      <div class="col-lg-6">
+        <div class="buttonbar">
+          <button type="button" class="btn btn-secondary" (click)="doGoBack()">
+            Go back
+          </button>
+          <button
+            #submitBtn
+            type="button"
+            class="btn btn-primary btn-wide"
+            (click)="doContinue()"
+            [disabled]="submitDisabled()"
+          >
+            <fa-icon *ngIf="isBusy" icon="spinner" [spin]="true"></fa-icon>
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <!-- hidden -->
+  </div>
+</foi-base>

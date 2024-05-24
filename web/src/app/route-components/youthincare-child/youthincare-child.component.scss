@@ -1,0 +1,31 @@
+.subgroup {
+    padding-left: 4%;
+
+    .row {
+        .form-check-label {
+            font-size: 14px;
+        }
+
+      .form-check-inline{
+        padding-right: 5px;
+      }
+
+        padding-top: 1%;
+    }
+}
+
+.warningsection {
+  background-color: lightyellow;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 14px;
+}
+
+.form-group{
+
+  label {
+    strong{
+      padding-left: 4px;
+    }
+  }
+}

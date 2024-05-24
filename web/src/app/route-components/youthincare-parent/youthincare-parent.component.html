@@ -1,0 +1,39 @@
+<foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
+
+    <div class="foi-content">
+        <h3>Your records as a <strong>parent</strong> of a child/youth in care or receiving services</h3>
+        <hr/>
+        <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+            <p><i>Select the corresponding types of records you would like to receive in your request (the more you select the larger your resulting request will be)</i></p>
+            <div *ngIf="(youthincareoptions | async) as mainoptions">
+                <div class="form-group" *ngFor="let item of mainoptions; let mi = mainindex">
+                    <label>
+                        <input type="checkbox" [value]="item.mainoption" [checked]="item.selected"
+                             (change)="showsubsection(item)" />
+                       <strong>{{item.mainoption}}</strong>
+                    </label>
+                    <div class="subgroup" *ngIf="item.selected">
+                        <div class="row" >
+
+                            <div class="form-check form-check-inline" *ngFor="let subitem of item.suboptions; let si = subindex">
+                                <input class="form-check-input" type="checkbox" [value]="subitem.option"  [checked]="subitem.selected" (change)="selectedsuboption(subitem)" />
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{subitem.option}}
+                                </label>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+     
+    </div>
+
+    <div class="sidebar">
+        <!-- hidden -->
+    </div>
+
+
+</foi-base>

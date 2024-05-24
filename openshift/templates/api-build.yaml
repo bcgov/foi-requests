@@ -1,0 +1,53 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  labels:
+    app: foi-request-api
+  name: api-build
+  namespace: devhub-dev
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    name: api
+    labels:
+      app: foi-request-api
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    name: api-master-build
+    labels:
+      app: foi-request-api
+      name: api-master-build
+  spec:
+    output:
+      to:
+        kind: ImageStreamTag
+        name: api:latest
+    resources:
+      limits:
+        cpu: 2
+        memory: 2Gi
+      requests:
+        cpu: 2
+        memory: 1Gi
+    runPolicy: Serial
+    source:
+      contextDir: api
+      git:
+        ref: master
+        uri: https://github.com/bcgov/foi-requests.git
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+        - name: BUILD_LOGLEVEL
+          value: "5"
+        from:
+          kind: ImageStreamTag
+          name: nodejs:10
+          namespace: openshift
+        incremental: false
+      type: Source
+    triggers:
+    - type: ConfigChange

@@ -1,0 +1,372 @@
+# Copyright 2020 The Province of British Columbia
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  annotations:
+    description: |
+      Deployment template for the Platform Serices
+      RocketChat helper app reggie.
+    iconClass: icon-node
+  name: foi-request-form${SUFFIX}
+objects:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: api-config${SUFFIX}
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+    data:
+      FOI_REQUEST_API_PORT: ${FOI_REQUEST_API_PORT}
+      FOI_REQUEST_SMTP: ${FOI_REQUEST_SMTP}
+      FOI_REQUEST_SMTP_PORT: ${FOI_REQUEST_SMTP_PORT}
+      FOI_REQUEST_SMTP_SECURE: ${FOI_REQUEST_SMTP_SECURE}
+      FOI_REQUEST_SENDER: ${FOI_REQUEST_SENDER}
+      FOI_KC_URL: ${FOI_KC_URL}
+      FOI_KC_SSL_REQUIRED: ${FOI_KC_SSL_REQUIRED}
+      FOI_KC_PUBLIC_CLIENT: ${FOI_KC_PUBLIC_CLIENT}
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: web-caddy-config${SUFFIX}
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: web${SUFFIX}
+    data:
+      Caddyfile: |
+        # Where caddy should listen
+        :2015
+
+        # Turn on the Web/file server
+        file_server
+        # templates {
+        #   mime  "text/javascript" "application/javascript"
+        # }
+
+        # The site root
+        root * /opt/app-root/src
+
+        # Because we should
+        encode zstd gzip
+
+        # This rewrite rule may be required to get React apps
+        # to deal with trailing slashes properly.
+        #@filter {
+        #	not path_regexp ^\/0.0.0.0
+        #	file {
+        #		try_files {path} {path}/ /?url={uri}
+        #	}
+        #}
+        #rewrite @try_files {http.matchers.file.relative}
+
+        # This properly deals with react routes.
+        try_files {path} {path}/ /index.html
+
+        # On OCP we should log to stdout so Prometheus can
+        # slurp up the logs for human consumption.
+        log {
+          #errors stdout
+          output stdout 
+          format single_field common_log
+          level info
+        }
+  - apiVersion: v1
+    kind: Route
+    metadata:
+      name: api${SUFFIX}
+      annotations:
+        description: Route for reggies API services
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: api
+    spec:
+      host: "${HOSTNAME_HTTPS}"
+      path: /api
+      port:
+        targetPort: 7085-tcp
+      to:
+        kind: Service 
+        name: api${SUFFIX}
+      tls:
+        termination: edge
+        # insecureEdgeTerminationPolicy: Redirect
+        # certificate: |-
+        #   ${TLS_CERT_PEM}
+        # key: |-
+        #   ${TLS_KEY_PEM}
+        # caCertificate: |-
+        #   ${TLS_CACERT_PEM}
+  - apiVersion: v1
+    kind: Route
+    metadata:
+      name: web${SUFFIX}
+      annotations:
+        description: Route for reggies Web front end
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: web
+    spec:
+      host: "${HOSTNAME_HTTPS}"
+      port:
+        targetPort: 2015-tcp
+      to:
+        kind: Service 
+        name: web${SUFFIX}
+      tls:
+        termination: edge
+        # insecureEdgeTerminationPolicy: Redirect
+        # certificate: |-
+        #   ${TLS_CERT_PEM}
+        # key: |-
+        #   ${TLS_KEY_PEM}
+        # caCertificate: |-
+        #   ${TLS_CACERT_PEM}
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+      name: api${SUFFIX}
+    spec:
+      selector:
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+      ports:
+        - name: 7085-tcp
+          port: 7085
+          protocol: TCP
+          targetPort: 7085
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: foi-request-form
+        role: web
+      name: web${SUFFIX}
+    spec:
+      selector:
+        app: foi-request-form
+        role: web
+      ports:
+        - name: 2015-tcp
+          port: 2015
+          protocol: TCP
+          targetPort: 2015
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+      name: api${SUFFIX}
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - api${SUFFIX}
+            from:
+              kind: ImageStreamTag
+              name: "api:${API_SOURCE_IMAGE_TAG}"
+              namespace: ${SOURCE_IMAGE_NAMESPACE}
+      replicas: ${{REPLICA_COUNT}}
+      selector:
+        app: foi-request-form${SUFFIX}
+        role: api${SUFFIX}
+      template:
+        metadata:
+          labels:
+            app: foi-request-form${SUFFIX}
+            role: api${SUFFIX}
+          name: foi-request-form${SUFFIX}
+        spec:
+          containers:
+            - name: api${SUFFIX}
+              image: " "
+              startupProbe:
+                httpGet:
+                  path: /api/v1/configs
+                  port: 7085
+                failureThreshold: 10
+                periodSeconds: 3
+              readinessProbe:
+                httpGet:
+                  path: /api/v1/configs
+                  port: 7085
+                timeoutSeconds: 3
+              ports:
+                - containerPort: 7085
+              envFrom: 
+                - secretRef:
+                    name: api-creds${SUFFIX}
+                - configMapRef:
+                    name: api-config${SUFFIX}
+              resources:
+                limits:
+                  cpu: 50m
+                  memory: 256Mi
+                requests:
+                  cpu: 20m
+                  memory: 128Mi
+  - apiVersion: v1
+    kind: DeploymentConfig
+    metadata:
+      labels:
+        app: foi-request-form${SUFFIX}
+        role: web${SUFFIX}
+      name: web${SUFFIX}
+    spec:
+      strategy:
+        type: Rolling
+      triggers:
+        - type: ConfigChange
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - web${SUFFIX}
+            from:
+              kind: ImageStreamTag
+              name: "web:${WEB_SOURCE_IMAGE_TAG}"
+              namespace: ${SOURCE_IMAGE_NAMESPACE}
+      replicas: ${{REPLICA_COUNT}}
+      selector:
+        app: foi-request-form${SUFFIX}
+        role: web${SUFFIX}
+      template:
+        metadata:
+          labels:
+            app: foi-request-form${SUFFIX}
+            role: web${SUFFIX}
+          name: foi-request-form${SUFFIX}
+        spec:
+          containers:
+            - name: web${SUFFIX}
+              image: " "
+              startupProbe:
+                httpGet:
+                  path: /
+                  port: 2015
+                failureThreshold: 11
+                periodSeconds: 3
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: 2015
+                timeoutSeconds: 3
+              ports:
+                - containerPort: 2015
+              # envFrom: 
+              #   - configMapRef:
+              #       name: web-config
+              resources:
+                limits:
+                  cpu: 50m
+                  memory: 128Mi
+                requests:
+                  cpu: 20m
+                  memory: 64Mi
+              volumeMounts:
+                - name: config-vol
+                  mountPath: /opt/app-root/etc/Caddyfile
+                  subPath: Caddyfile
+          volumes:
+            - name: config-vol
+              configMap:
+                name: web-caddy-config
+parameters:
+  - description:
+      The namespace of the OpenShift project containing the
+      imagestream for the application.
+    displayName: Environment namespace
+    name: NAMESPACE
+    required: true
+  - description: The openshift project where builds and target images are stored.
+    displayName: Build Project
+    name: SOURCE_IMAGE_NAMESPACE
+    required: true
+  - name: API_SOURCE_IMAGE_TAG
+    description: |
+      The name of the source image for the API component
+    displayName: API Source Image Tag
+    required: true
+  - name: WEB_SOURCE_IMAGE_TAG
+    description: |
+      The name of the source image for the Web component
+    displayName: Web Source Image Tag
+    required: true
+  - name: SUFFIX
+    description: |
+      The name of the source image for the Web component
+    displayName: Web Source Image Tag
+    required: true
+  # - name: TLS_CERT_PEM
+  #   description: TLS certificate data in PEM format.
+  #   displayName: TLS Certificate
+  #   required: true
+  # - name: TLS_KEY_PEM
+  #   description: |
+  #     TLS certificate private key data in PEM format. This will be in
+  #     the possesion of the person who created the Certificate Signing
+  #     Request (CSR).
+  #   displayName: TLS Private Key
+  #   required: true
+  # - name: TLS_CACERT_PEM
+  #   description: |
+  #     TLS certificate cuthority certificate data in PEM format. If you 
+  #     got your certificate from an iStore request, use L1KChain.txt.
+  #   displayName: TLS Certificate Authority Certificate
+  #   required: true
+  - name: HOSTNAME_HTTPS
+    description: Hostname serving the application
+    displayName: Route Name
+    required: true
+  - name: NODE_ENV
+    description:
+    requred: true
+  - name: REPLICA_COUNT
+    description:
+    requred: true
+  - name: FOI_REQUEST_API_PORT
+    description:
+    required: true
+  - name: FOI_REQUEST_SMTP
+    description:
+    required: true
+  - name: FOI_REQUEST_SMTP_PORT
+    description:
+    required: true
+  - name: FOI_REQUEST_SMTP_SECURE
+    description:
+    required: true
+  - name: FOI_REQUEST_SENDER
+    description:
+    required: true
+  - name: FOI_KC_URL
+    description:
+    required: true
+  - name: FOI_KC_SSL_REQUIRED
+    description:
+    required: true
+  - name: FOI_KC_PUBLIC_CLIENT
+    description:
+    required: true

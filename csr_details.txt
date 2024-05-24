@@ -1,0 +1,28 @@
+# Run the following command to (re)generate a CSR
+# openssl req -new -sha256 -nodes \
+# -out foi-request-form.gov.bc.ca.csr -newkey rsa:2048 \
+# -keyout foi-request-form.gov.bc.ca.key \
+# -config <(cat csr_details.txt)
+[req]
+default_bits=2048
+prompt=no
+default_md=sha256
+req_extensions=req_ext
+distinguished_name=dn
+
+[dn]
+C=CA
+ST=British Columbia
+L=Victoria
+O=Government of the Province of British Columbia
+OU=Citizens' Services
+CN=foirequestform.gov.bc.ca
+emailAddress=jason.leach@gov.bc.ca
+
+[req_ext]
+subjectAltName=@alt_names
+
+[alt_names]
+DNS.1=foirequestform.gov.bc.ca
+DNS.2=dev.foirequestform.gov.bc.ca
+DNS.3=test.foirequestform.gov.bc.ca

@@ -1,0 +1,98 @@
+<foi-base (continue)="doContinue()" (goBack)="doGoBack()">
+  <div class="foi-content">
+    <h2>What ministry or agency has the records you are looking for?</h2>
+    <h6 
+      *ngIf="requiresPayment" 
+      class="warning"
+    >
+      *A non-refundable application fee of $10 is required for all General FOI requests, for every public body selected.
+    </h6>
+
+    <div *ngIf="(ministries$ | async) as minis">
+      <div class="form-group">
+        <ul>
+          <ng-container *ngFor="let m of minis; let i = index">
+            <li *ngIf="m.defaulted" [ngClass]="ministryListClasses(m)">
+              <label><input type="checkbox" [checked]="m.selected" (change)="selectMinistry(m)" /> {{ m.name }} </label>
+            </li>
+          </ng-container>
+          <ng-container *ngFor="let m of minis; let i = index">
+            <li *ngIf="!m.defaulted" [ngClass]="ministryListClasses(m)">
+              <label><input type="checkbox" [checked]="m.selected" (change)="selectMinistry(m)" /> {{ m.name }} </label>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+
+    <app-alert-info>
+      <p>
+        Select one or more ministries or agencies.
+      </p>
+      <p>
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries"
+          target="_blank"
+          >Learn more about what each ministry or agency does</a
+        >
+        before submitting your request.
+      </p>
+    </app-alert-info>
+    <app-alert-warning *ngIf="isEAOministry">
+      <p>
+        Before continuing to submit your FOI request, please note that the Environmental Assessment Office (EAO) is involved in <a href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments/frequently-asked-questions">major projects</a> in B.C., such as industrial, energy, mines, water management, waste management, transportation and tourist destinations and resorts that meet the thresholds under the Reviewable Project Regulation of the Environmental Assessment Act. When a major project is proposed in British Columbia, it must undergo an Environmental Assessment (EA). All major projects are searchable on the Environmental Assessment Office Project Information Centre (EPIC) website at: <a href="https://projects.eao.gov.bc.ca/">https://projects.eao.gov.bc.ca/</a>. If your request does not relate to a major project and/or is not found at this website, please consider submitting to the Ministry of Environment or other appropriate Ministries. For more information about the EAO, you may visit their website at: <a href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments">https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments</a>
+      </p>
+    </app-alert-warning>
+    <app-alert-warning *ngIf="isforestministry">
+      <p>
+        For FOI requests relating to wildfires, records might not be released if there is an active and ongoing investigation into the fire in order to protect the integrity of the investigation. If you have questions whether an FOI request relates to a wildfire under investigation please contact <a href="mailto:BCWSFOI@gov.bc.ca">BCWSFOI@gov.bc.ca</a> for more information before submitting the FOI request.
+      </p>
+    </app-alert-warning>
+    <app-alert-warning *ngIf="isforestministry">
+      <p>
+        Please be advised that, due to the ongoing wildfire and drought-related developments around the Province, many Ministry of Forests personnel have been deployed across the Province to support the response and recovery. While every effort will be taken by staff to manage our FOI responsibilities, our response time may be impacted during this situation.
+      </p>
+    </app-alert-warning>
+    <div *ngIf="requiresPayment">
+      <p>Based on the public bodies you have selected your application fee is: ${{feeAmount}}</p>    
+    </div>
+  </div>
+
+  <div class="sidebar">
+    <h2>More information</h2>
+    <h3>
+      Is some information already available?
+    </h3>
+    <ul>
+      <li>
+        <a
+          href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information"
+          target="_blank"
+          >Open Information</a
+        >
+      </li>
+      <li>
+        <a href="https://www2.gov.bc.ca/gov/content/data/open-data" target="_blank">Open Data</a>
+      </li>
+    </ul>
+
+    <h3>Why aren’t some organizations listed?</h3>
+    <p>
+      This list only includes
+      <a
+        href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations"
+        target="_blank"
+        >B.C. Government ministries and agencies</a
+      >. Other organizations, including Crown Corporations (like ICBC, BC Transit, or BC Ferries), have their own record
+      request processes.
+    </p>
+
+    <h3>
+      What is a record?
+    </h3>
+    <p>
+      Records are any thing on which information is recorded or stored. They can be graphic, electronic, mechanical or
+      any other means, and include books, documents, maps, drawings, letters, vouchers and papers.
+    </p>
+  </div>
+</foi-base>

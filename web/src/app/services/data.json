@@ -1,0 +1,788 @@
+{
+  "referenceData": {
+    "ministries": [
+      { "code": "PSE","key": "PSE", "name": "Post-Secondary Education and Future Skills", "publicBody": "Post-Secondary Education and Future Skills" },
+      { "code": "AGR","key": "AGR", "name": "Agriculture and Food", "publicBody": "Agriculture and Food" },
+      { "code": "AG","key": "AG", "name": "Attorney General", "publicBody": "Attorney General" },
+      { "code": "PSA","key": "PSA", "name": "BC Public Service Agency", "publicBody": "Finance" },
+      { "code": "MCF","key": "MCF", "name": "Children and Family Development", "publicBody": "Children and Family Development" },
+      { "code": "CITZ","key": "CITZ", "name": "Citizens’ Services", "publicBody": "Citizens’ Services" },
+      { "code": "EDU","key": "EDU", "name": "Education and Child Care", "publicBody": "Education and Child Care" },     
+      { "code": "EMLI","key": "EMLI", "name": "Energy, Mines and Low Carbon Innovation", "publicBody": "Energy, Mines and Low Carbon Innovation" },
+      { "code": "ENV","key": "ENV", "name": "Environment and Climate Change Strategy", "publicBody": "Environment and Climate Change Strategy" },
+      { "code": "EAO","key": "ENV", "name": "Environmental Assessment Office", "publicBody": "Environment and Climate Change Strategy" },
+      { "code": "FIN", "key": "FIN","name": "Finance", "publicBody":"Finance" },
+      { "code": "FOR","key": "FOR", "name": "Forests (and Minister Responsible for Consular Corps)", "publicBody": "Forests (and Minister Responsible for Consular Corps)" },
+      { "code": "GCPE","key": "GCPE", "name": "Government Communications and Public Engagement", "publicBody": "Finance" },
+      { "code": "HLTH","key": "HLTH", "name": "Health (and Minister Responsible for Francophone Affairs)", "publicBody": "Health (and Minister Responsible for Francophone Affairs)" },
+      { "code": "IRR","key": "IRR", "name": "Indigenous Relations and Reconciliation", "publicBody": "Indigenous Relations and Reconciliation" },
+      { "code": "DAS","key": "DAS", "name": "Declaration Act Secretariat", "publicBody": "Indigenous Relations and Reconciliation" },
+      { "code": "JERI","key": "JERI", "name": "Jobs, Economic Development and Innovation", "publicBody": "Jobs, Economic Development and Innovation" },
+      { "code": "LBR","key": "LBR","name": "Labour", "publicBody": "Labour" },
+      { "code": "LWR", "key": "LWR","name": "Water, Land and Resource Stewardship", "publicBody": "Water, Land and Resource Stewardship" },
+      { "code": "MMHA","key": "MMHA", "name": "Mental Health and Addictions", "publicBody": "Mental Health and Addictions" },
+      { "code": "MUNI","key": "MUNI", "name": "Municipal Affairs", "publicBody": "Municipal Affairs" },
+      { "code": "PREM","key": "PREM","name": "Office of the Premier", "publicBody": "Office of the Premier" },
+      { "code": "PSSG","key": "PSSG", "name": "Public Safety and Solicitor General", "publicBody": "Public Safety and Solicitor General" },
+      { "code": "SDPR","key": "SDPR", "name": "Social Development and Poverty Reduction", "publicBody": "Social Development and Poverty Reduction" },
+      { "code": "TACS","key": "TACS", "name": "Tourism, Arts, Culture and Sport", "publicBody": "Tourism, Arts, Culture and Sport" },
+      { "code": "TRAN","key": "TRAN", "name": "Transportation and Infrastructure", "publicBody": "Transportation and Infrastructure" },
+      { "code": "HSG","key": "HSG", "name": "Housing", "publicBody": "Housing" },
+      { "code": "EMC ","key": "EMC", "name": "Emergency Management and Climate Readiness", "publicBody": "Emergency Management and Climate Readiness" }
+    ],
+    "topicYourself": [
+   
+      
+      {
+        "value": "publicServiceEmployment",
+        "text": "Your employment with the public service",
+        "ministryCode": "PSA"
+      },
+      {
+        "value": "correctionalFacility",
+        "text": "Your time spent in a correctional facility",
+        "ministryCode": "PSSG"
+      },
+      {
+        "value": "incomeAssistance",
+        "text": "Your income assistance history",
+        "ministryCode": "SDPR"
+      },
+      { "value": "childprotectionparent", "text": "Your records as a <strong>parent</strong> from a child protection investigation", "ministryCode": "MCF","hassubscreen":"true" },
+      { "value": "childprotectionchild", "text": "Your records as a <strong>child</strong> from a child protection investigation", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "youthincareparent", "text": "Your records as a <strong>parent</strong> of a child/youth in care or receiving services", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "youthincarechild", "text": "Your records as a <strong>child/youth</strong> in care or receiving services", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "fosterparent", "text": "Your records as a foster parent", "ministryCode": "MCF" ,"hassubscreen":"true"},
+      { "value": "adoption", "text": "Your records from an adoption", "ministryCode": "MCF" ,"hassubscreen":"true" },
+      { "value": "anotherTopic", "text": "Other", "ministryCode": null }
+    ],
+    "topicAnother": [
+      { "value": "childprotectionparent", "text": "Child protection – Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "childprotectionchild", "text": "Child protection – Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincareparent", "text": "Youth in care - Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincarechild", "text": "Youth in care - Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "fosterparent", "text": "Foster Parent", "ministryCode": "MCF" },
+      {
+        "value": "publicServiceEmployment",
+        "text": "The person's employment with the public service",
+        "ministryCode": "PSA"
+      },
+      {
+        "value": "correctionalFacility",
+        "text": "The person's time spent in a correctional facility",
+        "ministryCode": "PSSG"
+      },
+      {
+        "value": "incomeAssistance",
+        "text": "The person's income assistance history",
+        "ministryCode": "SDPR"
+      },
+      {
+        "value": "childProtection",
+        "text": "Child protection and youth care",
+        "ministryCode": "MCF"
+      },
+      { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+      { "value": "anotherTopic", "text": "Other", "ministryCode": null }
+    ],
+    "topicYourselfAnother": [
+      { "value": "childprotectionparent", "text": "Child protection – Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "childprotectionchild", "text": "Child protection – Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincareparent", "text": "Youth in care - Parent Submitting Request", "ministryCode": "MCF" },
+      { "value": "youthincarechild", "text": "Youth in care - Child Submitting Request", "ministryCode": "MCF" },
+      { "value": "fosterparent", "text": "Foster Parent", "ministryCode": "MCF" },
+      {
+        "value": "publicServiceEmployment",
+        "text": "Employment with the public service",
+        "ministryCode": "PSA"
+      },
+      {
+        "value": "correctionalFacility",
+        "text": "Time spent in a correctional facility",
+        "ministryCode": "PSSG"
+      },
+      {
+        "value": "incomeAssistance",
+        "text": "Income assistance history",
+        "ministryCode": "SDPR"
+      },
+      {
+        "value": "childProtection",
+        "text": "Child protection and youth care",
+        "ministryCode": "MCF"
+      },
+      { "value": "adoption", "text": "Adoption", "ministryCode": "MCF" },
+      { "value": "anotherTopic", "text": "Other", "ministryCode": null }
+    ],
+    "youthincarechild":[
+      { "mainoption":"Child in Care Records" , "suboptions":[
+        {"option":"Personal History, Recordings & Service Plans"},
+        {"option":"Cultural Planning / Roots"},
+        {"option":"Legal & Agreements"},
+        {"option":"Financial Documentation"},
+        {"option":"External Assessment & Reports"},
+        {"option":"Medical"},
+        {"option":"Internal Assessments"},
+        {"option":"Reviews"},
+        {"option":"Adoption"},
+        {"option":"Out of Care Services"},
+        {"option":"General Correspondence"},
+        {"option":"Collaborative Planning & Decisions Making"},
+        {"option":"Education, Employment & Training"},
+        {"option":"Case Notes"}
+        
+        ] },
+        {
+          "mainoption":"Child and Youth Mental Health Records" ,"suboptions":[
+            {"option":"Clinical History"},
+            {"option":"Complex Care Intervention"},
+            {"option":"Assessment & Reports"},
+            {"option":"Psychological Test Protocols & Rough Notes"},
+            {"option":"Clinician’s Standardized Questionnaires & Rough Notes"},
+            {"option":"Artwork & Photos"},
+            {"option":"Child & Youth Mental Health Case Files "},
+            {"option":"Case Notes"}
+          ]
+        },
+        {
+          "mainoption":"Child and Youth Special Needs Records" ,"suboptions":[
+            {"option":"Personal History & Recording"},
+            {"option":"Intake / Service Request & Memo"},
+            {"option":"Legal and Financial Documentation "},
+            {"option":"Reports"},
+            {"option":"Correspondence"},
+            {"option":"At Home Program Legal & Financial"},
+            {"option":"Autism Funding"},
+            {"option":"Respite Benefits"},
+            {"option":"Case Notes"}
+          ]
+        },
+        {
+          "mainoption":"Youth Agreement" ,"suboptions":[
+            {"option":"Personal History & Recordings"},
+            {"option":"Service Request & Memo"},
+            {"option":"Agreements"},
+            {"option":"Reports"},
+            {"option":"Financial Documentation"},
+            {"option":"Program Planning Documentation"},
+            {"option":"Case Notes"}         
+          ]
+        },
+        
+        {
+          "mainoption":"Other" ,"suboptions":[]
+        }
+    ],
+    "childprotectionparent":[
+      { "mainoption":"Child Protection Investigation Records (Family Service File)" , "suboptions":[
+        {"option":"Personal History and Recording"},
+        {"option":"Intake & Incident, Service Request & Memo"},
+        {"option":"Legal & Agreements"},
+        {"option":"Financial Documentation"},
+        {"option":"External Assessment & Reports"},
+        {"option":"Medical"},
+        {"option":"Internal Assessments & Service Plans"},
+        {"option":"Reviews"},
+        {"option":"Adoption"},
+        {"option":"Out of Care Services"},
+        {"option":"General Correspondence"},
+        {"option":"Collaborative Planning & Decisions Making"},        
+        {"option":"Case Notes"}
+        
+        ] },
+        {
+          "mainoption":"Other" ,"suboptions":[]
+        }
+
+    ],
+    "childprotectionchild":[
+
+      { "mainoption":"Investigation of your parent when you were a child" , "suboptions":[
+        {"option":"Personal History and Recording"},
+        {"option":"Intake & Incident, Service Request & Memo"},
+        {"option":"Legal & Agreements"},
+        {"option":"Financial Documentation"},
+        {"option":"External Assessment & Reports"},
+        {"option":"Medical"},
+        {"option":"Internal Assessments & Service Plans"},
+        {"option":"Reviews"},
+        {"option":"Adoption"},
+        {"option":"Out of Care Services"},
+        {"option":"General Correspondence"},
+        {"option":"Collaborative Planning & Decisions Making"},        
+        {"option":"Case Notes"}
+        
+        ] },
+        {
+          "mainoption":"Other" ,"suboptions":[]
+        }
+
+
+    ],
+    "youthincareparent":[
+
+      { "mainoption":"Child Protection Investigation Records (Family Service File)" , "suboptions":[
+        {"option":"Personal History and Recording"},
+        {"option":"Intake & Incident, Service Request & Memo"},
+        {"option":"Legal & Agreements"},
+        {"option":"Financial Documentation"},
+        {"option":"External Assessment & Reports"},
+        {"option":"Medical"},
+        {"option":"Internal Assessments & Service Plans"},
+        {"option":"Reviews"},
+        {"option":"Adoption"},
+        {"option":"Out of Care Services"},
+        {"option":"General Correspondence"},
+        {"option":"Collaborative Planning & Decisions Making"},        
+        {"option":"Case Notes"}
+        
+        ] },
+        {
+          "mainoption":"Other" ,"suboptions":[]
+        }
+
+
+
+    ],
+    "fosterparent":[
+
+      { "mainoption":"Resource (Foster Parent) File " , "suboptions":[
+        {"option":"Recording"},
+        {"option":"Applications, Assessments, Approvals and Licensing Documentation"},
+        {"option":"Financial"},
+        {"option":"Investigations, Incidents and Reports"},
+        {"option":"Accountability, Training and Recruitment"},
+        {"option":"Relief Caregiver Documentation"},
+        {"option":"Child Information"},
+        {"option":"General Correspondence "},
+        {"option":"Case Notes"}
+        
+        
+        ] },
+        { "mainoption":"Financial Contract File " , "suboptions":[
+          {"option":"Legal (Signed Documents)"},
+          {"option":"Contract Selection and Approval"},
+          {"option":"Accountability"},
+          {"option":"Financial"}                            
+          ] },
+        {
+          "mainoption":"Other" ,"suboptions":[]
+        }
+
+
+
+    ],
+    "adoption":[
+
+      { "mainoption":"Are you the biological parent?" , "mainoptionvalue":"Biological Parent", "suboptions":[
+        {"option":"Adoptive Parent(s)’ Background"},
+        {"option":"Child & Birth Family Background"},
+        {"option":"Post Placement Documentation & Correspondence"},
+        {"option":"Financial"},
+        {"option":"Case Notes"},
+        {"option":"Legal and Other Documents"},
+        {"option":"Information and Correspondence"}
+                       
+        ] },
+        { "mainoption":"Are you the adoptive parent?" , "mainoptionvalue":"Adoptive Parent", "suboptions":[
+          {"option":"Adoptive Parent(s)’ Background"},
+          {"option":"Child & Birth Family Background"},
+          {"option":"Post Placement Documentation & Correspondence"},
+          {"option":"Financial"},
+          {"option":"Case Notes"},
+          {"option":"Legal and Other Documents"},
+          {"option":"Information and Correspondence"}
+                         
+          ] },
+          { "mainoption":"Are you the adopted child?" , "mainoptionvalue":"Adoptive Child", "suboptions":[
+            {"option":"Adoptive Parent(s)’ Background"},
+            {"option":"Child & Birth Family Background"},
+            {"option":"Post Placement Documentation & Correspondence"},
+            {"option":"Financial"},
+            {"option":"Case Notes"},
+            {"option":"Legal and Other Documents"},
+            {"option":"Information and Correspondence"}
+                           
+            ] },
+        {
+          "mainoption":"Other" ,"suboptions":[]
+        }
+
+
+    ]
+  },
+  "routeTree": [
+    { "route": "", "progress": 0 },
+    { "route": "getting-started1", "progress": 1 },
+    { "route": "getting-started2", "progress": 1 },
+    {
+      "route": "getting-started3",
+      "progress": 3,
+      "choices": {
+        "general": {
+          "routes": [
+            { "route": "general/fee-info", "progress": 2 },
+            { "route": "general/ministry-confirmation", "progress": 2 },
+            {
+              "route": "general/description-timeframe",
+              "progress": 2
+            },
+            {
+              "route": "general/contact-info",
+              "progress": 3,
+              "choices": {
+                "paymentPath": {
+                  "routes": [
+                    { "route": "general/contact-info-options", "progress": 3 },
+                    { "route": "general/review-submit", "progress": 4 },
+                    { "route": "general/payment", "progress": 4 },
+                    {
+                      "route": "general/payment-complete/:requestId/:paymentId",
+                      "pattern": "general/payment-complete/\\d+/\\d+",
+                      "progress": 4
+                    },
+                    { "route": "general/submit-complete", "progress": 5 }
+                  ]
+                },
+                "noPaymentPath": {
+                  "routes": [
+                    { "route": "general/ige/contact-info-options", "progress": 3 },
+                    { "route": "general/ige/review-submit", "progress": 4 }, 
+                    { "route": "general/ige/submit-complete", "progress": 5 }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "personal": {
+          "routes": [
+            { "route": "choose-identity", "progress": 1 },
+            {
+              "route": "personal/select-about",
+              "progress": 2,
+              "choices": {
+                "yourself": {
+                  "routes": [
+                    { "route": "personal/verify-your-identity", "progress": 2, "data": { "includeBirthDate": true } },
+                    { "route": "personal/request-topic","data": {"topics": "topicYourself" } ,  "progress": 2,
+                    "choices":{
+
+                      
+                      "childprotectionparent":{
+
+                        "routes":[
+                          { "route": "personal/childprotectionparent","progress": 2},
+                          { "route": "personal/childprotectionparent/ministry-confirmation","progress": 2},                        
+                          {"route": "personal/childprotectionparent/description-timeframe","progress": 2},                     
+                          { "route": "personal/childprotectionparent/adoptive-parents","progress": 3},
+                          {"route": "personal/childprotectionparent/contact-info-options","progress": 3},
+                          { "route": "personal/childprotectionparent/review-submit", "progress": 4 },
+                          { "route": "personal/childprotectionparent/submit-complete", "progress": 6 }
+                        ]
+
+                      },
+                      "childprotectionchild":{
+                        "routes":[
+                          { "route": "personal/childprotectionchild","progress": 2},
+                          { "route": "personal/childprotectionchild/ministry-confirmation","progress": 2},
+                          {"route": "personal/childprotectionchild/description-timeframe","progress": 2},                     
+                          { "route": "personal/childprotectionchild/adoptive-parents","progress": 3},
+                          {"route": "personal/childprotectionchild/contact-info-options","progress": 3},
+                          { "route": "personal/childprotectionchild/review-submit", "progress": 4 },
+                          { "route": "personal/childprotectionchild/submit-complete", "progress": 6 }
+                        ]
+
+                      },
+                      "youthincareparent":{ "routes":[
+                        { "route": "personal/youthincareparent","progress": 2},
+                          { "route": "personal/youthincareparent/ministry-confirmation","progress": 2},
+                          {"route": "personal/youthincareparent/description-timeframe","progress": 2},                     
+                          { "route": "personal/youthincareparent/adoptive-parents","progress": 3},
+                          {"route": "personal/youthincareparent/contact-info-options","progress": 3},
+                          { "route": "personal/youthincareparent/review-submit", "progress": 4 },
+                          { "route": "personal/youthincareparent/submit-complete", "progress": 6 }
+
+                      ]},
+                      "youthincarechild":{ "routes":[
+
+                        { "route": "personal/youthincarechild","progress": 2},
+                        { "route": "personal/youthincarechild/ministry-confirmation","progress": 3},
+                        {"route": "personal/youthincarechild/description-timeframe","progress": 2},                     
+                        { "route": "personal/youthincarechild/adoptive-parents","progress": 3},
+                        {"route": "personal/youthincarechild/contact-info-options","progress": 3},
+                        { "route": "personal/youthincarechild/review-submit", "progress": 4 },
+                        { "route": "personal/youthincarechild/submit-complete", "progress": 6 }
+
+
+                      ]},
+                      "fosterparent":{ "routes":[
+
+                        { "route": "personal/fosterparent","progress": 2},
+                        { "route": "personal/fosterparent/ministry-confirmation","progress": 2},
+                        {"route": "personal/fosterparent/description-timeframe","progress": 2},                     
+                        { "route": "personal/fosterparent/adoptive-parents","progress": 3},
+                        {"route": "personal/fosterparent/contact-info-options","progress": 3},
+                        { "route": "personal/fosterparent/review-submit", "progress": 4 },
+                        { "route": "personal/fosterparent/submit-complete", "progress": 6 }
+
+                      ]},
+                      "adoption":{ "routes":[
+                        { "route": "personal/adoption","progress": 2},
+                        { "route": "personal/adoption/ministry-confirmation","progress": 2},
+                        {"route": "personal/adoption/description-timeframe","progress": 2},                     
+                        { "route": "personal/adoption/adoptive-parents","progress": 3},
+                        {"route": "personal/adoption/contact-info-options","progress": 3},
+                        { "route": "personal/adoption/review-submit", "progress": 4 },
+                        { "route": "personal/adoption/submit-complete", "progress": 6 }
+
+
+                      ]},
+                      "others":{
+                        "routes":[
+                                    { "route": "personal/ministry-confirmation","progress": 2},
+                                    {"route": "personal/description-timeframe","progress": 2},                     
+                                    { "route": "personal/adoptive-parents","progress": 3},
+                                    {"route": "personal/contact-info-options","progress": 3},
+                                    { "route": "personal/review-submit", "progress": 4 },
+                                    { "route": "personal/submit-complete", "progress": 6 }
+                                  ]
+                      }
+                      
+
+
+                    }
+                    },   
+                              
+                    { "route": "personal/ministry-confirmation","progress": 2},
+                    {"route": "personal/description-timeframe","progress": 2},
+                     
+                    { "route": "personal/adoptive-parents","progress": 3},
+                    {
+                      "route": "personal/contact-info-options",
+                      "progress": 3
+                    },
+                    { "route": "personal/review-submit", "progress": 4 },
+                    { "route": "personal/submit-complete", "progress": 6 }
+                  ]
+                },
+                "child": {
+                  "routes": [
+                    {
+                      "route": "personal/child/proof-of-guardianship",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
+                    },
+                    {
+                      "route": "personal/child/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/verify-your-identity",
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
+                      }
+                    },
+                    {
+                      "route": "personal/child/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child/review-submit",
+                      "progress": 4
+                    },
+                    { "route": "personal/child/submit-complete", "progress": 4 }
+                  ]
+                },
+                "another": {
+                  "routes": [
+                    {
+                      "route": "personal/another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
+                    },
+                    {
+                      "route": "personal/another/another-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/another/verify-your-identity",
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
+                      }
+                    },
+                    {
+                      "route": "personal/another/request-topic",
+                      "progress": 2,
+                      "data": {
+                        "topics": "topicAnother"
+                      }
+                    },
+                    {
+                      "route": "personal/another/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/another/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/another/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/another/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/another/submit-complete",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "yourself-child": {
+                  "routes": [
+                    {
+                      "route": "personal/yourself-child/proof-of-guardianship",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/verify-your-identity",
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records.",
+                        "includeBirthDate": true
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-child/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-child/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/yourself-child/submit-complete",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "yourself-another": {
+                  "routes": [
+                    {
+                      "route": "personal/yourself-another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-another/another-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-another/verify-your-identity",
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records.",
+                        "includeBirthDate": true
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-another/request-topic",
+                      "progress": 2,
+                      "data": {
+                        "topics": "topicYourselfAnother"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-another/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-another/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-another/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-another/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/yourself-another/submit-complete",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "yourself-child-another": {
+                  "routes": [
+                    {
+                      "route": "personal/yourself-child-another/proof-of-guardianship",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child-another/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child-another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child-another/another-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child-another/verify-your-identity",
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records.",
+                        "includeBirthDate": true
+                      }
+                    },
+                    {
+                      "route": "personal/yourself-child-another/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child-another/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/yourself-child-another/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-child-another/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/yourself-child-another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/yourself-child-another/submit-complete",
+                      "progress": 4
+                    }
+                  ]
+                },
+                "child-another": {
+                  "routes": [
+                    {
+                      "route": "personal/child-another/proof-of-guardianship",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "child"
+                      }
+                    },
+                    {
+                      "route": "personal/child-another/child-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child-another/proof-of-permission",
+                      "progress": 2,
+                      "data": {
+                        "proofFor": "person"
+                      }
+                    },
+                    {
+                      "route": "personal/child-another/another-information",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child-another/verify-your-identity",
+                      "progress": 2,
+                      "data": {
+                        "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
+                      }
+                    },
+                    {
+                      "route": "personal/child-another/ministry-confirmation",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child-another/description-timeframe",
+                      "progress": 2
+                    },
+                    {
+                      "route": "personal/child-another/adoptive-parents",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child-another/contact-info-options",
+                      "progress": 3
+                    },
+                    {
+                      "route": "personal/child-another/review-submit",
+                      "progress": 4
+                    },
+                    {
+                      "route": "personal/child-another/submit-complete",
+                      "progress": 4
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

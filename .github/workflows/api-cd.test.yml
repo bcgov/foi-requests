@@ -1,0 +1,61 @@
+name: Deploy API to test
+
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "api/**"
+      - ".github/workflows/api-cd.test.yml"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment (dev/test/prod)"
+        required: true
+        default: "test"
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./api
+
+env:
+  APP_NAME: "api"
+  TAG_NAME: "test"
+
+jobs:
+  api-cd-by-push:
+    runs-on: ubuntu-20.04
+
+    if: github.event_name == 'push' && github.repository == 'bcgov/foi-requests'
+    environment:
+      name: "test"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login Openshift
+        shell: bash
+        run: |
+          oc login --server=${{secrets.OPENSHIFT4_LOGIN_REGISTRY}} --token=${{secrets.OPENSHIFT4_SA_TOKEN}}
+
+      - name: Tools project
+        shell: bash
+        run: |
+          oc project ${{ secrets.OPENSHIFT4_FRONTEND_REPOSITORY }}-tools
+
+      - name: Build from text branch
+        shell: bash
+        run: |
+          oc patch bc/api-master-build -p '{"spec":{"source":{"git":{"ref":"master"}}}}'
+
+      - name: Start Build Openshift
+        shell: bash
+        run: |
+          oc start-build api-master-build --wait
+
+      - name: Tag+Deploy for test
+        shell: bash
+        run: |
+          oc tag api:latest api:${{ env.TAG_NAME }}
