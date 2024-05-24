@@ -22,8 +22,9 @@ export class MinistryConfirmationComponent implements OnInit {
   feeAmount: number = 0;
   requiresPayment: boolean = null;
   isforestministry: boolean = false;
+  hideforestministryongoingwildfirealert: boolean = true;
   isEAOministry: boolean = false;
-
+  isENVministry: boolean = false;
   constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) { }
 
   ngOnInit() {
@@ -44,6 +45,14 @@ export class MinistryConfirmationComponent implements OnInit {
           else if(m.code === "EAO" && m.selected === false){
             this.isEAOministry = false;
           }
+          if (m.code === "ENV" && m.selected === true) {
+            this.isENVministry = true;
+          }
+          else if((m.code === "ENV" && m.selected === false)){
+            this.isENVministry = false;
+          }
+
+
           if (m.code === "FOR" && m.selected === true) {
             this.isforestministry = true;
           }
@@ -77,6 +86,12 @@ export class MinistryConfirmationComponent implements OnInit {
     }
     else if(m.code === "EAO" && m.selected === false){
       this.isEAOministry = false;
+    }
+    if (m.code === "ENV" && m.selected === true) {
+      this.isENVministry = true;
+    }
+    else if((m.code === "ENV" && m.selected === false)){
+      this.isENVministry = false;
     }
     if (m.code === "FOR" && m.selected === true) {
       this.isforestministry = true;
