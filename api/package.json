@@ -19,7 +19,7 @@
     "@transomjs/transom-ejs-template": "^1.2.2",
     "@transomjs/transom-scaffold": "^1.2.3",
     "@transomjs/transom-server-functions": "^1.0.8",
-    "@transomjs/transom-smtp": "^1.0.5",
+    "@transomjs/transom-smtp": "^1.0.6",
     "arraybuffer-to-buffer": "0.0.5",
     "axios": "^0.21.1",
     "bunyan-rotating-file-stream": "^1.6.3",
