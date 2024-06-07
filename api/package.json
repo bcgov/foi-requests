@@ -16,7 +16,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@transomjs/transom-core": "^1.2.1",
-    "@transomjs/transom-ejs-template": "^1.2.2",
+    "@transomjs/transom-ejs-template": "^3.0.0",
     "@transomjs/transom-scaffold": "^1.2.3",
     "@transomjs/transom-server-functions": "^1.0.8",
     "@transomjs/transom-smtp": "^1.0.5",
