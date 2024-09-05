@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { VerifyYourIdentityComponent } from "./verify-your-identity.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
@@ -8,18 +8,26 @@ import { UtilsComponentsModule } from "src/app/utils-components/utils-components
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
 
 describe("VerifyYourIdentityComponent", () => {
   let component: VerifyYourIdentityComponent;
   let fixture: ComponentFixture<VerifyYourIdentityComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VerifyYourIdentityComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
-      providers: [DataService, { provide: Router, useClass: MockRouter }]
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        NgxWebstorageModule.forRoot(),
+        UtilsComponentsModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        FontAwesomeModule,
+      ],
+      providers: [DataService, { provide: Router, useClass: MockRouter }],
     }).compileComponents();
   }));
 
@@ -28,7 +36,7 @@ describe("VerifyYourIdentityComponent", () => {
     const foi: FoiRequest = {
       requestData: {
         requestType: {
-          requestType: "personal"
+          requestType: "personal",
         },
         contactInfo: {
           firstName: null,
@@ -36,9 +44,9 @@ describe("VerifyYourIdentityComponent", () => {
           lastName: "Kirk",
           birthDate: "1921-09-29",
           alsoKnownAs: "Captain",
-          businessName: "Starship Enterprise"
-        }
-      }
+          businessName: "Starship Enterprise",
+        },
+      },
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 

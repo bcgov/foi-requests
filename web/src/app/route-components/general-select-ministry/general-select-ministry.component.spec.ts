@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { GeneralSelectMinistryComponent } from './general-select-ministry.component';
+import { GeneralSelectMinistryComponent } from "./general-select-ministry.component";
 
-describe('GeneralSelectMinistryComponent', () => {
+describe("GeneralSelectMinistryComponent", () => {
   let component: GeneralSelectMinistryComponent;
   let fixture: ComponentFixture<GeneralSelectMinistryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GeneralSelectMinistryComponent ]
-    })
-    .compileComponents();
+      declarations: [GeneralSelectMinistryComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('GeneralSelectMinistryComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

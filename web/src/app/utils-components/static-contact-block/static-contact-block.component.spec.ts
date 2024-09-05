@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { StaticContactBlockComponent } from './static-contact-block.component';
+import { StaticContactBlockComponent } from "./static-contact-block.component";
 
-describe('StaticContactBlockComponent', () => {
+describe("StaticContactBlockComponent", () => {
   let component: StaticContactBlockComponent;
   let fixture: ComponentFixture<StaticContactBlockComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ StaticContactBlockComponent ]
-    })
-    .compileComponents();
+      declarations: [StaticContactBlockComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('StaticContactBlockComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,23 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { BaseComponent } from './base.component';
-import { DataService } from 'src/app/services/data.service';
-import { MockDataService, MockRouter } from '../../MockClasses';
-import { Router } from '@angular/router';
+import { BaseComponent } from "./base.component";
+import { DataService } from "src/app/services/data.service";
+import { MockDataService, MockRouter } from "../../MockClasses";
+import { Router } from "@angular/router";
 
-describe('BaseComponent', () => {
+describe("BaseComponent", () => {
   let component: BaseComponent;
   let fixture: ComponentFixture<BaseComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseComponent ],
+      declarations: [BaseComponent],
       providers: [
-        {provide: DataService, useClass: MockDataService},
-        {provide: Router, useClass: MockRouter}
-      ]
-    })
-    .compileComponents();
+        { provide: DataService, useClass: MockDataService },
+        { provide: Router, useClass: MockRouter },
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -26,7 +25,7 @@ describe('BaseComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

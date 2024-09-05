@@ -1,27 +1,29 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
-import { FoiRequest } from 'src/app/models/FoiRequest';
-import { DataService } from 'src/app/services/data.service';
-import { BaseComponent } from 'src/app/utils-components/base/base.component';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { FoiRequest } from "src/app/models/FoiRequest";
+import { DataService } from "src/app/services/data.service";
+import { BaseComponent } from "src/app/utils-components/base/base.component";
 
 @Component({
-  selector: 'app-adoptive-parents',
-  templateUrl: './adoptive-parents.component.html',
-  styleUrls: ['./adoptive-parents.component.scss']
+  selector: "app-adoptive-parents",
+  templateUrl: "./adoptive-parents.component.html",
+  styleUrls: ["./adoptive-parents.component.scss"],
 })
 export class AdoptiveParentsComponent implements OnInit {
-  @ViewChild(BaseComponent) base: BaseComponent;
-  foiForm = this.fb.group({
-    motherFirstName: [null, Validators.maxLength(255)],
-    motherLastName: [null, Validators.maxLength(255)],
-    fatherFirstName: [null, Validators.maxLength(255)],
-    fatherLastName: [null, Validators.maxLength(255)]
-  });
+  @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
+  foiForm: FormGroup;
 
   foiRequest: FoiRequest;
-  targetKey: string = 'adoptiveParents';
+  targetKey: string = "adoptiveParents";
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService) {
+    this.foiForm = this.fb.group({
+      motherFirstName: [null, Validators.maxLength(255)],
+      motherLastName: [null, Validators.maxLength(255)],
+      fatherFirstName: [null, Validators.maxLength(255)],
+      fatherLastName: [null, Validators.maxLength(255)],
+    });
+  }
 
   ngOnInit() {
     // Load the current values & populate the FormGroup.
@@ -31,11 +33,7 @@ export class AdoptiveParentsComponent implements OnInit {
 
   doContinue() {
     // Update save data & proceed.
-    this.dataService.setCurrentState(
-      this.foiRequest,
-      this.targetKey,
-      this.foiForm
-    );
+    this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     this.base.goFoiForward();
   }
 

@@ -1,4 +1,4 @@
-import { TestBed, async } from "@angular/core/testing";
+import { TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
 import { CoreHeaderComponent } from "./core-header/core-header.component";
@@ -19,15 +19,15 @@ const testRoutes = [
   { path: "getting-started2", component: LandingComponent },
   { path: "getting-started3", component: LandingComponent },
   { path: "general/fee-info", component: LandingComponent },
-  { path: "personal/select-about", component: LandingComponent }
+  { path: "personal/select-about", component: LandingComponent },
 ];
 
 describe("AppComponent", () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes(testRoutes), HttpClientTestingModule],
       declarations: [AppComponent, CoreHeaderComponent, ProgressBarComponent, LandingComponent, BaseComponent],
-      providers: [{ provide: LocalStorageService, useClass: MockLocalStorage }]
+      providers: [{ provide: LocalStorageService, useClass: MockLocalStorage }],
     }).compileComponents();
   }));
 
@@ -37,14 +37,14 @@ describe("AppComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  it("should change routes on foiRoute progress", done => {
+  it("should change routes on foiRoute progress", (done) => {
     const foiRouter: FoiRouterService = TestBed.get(FoiRouterService);
     const router: any = TestBed.get(Router);
 
     const mySubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     spyOn(foiRouter, "getRouteProgress").and.returnValue(mySubject);
-    spyOn(router, "navigate").and.callThrough(); 
+    spyOn(router, "navigate").and.callThrough();
     const fixture = TestBed.createComponent(AppComponent);
 
     fixture.ngZone.run(() => {
@@ -94,14 +94,14 @@ describe("AppComponent", () => {
     });
   });
 
-  it("should go forward 2 and back 2 steps", done => {
+  it("should go forward 2 and back 2 steps", (done) => {
     const foiRouter: FoiRouterService = TestBed.get(FoiRouterService);
     const router: any = TestBed.get(Router);
 
     const mySubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     spyOn(foiRouter, "getRouteProgress").and.returnValue(mySubject);
-    spyOn(router, "navigate").and.callThrough(); 
+    spyOn(router, "navigate").and.callThrough();
     const fixture = TestBed.createComponent(AppComponent);
 
     fixture.ngZone.run(() => {
@@ -127,14 +127,14 @@ describe("AppComponent", () => {
     });
   });
 
-  it("should not change on direction=0", done => {
+  it("should not change on direction=0", (done) => {
     const foiRouter: FoiRouterService = TestBed.get(FoiRouterService);
     const router: any = TestBed.get(Router);
 
     const mySubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     spyOn(foiRouter, "getRouteProgress").and.returnValue(mySubject);
-    spyOn(router, "navigate").and.callThrough(); 
+    spyOn(router, "navigate").and.callThrough();
     const fixture = TestBed.createComponent(AppComponent);
 
     fixture.ngZone.run(() => {
@@ -146,7 +146,7 @@ describe("AppComponent", () => {
           let call = router.navigate.calls.mostRecent();
           expect(call.args[0]).toEqual(["getting-started1"]);
 
-          mySubject.next({ direction: 0 }); 
+          mySubject.next({ direction: 0 });
           fixture.detectChanges();
           return fixture.whenStable();
         })

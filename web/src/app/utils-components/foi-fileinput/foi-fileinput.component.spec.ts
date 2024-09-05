@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { FoiFileinputComponent } from "./foi-fileinput.component";
 import { Component } from "@angular/core";
@@ -20,14 +20,14 @@ import { By } from "@angular/platform-browser";
         <label>Required file label:</label>
       </foi-fileinput>
     </form>
-  `
+  `,
 })
 class TestHostComponent {
   public testform: FormGroup;
   constructor(private fb: FormBuilder) {
     this.testform = fb.group({
       myOptionalFile: null,
-      myRequiredFile: [null, Validators.required]
+      myRequiredFile: [null, Validators.required],
     });
   }
 }
@@ -42,11 +42,11 @@ describe("FoiValidComponent", () => {
 
   let fixture: ComponentFixture<TestHostComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FoiFileinputComponent, TestHostComponent],
       providers: [FormBuilder],
-      imports: [ReactiveFormsModule]
+      imports: [ReactiveFormsModule],
     }).compileComponents();
   }));
 

@@ -6,10 +6,10 @@ import { DataService } from "src/app/services/data.service";
 
 @Component({
   templateUrl: "./description-timeframe.component.html",
-  styleUrls: ["./description-timeframe.component.scss"]
+  styleUrls: ["./description-timeframe.component.scss"],
 })
 export class DescriptionTimeframeComponent implements OnInit {
-  @ViewChild(BaseComponent) base: BaseComponent;
+  @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
   foiForm: FormGroup;
 
   foiRequest: FoiRequest;
@@ -18,7 +18,7 @@ export class DescriptionTimeframeComponent implements OnInit {
   personalRequest: boolean = false;
   showPublicServiceEmployeeNumber: boolean = false;
   showCorrectionalServiceNumber: boolean = false;
-  hasmcfdspecificrecordsrequests:boolean =false;
+  hasmcfdspecificrecordsrequests: boolean = false;
 
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
@@ -28,7 +28,7 @@ export class DescriptionTimeframeComponent implements OnInit {
       fromDate: [null, Validators.compose([Validators.required, this.base.noFutureValidator])],
       toDate: [null, [Validators.required, this.base.noFutureValidator, this.base.toDateValidator]],
       correctionalServiceNumber: [null, Validators.maxLength(255)],
-      publicServiceEmployeeNumber: [null, Validators.maxLength(255)]
+      publicServiceEmployeeNumber: [null, Validators.maxLength(255)],
     });
 
     this.foiRequest = this.dataService.getCurrentState(this.targetKey, "requestType", "requestTopic", "ministry");
@@ -42,9 +42,11 @@ export class DescriptionTimeframeComponent implements OnInit {
 
     this.personalRequest = this.foiRequest.requestData.requestType.requestType === "personal";
     if (this.personalRequest) {
-      this.showPublicServiceEmployeeNumber = !!currentMinistries.find(m => m.code === "PSA");
-      this.showCorrectionalServiceNumber = !!currentMinistries.find(m => m.code === "PSSG");
-      this.hasmcfdspecificrecordsrequests =  this.foiRequest.requestData.selectedtopics != undefined && this.foiRequest.requestData.selectedtopics.length > 0
+      this.showPublicServiceEmployeeNumber = !!currentMinistries.find((m) => m.code === "PSA");
+      this.showCorrectionalServiceNumber = !!currentMinistries.find((m) => m.code === "PSSG");
+      this.hasmcfdspecificrecordsrequests =
+        this.foiRequest.requestData.selectedtopics != undefined &&
+        this.foiRequest.requestData.selectedtopics.length > 0;
     }
 
     let ministryTopic = "General Request";
