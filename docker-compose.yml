@@ -1,0 +1,26 @@
+# docker-compose.yml
+
+services:
+  api:
+    build:
+      context: ./API
+    ports:
+      - "8080:7085"
+    volumes:
+      - ./API:/usr/src/app
+    networks:
+      - app-network
+
+  web:
+    build:
+      context: ./Web
+    ports:
+      - "4200:80"
+    networks:
+      - app-network
+    depends_on:
+      - api
+
+networks:
+  app-network:
+    driver: bridge
