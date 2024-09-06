@@ -4,15 +4,15 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
 WORKDIR /home/node/app
 
-COPY --chown=node:node package*.json ./
-RUN chmod 755 ./
+COPY package*.json ./
+# COPY --chown=node:node package*.json ./
 
 USER node
 
 RUN npm install --legacy-peer-deps
 
-COPY --chown=node:node . .
-RUN chmod 755 .
+COPY . .
+# COPY --chown=node:node . .
 
 EXPOSE 7085
 
