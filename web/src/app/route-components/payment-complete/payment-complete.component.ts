@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FoiRequest } from 'src/app/models/FoiRequest';
-import { DataService } from 'src/app/services/data.service';
-import { BaseComponent } from 'src/app/utils-components/base/base.component';
-import { WindowRefService } from 'src/app/services/window-ref.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { FoiRequest } from "src/app/models/FoiRequest";
+import { DataService } from "src/app/services/data.service";
+import { BaseComponent } from "src/app/utils-components/base/base.component";
+import { WindowRefService } from "src/app/services/window-ref.service";
 
 @Component({
   selector: "app-payment-complete",
@@ -11,7 +11,7 @@ import { WindowRefService } from 'src/app/services/window-ref.service';
   styleUrls: ["./payment-complete.component.scss"],
 })
 export class PaymentCompleteComponent implements OnInit {
-  @ViewChild(BaseComponent) base: BaseComponent;
+  @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
   busy = true;
   receiptBusy = false;
   paymentSuccess = false;
@@ -48,7 +48,7 @@ export class PaymentCompleteComponent implements OnInit {
         this.paymentId = params.paymentId;
         this.requestId = params.requestId;
         this.responseUrl = window.location.href.split("?")[1];
-  
+
         this.foiRequest = this.dataService.getCurrentState();
         this.foiRequest.requestData.requestId = this.requestId;
         this.foiRequest.requestData.paymentInfo = {
@@ -57,15 +57,13 @@ export class PaymentCompleteComponent implements OnInit {
           transactionOrderId: this.transactionOrderId,
           transactionDate: this.transactionDate,
           cardType: this.cardType,
-          paymentId: this.paymentId
+          paymentId: this.paymentId,
         };
         this.dataService.setCurrentState(this.foiRequest);
-  
+
         this.updateTransaction();
       });
-
-    })
-
+    });
 
     this.authToken = this.dataService.getAuthToken();
   }

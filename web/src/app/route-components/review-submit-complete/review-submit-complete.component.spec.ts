@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ReviewSubmitCompleteComponent } from "./review-submit-complete.component";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
@@ -11,10 +11,13 @@ describe("ReviewSubmitCompleteComponent", () => {
   let component: ReviewSubmitCompleteComponent;
   let fixture: ComponentFixture<ReviewSubmitCompleteComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ReviewSubmitCompleteComponent, BaseComponent, StaticContactBlockComponent],
-      providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
+      providers: [
+        { provide: DataService, useClass: MockDataService },
+        { provide: Router, useClass: MockRouter },
+      ],
     }).compileComponents();
   }));
 

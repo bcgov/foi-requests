@@ -1,32 +1,35 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ContactInfoComponent } from './contact-info.component';
-import { FoiValidComponent } from 'src/app/utils-components/foi-valid/foi-valid.component';
-import { BaseComponent } from 'src/app/utils-components/base/base.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DataService } from 'src/app/services/data.service';
-import { MockRouter } from '../../MockClasses';
-import { Router } from '@angular/router';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxWebstorageModule } from 'ngx-webstorage';
-import { FoiRequest } from 'src/app/models/FoiRequest';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { ContactInfoComponent } from "./contact-info.component";
+import { FoiValidComponent } from "src/app/utils-components/foi-valid/foi-valid.component";
+import { BaseComponent } from "src/app/utils-components/base/base.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { DataService } from "src/app/services/data.service";
+import { MockRouter } from "../../MockClasses";
+import { Router } from "@angular/router";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { NgxWebstorageModule } from "ngx-webstorage";
+import { FoiRequest } from "src/app/models/FoiRequest";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
 
-describe('ContactInfoComponent', () => {
+describe("ContactInfoComponent", () => {
   let component: ContactInfoComponent;
   let fixture: ComponentFixture<ContactInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactInfoComponent, BaseComponent, FoiValidComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
-      providers: [
-        DataService,
-        {provide: Router, useClass: MockRouter}
-      ]
-    })
-    .compileComponents();
+      declarations: [ContactInfoComponent, BaseComponent, FoiValidComponent],
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        NgxWebstorageModule.forRoot(),
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        FontAwesomeModule,
+      ],
+      providers: [DataService, { provide: Router, useClass: MockRouter }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -34,15 +37,15 @@ describe('ContactInfoComponent', () => {
     const foi: FoiRequest = {
       requestData: {
         requestType: {
-          requestType: "personal"
+          requestType: "personal",
         },
         contactInfo: {
           firstName: null,
           middleName: "Tiberius",
           lastName: "Kirk",
-          businessName: "Starship Enterprise"
-        }
-      }
+          businessName: "Starship Enterprise",
+        },
+      },
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 
@@ -62,7 +65,7 @@ describe('ContactInfoComponent', () => {
   });
 
   it("should navigate back", () => {
-    spyOn(component.base, 'goFoiBack').and.callThrough();
+    spyOn(component.base, "goFoiBack").and.callThrough();
     component.doGoBack();
     expect(component.base.goFoiBack).toHaveBeenCalledTimes(1);
   });

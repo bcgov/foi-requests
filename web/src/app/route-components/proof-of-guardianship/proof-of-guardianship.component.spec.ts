@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ProofOfGuardianshipComponent } from "./proof-of-guardianship.component";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -15,11 +15,14 @@ describe("ProofOfGuardianshipComponent", () => {
   let fixture: ComponentFixture<ProofOfGuardianshipComponent>;
   // let dataService: DataService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProofOfGuardianshipComponent],
       imports: [ReactiveFormsModule, UtilsComponentsModule],
-      providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
+      providers: [
+        { provide: DataService, useClass: MockDataService },
+        { provide: Router, useClass: MockRouter },
+      ],
     }).compileComponents();
   }));
 
@@ -28,15 +31,15 @@ describe("ProofOfGuardianshipComponent", () => {
     const foi: FoiRequest = {
       requestData: {
         requestType: {
-          requestType: "personal"
+          requestType: "personal",
         },
         proofOfGuardianship: {
-          answerYes: "true"
+          answerYes: "true",
         },
         proofOfPermission: {
-          answerYes: "true"
-        }
-      }
+          answerYes: "true",
+        },
+      },
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 
@@ -49,7 +52,7 @@ describe("ProofOfGuardianshipComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should load (sample data) with Continue button Enabled", done => {
+  it("should load (sample data) with Continue button Enabled", (done) => {
     const baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
     const base: BaseComponent = baseDebug[0].componentInstance;
 
@@ -68,12 +71,12 @@ describe("ProofOfGuardianshipComponent", () => {
       const foi: FoiRequest = {
         requestData: {
           requestType: {
-            requestType: "personal"
+            requestType: "personal",
           },
           proofOfGuardianship: {
-            answerYes: "foo"
-          }
-        }
+            answerYes: "foo",
+          },
+        },
       };
       sessionStorage.setItem("foi-request", JSON.stringify(foi));
 
@@ -82,7 +85,7 @@ describe("ProofOfGuardianshipComponent", () => {
       fixture.detectChanges();
     });
 
-    it("should load (sample data) with Warning and Continue disabled", done => {
+    it("should load (sample data) with Warning and Continue disabled", (done) => {
       const baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
       const base: BaseComponent = baseDebug[0].componentInstance;
 
@@ -98,7 +101,7 @@ describe("ProofOfGuardianshipComponent", () => {
       done();
     });
 
-    it("should load (sample data) without Warning and Continue enabled", done => {
+    it("should load (sample data) without Warning and Continue enabled", (done) => {
       const baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
       const base: BaseComponent = baseDebug[0].componentInstance;
 
@@ -121,12 +124,12 @@ describe("ProofOfGuardianshipComponent", () => {
       const foi: FoiRequest = {
         requestData: {
           requestType: {
-            requestType: "personal"
+            requestType: "personal",
           },
           proofOfPermission: {
-            answerYes: "true"
-          }
-        }
+            answerYes: "true",
+          },
+        },
       };
       sessionStorage.setItem("foi-request", JSON.stringify(foi));
 
@@ -135,7 +138,7 @@ describe("ProofOfGuardianshipComponent", () => {
       fixture.detectChanges();
     });
 
-    it("should load (sample data) with Warning and Continue disabled", done => {
+    it("should load (sample data) with Warning and Continue disabled", (done) => {
       const baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
       const base: BaseComponent = baseDebug[0].componentInstance;
 
@@ -151,7 +154,7 @@ describe("ProofOfGuardianshipComponent", () => {
       done();
     });
 
-    it("should load (sample data) without Warning and Continue enabled", done => {
+    it("should load (sample data) without Warning and Continue enabled", (done) => {
       const baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
       const base: BaseComponent = baseDebug[0].componentInstance;
 

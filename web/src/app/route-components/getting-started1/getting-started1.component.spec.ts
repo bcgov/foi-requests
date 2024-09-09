@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { GettingStarted1Component } from "./getting-started1.component";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
@@ -14,11 +14,14 @@ describe("GettingStarted1Component", () => {
   let fixture: ComponentFixture<GettingStarted1Component>;
   let dataService: DataService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [GettingStarted1Component, BaseComponent, StaticContactBlockComponent],
       imports: [ReactiveFormsModule],
-      providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
+      providers: [
+        { provide: DataService, useClass: MockDataService },
+        { provide: Router, useClass: MockRouter },
+      ],
     }).compileComponents();
   }));
 
@@ -33,7 +36,7 @@ describe("GettingStarted1Component", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should go forward on continue click", done => {
+  it("should go forward on continue click", (done) => {
     let baseDebug = fixture.debugElement.queryAll(By.directive(BaseComponent));
     let base: BaseComponent = baseDebug[0].componentInstance;
 

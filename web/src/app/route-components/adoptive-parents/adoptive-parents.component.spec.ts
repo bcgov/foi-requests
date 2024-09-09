@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { AdoptiveParentsComponent } from "./adoptive-parents.component";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
@@ -9,8 +9,8 @@ import { FoiValidComponent } from "src/app/utils-components/foi-valid/foi-valid.
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { NgxWebstorageModule } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 describe("AdoptiveParentsComponent", () => {
   let component: AdoptiveParentsComponent;
@@ -19,18 +19,22 @@ describe("AdoptiveParentsComponent", () => {
   class MockRouter {
     // url: "/general/somewhere";
     navigate(...args) {
-      console.log('MockRouter.navigate=', args);
-    };
+      console.log("MockRouter.navigate=", args);
+    }
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AdoptiveParentsComponent, BaseComponent, FoiValidComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
-      providers: [
-        DataService,
-        { provide: Router, useClass: MockRouter }
-      ]
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        NgxWebstorageModule.forRoot(),
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        FontAwesomeModule,
+      ],
+      providers: [DataService, { provide: Router, useClass: MockRouter }],
     }).compileComponents();
   }));
 
@@ -39,15 +43,15 @@ describe("AdoptiveParentsComponent", () => {
     const foi: FoiRequest = {
       requestData: {
         requestType: {
-          requestType: "personal"
+          requestType: "personal",
         },
         adoptiveParents: {
           motherFirstName: "Lois",
           motherLastName: "Lane",
           fatherFirstName: "Clark",
-          fatherLastName: "Kent"
-        }
-      }
+          fatherLastName: "Kent",
+        },
+      },
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 

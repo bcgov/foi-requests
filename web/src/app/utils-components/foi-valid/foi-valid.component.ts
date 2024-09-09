@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, Form } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
+import { FormControl, Form } from "@angular/forms";
 
 @Component({
-  selector: 'app-foi-valid',
-  templateUrl: './foi-valid.component.html',
-  styleUrls: ['./foi-valid.component.scss']
+  selector: "app-foi-valid",
+  templateUrl: "./foi-valid.component.html",
+  styleUrls: ["./foi-valid.component.scss"],
 })
 export class FoiValidComponent implements OnInit {
   @Input() tip: string;
@@ -24,10 +24,10 @@ export class FoiValidComponent implements OnInit {
   @Input() validDate: string;
   @Input() dateTimeTrigger: any;
 
-  @ViewChild('myLabel') fieldLabelWrapper: ElementRef;
+  @ViewChild("myLabel", { static: true }) fieldLabelWrapper: ElementRef;
   fieldLabel: HTMLLabelElement;
 
-  @ViewChild('myInput') fieldInputWrapper: ElementRef;
+  @ViewChild("myInput", { static: true }) fieldInputWrapper: ElementRef;
   fieldInput: HTMLElement;
 
   control: FormControl;
@@ -44,13 +44,13 @@ export class FoiValidComponent implements OnInit {
   /**
    * Used in the template to show/hide validation errors and style/unstyle the label text.
    */
-  isInvalid() {    
+  isInvalid() {
     let invalid = false;
-    this.fieldLabel.className = (this.fieldLabel.className || '').replace('label-error', '').trim();
+    this.fieldLabel.className = (this.fieldLabel.className || "").replace("label-error", "").trim();
 
     if (this.control && this.control.invalid && (!this.control.pristine || this.control.touched)) {
       // If a user has touched a field and it's invalid, style the label!
-      this.fieldLabel.className = ('label-error ' + this.fieldLabel.className).trim();
+      this.fieldLabel.className = ("label-error " + this.fieldLabel.className).trim();
       invalid = true;
     }
     return invalid;
@@ -72,11 +72,11 @@ export class FoiValidComponent implements OnInit {
     const err = this.validationErrors(validation);
 
     // Fix the minlength/minLength case differences.
-    if (validation === 'minlength') {
-      validation = 'minLength';
+    if (validation === "minlength") {
+      validation = "minLength";
     }
-    if (validation === 'maxlength') {
-      validation = 'maxLength';
+    if (validation === "maxlength") {
+      validation = "maxLength";
     }
     let message = this[validation];
 
@@ -84,8 +84,8 @@ export class FoiValidComponent implements OnInit {
     if (err) {
       // Saved for debugging validations with interpolated values.
       /// console.log('validation=', validation, 'message=', message, 'err=', err);
-      message = message || '';
-      Object.keys(err).map(key => {
+      message = message || "";
+      Object.keys(err).map((key) => {
         message = message.replace(`\{${key}\}`, err[key]);
       });
     }
@@ -94,37 +94,37 @@ export class FoiValidComponent implements OnInit {
 
   getDatePlaceholder(dateTimeTrigger): string {
     const adapter = dateTimeTrigger.dateTimeAdapter || {};
-    const locale: string = (adapter.owlDateTimeLocale || 'en-US').toLowerCase();
+    const locale: string = (adapter.owlDateTimeLocale || "en-US").toLowerCase();
     const knownLocales = {
-      "en-us" : "mm/dd/yyyy"
+      "en-us": "mm/dd/yyyy",
     };
-    return knownLocales[locale] || '';
+    return knownLocales[locale] || "";
   }
 
   ngOnInit() {
     this.fieldLabel = this.fieldLabelWrapper.nativeElement.firstChild || {};
     this.fieldInput = this.fieldInputWrapper.nativeElement.firstChild || {};
 
-    if (!this.fieldInput.hasAttribute('formcontrolname')){
+    if (!this.fieldInput.hasAttribute("formcontrolname")) {
       this.fieldInput = this.fieldInputWrapper.nativeElement.firstChild.firstChild || {};
     }
 
     // Using the formcontrolname attribute on the Input DOM element to identify the Form control!
-    const formcontrolname = this.fieldInput.attributes['formcontrolname'].value;
-    this.control = this.form['controls'][formcontrolname];
+    const formcontrolname = this.fieldInput.attributes["formcontrolname"].value;
+    this.control = this.form["controls"][formcontrolname];
 
     // Set the Label .for, Input .id and .class attributes, if not already set.
     this.fieldInput.id = this.fieldInput.id || formcontrolname;
-    this.fieldInput.className = this.fieldInput.className || 'form-control';
+    this.fieldInput.className = this.fieldInput.className || "form-control";
     if (this.dateTimeTrigger) {
-      this.fieldInput['placeholder'] = this.getDatePlaceholder(this.dateTimeTrigger);
+      this.fieldInput["placeholder"] = this.getDatePlaceholder(this.dateTimeTrigger);
     }
     this.fieldLabel.htmlFor = this.fieldLabel.htmlFor || this.fieldInput.id;
 
     // Possibly add a required field indicator, but it's ugly.
     if (this.required) {
-      if (this.fieldLabel && this.fieldLabel.innerHTML){
-        this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(':', ' <span class="label-required">*</span>:');
+      if (this.fieldLabel && this.fieldLabel.innerHTML) {
+        this.fieldLabel.innerHTML = this.fieldLabel.innerHTML.replace(":", ' <span class="label-required">*</span>:');
       }
     }
   }

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 // Bootstrap Overrides
 //------------------------------------------------------------------------------
-$font-size-base : 1rem; //14px;
+$font-size-base: 1rem; //14px;
 $h1-font-size: $font-size-base * 2; //28px
 $h2-font-size: $font-size-base * 1.5; //21px
 $h3-font-size: $font-size-base * 1.25; //17.5px
@@ -39,28 +39,30 @@ $color-warning: #f3cd65;
 $color-danger: #a94442;
 $color-light: #f8f9fa; //$gray-100 in Bootstrap4
 $color-dark: #343a40; //$gray-800 in Bootstrap4
-$color-primary-nav: #38598a;  // This is new from Bootstrap 4 theme
+$color-primary-nav: #38598a; // This is new from Bootstrap 4 theme
 $color-secondary-nav: #5a86c7; // This is new too Bootstrap 4 theme
-$gray-lighter:#f2f2f2; // Alternatively, #e3e4e5
-$color-attention: #fef6e4; 
-
+$gray-lighter: #f2f2f2; // Alternatively, #e3e4e5
+$color-attention: #fef6e4;
 
 // Change theme-colors
 $theme-colors: ();
-$theme-colors: map-merge((
-        primary: $color-primary,
-        secondary: $color-secondary,
-        success: $color-success,
-        info: $color-info,
-        warning: $color-warning,
-        danger: $color-danger,
-        light: $color-light,
-        dark: $color-dark,
-        attention: $color-attention,
-        primary-nav: $color-primary-nav,  // This is new
-        secondary-nav: $color-secondary-nav // This is new too
-), $theme-colors);
-
+$theme-colors: map-merge(
+  (
+    primary: $color-primary,
+    secondary: $color-secondary,
+    success: $color-success,
+    info: $color-info,
+    warning: $color-warning,
+    danger: $color-danger,
+    light: $color-light,
+    dark: $color-dark,
+    attention: $color-attention,
+    primary-nav: $color-primary-nav,
+    // This is new
+    secondary-nav: $color-secondary-nav // This is new too,,
+  ),
+  $theme-colors
+);
 
 $blue: $color-primary; // Change bootstrap blue to our theme blue
 // Add our font as default
@@ -69,22 +71,20 @@ $font-family-base: $font-family-sans-serif;
 $body-color: #494949;
 
 // Headings
-$headings-font-weight:   500;
+$headings-font-weight: 500;
 $headings-color: $body-color;
-$headings-line-height:    1.1;
-$headings-font-family:        inherit;
+$headings-line-height: 1.1;
+$headings-font-family: inherit;
 
 // Allows for customizing button radius independently from global border radius
-$btn-border-radius:         4px;
-$btn-border-radius-lg:        8px;
-$btn-border-radius-sm:        2px;
-
-
+$btn-border-radius: 4px;
+$btn-border-radius-lg: 8px;
+$btn-border-radius-sm: 2px;
 
 // Links
-$link-color:            #1a5a96;
-$link-hover-color:      #00F;
-$link-hover-decoration:   underline;
+$link-color: #1a5a96;
+$link-hover-color: #00f;
+$link-hover-decoration: underline;
 
 // Breadcrumbs
 $breadcrumb-bg: transparent;
@@ -101,8 +101,6 @@ $card-border-radius: 0px;
 $card-border-width: 0px;
 //$card-cap-bg: $color-primary;
 
-
-
 // Now that we've set the variables, we can override them in Bootstrap
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";

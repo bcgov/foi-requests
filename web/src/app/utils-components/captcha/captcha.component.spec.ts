@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { CaptchaComponent } from "./captcha.component";
 import { CaptchaDataService } from "src/app/services/captcha-data.service";
 import { MockCaptchaDataService } from "../../MockClasses";
@@ -16,7 +16,7 @@ import { of, Observable } from "rxjs";
       successMessage="You can submit your request now."
     >
     </captcha>
-  `
+  `,
 })
 class TestHostComponent {
   public captchaApiBaseUrl: string = "/api";
@@ -36,10 +36,10 @@ describe("CaptchaComponent", () => {
   let captchaComponentElements: any;
   let captchaComponentElement: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TestHostComponent, CaptchaComponent],
-      providers: [{ provide: CaptchaDataService, useClass: MockCaptchaDataService }]
+      providers: [{ provide: CaptchaDataService, useClass: MockCaptchaDataService }],
     }).compileComponents();
   }));
 
@@ -90,7 +90,7 @@ describe("CaptchaComponent", () => {
 
     //first validate that the 'invalid try again' message is *NOT* displayed
     const errorDivPre: HTMLInputElement = captchaComponentElement.querySelector(".captcha-error");
-    expect(errorDivPre).toBeFalsy()
+    expect(errorDivPre).toBeFalsy();
 
     //now 6 characters in input, make the call
     answerInput.value = "mfhtnj";
@@ -108,8 +108,7 @@ describe("CaptchaComponent", () => {
   });
 
   it("should handle an error when verifying an answer", () => {
-
-    const errorObs = new Observable(observer => {
+    const errorObs = new Observable((observer) => {
       throw new Error("Yikes");
     });
 
@@ -120,7 +119,7 @@ describe("CaptchaComponent", () => {
 
     //first validate that the 'invalid try again' message is *NOT* displayed
     const errorDivPre: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
-    expect(errorDivPre).toBeFalsy()
+    expect(errorDivPre).toBeFalsy();
 
     //now 6 characters in input, make the call
     answerInput.value = "mfhtnj";
@@ -138,7 +137,6 @@ describe("CaptchaComponent", () => {
   });
 
   it("should handle an invalid response when verifying an answer", () => {
-
     const captchaDataService: CaptchaDataService = TestBed.get(CaptchaDataService);
     spyOn(captchaDataService, "verifyCaptcha").and.returnValue(of({ body: { bad: false } })); //answer will be invalid :)
     spyOn(captchaDataService, "fetchData").and.callThrough();
@@ -146,7 +144,7 @@ describe("CaptchaComponent", () => {
 
     //first validate that the 'invalid try again' message is *NOT* displayed
     const errorDivPre: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
-    expect(errorDivPre).toBeFalsy()
+    expect(errorDivPre).toBeFalsy();
 
     //now 6 characters in input, make the call
     answerInput.value = "mfhtnj";
@@ -164,8 +162,7 @@ describe("CaptchaComponent", () => {
   });
 
   it("should handle an error retrieving a captcha", (done) => {
-
-    const errorObs = new Observable(observer => {
+    const errorObs = new Observable((observer) => {
       throw new Error("Yikes");
     });
 
@@ -178,24 +175,21 @@ describe("CaptchaComponent", () => {
     setTimeout(() => {
       expect(captchaDataService.fetchData).toHaveBeenCalledTimes(1);
       const errorDiv: HTMLInputElement = captchaComponentElement.querySelector(".error-captcha");
-  
+
       expect(errorDiv).toBeTruthy();
       done();
-    }, 500)
-    
-    
+    }, 500);
   });
 
   it("should retrieve captcha audio", (done) => {
     const captchaDataService: CaptchaDataService = TestBed.get(CaptchaDataService);
     spyOn(captchaDataService, "fetchAudio").and.callThrough();
-    
+
     captchaComponent.playAudio(false);
 
     expect(captchaDataService.fetchAudio).toHaveBeenCalledTimes(1);
 
     done();
-
   });
 
   afterEach(() => {

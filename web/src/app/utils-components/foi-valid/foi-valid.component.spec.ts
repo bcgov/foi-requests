@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { FoiValidComponent } from "./foi-valid.component";
 import { Component } from "@angular/core";
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
 
 @Component({
   template: `
@@ -19,14 +19,14 @@ import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
         <input formControlName="maxlenval" />
       </app-foi-valid>
     </form>
-  `
+  `,
 })
 class TestHostComponent {
   public testform: FormGroup;
   constructor(private fb: FormBuilder) {
     this.testform = fb.group({
       samplecontrol: "",
-      maxlenval: ["", Validators.maxLength(9)]
+      maxlenval: ["", Validators.maxLength(9)],
     });
   }
 }
@@ -41,18 +41,18 @@ describe("FoiValidComponent", () => {
 
   let fixture: ComponentFixture<TestHostComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FoiValidComponent, TestHostComponent],
       providers: [FormBuilder],
-      imports: [ReactiveFormsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule]
+      imports: [ReactiveFormsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);
     testHost = fixture.componentInstance;
-    foiValidElements = fixture.nativeElement.querySelectorAll("app-foi-valid"); 
+    foiValidElements = fixture.nativeElement.querySelectorAll("app-foi-valid");
     foiMaxLenElement = foiValidElements[1];
     let foiValidDebug = fixture.debugElement.queryAll(By.directive(FoiValidComponent));
     foiValid = foiValidDebug[0].componentInstance;
@@ -69,19 +69,17 @@ describe("FoiValidComponent", () => {
     // expect(foiValidMaxLen.isInvalid()).toBeFalsy();
 
     //testHost.testform.patchValue({ maxlenval: "0123456789" });
-    const nameInput: HTMLInputElement = foiMaxLenElement.querySelector('input');
-    nameInput.value = '0123456789';
-    nameInput.dispatchEvent(new Event('input'));
+    const nameInput: HTMLInputElement = foiMaxLenElement.querySelector("input");
+    nameInput.value = "0123456789";
+    nameInput.dispatchEvent(new Event("input"));
     fixture.detectChanges();
 
-
     expect(foiValidMaxLen.control.value).toEqual("0123456789");
-    let validation = foiValidMaxLen.validationErrors('maxlength');
+    let validation = foiValidMaxLen.validationErrors("maxlength");
     expect(validation.requiredLength).toEqual(9);
     expect(validation.actualLength).toEqual(10);
 
-    const errMsg: HTMLInputElement = foiMaxLenElement.querySelector('.validation-error');
+    const errMsg: HTMLInputElement = foiMaxLenElement.querySelector(".validation-error");
     expect(errMsg.innerText).toBe("maximum 10 characters.");
-
   });
 });

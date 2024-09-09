@@ -6,7 +6,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 @Component({
   selector: "foi-fileinput",
   templateUrl: "./foi-fileinput.component.html",
-  styleUrls: ["./foi-fileinput.component.scss"]
+  styleUrls: ["./foi-fileinput.component.scss"],
 })
 export class FoiFileinputComponent implements OnInit {
   @Input() tip: string;
@@ -16,11 +16,11 @@ export class FoiFileinputComponent implements OnInit {
   // Validator
   @Input() required: string;
 
-  @ViewChild("myLabel") fieldLabelWrapper: ElementRef;
+  @ViewChild("myLabel", { static: true }) fieldLabelWrapper: ElementRef;
   fieldLabel: HTMLLabelElement;
 
-  @ViewChild("fileInputDisplay") fileInputDisplay: ElementRef;
-  @ViewChild("fileInput") fileInput: ElementRef<HTMLInputElement>;
+  @ViewChild("fileInputDisplay", { static: true }) fileInputDisplay: ElementRef;
+  @ViewChild("fileInput", { static: true }) fileInput: ElementRef<HTMLInputElement>;
 
   @Output() fileSelected = new EventEmitter<File>();
 
