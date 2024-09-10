@@ -1,7 +1,7 @@
 # Web/Dockerfile
 
 # Stage 1: Build the Angular app
-FROM node:22 as build
+FROM node:20-alpine as build
 
 WORKDIR /usr/src/app
 
@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 # Copy the application code
 COPY . .
