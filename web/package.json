@@ -6,7 +6,7 @@
     "start": "concurrently \"npm run start-api\" \"npm run start-ui\"",
     "start-ui": "ng serve",
     "start-api": "cd api && npm run start-dev",
-    "build": "ng build --prod --configuration=production",
+    "build": "ng build --configuration=production",
     "build-dev": "ng build",
     "test": "ng test --watch=false --browsers=ChromeHeadlessNoSB",
     "test-dev": "ng test --watch=true",
