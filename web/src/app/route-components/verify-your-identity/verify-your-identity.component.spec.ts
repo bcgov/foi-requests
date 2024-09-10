@@ -5,7 +5,7 @@ import { DataService } from "src/app/services/data.service";
 import { Router } from "@angular/router";
 import { MockRouter } from "../../MockClasses";
 import { UtilsComponentsModule } from "src/app/utils-components/utils-components.module";
-import { NgxWebstorageModule } from "ngx-webstorage";
+import { provideNgxWebstorage } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -21,13 +21,12 @@ describe("VerifyYourIdentityComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        NgxWebstorageModule.forRoot(),
         UtilsComponentsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         FontAwesomeModule,
       ],
-      providers: [DataService, { provide: Router, useClass: MockRouter }],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
     }).compileComponents();
   }));
 

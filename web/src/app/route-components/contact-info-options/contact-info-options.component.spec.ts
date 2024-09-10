@@ -7,7 +7,7 @@ import { MockRouter } from "../../MockClasses";
 import { Router } from "@angular/router";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { NgxWebstorageModule } from "ngx-webstorage";
+import { provideNgxWebstorage } from "ngx-webstorage";
 import { UtilsComponentsModule } from "src/app/utils-components/utils-components.module";
 
 describe("ContactInfoOptionsComponent", () => {
@@ -17,8 +17,8 @@ describe("ContactInfoOptionsComponent", () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ContactInfoOptionsComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule],
-      providers: [DataService, { provide: Router, useClass: MockRouter }],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, UtilsComponentsModule],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
     }).compileComponents();
   }));
 

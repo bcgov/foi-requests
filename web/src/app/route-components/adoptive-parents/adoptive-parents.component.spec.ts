@@ -7,7 +7,7 @@ import { DataService } from "src/app/services/data.service";
 import { Router } from "@angular/router";
 import { FoiValidComponent } from "src/app/utils-components/foi-valid/foi-valid.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { NgxWebstorageModule } from "ngx-webstorage";
+import { provideNgxWebstorage } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -29,12 +29,11 @@ describe("AdoptiveParentsComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        NgxWebstorageModule.forRoot(),
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         FontAwesomeModule,
       ],
-      providers: [DataService, { provide: Router, useClass: MockRouter }],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
     }).compileComponents();
   }));
 
