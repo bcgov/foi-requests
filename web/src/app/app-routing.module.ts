@@ -52,10 +52,8 @@ const routes: Routes = [
   { path: "general/ige/contact-info-options", component: ContactInfoOptionsComponent },
   { path: "general/ige/review-submit", component: ReviewSubmitComponent },
   { path: "general/ige/submit-complete", component: ReviewSubmitCompleteComponent },
-
   // Personal
   { path: 'personal/select-about', component: SelectAboutComponent },
-
   // Personal / Yourself
   { path: 'personal/verify-your-identity', component: VerifyYourIdentityComponent },
   { path: 'personal/request-topic', component: RequestTopicComponent },
