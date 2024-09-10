@@ -7,7 +7,7 @@ import { MockRouter } from "../../MockClasses";
 import { Router } from "@angular/router";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { NgxWebstorageModule } from "ngx-webstorage";
+import { provideNgxWebstorage } from "ngx-webstorage";
 import { UtilsComponentsModule } from "src/app/utils-components/utils-components.module";
 import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -41,13 +41,12 @@ describe("DescriptionTimeframeComponent", () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
-        NgxWebstorageModule.forRoot(),
         UtilsComponentsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         FontAwesomeModule,
       ],
-      providers: [DataService, { provide: Router, useClass: MockRouter }],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
     }).compileComponents();
   }));
 
