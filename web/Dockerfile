@@ -1,7 +1,7 @@
 # Web/Dockerfile
 
 # Stage 1: Build the Angular app
-FROM node:20-alpine as build
+FROM node:20-alpine AS build
 
 WORKDIR /usr/src/app
 
