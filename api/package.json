@@ -15,7 +15,7 @@
   "author": "BinaryOps software",
   "license": "Apache-2.0",
   "dependencies": {
-    "@transomjs/transom-core": "^3.0.0",
+    "@transomjs/transom-core": "^2.0.1",
     "@transomjs/transom-ejs-template": "^3.0.0",
     "@transomjs/transom-scaffold": "^1.2.4",
     "@transomjs/transom-server-functions": "^2.0.0",
@@ -34,7 +34,7 @@
     "wav": "^1.0.2"
   },
   "devDependencies": {
-    "chai": "^5.1.1",
+    "chai": "^4.1.2",
     "chai-as-promised": "^8.0.0",
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.3",
