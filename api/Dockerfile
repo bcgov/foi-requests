@@ -6,6 +6,7 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
+
 USER root
 # Install npm-force-resolutions globally
 # Run npm-force-resolutions before installing dependencies
@@ -20,4 +21,6 @@ COPY . .
 
 EXPOSE 7085
 
-ENTRYPOINT [ "node", "index.js" ]
+RUN chmod u+x ./docker_entrypoint.sh
+
+ENTRYPOINT ["/bin/sh", "docker_entrypoint.sh"]
