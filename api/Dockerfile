@@ -6,15 +6,15 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
+USER root
+# Install npm-force-resolutions globally
+# Run npm-force-resolutions before installing dependencies
+RUN npm install -g npm-force-resolutions 
+
 USER node
 
-# Install npm-force-resolutions globally
-RUN npm install -g npm-force-resolutions
-
-# Run npm-force-resolutions before installing dependencies
-RUN npx npm-force-resolutions
-
-RUN npm install --legacy-peer-deps
+RUN npx npm-force-resolutions && \
+    npm install --legacy-peer-deps
 
 COPY . .
 
