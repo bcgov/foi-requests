@@ -21,7 +21,7 @@ COPY . .
 
 EXPOSE 7085
 
-RUN chmod u+x ./docker_entrypoint.sh
+RUN chmod +x ./docker_entrypoint.sh
 
 ENTRYPOINT ["./docker_entrypoint.sh"]
 CMD ["node", "index.js"]
