@@ -23,4 +23,5 @@ EXPOSE 7085
 
 RUN chmod u+x ./docker_entrypoint.sh
 
-ENTRYPOINT ["/bin/sh", "docker_entrypoint.sh"]
+ENTRYPOINT ["./docker_entrypoint.sh"]
+CMD ["node", "index.js"]
