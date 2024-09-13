@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Print a message indicating that the container is starting
 echo "Starting Node.js application..."
