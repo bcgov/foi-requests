@@ -84,6 +84,14 @@ export class DataService {
     return data.referenceData[topicKey] || [];
   }
 
+  getAdditionalOptions(): Observable<any[]> {
+    return of(data.referenceData.additionaloptions);
+  }
+
+  getDelayFactors(): Array<string> {
+    return data.referenceData.delayfactors;
+  }
+
   /**
    * Dynamically build a topic Key based on truthy keys in the Object provided.
    * Valid keys in about include: 'yourself', 'another'
