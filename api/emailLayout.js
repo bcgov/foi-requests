@@ -265,6 +265,17 @@ function EmailLayout() {
     
   }
 
+  this.requestAdditional = function(additionalOptions)
+  {
+    let result = this.tableHeader('Additional Records Specified');
+
+    additionalOptions.forEach(options =>{
+      result += this.tableRow(options.name, options.description);
+    });
+
+    return result;
+  }
+
   this.adoptiveParents = function(data) {
     const mother = this.joinBySpace(data.motherFirstName, data.motherLastName);
     const father = this.joinBySpace(data.fatherFirstName, data.fatherLastName);
@@ -382,13 +393,17 @@ function EmailLayout() {
       );
     }
 
-if(data.requestData.selectAbout.yourself && !data.requestData.selectAbout.child && !data.requestData.selectAbout.another)
-{ 
-  content += this.requesttopic(data.requestData.selectedtopics,data.requestData.requestType.adoption,
-    data.requestData.requestType.childprotectionchild,data.requestData.requestType.childprotectionparent,
-    data.requestData.requestType.fosterparent,data.requestData.requestType.youthincarechild,data.requestData.requestType.youthincareparent
-    )    
-}
+    if(data.requestData.selectAbout.yourself && !data.requestData.selectAbout.child && !data.requestData.selectAbout.another)
+    { 
+      content += this.requesttopic(data.requestData.selectedtopics,data.requestData.requestType.adoption,
+        data.requestData.requestType.childprotectionchild,data.requestData.requestType.childprotectionparent,
+        data.requestData.requestType.fosterparent,data.requestData.requestType.youthincarechild,data.requestData.requestType.youthincareparent
+        )    
+    }
+
+    if(data.requestData.selectedadditionaloptions && data.requestData.selectedadditionaloptions.length > 0) {
+      content += this.requestAdditional(data.requestData.selectedadditionaloptions);
+    }
 
     // if we have 'childInformation' then include the block
     if (data.requestData.selectAbout.child) {
