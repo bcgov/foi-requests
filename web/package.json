@@ -29,7 +29,7 @@
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
-    "bootstrap": "^4.2.1",
+    "bootstrap": "^5.0.0",
     "core-js": "^2.5.4",
     "jwt-decode": "^2.2.0",
     "keycloak-js": "^4.5.0",
