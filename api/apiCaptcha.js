@@ -7,7 +7,7 @@ var wav = require('wav');
 var text2wav = require('text2wav');
 var arrayBufferToBuffer = require('arraybuffer-to-buffer');
 var streamifier = require('streamifier');
-var lame = require('lamejs');
+var lame = require('lame');
 
 function captchaInit(options) {
 
@@ -156,7 +156,7 @@ function captchaInit(options) {
       // we have to wait for the "format" event before we can start encoding
       reader.on('format', function(format) {
         // init encoder
-        var encoder = new lame.Mp3Encoder(format);
+        var encoder = new lame.Encoder(format);
 
         // Pipe Wav reader to the encoder and capture the output stream
         // As the stream is encoded, convert the mp3 array buffer chunks into base64 string with mime type
