@@ -1,5 +1,6 @@
 import { AlertInfoComponent } from './alert-info/alert-info.component';
 import { AlertWarningComponent } from './alert-warning/alert-warning.component';
+import { AlertWarningWhiteComponent } from './alert-warning-white/alert-warning-white.component';
 import { BaseComponent } from './base/base.component';
 import { CaptchaComponent } from './captcha/captcha.component';
 import { FoiFileinputComponent } from './foi-fileinput/foi-fileinput.component';
@@ -22,6 +23,7 @@ library.add(faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQues
   declarations: [
     AlertInfoComponent,
     AlertWarningComponent,
+    AlertWarningWhiteComponent,
     BaseComponent,
     CaptchaComponent,
     FoiFileinputComponent,
@@ -39,6 +41,7 @@ library.add(faInfoCircle, faExclamationTriangle, faCalendar, faSignInAlt, faQues
   exports: [
     AlertInfoComponent,
     AlertWarningComponent,
+    AlertWarningWhiteComponent,
     BaseComponent,
     CaptchaComponent,
     FoiFileinputComponent,

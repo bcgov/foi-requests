@@ -16,6 +16,7 @@ export class ContactInfoOptionsComponent implements OnInit {
   targetKey: string = 'contactInfoOptions';
   isAuthenticated:boolean = false;
   tip = ''
+  hasmcfdspecificrecordsrequests:boolean = false;
 
   constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
@@ -45,6 +46,7 @@ export class ContactInfoOptionsComponent implements OnInit {
       this.foiRequest.requestData.contactInfoOptions.email = token.email;
     }
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey], {emitEvent: true});
+    this.hasmcfdspecificrecordsrequests = this.foiRequest.requestData.selectedtopics != undefined && this.foiRequest.requestData.selectedtopics.length > 0;
   }
 
   /**
