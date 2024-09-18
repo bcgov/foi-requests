@@ -1,4 +1,5 @@
-# About 
+# About
+
 This repo was created to be the future home of a new application for citizens to submit Freedom of Information (FOI) requests.
 
 [Here is the existing online form](https://forms.gov.bc.ca/governments/foi/) for submitting FOI requests.
