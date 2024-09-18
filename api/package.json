@@ -6,8 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha",
     "start": "node index.js",
-    "start-dev": "nodemon index.js",
-    "preinstall": "npx npm-force-resolutions"
+    "start-dev": "nodemon index.js"
   },
   "keywords": [
     "comments",
@@ -41,11 +40,6 @@
     "mocha": "^10.7.3",
     "nodemon": "^3.1.4",
     "nyc": "^17.0.0",
-    "sinon": "^18.0.1",
-    "npm-force-resolutions": "^0.0.6"
-  },  
-  "resolutions": {
-    "restify":"11.1.0",
-    "send": "1.1.0"
+    "sinon": "^18.0.1"
   }
 }
