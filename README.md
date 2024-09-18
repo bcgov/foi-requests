@@ -1,4 +1,5 @@
-# About 
+# About
+
 This repo was created to be the future home of a new application for citizens to submit Freedom of Information (FOI) requests.
 
 [Here is the existing online form](https://forms.gov.bc.ca/governments/foi/) for submitting FOI requests.
@@ -7,7 +8,7 @@ This repo was created to be the future home of a new application for citizens to
 
 # bcfoi
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.0.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
 
 ## Development server
 

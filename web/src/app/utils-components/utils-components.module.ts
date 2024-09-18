@@ -8,7 +8,6 @@ import { CommonModule } from "@angular/common";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from "@angular/core";
 import { FaIconLibrary, FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faInfoCircle,
   faExclamationTriangle,
@@ -19,6 +18,7 @@ import {
   faIdCard,
   faCheckCircle,
   faExternalLinkAlt,
+  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { StaticContactBlockComponent } from "./static-contact-block/static-contact-block.component";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "@danielmoncada/angular-datetime-picker";
@@ -66,7 +66,8 @@ export class UtilsComponentsModule {
       faIdCardAlt,
       faIdCard,
       faCheckCircle,
-      faExternalLinkAlt
+      faExternalLinkAlt,
+      faSpinner
     );
   }
 }
