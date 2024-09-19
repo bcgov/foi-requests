@@ -156,6 +156,7 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
 
   const submissionEmailLayout = new EmailLayout();
   const submissionHtml = submissionEmailLayout.renderEmail(req.params ,req.isAuthorised, req.userDetails)
+  console.log("submissionHtml: ", submissionHtml);
   const response = await sendEmail(submissionHtml, foiAttachments, server, foiRequestInbox, 'FOI Request Submission', req);
 
   if(!response.EmailSuccess) {
