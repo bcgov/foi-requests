@@ -35,7 +35,7 @@ export class DescriptionTimeframeComponent implements OnInit {
       toDate: [null, [Validators.required, this.base.noFutureValidator, this.base.toDateValidator]],
       correctionalServiceNumber: [null, Validators.maxLength(255)],
       publicServiceEmployeeNumber: [null, Validators.maxLength(255)],
-      requestAdditionalOpt: [null, [Validators.required]],
+      // requestAdditionalOpt: [null, [Validators.required]],
     });
 
     this.foiRequest = this.dataService.getCurrentState(this.targetKey, "requestType", "requestTopic", "ministry");
