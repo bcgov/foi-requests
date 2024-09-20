@@ -500,6 +500,13 @@
                       }
                     },
                     {
+                      "route": "personal/child/request-topic",
+                      "progress": 2,
+                      "data": {
+                        "topics": "topicChild"
+                      }
+                    },
+                    {
                       "route": "personal/child/ministry-confirmation",
                       "progress": 2
                     },
@@ -1020,6 +1027,13 @@
                       "progress": 2,
                       "data": {
                         "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information only to a person who has the right to access it, we need to verify your right to access the records."
+                      }
+                    },
+                    {
+                      "route": "personal/child-another/request-topic",
+                      "progress": 2,
+                      "data": {
+                        "topics": "topicChildAnother"
                       }
                     },
                     {

@@ -118,6 +118,7 @@ const routes: Routes = [
   { path: 'personal/child/proof-of-guardianship', component: ProofOfGuardianshipComponent },
   { path: 'personal/child/child-information', component: ChildInformationComponent },
   { path: 'personal/child/verify-your-identity', component: VerifyYourIdentityComponent },
+  { path: 'personal/child/request-topic', component: RequestTopicComponent },
   { path: 'personal/child/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/child/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/child/adoptive-parents', component: AdoptiveParentsComponent },
@@ -183,7 +184,6 @@ const routes: Routes = [
   { path: 'personal/yourself-child/youthincareparent/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/yourself-child/fosterparent/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'personal/yourself-child/adoption/contact-info-options', component: ContactInfoOptionsComponent },
-
 
   { path: 'personal/yourself-child/review-submit', component: ReviewSubmitComponent },
   { path: 'personal/yourself-child/youthincarechild/review-submit', component: ReviewSubmitComponent },
@@ -282,6 +282,7 @@ const routes: Routes = [
   { path: 'personal/child-another/proof-of-permission', component: ProofOfGuardianshipComponent },
   { path: 'personal/child-another/another-information', component: AnotherInformationComponent },
   { path: 'personal/child-another/verify-your-identity', component: VerifyYourIdentityComponent },
+  { path: 'personal/child-another/request-topic', component: RequestTopicComponent },
   { path: 'personal/child-another/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'personal/child-another/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'personal/child-another/adoptive-parents', component: AdoptiveParentsComponent },
