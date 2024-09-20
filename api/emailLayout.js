@@ -397,7 +397,7 @@ function EmailLayout() {
       );
     }
 
-    if(data.requestData.selectAbout.yourself && !data.requestData.selectAbout.child && !data.requestData.selectAbout.another)
+    if(data.requestData.selectAbout.yourself)
     { 
       content += this.requesttopic(data.requestData.selectedtopics,data.requestData.requestType.adoption,
         data.requestData.requestType.childprotectionchild,data.requestData.requestType.childprotectionparent,
