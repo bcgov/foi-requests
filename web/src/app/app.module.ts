@@ -14,7 +14,9 @@ import { RouteComponentsModule } from './route-components/route-components.modul
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SigninComponent } from './route-components/signin/signin.component';
-import {AppConfigService} from './services/app-config.service';
+import { AppConfigService } from './services/app-config.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DelayWarningDialog } from './route-components/contact-info-options/delay-warning-dialog.component';
 
 export function init_app(appConfigService: AppConfigService) {
   return () => appConfigService.load();
@@ -27,7 +29,11 @@ export function init_app(appConfigService: AppConfigService) {
     CoreHeaderComponent,
     ProgressBarComponent,
     FooterComponent,
-    SigninComponent
+    SigninComponent,
+    DelayWarningDialog
+  ],
+  entryComponents: [
+    DelayWarningDialog
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,8 @@ export function init_app(appConfigService: AppConfigService) {
     ServicesModule,
     RouteComponentsModule,
     NgxWebstorageModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [
     TransomApiClientService,
