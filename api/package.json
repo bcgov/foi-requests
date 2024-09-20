@@ -20,7 +20,7 @@
     "@transomjs/transom-server-functions": "^2.0.0",
     "@transomjs/transom-smtp": "^3.0.0",
     "arraybuffer-to-buffer": "0.0.5",
-    "axios": "^0.21.1",
+    "axios": "^0.28.0",
     "bunyan-rotating-file-stream": "^1.6.3",
     "dotenv": "^6.2.0",
     "jsonwebtoken": "^8.5.0",
