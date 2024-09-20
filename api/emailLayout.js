@@ -17,6 +17,10 @@ function EmailLayout() {
             <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
   };
 
+  this.tableRowNoLabel = function(value) {
+    return `<tr><td style="padding-left:20px;">${value}</td></tr>\n`;
+  };
+
   this.dateFormat = function(isoDateStr) {
     // HTML5 date is ALWAYS formatted yyyy-mm-dd.
     // ISO Date is ALWAYS formatted yyyy-mm-ddT00:00:00.000Z.
@@ -270,7 +274,7 @@ function EmailLayout() {
     let result = this.tableHeader('Additional Records Specified');
 
     additionalOptions.forEach(options =>{
-      result += this.tableRow(options.name, options.description);
+      result += this.tableRowNoLabel(options.name);
     });
 
     return result;
