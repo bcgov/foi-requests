@@ -23,6 +23,7 @@
     "@angular/compiler": "~7.2.5",
     "@angular/core": "~7.2.5",
     "@angular/forms": "~7.2.5",
+    "@angular/material": "~7.2.2",
     "@angular/platform-browser": "~7.2.5",
     "@angular/platform-browser-dynamic": "~7.2.5",
     "@angular/router": "~7.2.5",
@@ -33,13 +34,13 @@
     "core-js": "^2.5.4",
     "jwt-decode": "^2.2.0",
     "keycloak-js": "^4.5.0",
+    "loader-utils": "3.2.1",
     "ng-pick-datetime": "^7.0.0",
     "ngx-webstorage": "^3.0.0-beta.14",
     "rxjs": "~6.3.3",
+    "sass": "",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.26",
-    "loader-utils": "3.2.1",
-    "sass": ""
+    "zone.js": "~0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.10",
