@@ -17,4 +17,5 @@ EXPOSE 7085
 RUN chmod +x ./container-entrypoint.sh
 
 ENTRYPOINT ["./container-entrypoint.sh"]
+
 CMD ["node", "index.js"]
