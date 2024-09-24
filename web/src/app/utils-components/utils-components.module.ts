@@ -1,5 +1,6 @@
 import { AlertInfoComponent } from "./alert-info/alert-info.component";
 import { AlertWarningComponent } from "./alert-warning/alert-warning.component";
+import { AlertWarningWhiteComponent } from "./alert-warning-white/alert-warning-white.component";
 import { BaseComponent } from "./base/base.component";
 import { CaptchaComponent } from "./captcha/captcha.component";
 import { FoiFileinputComponent } from "./foi-fileinput/foi-fileinput.component";
@@ -28,6 +29,7 @@ import { AlertSuccessComponent } from "./alert-success/alert-success.component";
   declarations: [
     AlertInfoComponent,
     AlertWarningComponent,
+    AlertWarningWhiteComponent,
     BaseComponent,
     CaptchaComponent,
     FoiFileinputComponent,
@@ -46,6 +48,7 @@ import { AlertSuccessComponent } from "./alert-success/alert-success.component";
   exports: [
     AlertInfoComponent,
     AlertWarningComponent,
+    AlertWarningWhiteComponent,
     BaseComponent,
     CaptchaComponent,
     FoiFileinputComponent,

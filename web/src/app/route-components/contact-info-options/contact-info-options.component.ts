@@ -4,6 +4,8 @@ import { FoiRequest } from "src/app/models/FoiRequest";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 import { KeycloakService } from "../../services/keycloak.service";
+import { MatDialog } from "@angular/material/dialog";
+import { DelayWarningDialog } from "./delay-warning-dialog.component";
 
 @Component({
   templateUrl: "./contact-info-options.component.html",
@@ -16,8 +18,15 @@ export class ContactInfoOptionsComponent implements OnInit {
   targetKey: string = "contactInfoOptions";
   isAuthenticated: boolean = false;
   tip = "";
+  hasmcfdspecificrecordsrequests: boolean = false;
+  // readonly dialog = inject(MatDialog);
 
-  constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
+  constructor(
+    private fb: FormBuilder,
+    private dataService: DataService,
+    private keycloak: KeycloakService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     // Update email if the user is authenticated
@@ -45,6 +54,14 @@ export class ContactInfoOptionsComponent implements OnInit {
       this.foiRequest.requestData.contactInfoOptions.email = token.email;
     }
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey], { emitEvent: true });
+    this.hasmcfdspecificrecordsrequests =
+      this.foiRequest.requestData.selectedtopics != undefined && this.foiRequest.requestData.selectedtopics.length > 0;
+
+    if (this.hasmcfdspecificrecordsrequests) {
+      setTimeout(() => {
+        this.openDialog();
+      }, 500);
+    }
   }
 
   /**
@@ -85,5 +102,13 @@ export class ContactInfoOptionsComponent implements OnInit {
       return;
     }
     this.base.goFoiBack();
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DelayWarningDialog);
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
   }
 }
