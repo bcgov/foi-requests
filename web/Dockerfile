@@ -11,8 +11,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy the application code
-COPY . .
+# Copy the Angular project configuration and source files
+COPY angular.json tsconfig.json ./
+COPY src ./src
 
 # Build the Angular app
 RUN npm run build-dev -- --configuration=production
