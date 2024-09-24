@@ -10,12 +10,10 @@ USER node
 
 RUN npm install --legacy-peer-deps
 
-COPY . .
+COPY . /home/node/app
 
 EXPOSE 7085
 
 RUN chmod +x ./container-entrypoint.sh
 
 ENTRYPOINT ["./container-entrypoint.sh"]
-
-CMD ["node", "index.js"]
