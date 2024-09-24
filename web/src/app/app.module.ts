@@ -15,13 +15,22 @@ import { FooterComponent } from "./footer/footer.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { SigninComponent } from "./route-components/signin/signin.component";
 import { AppConfigService } from "./services/app-config.service";
+import { MatDialogModule } from "@angular/material/dialog";
+import { DelayWarningDialog } from "./route-components/contact-info-options/delay-warning-dialog.component";
 
 export function init_app(appConfigService: AppConfigService) {
   return () => appConfigService.load();
 }
 
 @NgModule({
-  declarations: [AppComponent, CoreHeaderComponent, ProgressBarComponent, FooterComponent, SigninComponent],
+  declarations: [
+    AppComponent,
+    CoreHeaderComponent,
+    ProgressBarComponent,
+    FooterComponent,
+    SigninComponent,
+    DelayWarningDialog,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -31,6 +40,7 @@ export function init_app(appConfigService: AppConfigService) {
     RouteComponentsModule,
     // NgxWebstorageModule.forRoot(),
     ReactiveFormsModule,
+    MatDialogModule,
   ],
   providers: [
     TransomApiClientService,
