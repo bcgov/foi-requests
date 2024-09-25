@@ -70,7 +70,7 @@ export class VerifyYourIdentityComponent implements OnInit {
     // this.foiRequest.requestData[this.targetKey] = {};
     const formData = this.foiForm.value;
 
-    Object.keys(formData).map((k) => (this.foiRequest.requestData[this.targetKey][k] = formData[k]));
+    Object.keys(formData).forEach((k) => (this.foiRequest.requestData[this.targetKey][k] = formData[k]));
 
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest);

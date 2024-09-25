@@ -53,7 +53,7 @@ export class SelectAboutComponent implements OnInit {
     // Return value is matched against the keys in data.json.
     const checks = [];
     const checkboxes = ["yourself", "child", "another"];
-    checkboxes.map((c) => {
+    checkboxes.forEach((c) => {
       if (formData[c]) {
         checks.push(c);
       }
