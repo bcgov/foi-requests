@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install the application dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps --ignore-scripts
 
 # Copy the rest of the application code to the working directory
 COPY *.js *.sh *.env ./
@@ -17,5 +17,7 @@ COPY *.js *.sh *.env ./
 EXPOSE 7085
 
 RUN chmod +x ./container-entrypoint.sh
+
+USER node
 
 ENTRYPOINT ["./container-entrypoint.sh"]
