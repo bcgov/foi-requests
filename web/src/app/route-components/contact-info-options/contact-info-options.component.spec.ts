@@ -1,29 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ContactInfoOptionsComponent } from './contact-info-options.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { DataService } from 'src/app/services/data.service';
-import { MockRouter } from '../../MockClasses';
-import { Router } from '@angular/router';
-import { FoiRequest } from 'src/app/models/FoiRequest';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NgxWebstorageModule } from 'ngx-webstorage';
-import { UtilsComponentsModule } from 'src/app/utils-components/utils-components.module';
+import { ContactInfoOptionsComponent } from "./contact-info-options.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { DataService } from "src/app/services/data.service";
+import { MockRouter } from "../../MockClasses";
+import { Router } from "@angular/router";
+import { FoiRequest } from "src/app/models/FoiRequest";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { provideNgxWebstorage } from "ngx-webstorage";
+import { UtilsComponentsModule } from "src/app/utils-components/utils-components.module";
 
-describe('ContactInfoOptionsComponent', () => {
+describe("ContactInfoOptionsComponent", () => {
   let component: ContactInfoOptionsComponent;
   let fixture: ComponentFixture<ContactInfoOptionsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactInfoOptionsComponent ],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule],
-      providers: [
-        DataService,
-        {provide: Router, useClass: MockRouter}
-      ]
-    })
-    .compileComponents();
+      declarations: [ContactInfoOptionsComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, UtilsComponentsModule],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -31,7 +27,7 @@ describe('ContactInfoOptionsComponent', () => {
     const foi: FoiRequest = {
       requestData: {
         requestType: {
-          requestType: "personal"
+          requestType: "personal",
         },
         contactInfoOptions: {
           phonePrimary: "1-000-555-1234",
@@ -41,14 +37,14 @@ describe('ContactInfoOptionsComponent', () => {
           city: "Bikini Bottom",
           postal: "12345",
           province: "N/A",
-          country: "Pacific Ocean"
+          country: "Pacific Ocean",
         },
         requestTopic: {
           value: "correctionalFacility",
           text: "The person's time spent in a correctional facility",
-          ministryCode: "PSSG"
+          ministryCode: "PSSG",
         },
-      }
+      },
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 
@@ -90,7 +86,7 @@ describe('ContactInfoOptionsComponent', () => {
     component.foiForm.get("country").setValue("USA");
 
     expect(component.foiForm.valid).toBeTruthy();
-    
+
     // Submit the form...
     expect(component.foiForm.valid).toBeTruthy();
     component.doContinue();
@@ -107,9 +103,8 @@ describe('ContactInfoOptionsComponent', () => {
   });
 
   it("should navigate back", () => {
-    spyOn(component.base, 'goSkipBack').and.callThrough();  //personal and adoption
+    spyOn(component.base, "goSkipBack").and.callThrough(); //personal and adoption
     component.doGoBack();
     expect(component.base.goSkipBack).toHaveBeenCalledTimes(1);
   });
-
 });

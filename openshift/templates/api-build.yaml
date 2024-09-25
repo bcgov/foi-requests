@@ -45,7 +45,7 @@ objects:
           value: "5"
         from:
           kind: ImageStreamTag
-          name: nodejs:10
+          name: nodejs:20
           namespace: openshift
         incremental: false
       type: Source

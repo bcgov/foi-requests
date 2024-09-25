@@ -1,18 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AlertWarningComponent } from './alert-warning.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AlertWarningComponent } from "./alert-warning.component";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
-describe('AlertWarningComponent', () => {
+describe("AlertWarningComponent", () => {
   let component: AlertWarningComponent;
   let fixture: ComponentFixture<AlertWarningComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertWarningComponent ],
-      imports: [FontAwesomeModule]
-    })
-    .compileComponents();
+      declarations: [AlertWarningComponent],
+      imports: [FontAwesomeModule],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,7 +20,7 @@ describe('AlertWarningComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

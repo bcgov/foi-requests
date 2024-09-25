@@ -1,7 +1,7 @@
 @import "../styles/variables.scss";
 // Bootstrap 3 to 4: Included imports
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
 
 .footer {
   width: 100%;
@@ -13,16 +13,16 @@
 }
 
 footer .nav-link {
-    color: white !important;
-    padding-left: 1rem !important;
+  color: white !important;
+  padding-left: 1rem !important;
 }
 
 footer li {
-    border-left: 1px solid #4b5e73;
-    padding: 2px 17px;
-    margin-top: 10px;
+  border-left: 1px solid #4b5e73;
+  padding: 2px 17px;
+  margin-top: 10px;
 }
 
 nav {
-    padding: 0px 0px;
+  padding: 0px 0px;
 }

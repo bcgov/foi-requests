@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { StartRequestComponent } from './start-request.component';
+import { StartRequestComponent } from "./start-request.component";
 
-describe('StartRequestComponent', () => {
+describe("StartRequestComponent", () => {
   let component: StartRequestComponent;
   let fixture: ComponentFixture<StartRequestComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ StartRequestComponent ]
-    })
-    .compileComponents();
+      declarations: [StartRequestComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('StartRequestComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

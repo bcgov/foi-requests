@@ -1,159 +1,155 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from 'src/app/utils-components/base/base.component';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { FoiRequest } from 'src/app/models/FoiRequest';
-import { DataService } from 'src/app/services/data.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { BaseComponent } from "src/app/utils-components/base/base.component";
+import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { FoiRequest } from "src/app/models/FoiRequest";
+import { DataService } from "src/app/services/data.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 
 @Component({
-  templateUrl: './childprotection-child.component.html',
-  styleUrls: ['./childprotection-child.component.scss']
+  templateUrl: "./childprotection-child.component.html",
+  styleUrls: ["./childprotection-child.component.scss"],
 })
 export class ChildProtectionChild implements OnInit {
-
-  @ViewChild(BaseComponent) base: BaseComponent;
-
-  foiForm = this.fb.group({
-    childprotectionchildselection: [null, [Validators.required]]
-  });
+  @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
+  foiForm: FormGroup;
 
   foiRequest: FoiRequest;
   targetKey: string = "childprotectionchild";
   fulllistoptions: Observable<any>;
-  mainoptions:Array<any>;
-  checkstates:Array<string> = ['adoption','childprotectionchild','childprotectionparent','fosterparent','youthincarechild','youthincareparent'];
-  constructor(private fb: FormBuilder, private dataService: DataService, private route:Router) {}
+  mainoptions: Array<any>;
+  checkstates: Array<string> = [
+    "adoption",
+    "childprotectionchild",
+    "childprotectionparent",
+    "fosterparent",
+    "youthincarechild",
+    "youthincareparent",
+  ];
+  constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) {
+    this.foiForm = this.fb.group({
+      childprotectionchildselection: [null, [Validators.required]],
+    });
+  }
 
   ngOnInit() {
-  
-  
     // Load the current values & populate the FormGroup.
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
 
     let selectedoptions = this.foiRequest.requestData.requestType.childprotectionchild;
 
-    this.base.continueDisabled = this.disablecontinue("init")
+    this.base.continueDisabled = this.disablecontinue("init");
 
     this.fulllistoptions = this.dataService.getChildInProtectionChild().pipe(
-      map(_mainoptions => {
-        _mainoptions.forEach(_mainoption => {
-          _mainoption.selected = _mainoption.selected || (selectedoptions ? !!selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : false);
+      map((_mainoptions) => {
+        _mainoptions.forEach((_mainoption) => {
+          _mainoption.selected =
+            _mainoption.selected ||
+            (selectedoptions ? !!selectedoptions.find((smo) => smo.mainoption === _mainoption.mainoption) : false);
 
-          if(_mainoption.selected === true)
-              {
-                this.base.continueDisabled = false
-              }
-          let _suboptions = _mainoption.suboptions
-          let selectedmainoption = selectedoptions ? selectedoptions.find(smo => smo.mainoption === _mainoption.mainoption) : []
+          if (_mainoption.selected === true) {
+            this.base.continueDisabled = false;
+          }
+          let _suboptions = _mainoption.suboptions;
+          let selectedmainoption = selectedoptions
+            ? selectedoptions.find((smo) => smo.mainoption === _mainoption.mainoption)
+            : [];
 
-          _suboptions.forEach(_suboption => {
+          _suboptions.forEach((_suboption) => {
             if (selectedmainoption != undefined) {
-              _suboption.selected = (selectedmainoption && selectedmainoption.suboptions ? !!selectedmainoption.suboptions.find(sso => sso.option === _suboption.option && sso.selected === true) : false)
+              _suboption.selected =
+                selectedmainoption && selectedmainoption.suboptions
+                  ? !!selectedmainoption.suboptions.find(
+                      (sso) => sso.option === _suboption.option && sso.selected === true
+                    )
+                  : false;
             }
-          })
-        })
+          });
+        });
 
         return _mainoptions;
       }),
-      map(mainoptions => {
+      map((mainoptions) => {
         this.mainoptions = mainoptions;
         return mainoptions;
       })
     );
-
-    
   }
 
-  disablecontinue(loadingpoint :string)
-  {
+  disablecontinue(loadingpoint: string) {
     let selectedoptions = this.foiRequest.requestData.requestType.childprotectionchild;
     let disable = false;
-    if( loadingpoint === "init")
-    {
-      disable = selectedoptions !=undefined ? selectedoptions.length > 0 && selectedoptions.filter(so=>so.selected === true).length===0 : true;
-    }  
+    if (loadingpoint === "init") {
+      disable =
+        selectedoptions != undefined
+          ? selectedoptions.length > 0 && selectedoptions.filter((so) => so.selected === true).length === 0
+          : true;
+    }
 
     if (loadingpoint === "select") {
-      disable = (this.mainoptions === undefined || this.mainoptions.filter(mo=>mo.selected === true).length === 0)
-    }   
-     return disable;
+      disable = this.mainoptions === undefined || this.mainoptions.filter((mo) => mo.selected === true).length === 0;
+    }
+    return disable;
   }
 
-  showsubsection(item:any)
-  {
-    item.selected=!item.selected 
-    this.base.continueDisabled = this.disablecontinue("select")
+  showsubsection(item: any) {
+    item.selected = !item.selected;
+    this.base.continueDisabled = this.disablecontinue("select");
   }
 
-  selectedsuboption(item:any)
-  {
-    item.selected=!item.selected 
-
+  selectedsuboption(item: any) {
+    item.selected = !item.selected;
   }
 
   doContinue() {
-
     const formData = this.foiForm.value;
 
-    let selected = this.mainoptions.filter(m => m.selected);
-    this.foiRequest.requestData.requestType.childprotectionchild = selected; 
-    
+    let selected = this.mainoptions.filter((m) => m.selected);
+    this.foiRequest.requestData.requestType.childprotectionchild = selected;
+
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     //this.base.goFoiForward();
 
-    this.forwardforSelectedPersonalTopics()
-
-    
+    this.forwardforSelectedPersonalTopics();
   }
 
-  forwardforSelectedPersonalTopics()
-  {
-    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
-    {
-      
-      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
-      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
-      let next = this.foiRequest.requestData.selectedtopics[ci+1];
-      console.log(`next childprotectionparent : ${JSON.stringify(next)}`)
-      if(next!=undefined  && this.checkstates.includes(next.value))
-      {
-        this.route.navigate([`/personal/${next.value}`])
-      }
-      else{
+  forwardforSelectedPersonalTopics() {
+    if (
+      this.foiRequest.requestData.selectedtopics != undefined &&
+      this.foiRequest.requestData.selectedtopics.length > 0
+    ) {
+      let current = this.foiRequest.requestData.selectedtopics.find((st) => st.value === this.targetKey);
+      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current);
+      let next = this.foiRequest.requestData.selectedtopics[ci + 1];
+      console.log(`next childprotectionparent : ${JSON.stringify(next)}`);
+      if (next != undefined && this.checkstates.includes(next.value)) {
+        this.route.navigate([`/personal/${next.value}`]);
+      } else {
         this.base.goFoiForward();
       }
-        
-    }
-    else
-    {
+    } else {
       this.base.goFoiForward();
     }
   }
 
-  rewindforSelectedPersonalTopics()
-  {
-    if(this.foiRequest.requestData.selectedtopics!=undefined && this.foiRequest.requestData.selectedtopics.length > 0)
-    {
-      
-      let current = this.foiRequest.requestData.selectedtopics.find(st=>st.value === this.targetKey)
-      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current)
-      let previous = this.foiRequest.requestData.selectedtopics[ci-1];
-      console.log(`next childprotectionparent : ${JSON.stringify(previous)}`)
-      if(previous!=undefined)
-      {
-        this.route.navigate([`/personal/${previous.value}`])
-      }
-      else{
+  rewindforSelectedPersonalTopics() {
+    if (
+      this.foiRequest.requestData.selectedtopics != undefined &&
+      this.foiRequest.requestData.selectedtopics.length > 0
+    ) {
+      let current = this.foiRequest.requestData.selectedtopics.find((st) => st.value === this.targetKey);
+      let ci = this.foiRequest.requestData.selectedtopics.indexOf(current);
+      let previous = this.foiRequest.requestData.selectedtopics[ci - 1];
+      console.log(`next childprotectionparent : ${JSON.stringify(previous)}`);
+      if (previous != undefined) {
+        this.route.navigate([`/personal/${previous.value}`]);
+      } else {
         this.base.goFoiBack();
       }
-        
-    }
-    else
-    {
+    } else {
       this.base.goFoiBack();
     }
   }
@@ -162,6 +158,4 @@ export class ChildProtectionChild implements OnInit {
     //this.base.goFoiBack();
     this.rewindforSelectedPersonalTopics();
   }
-
- 
 }

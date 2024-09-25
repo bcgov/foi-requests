@@ -11,14 +11,9 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
-    "target": "es5",
-    "types": [ "node" ],
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "target": "es2022",
+    "types": ["node"],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2022", "dom"]
   }
 }

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SelectAboutComponent } from "./select-about.component";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
@@ -12,11 +12,14 @@ describe("SelectAboutComponent", () => {
   let fixture: ComponentFixture<SelectAboutComponent>;
   let dataService: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SelectAboutComponent, BaseComponent],
       imports: [ReactiveFormsModule],
-      providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
+      providers: [
+        { provide: DataService, useClass: MockDataService },
+        { provide: Router, useClass: MockRouter },
+      ],
     }).compileComponents();
   }));
 
@@ -25,8 +28,8 @@ describe("SelectAboutComponent", () => {
     spyOn(dataService, "getCurrentState").and.returnValue({
       requestData: {
         requestType: { requestType: "personal" },
-        selectAbout: { yourself: null, child: null, another: null }
-      }
+        selectAbout: { yourself: null, child: null, another: null },
+      },
     });
 
     fixture = TestBed.createComponent(SelectAboutComponent);

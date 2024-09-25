@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { AnotherInformationComponent } from "./another-information.component";
 import { BaseComponent } from "src/app/utils-components/base/base.component";
@@ -9,20 +9,26 @@ import { MockRouter } from "../../MockClasses";
 import { FoiValidComponent } from "src/app/utils-components/foi-valid/foi-valid.component";
 import { FoiFileinputComponent } from "src/app/utils-components/foi-fileinput/foi-fileinput.component";
 import { FoiRequest } from "src/app/models/FoiRequest";
-import { NgxWebstorageModule } from "ngx-webstorage";
+import { provideNgxWebstorage } from "ngx-webstorage";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
 
 describe("AnotherInformationComponent", () => {
   let component: AnotherInformationComponent;
   let fixture: ComponentFixture<AnotherInformationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AnotherInformationComponent, BaseComponent, FoiValidComponent, FoiFileinputComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
-      providers: [DataService, { provide: Router, useClass: MockRouter }]
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        FontAwesomeModule,
+      ],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
     }).compileComponents();
   }));
 
@@ -31,7 +37,7 @@ describe("AnotherInformationComponent", () => {
     const foi: FoiRequest = {
       requestData: {
         requestType: {
-          requestType: "personal"
+          requestType: "personal",
         },
         anotherInformation: {
           firstName: "James",
@@ -39,9 +45,9 @@ describe("AnotherInformationComponent", () => {
           lastName: "Kirk",
           alsoKnownAs: "Captain",
           dateOfBirth: "2233-01-04",
-          proofOfAuthorization: "birth_certificate.jpg"
-        }
-      }
+          proofOfAuthorization: "birth_certificate.jpg",
+        },
+      },
     };
     sessionStorage.setItem("foi-request", JSON.stringify(foi));
 

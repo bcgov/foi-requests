@@ -1,26 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from 'src/app/utils-components/base/base.component';
-import { FoiRequest } from 'src/app/models/FoiRequest';
-import { FormBuilder, Validators } from '@angular/forms';
-import { DataService } from 'src/app/services/data.service';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { BaseComponent } from "src/app/utils-components/base/base.component";
+import { FoiRequest } from "src/app/models/FoiRequest";
+import { FormBuilder, Validators } from "@angular/forms";
+import { DataService } from "src/app/services/data.service";
 
 const conditionalRequired = (condition) => {
   return condition ? Validators.required : Validators.nullValidator;
-}
+};
 
 @Component({
   templateUrl: "./contact-info.component.html",
   styleUrls: ["./contact-info.component.scss"],
 })
 export class ContactInfoComponent implements OnInit {
-  @ViewChild(BaseComponent) base: BaseComponent;
+  @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
   foiForm = null;
   generalRequest = null;
   foiRequest: FoiRequest;
   targetKey: string = "contactInfo";
   igeNameValidators = [Validators.maxLength(255)];
   igeNameRequired = false;
-  
+
   constructor(private fb: FormBuilder, private dataService: DataService) {}
 
   ngOnInit() {

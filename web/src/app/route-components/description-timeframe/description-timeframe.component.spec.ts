@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DescriptionTimeframeComponent } from "./description-timeframe.component";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -7,10 +7,10 @@ import { MockRouter } from "../../MockClasses";
 import { Router } from "@angular/router";
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { NgxWebstorageModule } from "ngx-webstorage";
+import { provideNgxWebstorage } from "ngx-webstorage";
 import { UtilsComponentsModule } from "src/app/utils-components/utils-components.module";
-import { OwlNativeDateTimeModule, OwlDateTimeModule } from 'ng-pick-datetime';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OwlNativeDateTimeModule, OwlDateTimeModule } from "@danielmoncada/angular-datetime-picker";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 describe("DescriptionTimeframeComponent", () => {
   let component: DescriptionTimeframeComponent;
@@ -19,27 +19,34 @@ describe("DescriptionTimeframeComponent", () => {
   const staticFoiData: FoiRequest = {
     requestData: {
       requestType: {
-        requestType: "personal"
+        requestType: "personal",
       },
       ministry: {
         defaultMinistry: null,
-        selectedMinistry: null
+        selectedMinistry: null,
       },
       descriptionTimeframe: {
         description: "Hello world.",
         publicServiceEmployeeNumber: "0123456789",
         correctionalServiceNumber: "ABCDEFGHIJ",
         fromDate: "1999-06-18",
-        toDate: "2001-01-25"
-      }
-    }
+        toDate: "2001-01-25",
+      },
+    },
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DescriptionTimeframeComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, NgxWebstorageModule.forRoot(), UtilsComponentsModule, OwlDateTimeModule, OwlNativeDateTimeModule, FontAwesomeModule],
-      providers: [DataService, { provide: Router, useClass: MockRouter }]
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        UtilsComponentsModule,
+        OwlDateTimeModule,
+        OwlNativeDateTimeModule,
+        FontAwesomeModule,
+      ],
+      providers: [DataService, { provide: Router, useClass: MockRouter }, provideNgxWebstorage()],
     }).compileComponents();
   }));
 

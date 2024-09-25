@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { MinistryConfirmationComponent } from "./ministry-confirmation.component";
 import { ReactiveFormsModule } from "@angular/forms";
@@ -12,35 +12,33 @@ describe("MinistryConfirmationComponent", () => {
   let fixture: ComponentFixture<MinistryConfirmationComponent>;
   let dataService: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MinistryConfirmationComponent],
       imports: [ReactiveFormsModule, UtilsComponentsModule],
-      providers: [{ provide: DataService, useClass: MockDataService }, { provide: Router, useClass: MockRouter }]
+      providers: [
+        { provide: DataService, useClass: MockDataService },
+        { provide: Router, useClass: MockRouter },
+      ],
     }).compileComponents();
 
     const initialState = {
       requestData: {
         requestType: { requestType: "personal" },
-        ministry: {
-        },
+        ministry: {},
         requestTopic: {
           value: "correctionalFacility",
           text: "The person's time spent in a correctional facility",
-          ministryCode: "ABC"
+          ministryCode: "ABC",
         },
-        
-      }
+      },
     };
 
     dataService = TestBed.get(DataService);
-    spyOn(dataService,'getCurrentState').and.returnValue(initialState);
-
+    spyOn(dataService, "getCurrentState").and.returnValue(initialState);
   }));
 
-
   it("should select a ministry", () => {
-    
     fixture = TestBed.createComponent(MinistryConfirmationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -51,7 +49,6 @@ describe("MinistryConfirmationComponent", () => {
     const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
     spyOn(dataService, "setCurrentState").and.callThrough();
 
-    
     inputCheckBox.click();
     fixture.detectChanges();
 
@@ -59,7 +56,7 @@ describe("MinistryConfirmationComponent", () => {
     fixture.detectChanges();
 
     expect(dataService.setCurrentState).toHaveBeenCalledTimes(1);
-    
+
     let call = dataService.setCurrentState.calls.mostRecent();
     expect(call.args[0].requestData.ministry.selectedMinistry.length).toEqual(1);
     expect(call.args[0].requestData.ministry.selectedMinistry[0].code).toBeTruthy();
@@ -77,7 +74,7 @@ describe("MinistryConfirmationComponent", () => {
     const continueButon: HTMLInputElement = fixture.nativeElement.querySelector(".btn-primary");
     spyOn(dataService, "setCurrentState").and.callThrough();
 
-    let input:any = inputCheckBox.item(0);
+    let input: any = inputCheckBox.item(0);
     input.click();
     input = inputCheckBox.item(1);
     input.click();
@@ -87,7 +84,7 @@ describe("MinistryConfirmationComponent", () => {
     fixture.detectChanges();
 
     expect(dataService.setCurrentState).toHaveBeenCalledTimes(1);
-    
+
     let call = dataService.setCurrentState.calls.mostRecent();
     expect(call.args[0].requestData.ministry.selectedMinistry.length).toEqual(2);
     expect(call.args[0].requestData.ministry.selectedMinistry[0].code).toBeTruthy();

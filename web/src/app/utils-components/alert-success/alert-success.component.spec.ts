@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { AlertSuccessComponent } from './alert-success.component';
+import { AlertSuccessComponent } from "./alert-success.component";
 
-describe('AlertSuccessComponent', () => {
+describe("AlertSuccessComponent", () => {
   let component: AlertSuccessComponent;
   let fixture: ComponentFixture<AlertSuccessComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertSuccessComponent ]
-    })
-    .compileComponents();
+      declarations: [AlertSuccessComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('AlertSuccessComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
