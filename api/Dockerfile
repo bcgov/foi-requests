@@ -1,19 +1,23 @@
+ # Use the official Node.js image from the Docker Hub
 FROM node:20-alpine AS build
-# RUN npm install --python=python2.7
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-WORKDIR /home/node/app
+# Set the working directory inside the container
+WORKDIR /app
 
-COPY package*.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
 
-USER node
+# Install the application dependencies
+RUN npm install --legacy-peer-deps --ignore-scripts
 
-RUN npm install --legacy-peer-deps
+# Copy the rest of the application code to the working directory
+COPY *.js *.sh *.env ./
 
-COPY . /home/node/app
-
+# Expose the port the app runs on
 EXPOSE 7085
 
 RUN chmod +x ./container-entrypoint.sh
+
+USER node
 
 ENTRYPOINT ["./container-entrypoint.sh"]
