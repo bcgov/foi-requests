@@ -1,7 +1,7 @@
 <foi-base [showInfo]="false" [continueDisabled]="!foiForm.valid" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <h2>You’re requesting records about a child. What is the child’s full legal name?</h2>
+      <h2>You’re reqesting records about a children. What is the child’s Full legal name?</h2>
       <div class="form-group row">
         <div class="col-lg-6">
           <app-foi-valid
@@ -58,7 +58,7 @@
             f1
             [form]="foiForm"
             formcontrolname="proofOfGuardianship"
-            required="Proof of guardianship is a required field."
+            required="Firstname is a required field."
             (fileSelected)="newFileSelected($event)"
           >
             <label>Attach copy of proof of guardianship:</label>

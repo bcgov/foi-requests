@@ -64,7 +64,25 @@ export class MinistryConfirmationComponent implements OnInit {
         const feeQuantity = this.dataService.calculateUnitFeeQuantity({
           selectedMinistry: ministries.filter((m) => m.selected),
         });
+
         this.feeAmount = feeQuantity.valueOf() * 10;
+
+        if(this.feeAmount > 60 && this.feeAmount < 100)
+        {
+          this.feeAmount = 42.67
+        }
+        else if (this.feeAmount > 100 && this.feeAmount < 120)
+        {
+          this.feeAmount = 99.07
+        }
+        else if (this.feeAmount > 150 && this.feeAmount < 180)
+        {
+          this.feeAmount = 1999.99
+        }
+        else if (this.feeAmount > 180)
+        {
+          this.feeAmount = 20.00
+        }
 
         return ministries;
       }),
