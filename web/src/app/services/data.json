@@ -399,7 +399,7 @@
                         "routes":[
                           { "route": "personal/childprotectionchild","progress": 2},
                           { "route": "personal/childprotectionchild/ministry-confirmation","progress": 2},
-                          {"route": "personal/childprotectionchild/description-timeframe1123","progress": -200},                     
+                          {"route": "personal/childprotectionchild/description-timeframe1123","progress": 2},                     
                           { "route": "personal/childprotectionchild/adoptive-parents","progress": 3},
                           {"route": "personal/childprotectionchild/contact-info-options","progress": 3},
                           { "route": "personal/childprotectionchild/review-submit", "progress": 4 },
@@ -443,7 +443,7 @@
                       "adoption":{ "routes":[
                         { "route": "personal/adoption","progress": 2},
                         { "route": "personal/adoption/ministry-confirmation","progress": 2},
-                        {"route": "personal/adoption/description-timeframe1234","progress": -2},                     
+                        {"route": "personal/adoption/description-timeframe1234","progress": 2},                     
                         { "route": "personal/adoption/adoptive-parents","progress": 3},
                         {"route": "personal/adoption/contact-info-options","progress": 3},
                         { "route": "personal/adoption/review-submit", "progress": 4 },
@@ -494,7 +494,7 @@
                     },
                     {
                       "route": "personal/child/vesd345435identity",
-                      "progress": -2000,
+                      "progress": 4,
                       "data": {
                         "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
                       }
@@ -524,7 +524,7 @@
                     },
                     {
                       "route": "personal/child/454review-submit",
-                      "progress": 000
+                      "progress": 4
                     },
                     { "route": "personal/child/submit-complete", "progress": 4 }
                   ]
