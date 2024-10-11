@@ -493,8 +493,8 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/vesd345435identity",
-                      "progress": -2000,
+                      "route": "personal/child/verify-your-identity",
+                      "progress": 2,
                       "data": {
                         "infoBlock": "Why do we need this information?<br><br>To make sure we give personal information about a child only to a person who has the right to access it, we need to verify your right to access the child’s records."
                       }
@@ -511,20 +511,20 @@
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/description-timeframe12333",
+                      "route": "personal/child/description-timeframe",
                       "progress": 2
                     },
                     {
-                      "route": "personal/child/54645adoptive-parents",
+                      "route": "personal/child/adoptive-parents",
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/5466contact-info-options",
+                      "route": "personal/child/contact-info-options",
                       "progress": 3
                     },
                     {
-                      "route": "personal/child/454review-submit",
-                      "progress": 000
+                      "route": "personal/child/review-submit",
+                      "progress": 4
                     },
                     { "route": "personal/child/submit-complete", "progress": 4 }
                   ]
