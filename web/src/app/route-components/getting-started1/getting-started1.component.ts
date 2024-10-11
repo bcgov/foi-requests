@@ -23,6 +23,6 @@ export class GettingStarted1Component implements OnInit {
     this.base.goFoiForward();
   }
   doGoBack() {
-    document.location.href = 'https://stackoverflow.com';
+    this.base.goFoiBack();
   }
 }

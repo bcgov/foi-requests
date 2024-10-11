@@ -53,7 +53,7 @@ export class ContactInfoComponent implements OnInit {
   doContinue() {
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
-    this.base.goFoiForward(this.foiForm.value.IGE ? "paymentPath" : "paymentPath");
+    this.base.goFoiForward(this.foiForm.value.IGE ? "noPaymentPath" : "paymentPath");
   }
 
   doGoBack() {

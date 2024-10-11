@@ -27,9 +27,8 @@
           <app-foi-valid
             [form]="foiForm"
             maxLength="Middle name is longer than the maximum {requiredLength} characters."
-            
           >
-            <label>Middle name*:</label>
+            <label>Middle name:</label>
             <input formControlName="middleName" />
           </app-foi-valid>
         </div>
@@ -37,10 +36,10 @@
         <div class="col-lg-6">
           <app-foi-valid
             [form]="foiForm"
-            maxLength="First name is longer than the maximum {requiredLength} characters."
-            required="First name is a required field."
+            maxLength="Last name is longer than the maximum {requiredLength} characters."
+            required="Last name is a required field."
           >
-            <label>Lastname:</label>
+            <label>Last name:</label>
             <input formControlName="lastName" />
           </app-foi-valid>
         </div>
