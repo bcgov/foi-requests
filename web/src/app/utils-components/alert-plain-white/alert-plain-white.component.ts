@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class AlertPlainWhiteComponent implements OnInit {
 
   constructor() { }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Empty implementation, logic can be added if required
+  }
 
 }
