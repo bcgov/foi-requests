@@ -9,7 +9,7 @@
       </app-alert-warning-white>
       <h2>Describe the records you are looking for:</h2>
       <app-alert-info *ngIf="hasmcfdspecificrecordsrequests">
-        Be as specific as possible. A good description of records will be brief and detailed.<br/>
+        Be as specific as possible. A good description will be brief and detailed.<br/>
         <b>When possible, please include:</b> Key words, file types, file numbers, previous FOI request numbers, categories of records to exclude, and the purpose records may have been created for.<br/>
       </app-alert-info>
       <div class="form-group">
@@ -24,7 +24,7 @@
             target="_blank">Open Information</a>
         </div>
         <div *ngIf="hasmcfdspecificrecordsrequests" class="option-div" >
-          <b>We want to respond to your request as quickly as possible and so we will remove handwritten notes, receipts. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.</b><br/>
+          We want to respond to your request as quickly as possible and so we will remove handwritten notes, receipts. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.<br/>
           <em>Please note that checking any boxes may cause delays in the delivery of your records.</em><br/>
           <div *ngIf="(additionalOptions | async) as opts">
             <div class="form-group" id="optionCheckbox" *ngFor="let opt of opts">
