@@ -313,8 +313,7 @@
     ],
     "additionaloptions":[
       {"value": "handwrittennotes", "name": "Handwritten Notes", "description": "Handwritten Notes are often hard to read. Typed versions of these may be elsewhere in your records."},
-      {"value": "receipts", "name": "Receipts", "description": "Records often contain copies of receipts for goods and services provided by the ministry. These include clothing, transportation, and other activities. Your records will reflect these purchases, even if we exclude copies of receipts."},
-      {"value": "otherfamilymembersinfo", "name": "Other Family Members’ Information", "description": "Often, your family’s information is in the same file as yours. When this happens, we must remove that information. Excluding this information can speed up the processing time of your request."}
+      {"value": "receipts", "name": "Receipts", "description": "Records often contain copies of receipts for goods and services provided by the ministry. These include clothing, transportation, and other activities. Your records will reflect these purchases, even if we exclude copies of receipts."}
     ],
     "delayfactors":[
       "childprotectionparent",
