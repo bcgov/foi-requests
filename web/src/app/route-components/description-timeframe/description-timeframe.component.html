@@ -24,7 +24,7 @@
             target="_blank">Open Information</a>
         </div>
         <div *ngIf="hasmcfdspecificrecordsrequests" class="option-div" >
-          We want to respond to your request as quickly as possible and so we will remove handwritten notes, receipts. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.<br/>
+          We want to respond to your request as quickly as possible and so we will remove handwritten notes, and receipts. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.<br/>
           <em>Please note that checking any boxes may cause delays in the delivery of your records.</em><br/>
           <div *ngIf="(additionalOptions | async) as opts">
             <div class="form-group" id="optionCheckbox" *ngFor="let opt of opts">
