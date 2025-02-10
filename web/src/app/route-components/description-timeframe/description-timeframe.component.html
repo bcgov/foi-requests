@@ -8,28 +8,33 @@
         We protect the identities of people who raise child protection concerns and the Freedom of Information and Protection of Privacy Act supports this. If you ask for a reporter's name, we will reply under Section 8 of the Act which means we will not confirm, deny, or provide any information.
       </app-alert-warning-white>
       <h2>Describe the records you are looking for:</h2>
-     
+      <app-alert-info *ngIf="hasmcfdspecificrecordsrequests">
+        Be as specific as possible. A good description will be brief and detailed.<br/>
+        <b>When possible, please include:</b> Key words, file types, file numbers, previous FOI request numbers, categories of records to exclude, and the purpose records may have been created for.<br/>
+      </app-alert-info>
       <div class="form-group">
         <textarea class="form-control" formControlName="description" id="description" rows="6"></textarea>
       </div>
-      <app-alert-info
-        >Be as specific as possible. A good description of records will be brief and detailed.<br/><br/>
-        <b>When possible, please include:</b> Key words, file types, file numbers, previous FOI request numbers, categories of records to exclude, and the purpose records may have been created for.<br/><br/>
-        <b>When possible, please do not include:</b> Any special characters, including quotation marks or bullet points.<br/><br/>
-        <div *ngIf="!hasmcfdspecificrecordsrequests">
+      <app-alert-info *ngIf="!hasmcfdspecificrecordsrequests" 
+        ><div>
+          Be as specific as possible. A good description of records will be brief and detailed.<br/><br/>
+          <b>When possible, please include:</b> Key words, file types, file numbers, previous FOI request numbers, categories of records to exclude, and the purpose records may have been created for.<br/><br/>
+          <b>When possible, please do not include:</b> Any special characters, including quotation marks or bullet points.<br/><br/>
           <b>For example: </b> Briefing notes prepared for the minister on a specific topic.<br/>
           (Asking for ‘Any and all records’ can result in a high volume of unnecessary records and may result in additional processing fees.)<br/><br/>
           <b>To see examples of other requests: </b>
           You can browse the  <a href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information"
             target="_blank">Open Information</a>
         </div>
-        <div *ngIf="hasmcfdspecificrecordsrequests">
-          <b>We want to respond to your request as quickly as possible and so we will remove handwritten notes, receipts, and other family members’ information. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.</b><br/><br/>
-          <em>Please note that checking any boxes may cause delays in the delivery of your records.</em><br/><br/>
+      </app-alert-info>
+      <app-alert-plain-white *ngIf="hasmcfdspecificrecordsrequests">
+        <div class="option-div">
+          We want to respond to your request as quickly as possible and so we will remove handwritten notes and receipts. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.<br/>
+          <em>Please note that checking any boxes may cause delays in the delivery of your records.</em><br/>
           <div *ngIf="(additionalOptions | async) as opts">
-            <div class="form-group" *ngFor="let opt of opts">
-              <label>
-                <input type="checkbox" [value]="opt" formControlName="requestAdditionalOpt" [checked]="opt.selected"
+            <div class="form-group" id="optionCheckbox" *ngFor="let opt of opts">
+              <label class="optionLabel">
+                <input type="checkbox" class="checkboxOpt"[value]="opt" formControlName="requestAdditionalOpt" [checked]="opt.selected"
                   (change)="selectopt(opt,$event.target.checked)" />
                 <div class="optiontext" [innerHTML]="opt.name"></div>
               </label>
@@ -37,7 +42,7 @@
             </div>
           </div>
         </div>
-      </app-alert-info>
+      </app-alert-plain-white>
 
       <div class="form-group row" *ngIf="showPublicServiceEmployeeNumber">
         <label for="publicServiceEmployeeNumber" class="col-lg-5 col-form-label inline-label"
@@ -96,7 +101,10 @@
           </app-foi-valid>
         </div>
       </div>
-      <app-alert-info
+      <app-alert-info *ngIf="hasmcfdspecificrecordsrequests"
+        >Be as specific as possible. Limiting the time frame of your request will help us get the records to you faster.
+      </app-alert-info>
+      <app-alert-info *ngIf="!hasmcfdspecificrecordsrequests"
         >Be as specific as possible. Limiting the time frame of your request will help us get the records to you faster.
       </app-alert-info>
     </form>
