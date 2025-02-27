@@ -29,7 +29,7 @@
               "src/assets/fonts"
             ],
             "styles": ["src/styles.scss"],
-            "scripts": ["./node_modules/keycloak-js/lib/keycloak.js"]
+            "scripts": ["./node_modules/keycloak-js/dist/keycloak.js"]
           },
           "configurations": {
             "production": {
@@ -84,7 +84,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": ["src/styles.scss"],
-            "scripts": ["./node_modules/keycloak-js/lib/keycloak.js"],
+            "scripts": ["./node_modules/keycloak-js/dist/keycloak.js"],
             "assets": ["src/favicon.ico", "src/assets"]
           }
         },
@@ -124,8 +124,5 @@
       }
     }
   },
-  "defaultProject": "bcfoi",
-  "cli": {
-    "analytics": "d6068fe5-a094-4027-a77d-43bc53548606"
-  }
+  "defaultProject": "bcfoi"
 }
