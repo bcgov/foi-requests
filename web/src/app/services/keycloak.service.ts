@@ -9,7 +9,7 @@ import {AppConfigService} from './app-config.service';
 // Define a custom interface extending JwtPayload
 interface CustomJwtPayload extends JwtPayload {
   email: string;
-  name?: string;
+  lastName?: string;
 }
 
 @Injectable({
