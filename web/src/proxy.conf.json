@@ -1,6 +1,6 @@
 {
   "/api/v1/configs": {
-    "target": "https://foi-requests-dev.pathfinder.gov.bc.ca",
+    "target": "https://dev.foirequestform.gov.bc.ca",
     "changeOrigin": true,
     "secure": false
   },

@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
-import * as jwt_decode from 'jwt-decode';
-import { KeycloakLoginOptions } from 'keycloak-js';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import {  KeycloakLoginOptions } from 'keycloak-js';
+import Keycloak from 'keycloak-js';
 import {AppConfigService} from './app-config.service';
 
-declare var Keycloak: any;
+//declare var Keycloak: any;
 
+// Define a custom interface extending JwtPayload
+interface CustomJwtPayload extends JwtPayload {
+  email: string;
+  name?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +32,7 @@ export class KeycloakService {
         url: config.url,
         clientId: config.clientId,
         credentials: {
-          secret: config.secret,
+          //secret: config.secret,
           'ssl-required': config.sslRequired,
           'public-client': config.publicClient
         }
@@ -37,21 +43,31 @@ export class KeycloakService {
         options.idpHint = 'bcsc';
         return kcLogin(options);
       };
-
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
-        .success(() => {
-          if (jwt_decode(this.keycloakAuth.token).email) {
+      
+      this.keycloakAuth.init({
+        token: sessionStorage.getItem('KC_TOKEN'), 
+        onLoad: 'login-required',
+        pkceMethod: 'S256',        // Ensures PKCE is used
+        checkLoginIframe: false    // Prevents iframe-based login checks
+      })
+      .then(() => {
+        if (this.keycloakAuth.token) {
+          const decodedToken =jwtDecode<CustomJwtPayload>(this.keycloakAuth.token);
+          
+          if (decodedToken.email) {
             this.startRefreshTokenTimer(this.keycloakAuth);
-            sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
-            sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
+            sessionStorage.setItem('KC_TOKEN', this.keycloakAuth.token);
+            sessionStorage.setItem('KC_REFRESH', this.keycloakAuth.refreshToken);
             resolve(true);
           } else {
             resolve(false);
           }
-        })
-        .error(() => {
-          reject();
-        });
+        }
+      })
+      .catch(() => {
+        reject();
+      });
+      
     });
   }
 
@@ -92,7 +108,7 @@ export class KeycloakService {
 
   getDecodedToken(): any {
     return sessionStorage.getItem('KC_TOKEN') ?
-      jwt_decode(sessionStorage.getItem('KC_TOKEN')) :
+      jwtDecode(sessionStorage.getItem('KC_TOKEN')) :
       {
         firstName: '',
         lastName: '',
