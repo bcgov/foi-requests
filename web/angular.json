@@ -124,8 +124,5 @@
       }
     }
   },
-  "defaultProject": "bcfoi",
-  "cli": {
-    "analytics": "d6068fe5-a094-4027-a77d-43bc53548606"
-  }
+  "defaultProject": "bcfoi"
 }
