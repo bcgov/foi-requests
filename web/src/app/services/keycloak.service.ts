@@ -29,7 +29,7 @@ export class KeycloakService {
       const config = this.configService.settings;
       this.keycloakConfig = {
         realm : config.realm,
-        url: config.url,
+        url: config.url,      
         clientId: config.clientId,
         credentials: {
           //secret: config.secret,
@@ -40,7 +40,7 @@ export class KeycloakService {
       this.keycloakAuth = new Keycloak(this.keycloakConfig);
       const kcLogin = this.keycloakAuth.login;
       this.keycloakAuth.login = (options?: KeycloakLoginOptions) => {
-        options.idpHint = 'bcsc';
+        options.idpHint = 'bcsc';      
         return kcLogin(options);
       };
       
@@ -139,6 +139,6 @@ export class KeycloakService {
 
   logoutUser() {
     const redirectUrl = window.location.origin + '/general/submit-complete';
-    this.keycloakAuth.logout({ redirectUri: redirectUrl });
+    this.keycloakAuth.logout({ postLogoutRedirectUri: redirectUrl });
   }
 }
