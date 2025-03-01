@@ -50,3 +50,4 @@ Thumbs.db
 *.pem
 *.key
 *.csr
+web/.angular/cache/*
