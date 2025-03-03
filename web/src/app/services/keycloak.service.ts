@@ -85,7 +85,7 @@ export class KeycloakService {
           token: sessionStorage.getItem('KC_TOKEN'),
           refreshToken: sessionStorage.getItem('KC_REFRESH')
         }
-      ).success(() => {
+      ).then(() => {
         this.updateToken();
       });
     } else {
@@ -93,11 +93,11 @@ export class KeycloakService {
     }
   }
   updateToken() {
-    this.keycloakAuth.updateToken(-1).success(() => {
+    this.keycloakAuth.updateToken(-1).then(() => {
       this.startRefreshTokenTimer(this.keycloakAuth);
       sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
       sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
-    }).error(() => {
+    }).catch(() => {
       console.error('Failed to refresh the token, or the session has expired');
     });
   }
@@ -126,7 +126,7 @@ export class KeycloakService {
       if (!this.keycloakAuth) {
         this.keycloakAuth = new Keycloak(this.keycloakConfig);
         this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
-        .success(authenticated => {
+        .then(authenticated => {
           if (authenticated) {
             this.logoutUser();
           }
