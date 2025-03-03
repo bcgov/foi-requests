@@ -138,7 +138,7 @@ export class KeycloakService {
   }
 
   logoutUser() {
-    const redirectUrl = window.location.origin + '/general/submit-complete';
-    this.keycloakAuth.logout({ postLogoutRedirectUri: redirectUrl });
+    const redirectUrl = window.location.origin + '/personal/submit-complete';
+    this.keycloakAuth.logout({ redirectUri: redirectUrl });
   }
 }
