@@ -29,7 +29,7 @@
               "src/assets/fonts"
             ],
             "styles": ["src/styles.scss"],
-            "scripts": ["./node_modules/keycloak-js/dist/keycloak.js"]
+            //"scripts": ["./node_modules/keycloak-js/lib/keycloak.js"]            
           },
           "configurations": {
             "production": {
@@ -55,18 +55,39 @@
                   "maximumError": "5mb"
                 }
               ]
+            },
+            "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
+                }
+              ],
+              "optimization": false,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "buildOptimizer": false
             }
+
           }
+ 
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "bcfoi:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json"            
           },
           "configurations": {
             "production": {
               "buildTarget": "bcfoi:build:production"
+            },
+            "development": {
+              "buildTarget": "bcfoi:build:development"
             }
           }
         },
@@ -84,7 +105,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": ["src/styles.scss"],
-            "scripts": ["./node_modules/keycloak-js/dist/keycloak.js"],
+            //"scripts": ["./node_modules/keycloak-js/lib/keycloak.js"],
             "assets": ["src/favicon.ico", "src/assets"]
           }
         },
@@ -124,5 +145,8 @@
       }
     }
   },
-  "defaultProject": "bcfoi"
+  "defaultProject": "bcfoi",
+  "cli": {
+    "analytics": "9d6da5af-1756-4669-9328-292fcdea2b01"
+  }
 }

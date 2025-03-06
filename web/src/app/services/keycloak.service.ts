@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
-import * as jwt_decode from 'jwt-decode';
-import { KeycloakLoginOptions } from 'keycloak-js';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+import {  KeycloakLoginOptions } from 'keycloak-js';
+import Keycloak from 'keycloak-js';
 import {AppConfigService} from './app-config.service';
 
-declare var Keycloak: any;
+//declare var Keycloak: any;
 
+// Define a custom interface extending JwtPayload
+interface CustomJwtPayload extends JwtPayload {
+  email: string;
+  lastName?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +29,10 @@ export class KeycloakService {
       const config = this.configService.settings;
       this.keycloakConfig = {
         realm : config.realm,
-        url: config.url,
+        url: config.url,      
         clientId: config.clientId,
         credentials: {
-          secret: config.secret,
+          //secret: config.secret,
           'ssl-required': config.sslRequired,
           'public-client': config.publicClient
         }
@@ -34,24 +40,34 @@ export class KeycloakService {
       this.keycloakAuth = new Keycloak(this.keycloakConfig);
       const kcLogin = this.keycloakAuth.login;
       this.keycloakAuth.login = (options?: KeycloakLoginOptions) => {
-        options.idpHint = 'bcsc';
+        options.idpHint = 'bcsc';      
         return kcLogin(options);
       };
-
-      this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'login-required'})
-        .success(() => {
-          if (jwt_decode(this.keycloakAuth.token).email) {
+      
+      this.keycloakAuth.init({
+        token: sessionStorage.getItem('KC_TOKEN'), 
+        onLoad: 'login-required',
+        pkceMethod: 'S256',        // Ensures PKCE is used
+        checkLoginIframe: false    // Prevents iframe-based login checks
+      })
+      .then(() => {
+        if (this.keycloakAuth.token) {
+          const decodedToken =jwtDecode<CustomJwtPayload>(this.keycloakAuth.token);
+          
+          if (decodedToken.email) {
             this.startRefreshTokenTimer(this.keycloakAuth);
-            sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
-            sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
+            sessionStorage.setItem('KC_TOKEN', this.keycloakAuth.token);
+            sessionStorage.setItem('KC_REFRESH', this.keycloakAuth.refreshToken);
             resolve(true);
           } else {
             resolve(false);
           }
-        })
-        .error(() => {
-          reject();
-        });
+        }
+      })
+      .catch(() => {
+        reject();
+      });
+      
     });
   }
 
@@ -69,7 +85,7 @@ export class KeycloakService {
           token: sessionStorage.getItem('KC_TOKEN'),
           refreshToken: sessionStorage.getItem('KC_REFRESH')
         }
-      ).success(() => {
+      ).then(() => {
         this.updateToken();
       });
     } else {
@@ -77,11 +93,11 @@ export class KeycloakService {
     }
   }
   updateToken() {
-    this.keycloakAuth.updateToken(-1).success(() => {
+    this.keycloakAuth.updateToken(-1).then(() => {
       this.startRefreshTokenTimer(this.keycloakAuth);
       sessionStorage.setItem('KC_TOKEN' , this.keycloakAuth.token);
       sessionStorage.setItem('KC_REFRESH' , this.keycloakAuth.refreshToken);
-    }).error(() => {
+    }).catch(() => {
       console.error('Failed to refresh the token, or the session has expired');
     });
   }
@@ -92,7 +108,7 @@ export class KeycloakService {
 
   getDecodedToken(): any {
     return sessionStorage.getItem('KC_TOKEN') ?
-      jwt_decode(sessionStorage.getItem('KC_TOKEN')) :
+      jwtDecode(sessionStorage.getItem('KC_TOKEN')) :
       {
         firstName: '',
         lastName: '',
@@ -110,7 +126,7 @@ export class KeycloakService {
       if (!this.keycloakAuth) {
         this.keycloakAuth = new Keycloak(this.keycloakConfig);
         this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
-        .success(authenticated => {
+        .then(authenticated => {
           if (authenticated) {
             this.logoutUser();
           }
@@ -122,7 +138,7 @@ export class KeycloakService {
   }
 
   logoutUser() {
-    const redirectUrl = window.location.origin + '/general/submit-complete';
+    const redirectUrl = window.location.origin + '/personal/submit-complete';
     this.keycloakAuth.logout({ redirectUri: redirectUrl });
   }
 }
