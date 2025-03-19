@@ -16,6 +16,16 @@
                     <div class="subgroup" *ngIf="item.selected">
                         <div class="row" >
 
+                            <div *ngIf="item.selected && item.mainoptionvalue === 'Adoptive Child'" class="adopted-child-info">
+                                <i>To determine if we can provide you information that could identify your birth parent(s), we require a copy of one of the following:</i>
+                                <ul class="adoption-document-list">
+                                    <li>Birth Registration</li>
+                                    <li>Birth Extract</li>
+                                    <li>Registration of Live Birth</li>
+                                </ul>
+                                <i>The above documents are available from BC Vital Statistics. The application form is available <a href="https://www2.gov.bc.ca/assets/gov/health/forms/vital-statistics/vsa630_fill.pdf" target="_blank">here</a>.
+                                    We can only provide non-identifying information of your birth parent(s) without these documents.</i>
+                            </div>
                             <div class="form-check form-check-inline" *ngFor="let subitem of item.suboptions; let si = subindex">
                                 <input class="form-check-input" type="checkbox" [value]="subitem.option"  [checked]="subitem.selected" (change)="selectedsuboption(subitem)" />
                                 <label class="form-check-label" for="flexCheckDefault">
