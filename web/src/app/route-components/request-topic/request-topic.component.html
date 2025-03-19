@@ -7,7 +7,7 @@
       <div *ngIf="(yourselftopics | async) as topics">
         <div class="form-group" *ngFor="let topic of topics">
           <label>
-            <input type="checkbox" [value]="topic" formControlName="requestTopic" [checked]="topic.selected"
+            <input type="checkbox" [value]="topic" [checked]="topic.selected"
               (change)="selecttopic(topic,$event.target.checked)" />
             <div class="optiontext" [innerHTML]="topic.text"></div>
           </label>
