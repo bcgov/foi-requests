@@ -311,10 +311,6 @@
 
 
     ],
-    "additionaloptions":[
-      {"value": "handwrittennotes", "name": "Handwritten Notes", "description": "Handwritten Notes are often hard to read. Typed versions of these may be elsewhere in your records."},
-      {"value": "receipts", "name": "Receipts", "description": "Records often contain copies of receipts for goods and services provided by the ministry. These include clothing, transportation, and other activities. Your records will reflect these purchases, even if we exclude copies of receipts."}
-    ],
     "delayfactors":[
       "childprotectionparent",
       "childprotectionchild",

@@ -140,7 +140,6 @@ export class MinistryConfirmationComponent implements OnInit {
       let current = this.foiRequest.requestData.selectedtopics.find((st) => st.value === this.targetKey);
       let ci = this.foiRequest.requestData.selectedtopics.indexOf(current);
       let next = this.foiRequest.requestData.selectedtopics[ci + 1];
-      console.log(`next childprotectionparent : ${JSON.stringify(next)}`);
       if (next != undefined) {
         this.route.navigate([`/personal/${next.value}`]);
       } else {
