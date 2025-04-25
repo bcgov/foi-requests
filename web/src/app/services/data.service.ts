@@ -17,6 +17,8 @@ export class DataService {
   personFileKey = 'personFileAttachment';
   childFileName = 'Intake - Proof of Guardianship';
   personFileName = 'Intake - Signed Consent';
+  adopptionChildFileKey = 'adoptionChildFileAttachment';
+  adoptionChildFileName = 'Intake - Birth Documentation';
 
   constructor(private apiClient: TransomApiClientService) {
     this.foiRoutes = this.flattenRoutes(data.routeTree);
@@ -82,10 +84,6 @@ export class DataService {
 
   getTopics(topicKey: string): Array<any> {
     return data.referenceData[topicKey] || [];
-  }
-
-  getAdditionalOptions(): Observable<any[]> {
-    return of(data.referenceData.additionaloptions);
   }
 
   getDelayFactors(): Array<string> {
@@ -159,6 +157,26 @@ export class DataService {
       };
       reader.readAsDataURL(f);
     });
+  }
+
+  setAdoptionFileAttachment(f: File): Observable<boolean> {
+    return new Observable((observer) => {
+      const reader: FileReader = new FileReader();
+      reader.onload = () => {
+        try {
+          sessionStorage.setItem(this.adopptionChildFileKey, reader.result.toString());
+          observer.next(true);
+        } catch (err) {
+          observer.error(this.getStorageErrorText(err));
+        }
+        observer.complete();
+      };
+      reader.readAsDataURL(f);
+    });
+  }
+
+  removeAdoptionFileAttachment() {
+    sessionStorage.removeItem(this.adopptionChildFileKey);
   }
 
   saveAuthToken(value: string): void {
@@ -310,8 +328,18 @@ export class DataService {
         foiRequest.attachments.push(blobFile);
       }
     }
+    if (foiRequest.requestData.adoption) {
+      const filename = this.renameAttachment(foiRequest.requestData.adoption.birthDocumentation, this.adoptionChildFileName);
+      const adoptionFile = this.getBlobFrom(this.adopptionChildFileKey);
+      if (adoptionFile) {
+        const blobFile: BlobFile = {
+          file: adoptionFile,
+          filename,
+        };
+        foiRequest.attachments.push(blobFile);
+      }
+    }
     
-
     return this.apiClient.postFoiRequest(foiRequest, sendEmailOnly);
   }
 

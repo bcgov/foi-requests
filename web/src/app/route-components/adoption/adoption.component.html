@@ -28,6 +28,7 @@
                                 <div class="adopted-child-attachment">
                                     <foi-fileinput
                                     f1
+                                    (fileSelected)="newFileSelected($event)"
                                     [form]="foiForm"
                                     formcontrolname="birthDocumentation"
                                     >
