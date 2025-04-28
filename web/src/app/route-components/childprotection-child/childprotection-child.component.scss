@@ -2,6 +2,7 @@
     padding-left: 4%;
 
     .row {
+      flex-direction: column;
         .form-check-label {
             font-size: 14px;
         }

@@ -176,19 +176,19 @@
     ],
     "childprotectionparent":[
       { "mainoption":"Child Protection Investigation Records (Family Service File)" , "suboptions":[
-        {"option":"Personal History and Recording"},
-        {"option":"Intake & Incident, Service Request & Memo"},
-        {"option":"Legal & Agreements"},
-        {"option":"Financial Documentation"},
-        {"option":"External Assessment & Reports"},
-        {"option":"Medical"},
-        {"option":"Internal Assessments & Service Plans"},
-        {"option":"Reviews"},
-        {"option":"Adoption"},
-        {"option":"Out of Care Services"},
-        {"option":"General Correspondence"},
-        {"option":"Collaborative Planning & Decisions Making"},        
-        {"option":"Case Notes"}
+        {"option":"Personal History and Recording", "description":"Contains file recordings, personal history and personal identification information"},
+        {"option":"Intake & Incident, Service Request & Memo", "description":"Contains records related to child protection investigations, memos, requests for services, and after-hours reports"},
+        {"option":"Legal & Agreements", "description":"Contains court order in-care records, and relevant legal and agreement related correspondence"},
+        {"option":"Financial Documentation", "description":"Contains records and correspondence relating to the financial support services provided to a family"},
+        {"option":"External Assessment & Reports", "description":"Contains all reports and assessments obtained from other ministries, agencies and external professionals (e.g., psychologists)"},
+        {"option":"Medical", "description":"Contains records relating to the medical history of the family"},
+        {"option":"Internal Assessments & Service Plans", "description":"Contains records relating to assessment strengths and risk"},
+        {"option":"Reviews", "description":"Contains records relating to case reviews, complaints and related correspondence"},
+        {"option":"Adoption", "description":"Contains records relating to a pending adoption, and when the adoption file is opened the information is copied into an appropriate adoption file - this may be applicable to a child in care placed for adoption"},
+        {"option":"Out of Care Services", "description":"Contains records related to children that are in out of care arrangement"},
+        {"option":"General Correspondence", "description":"Contains correspondence and records of a general nature not found elsewhere in the file"},
+        {"option":"Collaborative Planning & Decisions Making", "description":"Contains legal documentation and correspondence related to a family participating in the Collaborative Planning and Decision-Making programs also known as ADR"},        
+        {"option":"Case Notes", "description":"Contains practitioner (social worker) case notes"}
         
         ] },
         {
@@ -199,19 +199,19 @@
     "childprotectionchild":[
 
       { "mainoption":"Investigation of your parent when you were a child" , "suboptions":[
-        {"option":"Personal History and Recording"},
-        {"option":"Intake & Incident, Service Request & Memo"},
-        {"option":"Legal & Agreements"},
-        {"option":"Financial Documentation"},
-        {"option":"External Assessment & Reports"},
-        {"option":"Medical"},
-        {"option":"Internal Assessments & Service Plans"},
-        {"option":"Reviews"},
-        {"option":"Adoption"},
-        {"option":"Out of Care Services"},
-        {"option":"General Correspondence"},
-        {"option":"Collaborative Planning & Decisions Making"},        
-        {"option":"Case Notes"}
+        {"option":"Personal History and Recording", "description":"Contains file recordings, personal history and personal identification information"},
+        {"option":"Intake & Incident, Service Request & Memo", "description":"Contains records related to child protection investigations, memos, requests for services, and after-hours reports"},
+        {"option":"Legal & Agreements", "description":"Contains court order in-care records, and relevant legal and agreement related correspondence"},
+        {"option":"Financial Documentation", "description":"Contains records and correspondence relating to the financial support services provided to a family"},
+        {"option":"External Assessment & Reports", "description":"Contains all reports and assessments obtained from other ministries, agencies and external professionals (e.g., psychologists)"},
+        {"option":"Medical", "description":"Contains records relating to the medical history of the family"},
+        {"option":"Internal Assessments & Service Plans", "description":"Contains records relating to assessment strengths and risk"},
+        {"option":"Reviews", "description":"Contains records relating to case reviews, complaints and related correspondence"},
+        {"option":"Adoption", "description":"Contains records relating to a pending adoption, and when the adoption file is opened the information is copied into an appropriate adoption file - this may be applicable to a child in care placed for adoption"},
+        {"option":"Out of Care Services", "description":"Contains records related to children that are in out of care arrangement"},
+        {"option":"General Correspondence", "description":"Contains correspondence and records of a general nature not found elsewhere in the file"},
+        {"option":"Collaborative Planning & Decisions Making", "description":"Contains legal documentation and correspondence related to a family participating in the Collaborative Planning and Decision-Making programs also known as ADR"},        
+        {"option":"Case Notes", "description":"Contains practitioner (social worker) case notes"}
         
         ] },
         {
@@ -223,19 +223,19 @@
     "youthincareparent":[
 
       { "mainoption":"Child Protection Investigation Records (Family Service File)" , "suboptions":[
-        {"option":"Personal History and Recording"},
-        {"option":"Intake & Incident, Service Request & Memo"},
-        {"option":"Legal & Agreements"},
-        {"option":"Financial Documentation"},
-        {"option":"External Assessment & Reports"},
-        {"option":"Medical"},
-        {"option":"Internal Assessments & Service Plans"},
-        {"option":"Reviews"},
-        {"option":"Adoption"},
-        {"option":"Out of Care Services"},
-        {"option":"General Correspondence"},
-        {"option":"Collaborative Planning & Decisions Making"},        
-        {"option":"Case Notes"}
+        {"option":"Personal History and Recording", "description":"Contains file recordings, personal history and personal identification information"},
+        {"option":"Intake & Incident, Service Request & Memo", "description":"Contains records related to child protection investigations, memos, requests for services, and after-hours reports"},
+        {"option":"Legal & Agreements", "description":"Contains court order in-care records, and relevant legal and agreement related correspondence"},
+        {"option":"Financial Documentation", "description":"Contains records and correspondence relating to the financial support services provided to a family"},
+        {"option":"External Assessment & Reports", "description":"Contains all reports and assessments obtained from other ministries, agencies and external professionals (e.g., psychologists)"},
+        {"option":"Medical", "description":"Contains records relating to the medical history of the family"},
+        {"option":"Internal Assessments & Service Plans", "description":"Contains records relating to assessment strengths and risk"},
+        {"option":"Reviews", "description":"Contains records relating to case reviews, complaints and related correspondence"},
+        {"option":"Adoption", "description":"Contains records relating to a pending adoption, and when the adoption file is opened the information is copied into an appropriate adoption file - this may be applicable to a child in care placed for adoption"},
+        {"option":"Out of Care Services", "description":"Contains records related to children that are in out of care arrangement"},
+        {"option":"General Correspondence", "description":"Contains correspondence and records of a general nature not found elsewhere in the file"},
+        {"option":"Collaborative Planning & Decisions Making", "description":"Contains legal documentation and correspondence related to a family participating in the Collaborative Planning and Decision-Making programs also known as ADR"},        
+        {"option":"Case Notes", "description":"Contains practitioner (social worker) case notes"}
         
         ] },
         {
@@ -310,10 +310,6 @@
         }
 
 
-    ],
-    "additionaloptions":[
-      {"value": "handwrittennotes", "name": "Handwritten Notes", "description": "Handwritten Notes are often hard to read. Typed versions of these may be elsewhere in your records."},
-      {"value": "receipts", "name": "Receipts", "description": "Records often contain copies of receipts for goods and services provided by the ministry. These include clothing, transportation, and other activities. Your records will reflect these purchases, even if we exclude copies of receipts."}
     ],
     "delayfactors":[
       "childprotectionparent",

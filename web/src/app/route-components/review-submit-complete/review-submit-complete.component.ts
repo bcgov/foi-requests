@@ -32,6 +32,7 @@ export class ReviewSubmitCompleteComponent implements OnInit {
     this.dataService.setCurrentState(blankState);
     this.dataService.removeChildFileAttachment();
     this.dataService.removePersonFileAttachment();
+    this.dataService.removeAdoptionFileAttachment();
     this.dataService.removeAuthToken();
   }
 
