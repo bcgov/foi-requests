@@ -117,20 +117,20 @@
     ],
     "youthincarechild":[
       { "mainoption":"Child in Care Records" , "suboptions":[
-        {"option":"Personal History, Recordings & Service Plans"},
+        {"option":"Personal History, Recordings & Service Plans", "description":"Contains file recordings, personal history and personal identification information"},
         {"option":"Cultural Planning / Roots"},
-        {"option":"Legal & Agreements"},
-        {"option":"Financial Documentation"},
-        {"option":"External Assessment & Reports"},
-        {"option":"Medical"},
-        {"option":"Internal Assessments"},
-        {"option":"Reviews"},
-        {"option":"Adoption"},
-        {"option":"Out of Care Services"},
-        {"option":"General Correspondence"},
-        {"option":"Collaborative Planning & Decisions Making"},
+        {"option":"Legal & Agreements", "description":"Contains court order in-care records, and relevant legal and agreement related correspondence"},
+        {"option":"Financial Documentation", "description":"Contains records and correspondence relating to the financial support services provided to a family"},
+        {"option":"External Assessment & Reports", "description":"Contains all reports and assessments obtained from other ministries, agencies and external professionals (e.g., psychologists)"},
+        {"option":"Medical", "description":"Contains records relating to the medical history of the family"},
+        {"option":"Internal Assessments", "description":"Contains records relating to assessment strengths and risk"},
+        {"option":"Reviews", "description":"Contains records relating to case reviews, complaints and related correspondence"},
+        {"option":"Adoption", "description":"Contains records relating to a pending adoption, and when the adoption file is opened the information is copied into an appropriate adoption file - this may be applicable to a child in care placed for adoption"},
+        {"option":"Out of Care Services", "description":"Contains records related to children that are in out of care arrangement"},
+        {"option":"General Correspondence", "description":"Contains correspondence and records of a general nature not found elsewhere in the file"},
+        {"option":"Collaborative Planning & Decisions Making", "description":"Contains legal documentation and correspondence related to a family participating in the Collaborative Planning and Decision-Making programs also known as ADR"},
         {"option":"Education, Employment & Training"},
-        {"option":"Case Notes"}
+        {"option":"Case Notes", "description":"Contains practitioner (social worker) case notes"}
         
         ] },
         {
