@@ -64,3 +64,9 @@ jobs:
         shell: bash
         run: |
           oc tag api:latest api:${{ env.TAG_NAME }}
+
+      - name: Rollout Restart Deployment
+        shell: bash
+        run: |
+          oc project ${{ secrets.OPENSHIFT4_FRONTEND_REPOSIOTRY }}-test
+          oc rollout restart deployment/api
