@@ -68,5 +68,5 @@ jobs:
       - name: Rollout Restart Deployment
         shell: bash
         run: |
-          oc project ${{ secrets.OPENSHIFT4_FRONTEND_REPOSIOTRY }}-test
+          oc project 04d1a3-test
           oc rollout restart deployment/api
