@@ -1,4 +1,4 @@
-name: Deploy API to dev update
+name: Deploy API to dev
 
 
 on:
