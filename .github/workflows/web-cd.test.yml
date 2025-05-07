@@ -69,3 +69,9 @@ jobs:
         shell: bash
         run: |
           oc tag web:latest web:${{ env.TAG_NAME }}
+
+      - name: Rollout Restart Deployment
+        shell: bash
+        run: |
+          oc project 04d1a3-test
+          oc rollout restart deployment/web
