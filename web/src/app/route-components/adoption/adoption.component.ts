@@ -6,6 +6,7 @@ import { DataService } from "src/app/services/data.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
+import { FoiFileinputComponent } from "src/app/utils-components/foi-fileinput/foi-fileinput.component";
 
 @Component({
   templateUrl: "./adoption.component.html",
@@ -13,6 +14,7 @@ import { Router } from "@angular/router";
 })
 export class Adoption implements OnInit {
   @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
+  @ViewChild(FoiFileinputComponent, { static: true }) f1: FoiFileinputComponent;
 
   foiForm: FormGroup;
 
@@ -32,6 +34,7 @@ export class Adoption implements OnInit {
   constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) {
     this.foiForm = this.fb.group({
       adoptionselection: [null, [Validators.required]],
+      birthDocumentation:  [null],
     });
   }
 
@@ -108,12 +111,10 @@ export class Adoption implements OnInit {
 
   doContinue() {
     const formData = this.foiForm.value;
-
     let selected = this.mainoptions.filter((m) => m.selected);
     this.foiRequest.requestData.requestType.adoption = selected;
     // Update save data & proceed.
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
-    //this.base.goFoiForward();
     this.forwardforSelectedPersonalTopics();
   }
 
@@ -125,7 +126,6 @@ export class Adoption implements OnInit {
       let current = this.foiRequest.requestData.selectedtopics.find((st) => st.value === this.targetKey);
       let ci = this.foiRequest.requestData.selectedtopics.indexOf(current);
       let next = this.foiRequest.requestData.selectedtopics[ci + 1];
-      console.log(`next childprotectionparent : ${JSON.stringify(next)}`);
       if (next != undefined && this.checkstates.includes(next.value)) {
         this.route.navigate([`/personal/${next.value}`]);
       } else {
@@ -133,6 +133,21 @@ export class Adoption implements OnInit {
       }
     } else {
       this.base.goFoiForward();
+    }
+  }
+  
+  newFileSelected(newFile: File) {
+    if (newFile) {
+      this.dataService.setAdoptionFileAttachment(newFile).subscribe(
+        (value) => {},
+        (error) => {
+          alert(error);
+          this.dataService.removeAdoptionFileAttachment();
+          this.f1.resetContent();
+        }
+      );
+    } else {
+      this.dataService.removeAdoptionFileAttachment();
     }
   }
 

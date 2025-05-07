@@ -66,6 +66,7 @@ export class SelectAboutComponent implements OnInit {
 
     const includesChild = navigateTo.indexOf("child") > -1;
     const includesAnother = navigateTo.indexOf("another") > -1;
+    const includesAdoption = navigateTo.indexOf("adoption") > -1;
 
     // If checkbox selection includes 'child', ministry and requestTopic are fixed.
     if (includesChild) {
@@ -85,6 +86,11 @@ export class SelectAboutComponent implements OnInit {
       delete this.foiRequest.requestData.anotherInformation;
       delete this.foiRequest.requestData.proofOfPermission;
       this.dataService.removePersonFileAttachment();
+    }
+
+    // If this request does not include 'adoption', remove adoptionInformation attachments.
+    if (!includesAdoption) {
+      this.dataService.removeAdoptionFileAttachment();
     }
 
     // Update save data & proceed.
