@@ -15,7 +15,6 @@ const captchaCfg = require('./captchaCfg');
 const apiCaptcha = apiCaptchaFx(captchaCfg);
 
 console.log(`Running ${apiDefinition.name} version ${apiDefinition.version}`);
-console.log("Adam's making exciting changes to the API!");
 
 const transom = new Transom();
 
