@@ -328,7 +328,7 @@ export class DataService {
         foiRequest.attachments.push(blobFile);
       }
     }
-    if (foiRequest.requestData.adoption) {
+    if (foiRequest.requestData.adoption.birthDocumentation) {
       const filename = this.renameAttachment(foiRequest.requestData.adoption.birthDocumentation, this.adoptionChildFileName);
       const adoptionFile = this.getBlobFrom(this.adopptionChildFileKey);
       if (adoptionFile) {
