@@ -9,8 +9,10 @@
       </app-alert-warning-white>
       <h2>Describe the records you are looking for:</h2>
       <app-alert-info *ngIf="hasmcfdspecificrecordsrequests">
-        Be as specific as possible. A good description will be brief and detailed.<br/>
-        <b>When possible, please include:</b> Key words, file types, file numbers, previous FOI request numbers, categories of records to exclude, and the purpose records may have been created for.<br/>
+        Keep your request simple, clear, and focused to reduce processing times.<br/><br/>
+        Asking for “any and all” records can result in a high volume of unnecessary records.<br/><br/>
+        <b>When possible, please include:</b> Key words, file types, file numbers, previous FOI request numbers and categories of records to exclude.<br/><br/>
+        In order to respond to your request as quickly as possible we remove any handwritten case notes and receipts. The information contained in those records may be found in other records throughout the request. You can still request these records by specifying so in your written request description, however this may cause additional delays in the delivery of your records.
       </app-alert-info>
       <div class="form-group">
         <textarea class="form-control" formControlName="description" id="description" rows="6"></textarea>
@@ -27,22 +29,6 @@
             target="_blank">Open Information</a>
         </div>
       </app-alert-info>
-      <app-alert-plain-white *ngIf="hasmcfdspecificrecordsrequests">
-        <div class="option-div">
-          We want to respond to your request as quickly as possible and so we will remove handwritten notes and receipts. You can still request this information by checking the appropriate box below, however this may cause delays in the delivery of your records.<br/>
-          <em>Please note that checking any boxes may cause delays in the delivery of your records.</em><br/>
-          <div *ngIf="(additionalOptions | async) as opts">
-            <div class="form-group" id="optionCheckbox" *ngFor="let opt of opts">
-              <label class="optionLabel">
-                <input type="checkbox" class="checkboxOpt"[value]="opt" formControlName="requestAdditionalOpt" [checked]="opt.selected"
-                  (change)="selectopt(opt,$event.target.checked)" />
-                <div class="optiontext" [innerHTML]="opt.name"></div>
-              </label>
-              <div class="optiondescription" [innerHTML]="opt.description"></div>
-            </div>
-          </div>
-        </div>
-      </app-alert-plain-white>
 
       <div class="form-group row" *ngIf="showPublicServiceEmployeeNumber">
         <label for="publicServiceEmployeeNumber" class="col-lg-5 col-form-label inline-label"
