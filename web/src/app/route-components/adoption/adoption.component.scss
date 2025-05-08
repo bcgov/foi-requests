@@ -2,6 +2,7 @@
     padding-left: 4%;
 
     .row {
+      flex-direction: column;
         .form-check-label {
             font-size: 14px;
         }
@@ -27,6 +28,10 @@
   margin-bottom: 0px;
 }
 
-.adopted-child-info {
+.adopted-child-info { 
   margin-bottom: 1em;
+}
+
+.adopted-child-attachment {
+  max-width: 60%;
 }

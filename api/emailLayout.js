@@ -269,17 +269,6 @@ function EmailLayout() {
     
   }
 
-  this.requestAdditional = function(additionalOptions)
-  {
-    let result = this.tableHeader('Additional Records Specified');
-
-    additionalOptions.forEach(options =>{
-      result += this.tableRowNoLabel(options.name);
-    });
-
-    return result;
-  }
-
   this.adoptiveParents = function(data) {
     const mother = this.joinBySpace(data.motherFirstName, data.motherLastName);
     const father = this.joinBySpace(data.fatherFirstName, data.fatherLastName);
@@ -403,10 +392,6 @@ function EmailLayout() {
         data.requestData.requestType.childprotectionchild,data.requestData.requestType.childprotectionparent,
         data.requestData.requestType.fosterparent,data.requestData.requestType.youthincarechild,data.requestData.requestType.youthincareparent
         )    
-    }
-
-    if(data.requestData.selectedadditionaloptions && data.requestData.selectedadditionaloptions.length > 0) {
-      content += this.requestAdditional(data.requestData.selectedadditionaloptions);
     }
 
     // if we have 'childInformation' then include the block
