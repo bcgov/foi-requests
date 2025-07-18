@@ -17,7 +17,7 @@
       { "code": "HTH","key": "HTH", "name": "Health", "publicBody": "Health" },
       { "code": "IRR","key": "IRR", "name": "Indigenous Relations and Reconciliation", "publicBody": "Indigenous Relations and Reconciliation" },
       { "code": "DAS","key": "DAS", "name": "Declaration Act Secretariat", "publicBody": "Indigenous Relations and Reconciliation" },
-      { "code": "JERI","key": "JERI", "name": "Jobs, Economic Development and Innovation", "publicBody": "Jobs, Economic Development and Innovation" },
+      { "code": "JERI","key": "JERI", "name": "Jobs and Economic Growth", "publicBody": "Jobs and Economic Growth" },
       { "code": "LBR","key": "LBR","name": "Labour", "publicBody": "Labour" },
       { "code": "LWR", "key": "LWR","name": "Water, Land and Resource Stewardship", "publicBody": "Water, Land and Resource Stewardship" },      
       { "code": "HSG","key": "HSG", "name": "Housing and Municipal Affairs", "publicBody": "Housing and Municipal Affairs" },
