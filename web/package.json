@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.1",
-    "@angular/cli": "^18.2.1",
+    "@angular/cli": "^21.1.0",
     "@angular/compiler-cli": "^18.2.1",
     "@angular/language-service": "^18.2.1",
     "@ngtools/webpack": "^18.2.3",
