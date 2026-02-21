@@ -78,6 +78,8 @@ const submitFoiRequest = async (server, req, res, next) => {
   }
    catch(error){
      console.log(`${error}`);
+     console.log("FOI API STATUS:", error.response.status);
+     console.log("FOI API DATA:", error.response.data)
      req.log.info('Failed:', error);
      const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
      return next(unavailable);
