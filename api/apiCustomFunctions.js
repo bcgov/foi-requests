@@ -48,7 +48,7 @@ const submitFoiRequest = async (server, req, res, next) => {
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
-    console.log(`API response = Status: ${response.status}, Message: ${response.message}`);
+    console.log(`API response = ${response.status}`);
 
     if(response.status === 200  && response.data.status ) {
       console.log(`response id: ${response.data.id}`);
@@ -78,9 +78,6 @@ const submitFoiRequest = async (server, req, res, next) => {
   }
    catch(error){
      console.log(`${error}`);
-     console.log("FOI API STATUS:", error.response.status);
-     console.log("FOI API DATA:", error.response.data)
-     console.log(response)
      req.log.info('Failed:', error);
      const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
      return next(unavailable);
