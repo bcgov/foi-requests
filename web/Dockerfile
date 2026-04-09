@@ -7,7 +7,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --legacy-peer-deps --ignore-scripts
+RUN npm ci --legacy-peer-deps --ignore-scripts \
+  && npm rebuild
 
 # Copy the Angular project configuration and source files
 COPY angular.json tsconfig.json ./
