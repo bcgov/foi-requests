@@ -17,6 +17,9 @@ COPY src ./src
 # Build the Angular app
 RUN npm run build-dev -- --configuration=production
 
+RUN chmod -R g+rwX /usr/src/app/dist/bcfoi \
+  && chgrp -R 0 /usr/src/app/dist/bcfoi
+
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
 
