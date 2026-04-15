@@ -47,12 +47,12 @@ jobs:
       # Build the APP image
       - name: Build APP Image
         run: |
-          docker build -t ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/web:latest -f Dockerfile .
+          docker build -t ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_NAMESPACE }}-tools/web:latest -f Dockerfile .
 
       # Push the APP image
       - name: Push APP Image
         run: |
-          docker push ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/web:latest
+          docker push ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_NAMESPACE }}-tools/web:latest
 
       - name: Install oc
         uses: redhat-actions/oc-installer@v1
@@ -72,10 +72,11 @@ jobs:
       - name: Tag+Deploy for dev
         shell: bash
         run: |
+          oc project ${{ secrets.OPENSHIFT_NAMESPACE }}-tools
           oc tag web:latest web:${{ env.TAG_NAME }}
       
       - name: Rollout Restart Deployment
         shell: bash
         run: |
-          oc project ${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}
+          oc project ${{ secrets.OPENSHIFT_NAMESPACE }}-dev
           oc rollout restart deployment/web
