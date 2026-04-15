@@ -32,6 +32,9 @@ FROM nginx:1.29-alpine
 # copy custom nginx configuration from host to container
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Add a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
 # Set working directory to nginx asset directory
 WORKDIR /usr/share/nginx/html
 
@@ -40,6 +43,9 @@ COPY --from=build /usr/src/app/dist/bcfoi .
 
 # Provide nginx directory the required permissions
 RUN chmod g+rwx /var/cache/nginx /var/run /var/log/nginx
+
+# Switch to the non-root user
+USER appuser
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
