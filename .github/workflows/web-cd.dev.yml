@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - dev
-      - dev-AC-1355
     paths:
       - "web/**"
       - ".github/workflows/web-cd.dev.yml"
@@ -34,6 +33,27 @@ jobs:
       name: "dev"
 
     steps:
+       # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      # Login to BC Gov Docker Image Repository
+      - name: Login to Openshift Docker
+        run : |
+         docker login ${{ secrets.PUBLIC_IMAGE_REPOSITORY }} -u ${{ secrets.OPENSHIFT_SA_NAME }} -p ${{ secrets.OPENSHIFT_SA_TOOLS_TOKEN }}
+
+      # Build the APP image
+      - name: Build APP Image
+        run: |
+          cd web && docker build -t ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/web:latest -f Dockerfile .
+
+      # Push the APP image
+      - name: Push APP Image
+        run: |
+          docker push ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/web:latest
+
       - name: Install oc
         uses: redhat-actions/oc-installer@v1
         with:
@@ -51,26 +71,6 @@ jobs:
         run: |
           oc login --server=${{secrets.OPENSHIFT4_LOGIN_REGISTRY}} --token=${{secrets.OPENSHIFT4_SA_TOKEN}}
 
-      - name: Tools project
-        shell: bash
-        run: |
-          oc project ${{ secrets.OPENSHIFT4_FRONTEND_REPOSITORY }}-tools
-
-      - name: Build from text branch
-        shell: bash
-        run: |
-          oc patch bc/web-artifact-build -p '{"spec":{"source":{"git":{"ref":"dev"}}}}'
-
-      - name: Start Build Openshift part 1/2
-        shell: bash
-        run: |
-          oc start-build web-artifact-build --wait
-
-      - name: Start Build Openshift part 2/2
-        shell: bash
-        run: |
-          oc start-build web-image-build --wait
-
       - name: Tag+Deploy for dev
         shell: bash
         run: |
@@ -79,5 +79,5 @@ jobs:
       - name: Rollout Restart Deployment
         shell: bash
         run: |
-          oc project 04d1a3-dev
+          oc project ${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}
           oc rollout restart deployment/web
