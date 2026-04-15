@@ -35,7 +35,7 @@ jobs:
     steps:
        # Checkout the repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           
@@ -47,7 +47,7 @@ jobs:
       # Build the APP image
       - name: Build APP Image
         run: |
-          cd web && docker build -t ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/web:latest -f Dockerfile .
+          docker build -t ${{ secrets.PUBLIC_IMAGE_REPOSITORY }}/${{ secrets.OPENSHIFT_TOOLS_NAMESPACE }}/web:latest -f Dockerfile .
 
       # Push the APP image
       - name: Push APP Image
@@ -58,8 +58,6 @@ jobs:
         uses: redhat-actions/oc-installer@v1
         with:
           oc_version: '4.6'
-
-      - uses: actions/checkout@v2
 
       - name: Install oc
         uses: redhat-actions/oc-installer@v1
