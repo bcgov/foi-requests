@@ -13,9 +13,9 @@ RUN npm install --legacy-peer-deps --ignore-scripts
 # Copy the rest of the application code to the working directory
 COPY *.js *.sh *.env ./
 
-RUN chgrp -R 0 /app && chmod -R g+rwX /app
-
-RUN chmod +x ./container-entrypoint.sh
+RUN chgrp -R 0 /app && \
+    chmod -R g+rwX /app && \
+    chmod +x ./container-entrypoint.sh
 
 USER node
 
