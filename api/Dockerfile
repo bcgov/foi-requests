@@ -13,8 +13,7 @@ RUN npm install --legacy-peer-deps --ignore-scripts
 # Copy the rest of the application code to the working directory
 COPY *.js *.sh *.env ./
 
-# Expose the port the app runs on
-EXPOSE 7085
+RUN chgrp -R 0 /app && chmod -R g+rwX /app
 
 RUN chmod +x ./container-entrypoint.sh
 
