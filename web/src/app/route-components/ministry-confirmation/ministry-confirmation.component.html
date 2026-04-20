@@ -10,12 +10,14 @@
         <ul>
           <ng-container *ngFor="let m of minis; let i = index">
             <li *ngIf="m.defaulted" [ngClass]="ministryListClasses(m)">
-              <label><input type="checkbox" [checked]="m.selected" (change)="selectMinistry(m)" /> {{ m.name }} </label>
+              <label><input type="checkbox" [checked]="m.selected" [disabled]="m.disabled"
+                  (change)="selectMinistry(m)" /> {{ m.name }} </label>
             </li>
           </ng-container>
           <ng-container *ngFor="let m of minis; let i = index">
             <li *ngIf="!m.defaulted" [ngClass]="ministryListClasses(m)">
-              <label><input type="checkbox" [checked]="m.selected" (change)="selectMinistry(m)" /> {{ m.name }} </label>
+              <label><input type="checkbox" [checked]="m.selected" [disabled]="m.disabled"
+                  (change)="selectMinistry(m)" /> {{ m.name }} </label>
             </li>
           </ng-container>
         </ul>
@@ -25,11 +27,8 @@
     <app-alert-info>
       <p>Select one or more ministries or agencies.</p>
       <p>
-        <a
-          href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries"
-          target="_blank"
-          >Learn more about what each ministry or agency does</a
-        >
+        <a href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries"
+          target="_blank">Learn more about what each ministry or agency does</a>
         before submitting your request.
       </p>
     </app-alert-info>
@@ -38,9 +37,8 @@
         Before continuing to submit your FOI request, please note that the Environmental Assessment Office (EAO) is
         involved in
         <a
-          href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments/frequently-asked-questions"
-          >major projects</a
-        >
+          href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments/frequently-asked-questions">major
+          projects</a>
         in B.C., such as industrial, energy, mines, water management, waste management, transportation and tourist
         destinations and resorts that meet the thresholds under the Reviewable Project Regulation of the Environmental
         Assessment Act. When a major project is proposed in British Columbia, it must undergo an Environmental
@@ -49,9 +47,8 @@
         request does not relate to a major project and/or is not found at this website, please consider submitting to
         the Ministry of Environment or other appropriate Ministries. For more information about the EAO, you may visit
         their website at:
-        <a href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments"
-          >https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments</a
-        >
+        <a
+          href="https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments">https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/environmental-assessments</a>
       </p>
     </app-alert-warning>
     <app-alert-warning *ngIf="isforestministry">
@@ -75,14 +72,13 @@
       <p>
         For FOI requests relating to a potentially contaminated site, please note that information is accessible to the
         public through the
-        <a href="https://www2.gov.bc.ca/gov/content/environment/air-land-water/site-remediation/site-information"
-          >Site Registry</a
-        >. The records available on the Site Registry are not provided through the FOI process. The Site Registry
+        <a href="https://www2.gov.bc.ca/gov/content/environment/air-land-water/site-remediation/site-information">Site
+          Registry</a>. The records available on the Site Registry are not provided through the FOI process. The Site
+        Registry
         contains records about the identification, investigation and remediation of potentially contaminated sites.
         Before continuing to submit your FOI request, please follow instructions on the
-        <a href="https://www2.gov.bc.ca/gov/content/environment/air-land-water/site-remediation/site-information"
-          >Site information webpage</a
-        >
+        <a href="https://www2.gov.bc.ca/gov/content/environment/air-land-water/site-remediation/site-information">Site
+          information webpage</a>
         to obtain Site Registry records.
       </p>
     </app-alert-warning>
@@ -96,11 +92,8 @@
     <h3>Is some information already available?</h3>
     <ul>
       <li>
-        <a
-          href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information"
-          target="_blank"
-          >Open Information</a
-        >
+        <a href="https://www2.gov.bc.ca/gov/content/governments/about-the-bc-government/open-government/open-information"
+          target="_blank">Open Information</a>
       </li>
       <li>
         <a href="https://www2.gov.bc.ca/gov/content/data/about-data-management/databc" target="_blank">Open Data</a>
@@ -110,11 +103,9 @@
     <h3>Why aren’t some organizations listed?</h3>
     <p>
       This list only includes
-      <a
-        href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations"
-        target="_blank"
-        >B.C. Government ministries and agencies</a
-      >. Other organizations, including Crown Corporations (like ICBC, BC Transit, or BC Ferries), have their own record
+      <a href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations"
+        target="_blank">B.C. Government ministries and agencies</a>. Other organizations, including Crown Corporations
+      (like ICBC, BC Transit, or BC Ferries), have their own record
       request processes.
     </p>
 
