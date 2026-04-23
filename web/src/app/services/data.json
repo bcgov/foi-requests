@@ -47,7 +47,7 @@
       {
         "value": "incomeAssistance",
         "text": "Your income assistance history",
-        "ministryCode": "SDPR"
+        "ministryCode": "MSD"
       },
       { "value": "childprotectionparent", "text": "Your records as a <strong>parent</strong> from a child protection investigation", "ministryCode": "MCF","hassubscreen":"true" },
       { "value": "childprotectionchild", "text": "Your records as a <strong>child</strong> from a child protection investigation", "ministryCode": "MCF" ,"hassubscreen":"true" },
@@ -76,7 +76,7 @@
       {
         "value": "incomeAssistance",
         "text": "The person's income assistance history",
-        "ministryCode": "SDPR"
+        "ministryCode": "MSD"
       },
       {
         "value": "childProtection",
@@ -105,7 +105,7 @@
       {
         "value": "incomeAssistance",
         "text": "Income assistance history",
-        "ministryCode": "SDPR"
+        "ministryCode": "MSD"
       },
       {
         "value": "childProtection",

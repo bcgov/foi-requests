@@ -237,7 +237,7 @@ describe('emailLayout', function() {
       { code: 'HLTH', name: 'Health' },
       { code: 'IRR', name: 'Indigenous Relations and Reconciliation' },
       { code: 'LBR', name: 'Labour' },
-      { code: 'SDPR', name: 'Social Development and Poverty Reduction' }
+      { code: 'MSD', name: 'Social Development and Poverty Reduction' }
     ];
 
     let result = emailLayout.ministry(sampleRequestData.ministry);
