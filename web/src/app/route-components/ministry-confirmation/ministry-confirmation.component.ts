@@ -25,49 +25,56 @@ export class MinistryConfirmationComponent implements OnInit {
   hideforestministryongoingwildfirealert: boolean = true;
   isEAOministry: boolean = false;
   isENVministry: boolean = false;
-  constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) {}
+  constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) { }
 
   mcfdOnlyTopicValues: string[] = [
-  "adoption",
-  "childprotectionchild",
-  "childprotectionparent",
-  "fosterparent",
-  "youthincarechild",
-  "youthincareparent",
-];
+    "adoption",
+    "childprotectionchild",
+    "childprotectionparent",
+    "fosterparent",
+    "youthincarechild",
+    "youthincareparent",
+  ];
 
   isMcfdOnlyRequest: boolean = false;
   readonly mcfdMinistryCode: string = "MCF";
 
   private hasMcfdOnlyTopicSelected(): boolean {
-  const currentUrl = this.route.url || "";
-  return this.mcfdOnlyTopicValues.some((topicValue) =>
-    currentUrl.includes(`/${topicValue}/ministry-confirmation`)
-  );
-}
+    const currentUrl = this.route.url || "";
+    const currentRequestTopic = this.foiRequest?.requestData?.requestTopic?.value;
 
+    const matchesTopicSpecificRoute = this.mcfdOnlyTopicValues.some((topicValue) =>
+      currentUrl.includes(`/${topicValue}/ministry-confirmation`)
+    );
 
-private isMcfdMinistry(m: any): boolean {
-  return m?.code === this.mcfdMinistryCode;
-}
+    const matchesCurrentRequestTopic =
+      !!currentRequestTopic && this.mcfdOnlyTopicValues.includes(currentRequestTopic);
 
-private applyMcfdOnlyMinistryRules(ministries: any[]): any[] {
-  if (!this.isMcfdOnlyRequest) {
-    ministries.forEach((m) => {
-      m.disabled = false;
-    });
-    return ministries;
+    return matchesTopicSpecificRoute || matchesCurrentRequestTopic;
   }
 
-  ministries.forEach((m) => {
-    const isMcfd = this.isMcfdMinistry(m);
-    m.selected = isMcfd;
-    m.defaulted = isMcfd;
-    m.disabled = !isMcfd;
-  });
 
-  return ministries;
-}
+  private isMcfdMinistry(m: any): boolean {
+    return m?.code === this.mcfdMinistryCode;
+  }
+
+  private applyMcfdOnlyMinistryRules(ministries: any[]): any[] {
+    if (!this.isMcfdOnlyRequest) {
+      ministries.forEach((m) => {
+        m.disabled = false;
+      });
+      return ministries;
+    }
+
+    ministries.forEach((m) => {
+      const isMcfd = this.isMcfdMinistry(m);
+      m.selected = isMcfd;
+      m.defaulted = isMcfd;
+      m.disabled = !isMcfd;
+    });
+
+    return ministries;
+  }
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
@@ -120,8 +127,8 @@ private applyMcfdOnlyMinistryRules(ministries: any[]): any[] {
 
   selectMinistry(m: any) {
     if (this.isMcfdOnlyRequest) {
-    return;
-  }
+      return;
+    }
     m.selected = !m.selected;
     if (m.code === "EAO" && m.selected === true) {
       this.isEAOministry = true;
