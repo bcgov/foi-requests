@@ -467,11 +467,11 @@ function ConfirmationEmailLayout() {
 			<p>Please do not reply to this email, this is an acknowledgment of payment.</p>
 			<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>	
 			<p>Regards,</p>	
-			<p>FOI Operations</p>
+			<p>Access & Information Management Branch</p>
 			<hr/>		
 			<p style='margin:0;'>
 				<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>
-				<span style='color:#00326A'>FOI Operations</span>
+				<span style='color:#00326A'>Access & Information Management Branch</span>
 			</p>	
 			<p style='margin:0;'>
 				<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9V1</span>
@@ -484,7 +484,7 @@ function ConfirmationEmailLayout() {
 			<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>
 			<p style='margin:0;'>
 				<span>250-387-1321 or 1-833-283-8200
-					<i>(ask for FOI Operations)</i>
+					<i>(ask for Access & Information Management Branch)</i>
 				</span>
 			</p>
 		</div>`
