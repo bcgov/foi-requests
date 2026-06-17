@@ -14,6 +14,17 @@ export class DescriptionTimeframeComponent implements OnInit {
   @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
   foiForm: FormGroup;
 
+  readonly descriptionMaxLength: number = 1200;
+
+  get descriptionCharacterCount(): number {
+    const description = this.foiForm?.get("description")?.value || "";
+    return description.length;
+  }
+
+  get descriptionLimitReached(): boolean {
+    return this.descriptionCharacterCount >= this.descriptionMaxLength;
+  }
+
   foiRequest: FoiRequest;
   targetKey: string = "descriptionTimeframe";
   topic: string;
@@ -25,11 +36,11 @@ export class DescriptionTimeframeComponent implements OnInit {
   selectedOptions: Array<any> = [];
   delayFactors: Array<string> = [];
 
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private dataService: DataService) { }
 
   ngOnInit() {
     this.foiForm = this.fb.group({
-      description: [null, Validators.required],
+      description: [null, [Validators.required, Validators.maxLength(this.descriptionMaxLength)]],
       fromDate: [null, Validators.compose([Validators.required, this.base.noFutureValidator])],
       toDate: [null, [Validators.required, this.base.noFutureValidator, this.base.toDateValidator]],
       correctionalServiceNumber: [null, Validators.maxLength(255)],
