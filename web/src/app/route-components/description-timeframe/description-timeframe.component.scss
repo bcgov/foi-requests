@@ -24,3 +24,16 @@ margin-bottom: 0rem;
 line-height: 0.75rem;
 font-size: 9px;
 }
+
+.description-character-count {
+  margin-top: 0.25rem;
+}
+
+.description-character-count-limit-reached {
+  color: #d8292f;
+  font-weight: bold;
+}
+
+.description-character-count-limit-reached strong {
+  margin-left: 0.5rem;
+}
