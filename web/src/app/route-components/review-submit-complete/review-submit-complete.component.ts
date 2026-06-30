@@ -26,13 +26,7 @@ export class ReviewSubmitCompleteComponent implements OnInit {
     this.foiRequest.requestData.requestType.youthincareparent = [];
 
     // Clear the current state!
-    const blankState: FoiRequest = {
-      requestData: {},
-    };
-    this.dataService.setCurrentState(blankState);
-    this.dataService.removeChildFileAttachment();
-    this.dataService.removePersonFileAttachment();
-    this.dataService.removeAdoptionFileAttachment();
+    this.dataService.clearState();
     this.dataService.removeAuthToken();
   }
 

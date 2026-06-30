@@ -74,6 +74,8 @@ export class ReviewSubmitComponent implements OnInit {
         this.foiRequest.requestData.requestId = result.id;
         this.dataService.setCurrentState(this.foiRequest);
         this.dataService.saveAuthToken(this.authToken);
+        // Clear request state so a duplicate submission cannot resubmit the same data
+        this.dataService.clearState();
 
         // this.isBusy = false;
         // If the user is authenticated, logout the user
