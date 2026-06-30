@@ -110,6 +110,8 @@ export class PaymentCompleteComponent implements OnInit {
   }
 
   submitEmail() {
+    console.count('COUNT: SUBMIT PAYMENT EMAIL COMPONENT CALLED');
+    console.trace('TRACE: SUBMIT PAYMENT EMAIL COMPONENT');
     this.dataService.submitRequest(this.authToken, null, this.foiRequest, true).subscribe(
       (result) => {
         if (!result.EmailSuccess) {

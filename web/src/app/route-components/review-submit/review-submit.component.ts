@@ -61,6 +61,13 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   doContinue() {
+    console.count("COUNT: REQUEST SUBMIT COMPONENT CALLED");
+    if (this.isBusy) {
+      console.trace('TRACE: REQUEST SUBMIT COMPONENT BLOCKED');
+      return;
+    }
+    console.trace('TRACE: REQUEST SUBMIT COMPONENT ALLOWED');
+    
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(
       (result) => {
@@ -68,7 +75,7 @@ export class ReviewSubmitComponent implements OnInit {
         this.dataService.setCurrentState(this.foiRequest);
         this.dataService.saveAuthToken(this.authToken);
 
-        this.isBusy = false;
+        // this.isBusy = false;
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
           this.keycloakService.logout();
