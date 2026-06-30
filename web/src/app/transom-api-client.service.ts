@@ -94,6 +94,8 @@ export class TransomApiClientService  {
    * @param body The body to post to the request.
    */
   postFoiRequest(foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
+    console.count('COUNT: postFoiRequest FUNCTION');
+    console.trace('TRACE: postFoiRequest FUNCTION');
     const functionName = sendEmailOnly ? "submitFoiRequestEmail" : "submitFoiRequest";
     const url = this.baseUrl + `/fx/${functionName}`;
 

@@ -61,6 +61,13 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   doContinue() {
+    console.count("COUNT: REQUEST SUBMIT COMPONENT CALLED");
+    if (this.isBusy) {
+      console.trace('TRACE: REQUEST SUBMIT COMPONENT BLOCKED');
+      return;
+    }
+    console.trace('TRACE: REQUEST SUBMIT COMPONENT ALLOWED');
+    
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(
       (result) => {
@@ -68,9 +75,11 @@ export class ReviewSubmitComponent implements OnInit {
         this.dataService.setCurrentState(this.foiRequest);
         this.dataService.saveAuthToken(this.authToken);
 
-        this.isBusy = false;
+        // this.isBusy = false;
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
+          // Clear request state so a duplicate submission cannot resubmit the same data
+          this.dataService.clearState();
           this.keycloakService.logout();
         } else {
           this.base.goFoiForward();
@@ -82,11 +91,6 @@ export class ReviewSubmitComponent implements OnInit {
         alert("Temporarily unable to submit your request. Please try again in a few minutes.");
         this.captchaComponent.forceRefresh();
         this.captchaComplete = false;
-        // if (this.keycloakService.isAuthenticated()) {
-        //   this.keycloakService.logout();
-        // } else {
-        //   this.base.goFoiForward();
-        // }
       }
     );
   }
