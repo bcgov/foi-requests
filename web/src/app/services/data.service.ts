@@ -143,6 +143,14 @@ export class DataService {
     return foi;
   }
 
+  clearState() {
+    const blankState: FoiRequest = { requestData: {} };
+    this.setCurrentState(blankState);
+    this.removeChildFileAttachment();
+    this.removePersonFileAttachment();
+    this.removeAdoptionFileAttachment();
+  }
+
   setChildFileAttachment(f: File): Observable<boolean> {
     return new Observable((observer) => {
       const reader: FileReader = new FileReader();
