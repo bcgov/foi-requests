@@ -61,12 +61,16 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   doContinue() {
-    console.count("COUNT: REQUEST SUBMIT COMPONENT CALLED");
+    console.log(
+      '[REVIEW-SUBMIT COMPONENT]',
+      new Date().toISOString(),
+      'Submitting request'
+    );
     if (this.isBusy) {
-      console.trace('TRACE: REQUEST SUBMIT COMPONENT BLOCKED');
+      console.trace('REQUEST-SUBMIT COMPONENT BLOCKED');
       return;
     }
-    console.trace('TRACE: REQUEST SUBMIT COMPONENT ALLOWED');
+    console.trace('REQUEST-SUBMIT COMPONENT ALLOWED');
     
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(

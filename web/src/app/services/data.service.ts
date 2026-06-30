@@ -301,8 +301,12 @@ export class DataService {
    * @param foiRequest - A structure containing the complete request
    */
   submitRequest(authToken: string, nonce: string, foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
-    console.count('COUNT: submitRequest FUNCTION');
-    console.trace('TRACE: submitRequest FUNCTION');
+    console.log(
+      '[DATA SERVICE]',
+      new Date().toISOString(),
+      'submitRequest called'
+    );
+    console.trace('submitRequest FUNCTION');
     this.apiClient.setHeader("Authorization", "Bearer " + authToken);
     if (nonce) {
       
