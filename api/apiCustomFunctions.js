@@ -16,8 +16,12 @@ const MAX_ATTACH_MB = 5;
 const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
 
 const submitFoiRequest = async (server, req, res, next) => {
-  console.count("COUNT: submitFoiRequest API CALL");
-  console.trace('TRACE: submitFoiRequest API CALL');
+  console.log(
+    '[API]',
+    new Date().toISOString(),
+    'submitFoiRequest API called'
+  );
+  console.trace('submitFoiRequest API');
   
   const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;  
 
