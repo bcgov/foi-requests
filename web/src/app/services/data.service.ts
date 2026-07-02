@@ -143,8 +143,8 @@ export class DataService {
     return foi;
   }
 
-  clearState() {
-    const blankState: FoiRequest = { requestData: {} };
+  clearState(newData = {}) {
+    const blankState: FoiRequest = { requestData: newData };
     this.setCurrentState(blankState);
     this.removeChildFileAttachment();
     this.removePersonFileAttachment();
