@@ -29,6 +29,50 @@ export class RequestTopicComponent implements OnInit {
     "youthincarechild",
     "youthincareparent",
   ];
+
+  childrenAndFamilyTopicValues: string[] = [
+    "adoption",
+    "childprotectionchild",
+    "childprotectionparent",
+    "fosterparent",
+    "youthincarechild",
+    "youthincareparent",
+  ];
+
+  singleRouteTopicValues: string[] = [
+    "publicServiceEmployment",
+    "correctionalFacility",
+    "incomeAssistance",
+    "anotherTopic",
+  ];
+
+  private isChildrenAndFamilyTopic(topic: any): boolean {
+    return this.childrenAndFamilyTopicValues.includes(topic?.value);
+  }
+
+  private getSelectedTopics(): any[] {
+    return this.topics ? this.topics.filter((topic) => topic.selected) : [];
+  }
+
+  isTopicDisabled(topic: any): boolean {
+    const selectedTopics = this.getSelectedTopics();
+
+    if (selectedTopics.length === 0) {
+      return false;
+    }
+
+    const selectedChildrenAndFamily = selectedTopics.some((selectedTopic) =>
+      this.isChildrenAndFamilyTopic(selectedTopic)
+    );
+
+    if (selectedChildrenAndFamily) {
+      return !this.isChildrenAndFamilyTopic(topic);
+    }
+
+    const selectedTopic = selectedTopics[0];
+    return topic.value !== selectedTopic.value;
+  }
+
   constructor(
     private fb: FormBuilder,
     private dataService: DataService,
@@ -98,6 +142,10 @@ export class RequestTopicComponent implements OnInit {
   }
 
   selecttopic(item: any, _checked) {
+    if (this.isTopicDisabled(item) && !item.selected) {
+      return;
+    }
+
     item.selected = !item.selected;
     let current = this.foiRequest.requestData.selectedtopics.find((st) => st.value === item.value);
     const itemindex: number = this.foiRequest.requestData.selectedtopics.indexOf(current);
