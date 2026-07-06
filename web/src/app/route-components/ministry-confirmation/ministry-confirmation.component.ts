@@ -27,61 +27,108 @@ export class MinistryConfirmationComponent implements OnInit {
   isENVministry: boolean = false;
   constructor(private fb: FormBuilder, private dataService: DataService, private route: Router) { }
 
-  mcfdOnlyTopicValues: string[] = [
-    "adoption",
-    "childprotectionchild",
-    "childprotectionparent",
-    "fosterparent",
-    "youthincarechild",
-    "youthincareparent",
-  ];
+  readonly personalTopicMinistryCodeMap: { [key: string]: string } = {
+    publicServiceEmployment: "PSA",
+    correctionalFacility: "PSSG",
+    incomeAssistance: "MSD",
+    adoption: "MCF",
+    childprotectionchild: "MCF",
+    childprotectionparent: "MCF",
+    fosterparent: "MCF",
+    youthincarechild: "MCF",
+    youthincareparent: "MCF",
+  };
 
-  isMcfdOnlyRequest: boolean = false;
-  readonly mcfdMinistryCode: string = "MCF";
+  readonly otherPersonalTopicValue: string = "anotherTopic";
 
-  private hasMcfdOnlyTopicSelected(): boolean {
-    const currentUrl = this.route.url || "";
+  isPersonalRequest: boolean = false;
+  isLockedPersonalMinistryRequest: boolean = false;
+  isOtherPersonalRequest: boolean = false;
+  lockedPersonalMinistryCode: string = null;
+
+  private getRequestType(): string {
+    const requestType = this.foiRequest?.requestData?.requestType;
+    return requestType?.requestType || requestType;
+  }
+
+  private getCurrentRequestTopicValue(): string {
     const currentRequestTopic = this.foiRequest?.requestData?.requestTopic?.value;
 
-    const matchesTopicSpecificRoute = this.mcfdOnlyTopicValues.some((topicValue) =>
-      currentUrl.includes(`/${topicValue}/ministry-confirmation`)
-    );
+    if (currentRequestTopic) {
+      return currentRequestTopic;
+    }
 
-    const matchesCurrentRequestTopic =
-      !!currentRequestTopic && this.mcfdOnlyTopicValues.includes(currentRequestTopic);
+    const currentUrl = this.route.url || "";
+    const personalRouteMatch = currentUrl.match(/\/personal\/([^\/]+)\/ministry-confirmation/);
 
-    return matchesTopicSpecificRoute || matchesCurrentRequestTopic;
+    return personalRouteMatch ? personalRouteMatch[1] : null;
   }
 
-
-  private isMcfdMinistry(m: any): boolean {
-    return m?.code === this.mcfdMinistryCode;
-  }
-
-  private applyMcfdOnlyMinistryRules(ministries: any[]): any[] {
-    if (!this.isMcfdOnlyRequest) {
+  private applyPersonalMinistryRules(ministries: any[]): any[] {
+    if (this.isLockedPersonalMinistryRequest) {
       ministries.forEach((m) => {
-        m.disabled = false;
+        const isLockedMinistry = m.code === this.lockedPersonalMinistryCode;
+        m.selected = isLockedMinistry;
+        m.defaulted = isLockedMinistry;
+        m.disabled = true;
       });
+
       return ministries;
     }
 
+    if (this.isOtherPersonalRequest) {
+      return this.applyOtherPersonalMinistryRules(ministries);
+    }
+
     ministries.forEach((m) => {
-      const isMcfd = this.isMcfdMinistry(m);
-      m.selected = isMcfd;
-      m.defaulted = isMcfd;
-      m.disabled = !isMcfd;
+      m.disabled = false;
     });
 
     return ministries;
   }
+
+  private applyOtherPersonalMinistryRules(ministries: any[]): any[] {
+    const selectedMinistries = ministries.filter((m) => m.selected);
+
+    if (selectedMinistries.length > 1) {
+      const selectedMinistry = selectedMinistries[0];
+
+      ministries.forEach((m) => {
+        m.selected = m.code === selectedMinistry.code;
+      });
+    }
+
+    const hasSelectedMinistry = ministries.some((m) => m.selected);
+
+    ministries.forEach((m) => {
+      m.defaulted = false;
+      m.disabled = hasSelectedMinistry && !m.selected;
+    });
+
+    return ministries;
+  }
+
+  private refreshSelectedMinistryFlags(ministries: any[]): void {
+    this.isEAOministry = !!ministries.find((m) => m.code === "EAO" && m.selected);
+    this.isENVministry = !!ministries.find((m) => m.code === "ENV" && m.selected);
+    this.isforestministry = !!ministries.find((m) => m.code === "FOR" && m.selected);
+  }
+
+
 
   ngOnInit() {
     this.foiRequest = this.dataService.getCurrentState(this.targetKey);
     this.defaultMinistry = this.foiRequest.requestData[this.targetKey].defaultMinistry;
     let selectedMinistry = this.foiRequest.requestData[this.targetKey].selectedMinistry;
     this.requiresPayment = this.foiRequest.requestData.requestType.requestType === "general";
-    this.isMcfdOnlyRequest = this.hasMcfdOnlyTopicSelected();
+    const currentRequestTopicValue = this.getCurrentRequestTopicValue();
+
+    this.isPersonalRequest = this.getRequestType() === "personal" || this.route.url.includes("/personal/");
+    this.lockedPersonalMinistryCode = this.isPersonalRequest
+      ? this.personalTopicMinistryCodeMap[currentRequestTopicValue]
+      : null;
+    this.isLockedPersonalMinistryRequest = !!this.lockedPersonalMinistryCode;
+    this.isOtherPersonalRequest = this.isPersonalRequest && currentRequestTopicValue === this.otherPersonalTopicValue;
 
     // Fetch Ministries from the data service.
     this.ministries$ = this.dataService.getMinistries().pipe(
@@ -106,7 +153,11 @@ export class MinistryConfirmationComponent implements OnInit {
             this.isforestministry = false;
           }
         });
-        return this.applyMcfdOnlyMinistryRules(ministries);
+
+        ministries = this.applyPersonalMinistryRules(ministries);
+        this.refreshSelectedMinistryFlags(ministries);
+
+        return ministries;
       }),
       map((ministries) => {
         this.base.continueDisabled = !ministries.find((m) => m.selected);
@@ -126,25 +177,17 @@ export class MinistryConfirmationComponent implements OnInit {
   }
 
   selectMinistry(m: any) {
-    if (this.isMcfdOnlyRequest) {
+    if (this.isLockedPersonalMinistryRequest) {
       return;
     }
+
     m.selected = !m.selected;
-    if (m.code === "EAO" && m.selected === true) {
-      this.isEAOministry = true;
-    } else if (m.code === "EAO" && m.selected === false) {
-      this.isEAOministry = false;
+
+    if (this.isOtherPersonalRequest) {
+      this.applyOtherPersonalMinistryRules(this.ministries);
     }
-    if (m.code === "ENV" && m.selected === true) {
-      this.isENVministry = true;
-    } else if (m.code === "ENV" && m.selected === false) {
-      this.isENVministry = false;
-    }
-    if (m.code === "FOR" && m.selected === true) {
-      this.isforestministry = true;
-    } else if (m.code === "FOR" && m.selected === false) {
-      this.isforestministry = false;
-    }
+
+    this.refreshSelectedMinistryFlags(this.ministries);
     this.setContinueDisabled();
   }
 
