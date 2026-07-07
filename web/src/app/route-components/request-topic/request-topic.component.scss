@@ -19,3 +19,8 @@
   display: inline;
   padding-left: 5px;;
 }
+
+.disabled-topic-option {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

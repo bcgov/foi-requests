@@ -1,21 +1,22 @@
 <foi-base [showInfo]="false" (continue)="doContinue()" (goBack)="doGoBack()">
   <div class="foi-content">
     <h2>What kinds of records are you looking for?</h2>
-    <hr/>
+    <hr />
     <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <p><em>Select the corresponding categories of records you are requesting (the more you select the larger your resulting request will be)</em></p>
+      <p><em>Select the corresponding categories of records you are requesting (the more you select the larger your
+          resulting request will be)</em></p>
       <div *ngIf="(yourselftopics | async) as topics">
         <div class="form-group" *ngFor="let topic of topics">
           <label>
-            <input type="checkbox" [value]="topic" [checked]="topic.selected"
-              (change)="selecttopic(topic,$event.target.checked)" />
+            <input type="checkbox" [value]="topic" [checked]="topic.selected" [disabled]="isTopicDisabled(topic)"
+              (change)="selecttopic(topic, $event.target.checked)" />
             <div class="optiontext" [innerHTML]="topic.text"></div>
           </label>
         </div>
       </div>
       <div class="form-group warningsection">
         <h2>Are you looking for these types of records?</h2>
-        <br/>
+        <br />
         <div class="subgroup">
           <div>
             <h5><strong>Police Records from a Police visit?</strong></h5>
@@ -42,8 +43,10 @@
           </div>
           <br />
           <div>
-            <h5><strong>Court Records and Transcripts?</strong></h5>            
-            We do not hold these records. You can get copies of your court records at <a href="https://justice.gov.bc.ca/cso/index.do" target="_blank" rel="noopener">https://justice.gov.bc.ca/cso/index.do</a>
+            <h5><strong>Court Records and Transcripts?</strong></h5>
+            We do not hold these records. You can get copies of your court records at <a
+              href="https://justice.gov.bc.ca/cso/index.do" target="_blank"
+              rel="noopener">https://justice.gov.bc.ca/cso/index.do</a>
           </div>
         </div>
       </div>
