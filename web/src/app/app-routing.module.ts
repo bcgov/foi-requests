@@ -28,6 +28,7 @@ import { YouthInCareParent } from './route-components/youthincare-parent/youthin
 import { YouthInCareChild } from './route-components/youthincare-child/youthincare-child.component';
 import { FosterParent } from './route-components/foster-parent/foster-parent.component';
 import { Adoption } from './route-components/adoption/adoption.component';
+import { LegalProceedingDetailsComponent } from './route-components/legal-proceeding-details/legal-proceeding-details.component';
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'getting-started1', component: GettingStarted1Component },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'general/ministry-confirmation', component: MinistryConfirmationComponent },
   { path: 'general/description-timeframe', component: DescriptionTimeframeComponent },
   { path: 'general/contact-info', component: ContactInfoComponent },
+  { path: 'general/legal-proceeding-details', component: LegalProceedingDetailsComponent },
   { path: 'general/contact-info-options', component: ContactInfoOptionsComponent },
   { path: 'general/review-submit', component: ReviewSubmitComponent },
   { path: 'general/submit-complete', component: ReviewSubmitCompleteComponent},
