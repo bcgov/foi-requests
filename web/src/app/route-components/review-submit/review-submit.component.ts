@@ -82,9 +82,6 @@ export class ReviewSubmitComponent implements OnInit {
         // this.isBusy = false;
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
-          const requestType = this.foiRequest.requestData.requestType;
-          // Clear request state so a duplicate submission cannot resubmit the same data
-          this.dataService.clearState({requestType: requestType});
           this.keycloakService.logout();
         } else {
           this.base.goFoiForward();
