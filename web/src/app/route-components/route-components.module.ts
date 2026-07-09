@@ -36,6 +36,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { PaymentComponent } from "./payment/payment.component";
 import { PaymentCompleteComponent } from "./payment-complete/payment-complete.component";
+import { LegalProceedingDetailsComponent } from "./legal-proceeding-details/legal-proceeding-details.component";
 
 // Add an icon to the library for convenient access in other components
 library.add(faSpinner);
@@ -55,6 +56,7 @@ library.add(faSpinner);
     MinistryConfirmationComponent,
     DescriptionTimeframeComponent,
     ContactInfoComponent,
+    LegalProceedingDetailsComponent,
     ReviewSubmitComponent,
     SelectAboutComponent,
     RequestTopicComponent,

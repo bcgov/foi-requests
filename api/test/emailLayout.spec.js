@@ -1,11 +1,12 @@
 'use strict';
 const sinon = require('sinon');
-const EmailLayout = require('../emailLayout');
+const { EmailLayout } = require('../emailLayout');
 const chai = require('chai');
+const chaiString = require('chai-string');
 const chaiAsPromised = require('chai-as-promised');
 
-chai.use(require('chai-string'));
-chai.use(chaiAsPromised);
+chai.use(chaiString.default || chaiString);
+chai.use(chaiAsPromised.default || chaiAsPromised);
 const expect = chai.expect;
 
 // Initialized before each test
@@ -41,8 +42,8 @@ function scrubAttribs(result) {
   return result;
 }
 
-describe('emailLayout', function() {
-  beforeEach(function() {
+describe('emailLayout', function () {
+  beforeEach(function () {
     emailLayout = new EmailLayout();
 
     sampleRequestData = {
@@ -96,6 +97,7 @@ describe('emailLayout', function() {
         text: 'Adoption',
         ministryCode: 'MCF'
       },
+      selectedtopics: [],
       descriptionTimeframe: {
         description: 'Foosball tables',
         fromDate: timezoneAdjust('2019-03-21T00:00:00.000Z'),
@@ -123,32 +125,39 @@ describe('emailLayout', function() {
     };
   });
 
-  it('should exist and have the expected functions', function() {
+  it('should exist and have the expected functions', function () {
     expect(emailLayout).to.exist;
     // Make sure all the functions are as expected
-    const fx = [
-      'table',
-      'tableHeader',
-      'tableRow',
-      'dateFormat',
-      'joinBySpace',
-      'general',
-      'ministry',
-      'personal',
-      'anotherInformation',
-      'adoptiveParents',
-      'childInformation',
-      'contact',
-      'about',
-      'renderEmail'
-    ];
+   const fx = [
+  'table',
+  'tableHeader',
+  'tableRow',
+  'tableRowNoLabel',
+  'dateFormat',
+  'joinBySpace',
+  'getAuthorisedDetailsTable',
+  'general',
+  'ministry',
+  'personal',
+  'lawFirmLegalDetails',
+  'anotherInformation',
+  'adoptiveParents',
+  'childInformation',
+  'requesttopicsubpartcontent',
+  'requesttopic',
+  'contact',
+  'about',
+  'requestInformation',
+  'paymentInformation',
+  'renderEmail',
+];
     fx.map(fxName => {
       expect(emailLayout[fxName]).to.exist;
     });
-    expect(Object.keys(emailLayout).length).to.equal(15);
+    expect(Object.keys(emailLayout).length).to.equal(21);
   });
 
-  it('should render table and headers', function() {
+  it('should render table and headers', function () {
     let table = emailLayout.table('Hello World');
     // strip any newlines!
     table = table.replace(/\r\n|\n|\r/gm, '');
@@ -157,7 +166,7 @@ describe('emailLayout', function() {
     expect(table).to.endsWith('</table>');
   });
 
-  it('should render table headers', function() {
+  it('should render table headers', function () {
     let table = emailLayout.tableHeader('Hello World');
     // strip any newlines!
     table = table.replace(/\r\n|\n|\r/gm, '');
@@ -165,7 +174,7 @@ describe('emailLayout', function() {
     expect(table).to.endsWith('>Hello World</th></tr>');
   });
 
-  it('should render table rows', function() {
+  it('should render table rows', function () {
     let table = emailLayout.tableRow('Hello', 'World');
     // strip any newlines!
     table = table.replace(/\r\n|\n|\r/gm, '');
@@ -174,7 +183,7 @@ describe('emailLayout', function() {
     expect(table).to.endsWith('>World</td></tr>');
   });
 
-  it('should reformat html5 dates', function() {
+  it('should reformat html5 dates', function () {
     const dateStr = emailLayout.dateFormat(timezoneAdjust('1972-04-29T00:00:00.000Z'));
     expect(dateStr).to.equal('04/29/1972');
     // No requirement on numeric values!
@@ -182,7 +191,7 @@ describe('emailLayout', function() {
     expect(invalidDateStr).to.equal('aaaa-bb-cc');
   });
 
-  it('should join multiple stings with spaces', function() {
+  it('should join multiple stings with spaces', function () {
     const nameStr = emailLayout.joinBySpace('James', 'Earl', 'Jones');
     expect(nameStr).to.equal('James Earl Jones');
     // With crazy extra whitespace!
@@ -190,7 +199,7 @@ describe('emailLayout', function() {
     expect(altName).to.equal('James Jones');
   });
 
-  it('should format general data', function() {
+  it('should format general data', function () {
     let result = emailLayout.general(sampleRequestData.descriptionTimeframe);
     result = scrubAttribs(result); // <--- magic
     expect(result).to.equal(`<tr><th>Request Description</th></tr>
@@ -206,7 +215,7 @@ describe('emailLayout', function() {
 <tr><td>Corr-654321</td></tr>`);
   });
 
-  it('should format general data, without personal numbers', function() {
+  it('should format general data, without personal numbers', function () {
     delete sampleRequestData.descriptionTimeframe[
       'publicServiceEmployeeNumber'
     ];
@@ -223,7 +232,7 @@ describe('emailLayout', function() {
 <tr><td>03/28/2019</td></tr>`);
   });
 
-  it('should format ministry data, with a defaultMinistry', function() {
+  it('should format ministry data, with a defaultMinistry', function () {
     let result = emailLayout.ministry(sampleRequestData.ministry);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><th>Ministry or Agency</th></tr>
@@ -231,7 +240,7 @@ describe('emailLayout', function() {
 <tr><td>Children and Family Development</td></tr>`);
   });
 
-  it('should format ministry data, with a multi-ministry selection', function() {
+  it('should format ministry data, with a multi-ministry selection', function () {
     sampleRequestData.ministry.selectedMinistry = [
       { code: 'GCPE', name: 'Government Communications and Public Engagement' },
       { code: 'HLTH', name: 'Health' },
@@ -251,7 +260,7 @@ Labour<br>
 Social Development and Poverty Reduction</td></tr>`);
   });
 
-  it('should format personal data', function() {
+  it('should format personal data', function () {
     let result = emailLayout.personal(sampleRequestData.contactInfo);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><th>Contact Information</th></tr>
@@ -265,7 +274,57 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>02/28/2019</td></tr>`);
   });
 
-  it('should format personal data, without aka, middle or business names', function() {
+  it('should format law firm legal proceeding details when involved in a proceeding', function () {
+    sampleRequestData.contactInfo.isLawFirm = true;
+    sampleRequestData.contactInfo.isInvolvedInLegalProceeding = true;
+    sampleRequestData.contactInfo.courtOrTribunal = 'Supreme Court of British Columbia';
+    sampleRequestData.contactInfo.courtOrTribunalFileNumber = 'S12345';
+    sampleRequestData.contactInfo.legalProceedingType = 'Court proceedings';
+
+    sampleRequestData.legalProceedingDetails = {
+      isRequestRelatedToProceeding: true,
+      isPartyToProceeding: false
+    };
+
+    let result = emailLayout.lawFirmLegalDetails(
+      sampleRequestData.contactInfo,
+      sampleRequestData.legalProceedingDetails
+    );
+
+    result = scrubAttribs(result);
+
+    expect(result).to.contain('<tr><th>Law Firm Legal Proceeding Details</th></tr>');
+    expect(result).to.contain('<tr><td>Are you a law firm?</td></tr>');
+    expect(result).to.contain('<tr><td>Yes</td></tr>');
+    expect(result).to.contain('<tr><td>Court or tribunal</td></tr>');
+    expect(result).to.contain('<tr><td>Supreme Court of British Columbia</td></tr>');
+    expect(result).to.contain('<tr><td>Court or tribunal file number</td></tr>');
+    expect(result).to.contain('<tr><td>S12345</td></tr>');
+    expect(result).to.contain('<tr><td>Type of legal proceeding</td></tr>');
+    expect(result).to.contain('<tr><td>Court proceedings</td></tr>');
+    expect(result).to.contain('<tr><td>Is your request for records related to the proceeding involving the B.C. Government?</td></tr>');
+    expect(result).to.contain('<tr><td>Are you a party to the proceeding involving the B.C. Government?</td></tr>');
+  });
+
+  it('should format law firm certification details when not involved in a proceeding', function () {
+    sampleRequestData.contactInfo.isLawFirm = true;
+    sampleRequestData.contactInfo.isInvolvedInLegalProceeding = false;
+    sampleRequestData.contactInfo.legalProceedingCertificationName = 'Colin Westfall';
+
+    let result = emailLayout.lawFirmLegalDetails(sampleRequestData.contactInfo, {});
+
+    result = scrubAttribs(result);
+
+    expect(result).to.contain('<tr><th>Law Firm Legal Proceeding Details</th></tr>');
+    expect(result).to.contain('<tr><td>Are you involved in a legal proceeding with the B.C. Government?</td></tr>');
+    expect(result).to.contain('<tr><td>No</td></tr>');
+    expect(result).to.contain('<tr><td>Section 3(5)(e) FOIPPA Statement</td></tr>');
+    expect(result).to.contain('<tr><td>Certification</td></tr>');
+    expect(result).to.contain('<tr><td>Certified by</td></tr>');
+    expect(result).to.contain('<tr><td>Colin Westfall</td></tr>');
+  });
+
+  it('should format personal data, without aka, middle or business names', function () {
     delete sampleRequestData.contactInfo['alsoKnownAs'];
     delete sampleRequestData.contactInfo['middleName'];
     delete sampleRequestData.contactInfo['businessName'];
@@ -279,7 +338,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>02/28/2019</td></tr>`);
   });
 
-  it('should format another persons data', function() {
+  it('should format another persons data', function () {
     let result = emailLayout.anotherInformation(
       sampleRequestData.anotherInformation
     );
@@ -294,7 +353,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>09/22/2010</td></tr>`);
   });
 
-  it('should format another persons data, without DoB and aka', function() {
+  it('should format another persons data, without DoB and aka', function () {
     delete sampleRequestData.anotherInformation['alsoKnownAs'];
     delete sampleRequestData.anotherInformation['dateOfBirth'];
     delete sampleRequestData.anotherInformation['lastName'];
@@ -309,7 +368,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Colin Jack</td></tr>`);
   });
 
-  it('should format adoptive parent data', function() {
+  it('should format adoptive parent data', function () {
     let result = emailLayout.adoptiveParents(sampleRequestData.adoptiveParents);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><th>Adoptive Parents</th></tr>
@@ -319,7 +378,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Homer Westfall</td></tr>`);
   });
 
-  it('should format adoptive parent data, without mother', function() {
+  it('should format adoptive parent data, without mother', function () {
     delete sampleRequestData.adoptiveParents['motherFirstName'];
     delete sampleRequestData.adoptiveParents['motherLastName'];
 
@@ -332,7 +391,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Homer Westfall</td></tr>`);
   });
 
-  it('should format child data', function() {
+  it('should format child data', function () {
     let result = emailLayout.childInformation(
       sampleRequestData.childInformation
     );
@@ -346,7 +405,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>05/26/2007</td></tr>`);
   });
 
-  it('should format child data, without middle name, aka or DoB', function() {
+  it('should format child data, without middle name, aka or DoB', function () {
     delete sampleRequestData.childInformation['alsoKnownAs'];
     delete sampleRequestData.childInformation['dateOfBirth'];
     delete sampleRequestData.childInformation['middleName'];
@@ -360,7 +419,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Johnny Driscol</td></tr>`);
   });
 
-  it('should format Contact Info Options data', function() {
+  it('should format Contact Info Options data', function () {
     let result = emailLayout.contact(sampleRequestData.contactInfoOptions);
     result = scrubAttribs(result);
     expect(result).to.equal(`<tr><td>Phone (primary)</td></tr>
@@ -381,7 +440,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Canada</td></tr>`);
   });
 
-  it('should format minimal Contact Info Options data', function() {
+  it('should format minimal Contact Info Options data', function () {
     let result = emailLayout.contact({
       phonePrimary: '(778) 555-0628'
     });
@@ -390,7 +449,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>(778) 555-0628</td></tr>`);
   });
 
-  it('should format Select About data (myself-child-another)', function() {
+  it('should format Select About data (myself-child-another)', function () {
     let result = emailLayout.about({
       yourself: true,
       child: true,
@@ -401,7 +460,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Myself and A child under 12 and Another person</td></tr>`);
   });
 
-  it('should format Select About data (myself-another)', function() {
+  it('should format Select About data (myself-another)', function () {
     let result = emailLayout.about({
       yourself: true,
       child: false,
@@ -412,7 +471,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Myself and Another person</td></tr>`);
   });
 
-  it('should format Select About data (myself only)', function() {
+  it('should format Select About data (myself only)', function () {
     let result = emailLayout.about({
       yourself: true,
       child: false,
@@ -423,7 +482,7 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>Myself</td></tr>`);
   });
 
-  it('should render a whole email, excluding child and another', function() {
+  it('should render a whole email, excluding child and another', function () {
     sinon.spy(emailLayout, 'general');
     sinon.spy(emailLayout, 'ministry');
     sinon.spy(emailLayout, 'personal');
@@ -431,6 +490,7 @@ Social Development and Poverty Reduction</td></tr>`);
     sinon.spy(emailLayout, 'childInformation');
     sinon.spy(emailLayout, 'contact');
     sinon.spy(emailLayout, 'about');
+    sinon.spy(emailLayout, 'lawFirmLegalDetails');
 
     const data = { requestData: sampleRequestData };
     emailLayout.renderEmail(data);
@@ -450,6 +510,11 @@ Social Development and Poverty Reduction</td></tr>`);
       sampleRequestData.contactInfo
     );
 
+    expect(emailLayout.lawFirmLegalDetails.calledOnce).to.be.true;
+    expect(emailLayout.lawFirmLegalDetails.getCall(0).args[0]).to.equal(
+      sampleRequestData.contactInfo
+    );
+
     // These were not called yet!
     expect(emailLayout.anotherInformation.calledOnce).to.be.false;
     expect(emailLayout.childInformation.calledOnce).to.be.false;
@@ -465,7 +530,7 @@ Social Development and Poverty Reduction</td></tr>`);
     );
   });
 
-  it('should render a whole email, including child and another', function() {
+  it('should render a whole email, including child and another', function () {
     sinon.spy(emailLayout, 'anotherInformation');
     sinon.spy(emailLayout, 'childInformation');
 

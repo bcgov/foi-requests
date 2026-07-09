@@ -2,30 +2,30 @@
  * Keep the email layout functions together, outside of index.js
  */
 function EmailLayout() {
-  this.table = function(rows) {
+  this.table = function (rows) {
     return `<table width="95%" border="0" cellpadding="5" cellspacing="0"><tbody
           style="font-size:12px;font-family:sans-serif;background-color:#fff;"
     >${rows}</tbody></table>\n`;
   };
 
-  this.tableHeader = function(label) {
+  this.tableHeader = function (label) {
     return `<tr><th style="font-size:14px;font-weight:bold;background-color:#eee;border-bottom:1px solid #dfdfdf;text-align:left;padding:7px 7px">${label}</th></tr>\n`;
   };
 
-  this.tableRow = function(label, value) {
+  this.tableRow = function (label, value) {
     return `<tr><td style="font-weight:bold;background-color:#eaf2fa;">${label}</td></tr>
             <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
   };
 
-  this.tableRowNoLabel = function(value) {
+  this.tableRowNoLabel = function (value) {
     return `<tr><td style="padding-left:20px;">${value}</td></tr>\n`;
   };
 
-  this.dateFormat = function(isoDateStr) {
+  this.dateFormat = function (isoDateStr) {
     // HTML5 date is ALWAYS formatted yyyy-mm-dd.
     // ISO Date is ALWAYS formatted yyyy-mm-ddT00:00:00.000Z.
     let result = isoDateStr || 'n/a';
-    if (isoDateStr){
+    if (isoDateStr) {
       const dt = new Date(isoDateStr);
       if (!Number.isNaN(dt.getTime())) {
         const year = dt.getFullYear();
@@ -43,7 +43,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.joinBySpace = function(...strArr) {
+  this.joinBySpace = function (...strArr) {
     return strArr
       .join(' ')
       .replace(/\s+/g, ' ')
@@ -51,18 +51,17 @@ function EmailLayout() {
   };
 
   this.getAuthorisedDetailsTable = function (data) {
-    let result =''
+    let result = ''
     result += this.tableRow('Given Names of requestor', data.firstName);
     result += this.tableRow('Last Name of requestor', data.lastName);
-    const anchor = `<a href="mailto:${data.email}" target="_blank">${
-      data.email
-    }</a>`;
+    const anchor = `<a href="mailto:${data.email}" target="_blank">${data.email
+      }</a>`;
     result += this.tableRow('Email  of requestor', anchor);
     // DOB no longer comes from BCSC
     //result += this.tableRow('Date Of Birth of the Submitter', data.birthDate);
     return result
   }
-  this.general = function(data) {
+  this.general = function (data) {
     let result = this.tableHeader('Request Description');
     // Removed Topic from the generated email body.
     // if (data.topic) {
@@ -103,7 +102,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.ministry = function(data) {
+  this.ministry = function (data) {
     let result = this.tableHeader('Ministry or Agency');
 
     let ministryContent = '';
@@ -123,7 +122,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.personal = function(data ,isAuthorised) {
+  this.personal = function (data, isAuthorised) {
     // if isAuthorised , dont print the firstName and LastName
     let result = this.tableHeader('Contact Information');
     if (!isAuthorised) {
@@ -161,7 +160,66 @@ function EmailLayout() {
     return result;
   };
 
-  this.anotherInformation = function(data) {
+  this.lawFirmLegalDetails = function (contactInfo, legalProceedingDetails) {
+    if (typeof contactInfo.isLawFirm !== 'boolean') {
+      return '';
+    }
+
+    let result = this.tableHeader('Law Firm Legal Proceeding Details');
+
+    result += this.tableRow('Are you a law firm?', contactInfo.isLawFirm ? 'Yes' : 'No');
+
+    if (!contactInfo.isLawFirm) {
+      return result;
+    }
+
+    result += this.tableRow(
+      'Are you involved in a legal proceeding with the B.C. Government?',
+      contactInfo.isInvolvedInLegalProceeding ? 'Yes' : 'No'
+    );
+
+    if (contactInfo.isInvolvedInLegalProceeding === false) {
+      result += this.tableRow(
+        'Section 3(5)(e) FOIPPA Statement',
+        'Section 3(5)(e) of the Freedom of Information and Protection of Privacy Act (FOIPPA) provides that a record will be excluded from Part 2 of FOIPPA, and will not be disclosed through the Freedom of Information process, if the government of B.C. is required by law to produce, list, or identify it to the applicant (or their principal or client) as part of a proceeding.'
+      );
+
+      result += this.tableRow(
+        'Certification',
+        'I certify that, to the best of my knowledge, the Government of BC is not required by law to produce, list, or identify the requested records to me (or my client) because of a legal proceeding.'
+      );
+
+      result += this.tableRow('Certified by', contactInfo.legalProceedingCertificationName);
+    }
+
+    if (contactInfo.isInvolvedInLegalProceeding === true) {
+      result += this.tableRow('Court or tribunal', contactInfo.courtOrTribunal);
+
+      if (contactInfo.courtOrTribunalFileNumber) {
+        result += this.tableRow('Court or tribunal file number', contactInfo.courtOrTribunalFileNumber);
+      }
+
+      result += this.tableRow('Type of legal proceeding', contactInfo.legalProceedingType);
+
+      if (typeof legalProceedingDetails.isRequestRelatedToProceeding === 'boolean') {
+        result += this.tableRow(
+          'Is your request for records related to the proceeding involving the B.C. Government?',
+          legalProceedingDetails.isRequestRelatedToProceeding ? 'Yes' : 'No'
+        );
+      }
+
+      if (typeof legalProceedingDetails.isPartyToProceeding === 'boolean') {
+        result += this.tableRow(
+          'Are you a party to the proceeding involving the B.C. Government?',
+          legalProceedingDetails.isPartyToProceeding ? 'Yes' : 'No'
+        );
+      }
+    }
+
+    return result;
+  };
+
+  this.anotherInformation = function (data) {
     let result = this.tableHeader('Another Person Information');
     result += this.tableRow(
       'Name',
@@ -176,7 +234,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.childInformation = function(data) {
+  this.childInformation = function (data) {
     let result = this.tableHeader('Child Information');
     result += this.tableRow(
       'Name',
@@ -191,70 +249,60 @@ function EmailLayout() {
     return result;
   };
 
-  this.requesttopicsubpartcontent = function(mainoptions)
-  {
+  this.requesttopicsubpartcontent = function (mainoptions) {
 
-    let topicvalue=''
-    mainoptions.forEach(mainoption=>{
-      let selectedsuboptions =''
-      if(mainoption!=undefined)
-      {
-        
-      mainoption.suboptions.forEach(suboption =>{
+    let topicvalue = ''
+    mainoptions.forEach(mainoption => {
+      let selectedsuboptions = ''
+      if (mainoption != undefined) {
 
-        if(suboption.selected === true)
-        {
-         
-          selectedsuboptions += `${suboption.option}, ` 
-          
-        }
-      })
-       
-    }
-    let mainoptionvalue = mainoption.mainoptionvalue !=undefined ?mainoption.mainoptionvalue : mainoption.mainoption;
-      topicvalue+= `<b>${mainoptionvalue}</b> : ${selectedsuboptions.replace(/,\s*$/, "")} </br>`
-      
+        mainoption.suboptions.forEach(suboption => {
+
+          if (suboption.selected === true) {
+
+            selectedsuboptions += `${suboption.option}, `
+
+          }
+        })
+
+      }
+      let mainoptionvalue = mainoption.mainoptionvalue != undefined ? mainoption.mainoptionvalue : mainoption.mainoption;
+      topicvalue += `<b>${mainoptionvalue}</b> : ${selectedsuboptions.replace(/,\s*$/, "")} </br>`
+
     });
 
     return topicvalue;
 
   }
 
-  this.requesttopic = function(topics, adoption, childprotectionchild,childprotectionparent,fosterparent,youthincarechild,youthincareparent)
-  {
+  this.requesttopic = function (topics, adoption, childprotectionchild, childprotectionparent, fosterparent, youthincarechild, youthincareparent) {
     let result = this.tableHeader('MCFD Records');
 
-    topics.forEach(topic =>{
+    topics.forEach(topic => {
 
       let topicvalue = ""
 
-      if(topic.value === "adoption")
-      {
+      if (topic.value === "adoption") {
         topicvalue = this.requesttopicsubpartcontent(adoption)
       }
 
-      if(topic.value === "childprotectionchild")
-      {
+      if (topic.value === "childprotectionchild") {
         topicvalue = this.requesttopicsubpartcontent(childprotectionchild)
       }
 
-      if(topic.value === "childprotectionparent")
-      {
+      if (topic.value === "childprotectionparent") {
         topicvalue = this.requesttopicsubpartcontent(childprotectionparent)
       }
 
-      if(topic.value === "fosterparent")
-      {
+      if (topic.value === "fosterparent") {
         topicvalue = this.requesttopicsubpartcontent(fosterparent)
       }
 
-      if(topic.value === "youthincarechild")
-      {
+      if (topic.value === "youthincarechild") {
         topicvalue = this.requesttopicsubpartcontent(youthincarechild)
       }
 
-      if(topic.value === "youthincareparent")
-      {
+      if (topic.value === "youthincareparent") {
         topicvalue = this.requesttopicsubpartcontent(youthincareparent)
       }
 
@@ -263,13 +311,13 @@ function EmailLayout() {
         topicvalue)
 
 
-      });
+    });
 
     return result;
-    
+
   }
 
-  this.adoptiveParents = function(data) {
+  this.adoptiveParents = function (data) {
     const mother = this.joinBySpace(data.motherFirstName, data.motherLastName);
     const father = this.joinBySpace(data.fatherFirstName, data.fatherLastName);
     let result = '';
@@ -281,7 +329,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.contact = function(data , isAuthorised) {
+  this.contact = function (data, isAuthorised) {
     let result = '';
     if (data.phonePrimary) {
       result += this.tableRow('Phone (primary)', data.phonePrimary);
@@ -290,9 +338,8 @@ function EmailLayout() {
       result += this.tableRow('Phone (secondary)', data.phoneSecondary);
     }
     if (data.email && !isAuthorised) {
-      const anchor = `<a href="mailto:${data.email}" target="_blank">${
-        data.email
-      }</a>`;
+      const anchor = `<a href="mailto:${data.email}" target="_blank">${data.email
+        }</a>`;
       result += this.tableRow('Email', anchor);
     }
     if (data.address) {
@@ -313,7 +360,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.about = function(data) {
+  this.about = function (data) {
     let result = '';
     let selected = [];
     if (data.yourself) {
@@ -331,7 +378,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.requestInformation = function(data) {
+  this.requestInformation = function (data) {
     let result = this.tableHeader('Request Information');
     result += this.tableRow(
       'Request id',
@@ -341,7 +388,7 @@ function EmailLayout() {
     return result;
   };
 
-  this.paymentInformation = function(data) {
+  this.paymentInformation = function (data) {
     let result = this.tableHeader('Payment Information');
 
     if (data.transactionNumber) {
@@ -356,16 +403,16 @@ function EmailLayout() {
     return result;
   };
 
-  this.renderEmail = function(data ,isAuthorised ,authorisedDetails) {
+  this.renderEmail = function (data, isAuthorised, authorisedDetails) {
     let content = this.tableHeader('Request Records');
-      this.table()
+    this.table()
     if (isAuthorised) {
       content += this.tableRow(
-        'Requestor identity verification','BC Services Card'
+        'Requestor identity verification', 'BC Services Card'
       );
 
       content += this.tableRow(
-       'Verified details',this.table(this.getAuthorisedDetailsTable(authorisedDetails))
+        'Verified details', this.table(this.getAuthorisedDetailsTable(authorisedDetails))
       );
 
     }
@@ -374,7 +421,7 @@ function EmailLayout() {
       data.requestData.requestType.requestType
     );
 
-    
+
 
     // Request is About
     data.requestData.selectAbout = data.requestData.selectAbout || {};
@@ -386,12 +433,11 @@ function EmailLayout() {
       );
     }
 
-    if(data.requestData.selectAbout.yourself)
-    { 
-      content += this.requesttopic(data.requestData.selectedtopics,data.requestData.requestType.adoption,
-        data.requestData.requestType.childprotectionchild,data.requestData.requestType.childprotectionparent,
-        data.requestData.requestType.fosterparent,data.requestData.requestType.youthincarechild,data.requestData.requestType.youthincareparent
-        )    
+    if (data.requestData.selectAbout.yourself) {
+      content += this.requesttopic(data.requestData.selectedtopics, data.requestData.requestType.adoption,
+        data.requestData.requestType.childprotectionchild, data.requestData.requestType.childprotectionparent,
+        data.requestData.requestType.fosterparent, data.requestData.requestType.youthincarechild, data.requestData.requestType.youthincareparent
+      )
     }
 
     // if we have 'childInformation' then include the block
@@ -403,18 +449,22 @@ function EmailLayout() {
     // Ministry or Agency
     content += this.ministry(data.requestData.ministry || {});
     // Contact Information
-    content += this.personal(data.requestData.contactInfo || {} ,isAuthorised);
-    content += this.contact(data.requestData.contactInfoOptions || {},isAuthorised);
+    content += this.personal(data.requestData.contactInfo || {}, isAuthorised);
+    content += this.lawFirmLegalDetails(
+      data.requestData.contactInfo || {},
+      data.requestData.legalProceedingDetails || {}
+    );
+    content += this.contact(data.requestData.contactInfoOptions || {}, isAuthorised);
     // Adoptive Parents
     content += this.adoptiveParents(data.requestData.adoptiveParents || {});
     // Request info
-    if(data.requestData.requestId) {
+    if (data.requestData.requestId) {
       content += this.requestInformation({
         requestId: data.requestData.requestId
       })
     }
     // Payment info
-    if(data.requestData.paymentInfo) {
+    if (data.requestData.paymentInfo) {
       content += this.paymentInformation(data.requestData.paymentInfo);
     }
 
@@ -433,15 +483,15 @@ function EmailLayout() {
 
 function ConfirmationEmailLayout() {
 
-  this.paymentInfo = function(paymentInfoData) {
+  this.paymentInfo = function (paymentInfoData) {
 
-    if(!paymentInfoData || Object.keys(paymentInfoData).length === 0) {
+    if (!paymentInfoData || Object.keys(paymentInfoData).length === 0) {
       return ``;
     }
-    
+
     let result = `<p>Your transaction details are as follows:</p>`;
 
-    if(paymentInfoData.transactionNumber) {
+    if (paymentInfoData.transactionNumber) {
       result = result + `<p>Transaction Number: ${paymentInfoData.transactionNumber}</p>`;
     }
 
@@ -453,13 +503,13 @@ function ConfirmationEmailLayout() {
 
     if (paymentInfoData.amount) {
       result =
-        result + `<p>Amount: $${paymentInfoData.amount}</p>`; 
+        result + `<p>Amount: $${paymentInfoData.amount}</p>`;
     }
-    
+
     return result;
   }
 
-  this.renderEmail = function(data) {
+  this.renderEmail = function (data) {
     let content = `
 		<div style='width:40em;font-family:sans-serif;'>
 			<p>This email confirms your recent payment on ${data.paymentInfo.transactionDate} for your FOI Request Submission.</p>
