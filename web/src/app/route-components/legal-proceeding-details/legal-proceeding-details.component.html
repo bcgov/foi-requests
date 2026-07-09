@@ -1,0 +1,79 @@
+<foi-base
+  [showInfo]="false"
+  [continueDisabled]="!foiForm.valid"
+  (continue)="doContinue()"
+  (goBack)="doGoBack()"
+>
+  <div class="foi-content">
+    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+      <h2>Legal proceeding details</h2>
+
+      <div class="form-group">
+        <fieldset>
+          <legend>
+            Is your request for records related to the proceeding involving the B.C. Government?<span
+              class="label-required"
+            >
+              *</span
+            >
+          </legend>
+
+          <label>
+            <input type="radio" formControlName="isRequestRelatedToProceeding" [value]="true" />
+            Yes
+          </label>
+
+          <label>
+            <input type="radio" formControlName="isRequestRelatedToProceeding" [value]="false" />
+            No
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="form-group" *ngIf="isRequestRelatedToProceeding">
+        <fieldset>
+          <legend>
+            Are you a party to the proceeding involving the B.C. Government?<span class="label-required"> *</span>
+          </legend>
+
+          <label>
+            <input type="radio" formControlName="isPartyToProceeding" [value]="true" />
+            Yes
+          </label>
+
+          <label>
+            <input type="radio" formControlName="isPartyToProceeding" [value]="false" />
+            No
+          </label>
+        </fieldset>
+
+        <h3>Parties to a proceeding</h3>
+        <p>
+          A party to a legal proceeding is any person who is directly involved in it. This includes people who have
+          started a proceeding (plaintiffs or applicants) and people responding to notice of a proceeding (defendants,
+          respondents, or accused persons).
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <div class="sidebar">
+    <h2>More information</h2>
+
+    <h3>What is a legal proceeding?</h3>
+    <p>
+      A legal proceeding is a formal process used to resolve a dispute or legal matter. This can include:
+    </p>
+
+    <ul>
+      <li>Court proceedings, such as civil, criminal, or family matters before a court</li>
+      <li>Tribunal proceedings, such as hearings before an administrative tribunal</li>
+      <li>Arbitration proceedings, where a dispute is resolved by an arbitrator instead of a court</li>
+    </ul>
+
+    <p>
+      If your request is related to records you are entitled to access through an active or ongoing court, tribunal, or
+      arbitration proceeding, those records cannot be accessed through the Freedom of Information process.
+    </p>
+  </div>
+</foi-base>
