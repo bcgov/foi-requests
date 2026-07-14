@@ -83,6 +83,10 @@ export class ReviewSubmitComponent implements OnInit {
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
           this.keycloakService.logout();
+        } else if (!result.status) {
+          // Handle duplicate request
+          console.log("submitFoiRequest Result: ", result)
+          alert(result.message);
         } else {
           this.base.goFoiForward();
         }

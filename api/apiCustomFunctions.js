@@ -54,9 +54,9 @@ const submitFoiRequest = async (server, req, res, next) => {
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
-    console.log(`API response = ${response.status}`);
+    console.log(`API response = DATA: ${response.data}, STATUS: ${response.status}`);
 
-    if(response.status === 200  && response.data.status ) {
+    if(response.status === 200  && response.data.status) {
       console.log(`response id: ${response.data.id}`);
       // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
       if(needsPayment) {
@@ -75,6 +75,15 @@ const submitFoiRequest = async (server, req, res, next) => {
         pendingPayment: false
       });
 
+    }
+    else if (response.status === 200 && !response.data.status) {
+      // Handle duplicate request
+      console.log(response.data.message);
+      res.send({
+        EmailSuccess: false,
+        message: response.data.message,
+        pendingPayment: false
+      });
     }
     else {
       req.log.info('Failed:', response);
