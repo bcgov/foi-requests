@@ -102,6 +102,12 @@ const submitFoiRequest = async (server, req, res, next) => {
 }
 
 const submitFoiRequestEmail = async (server, req, res, next) => {
+  console.log(
+    '[API]',
+    new Date().toISOString(),
+    'submitFoiRequestEmail API called'
+  );
+  console.trace('submitFoiRequestEmail API');
 
   req.params.requestData = JSON.parse(req.params.requestData);
   
