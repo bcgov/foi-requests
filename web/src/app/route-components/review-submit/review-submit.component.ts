@@ -75,9 +75,9 @@ export class ReviewSubmitComponent implements OnInit {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(
       (result) => {
+        console.log("submitFoiRequest Result: ", result)
         // Handle duplicate request
         if (!result.status) {
-          console.log("submitFoiRequest Result: ", result)
           alert(
             `${result.message}.\n\n` +
             "This request was already submitted.\n\n" +

@@ -76,7 +76,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       });
 
     }
-    else if (response.status === 200 && !response.data.status) {
+    else if (response.status === 409) {
       // Handle duplicate request
       console.log(response.data.message);
       res.send({
