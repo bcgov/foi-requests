@@ -117,7 +117,8 @@ export class PaymentCompleteComponent implements OnInit {
     );
     console.trace('PAYMENT EMAIL COMPONENT');
     this.dataService.submitRequest(this.authToken, null, this.foiRequest, true).subscribe(
-      (result) => {
+      (response) => {
+        const result = response.body;
         if (!result.EmailSuccess) {
           alert("Temporarily unable to complete your request. Please contact us to complete your request.");
         }
