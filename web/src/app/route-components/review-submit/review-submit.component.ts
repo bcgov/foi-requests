@@ -75,18 +75,26 @@ export class ReviewSubmitComponent implements OnInit {
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(
       (result) => {
+        // Handle duplicate request
+        if (!result.status) {
+          console.log("submitFoiRequest Result: ", result)
+          alert(result.message);
+          this.captchaComponent.forceRefresh();
+          this.captchaComplete = false;
+          return;
+        }
+        
         this.foiRequest.requestData.requestId = result.id;
         this.dataService.setCurrentState(this.foiRequest);
         this.dataService.saveAuthToken(this.authToken);
-
         // this.isBusy = false;
+
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
+          const requestType = this.foiRequest.requestData.requestType;
+          // Clear request state so a duplicate submission cannot resubmit the same data
+          this.dataService.clearState({requestType: requestType});
           this.keycloakService.logout();
-        } else if (!result.status) {
-          // Handle duplicate request
-          console.log("submitFoiRequest Result: ", result)
-          alert(result.message);
         } else {
           this.base.goFoiForward();
         }
