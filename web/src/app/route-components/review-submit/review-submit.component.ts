@@ -78,10 +78,15 @@ export class ReviewSubmitComponent implements OnInit {
         // Handle duplicate request
         if (!result.status) {
           console.log("submitFoiRequest Result: ", result)
-          alert(result.message);
-          this.captchaComponent.forceRefresh();
-          this.captchaComplete = false;
-          this.isBusy = false;
+          alert(
+            `${result.message}.\n\n` +
+            "This request was already submitted.\n\n" +
+            "To prevent duplicates, you cannot resubmit the same request for 30 minutes.\n\n" +
+            "Go back to the homepage and start a new request."
+          );
+          // this.captchaComponent.forceRefresh();
+          // this.captchaComplete = false;
+          // this.isBusy = false;
           return;
         }
         
