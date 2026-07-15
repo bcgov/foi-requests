@@ -81,6 +81,7 @@ export class ReviewSubmitComponent implements OnInit {
           alert(result.message);
           this.captchaComponent.forceRefresh();
           this.captchaComplete = false;
+          this.isBusy = false;
           return;
         }
         
