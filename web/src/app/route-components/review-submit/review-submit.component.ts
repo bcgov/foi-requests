@@ -77,20 +77,7 @@ export class ReviewSubmitComponent implements OnInit {
       (response) => {
         const result = response.body;
         console.log("submitFoiRequest Response: ", response);
-        // Handle duplicate request
-        if (response.status === 409) {
-          alert(
-            `${result.message}.\n\n` +
-            "This request was already submitted.\n\n" +
-            "To prevent duplicates, you cannot resubmit the same request for 30 minutes.\n\n" +
-            "Go back to the homepage and start a new request."
-          );
-          // this.captchaComponent.forceRefresh();
-          // this.captchaComplete = false;
-          // this.isBusy = false;
-          return;
-        }
-        
+
         this.foiRequest.requestData.requestId = result.id;
         this.dataService.setCurrentState(this.foiRequest);
         this.dataService.saveAuthToken(this.authToken);
@@ -107,8 +94,22 @@ export class ReviewSubmitComponent implements OnInit {
         }
       },
       (error) => {
-        this.isBusy = false;
+        console.log("VERIFY", error)
+        // Handle duplicate request
+        if (error.status === 409) {
+          alert(
+            `${error.message}.\n\n` +
+            "This request was already submitted.\n\n" +
+            "To prevent duplicates, you cannot resubmit the same request for 30 minutes.\n\n" +
+            "Go back to the homepage and start a new request."
+          );
+          // this.captchaComponent.forceRefresh();
+          // this.captchaComplete = false;
+          // this.isBusy = false;
+          return;
+        }
 
+        this.isBusy = false;
         alert("Temporarily unable to submit your request. Please try again in a few minutes.");
         this.captchaComponent.forceRefresh();
         this.captchaComplete = false;
