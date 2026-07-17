@@ -75,23 +75,22 @@ const submitFoiRequest = async (server, req, res, next) => {
         pendingPayment: false
       });
 
-    }
-    else if (response.status === 409) {
-      // Handle duplicate request
-      console.log(response.data.message);
-      res.send({
-        EmailSuccess: false,
-        message: response.data.message,
-        pendingPayment: false
-      });
-    }
-    else {
+    } else {
       req.log.info('Failed:', response);
       const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
       return next(unavailable);
     }  
   }
    catch(error){
+    if (error.response.status === 409) {
+      // Handle duplicate request
+      console.log(error.response.data.message);
+      res.send({
+        EmailSuccess: false,
+        message: response.data.message,
+        pendingPayment: false
+      });
+    }
      console.log(`${error}`);
      console.log("FOI API STATUS:", error.response.status);
      console.log("FOI API DATA:", error.response.data)
