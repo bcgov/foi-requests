@@ -54,7 +54,7 @@ const submitFoiRequest = async (server, req, res, next) => {
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
-    console.log(`API response = DATA: ${response.data}, STATUS: ${response.status}`);
+    console.log(`API response = DATA: ${JSON.stringify(response.data)}, STATUS: ${response.status}`);
 
     if(response.status === 200  && response.data.status) {
       console.log(`response id: ${response.data.id}`);

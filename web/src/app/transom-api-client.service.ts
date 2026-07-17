@@ -111,8 +111,7 @@ export class TransomApiClientService  {
     }
 
     const obs = this.http.post(url, body, {
-      headers: this.headers,
-      observe: 'response'
+      headers: this.headers
     });
     return this.handleResponse(obs);
   }
