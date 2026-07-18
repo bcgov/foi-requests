@@ -81,22 +81,19 @@ const submitFoiRequest = async (server, req, res, next) => {
       return next(unavailable);
     }  
   }
-   catch(error){
+   catch(error) {
+    console.log(`${error}`);
+    console.log("FOI API STATUS:", error.response.status);
+    console.log("FOI API DATA:", error.response.data);
+    req.log.info('Failed:', error);
+    
     if (error.response.status === 409) {
       // Handle duplicate request
-      res.send({
-        EmailSuccess: false,
-        message: error.response.data.message,
-        pendingPayment: false
-      });
-      return;
+      const unavailable = new restifyErrors.ConflictError(error.response.data.message);
+    } else {
+      const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
     }
-     console.log(`${error}`);
-     console.log("FOI API STATUS:", error.response.status);
-     console.log("FOI API DATA:", error.response.data)
-     req.log.info('Failed:', error);
-     const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
-     return next(unavailable);
+    return next(unavailable);
    }
 }
 
