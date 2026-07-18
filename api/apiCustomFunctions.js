@@ -87,9 +87,10 @@ const submitFoiRequest = async (server, req, res, next) => {
       console.log(error.response.data.message);
       res.send({
         EmailSuccess: false,
-        message: response.data.message,
+        message: error.response.data.message,
         pendingPayment: false
       });
+      return;
     }
      console.log(`${error}`);
      console.log("FOI API STATUS:", error.response.status);
