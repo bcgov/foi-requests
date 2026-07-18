@@ -86,12 +86,12 @@ const submitFoiRequest = async (server, req, res, next) => {
     console.log("FOI API STATUS:", error.response.status);
     console.log("FOI API DATA:", error.response.data);
     req.log.info('Failed:', error);
-    
+    let unavailable = "";
     if (error.response.status === 409) {
       // Handle duplicate request
-      const unavailable = new restifyErrors.ConflictError(error.response.data.message);
+      unavailable = new restifyErrors.ConflictError(error.response.data.message);
     } else {
-      const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
+      unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
     }
     return next(unavailable);
    }
