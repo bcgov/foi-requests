@@ -84,7 +84,6 @@ const submitFoiRequest = async (server, req, res, next) => {
    catch(error){
     if (error.response.status === 409) {
       // Handle duplicate request
-      console.log(error.response.data.message);
       res.send({
         EmailSuccess: false,
         message: error.response.data.message,
