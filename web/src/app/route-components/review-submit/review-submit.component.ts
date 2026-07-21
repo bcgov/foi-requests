@@ -98,14 +98,12 @@ export class ReviewSubmitComponent implements OnInit {
         // Handle duplicate request
         if (error.status === 409) {
           alert(
-            `${error.message}.\n\n` +
-            "This request was already submitted.\n\n" +
-            "To prevent duplicates, you cannot resubmit the same request for 30 minutes.\n\n" +
-            "Go back to the homepage and start a new request."
+            "Duplicate request identified. Request was not processed.\n\n" +
+            "This request has already been submitted. To prevent duplicates, you cannot resubmit the same request for 30 minutes.\n\n" +
+            "Go back to the homepage and start a new request to try again."
           );
-          // this.captchaComponent.forceRefresh();
-          // this.captchaComplete = false;
-          // this.isBusy = false;
+          this.dataService.clearState();
+          this.base.goHome();
           return;
         }
 
