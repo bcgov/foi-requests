@@ -74,6 +74,10 @@ export class BaseComponent implements OnInit {
     // }
   }
 
+  goHome() {
+    this.router.navigate([''])
+  }
+
   goSkipForward() {   
     this.foiRouter.progress({ direction: 2 });
   }
