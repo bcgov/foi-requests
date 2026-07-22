@@ -121,24 +121,25 @@ export class KeycloakService {
     return token !== undefined && token.sub !== undefined;
   }
 
-  logout() {
+  logout(redirectUrl: string) {
     if (this.isAuthenticated()) {
       if (!this.keycloakAuth) {
         this.keycloakAuth = new Keycloak(this.keycloakConfig);
         this.keycloakAuth.init({token: sessionStorage.getItem('KC_TOKEN'), onLoad: 'check-sso'})
         .then(authenticated => {
           if (authenticated) {
-            this.logoutUser();
+            this.logoutUser(redirectUrl);
           }
         });
       } else {
-        this.logoutUser();
+        this.logoutUser(redirectUrl);
       }
     }
   }
 
-  logoutUser() {
-    const redirectUrl = window.location.origin + '/general/submit-complete';
+  logoutUser(redirectUrl: string) {
+    sessionStorage.removeItem('KC_TOKEN');
+    sessionStorage.removeItem('KC_REFRESH');
     this.keycloakAuth.logout({ redirectUri: redirectUrl });
   }
 }

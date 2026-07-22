@@ -85,16 +85,13 @@ export class ReviewSubmitComponent implements OnInit {
 
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
-          const requestType = this.foiRequest.requestData.requestType;
-          // Clear request state so a duplicate submission cannot resubmit the same data
-          this.dataService.clearState({requestType: requestType});
-          this.keycloakService.logout();
+          this.dataService.clearState()
+          this.keycloakService.logout(window.location.origin + '/personal/submit-complete');
         } else {
           this.base.goFoiForward();
         }
       },
       (error) => {
-        console.log("VERIFY", error)
         // Handle duplicate request
         if (error.status === 409) {
           alert(
@@ -103,10 +100,15 @@ export class ReviewSubmitComponent implements OnInit {
             "Go back to the homepage and start a new request to try again."
           );
           this.dataService.clearState();
-          this.base.goHome();
-          return;
+          if (this.keycloakService.isAuthenticated()) {
+            this.keycloakService.logout(window.location.origin);
+            return;
+          } else {
+            this.base.goHome();
+            return;
+          }
         }
-
+        
         this.isBusy = false;
         alert("Temporarily unable to submit your request. Please try again in a few minutes.");
         this.captchaComponent.forceRefresh();
