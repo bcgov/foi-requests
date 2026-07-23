@@ -76,7 +76,6 @@ export class ReviewSubmitComponent implements OnInit {
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(
       (response) => {
         const result = response.body;
-        console.log("submitFoiRequest Response: ", response);
 
         this.foiRequest.requestData.requestId = result.id;
         this.dataService.setCurrentState(this.foiRequest);
