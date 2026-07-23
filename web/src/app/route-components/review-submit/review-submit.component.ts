@@ -61,32 +61,57 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   doContinue() {
+    console.log(
+      '[REVIEW-SUBMIT COMPONENT]',
+      new Date().toISOString(),
+      'Submitting request'
+    );
+    if (this.isBusy) {
+      console.trace('REQUEST-SUBMIT COMPONENT BLOCKED');
+      return;
+    }
+    console.trace('REQUEST-SUBMIT COMPONENT ALLOWED');
+    
     this.isBusy = true;
     this.dataService.submitRequest(this.authToken, this.captchaNonce, this.foiRequest).subscribe(
-      (result) => {
+      (response) => {
+        const result = response.body;
+
         this.foiRequest.requestData.requestId = result.id;
         this.dataService.setCurrentState(this.foiRequest);
         this.dataService.saveAuthToken(this.authToken);
+        // this.isBusy = false;
 
-        this.isBusy = false;
         // If the user is authenticated, logout the user
         if (this.keycloakService.isAuthenticated()) {
-          this.keycloakService.logout();
+          this.dataService.clearState()
+          this.keycloakService.logout(window.location.origin + '/personal/submit-complete');
         } else {
           this.base.goFoiForward();
         }
       },
       (error) => {
+        // Handle duplicate request
+        if (error.status === 409) {
+          alert(
+            "Duplicate request identified. Request was not processed.\n\n" +
+            "This request has already been submitted. To prevent duplicates, you cannot resubmit the same request for 30 minutes.\n\n" +
+            "Go back to the homepage and start a new request to try again."
+          );
+          this.dataService.clearState();
+          if (this.keycloakService.isAuthenticated()) {
+            this.keycloakService.logout(window.location.origin);
+            return;
+          } else {
+            this.base.goHome();
+            return;
+          }
+        }
+        
         this.isBusy = false;
-
         alert("Temporarily unable to submit your request. Please try again in a few minutes.");
         this.captchaComponent.forceRefresh();
         this.captchaComplete = false;
-        // if (this.keycloakService.isAuthenticated()) {
-        //   this.keycloakService.logout();
-        // } else {
-        //   this.base.goFoiForward();
-        // }
       }
     );
   }

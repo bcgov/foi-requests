@@ -16,6 +16,12 @@ const MAX_ATTACH_MB = 5;
 const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
 
 const submitFoiRequest = async (server, req, res, next) => {
+  console.log(
+    '[API]',
+    new Date().toISOString(),
+    'submitFoiRequest API called'
+  );
+  console.trace('submitFoiRequest API');
   
   const apiUrl = `${foiRequestAPIBackend}/foirawrequests`;  
 
@@ -48,9 +54,9 @@ const submitFoiRequest = async (server, req, res, next) => {
     console.log("calling RAW FOI Request");
     const response =  await requestAPI.invokeRequestAPI(JSON.stringify(data.params), apiUrl);
   
-    console.log(`API response = ${response.status}`);
+    console.log(`API response = DATA: ${JSON.stringify(response.data)}, STATUS: ${response.status}`);
 
-    if(response.status === 200  && response.data.status ) {
+    if(response.status === 200  && response.data.status) {
       console.log(`response id: ${response.data.id}`);
       // if request needs payment, return earlier to prevent sending email as it will be sent after payment.
       if(needsPayment) {
@@ -69,24 +75,35 @@ const submitFoiRequest = async (server, req, res, next) => {
         pendingPayment: false
       });
 
-    }
-    else {
+    } else {
       req.log.info('Failed:', response);
       const unavailable = new restifyErrors.ServiceUnavailableError('Service is unavailable.');
       return next(unavailable);
     }  
   }
-   catch(error){
-     console.log(`${error}`);
-     console.log("FOI API STATUS:", error.response.status);
-     console.log("FOI API DATA:", error.response.data)
-     req.log.info('Failed:', error);
-     const unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
-     return next(unavailable);
+   catch(error) {
+    console.log(`${error}`);
+    console.log("FOI API STATUS:", error.response.status);
+    console.log("FOI API DATA:", error.response.data);
+    req.log.info('Failed:', error);
+    let unavailable = "";
+    if (error.response.status === 409) {
+      // Handle duplicate request
+      unavailable = new restifyErrors.ConflictError(error.response.data.message);
+    } else {
+      unavailable = new restifyErrors.ServiceUnavailableError(error.message || 'Service is unavailable.');
+    }
+    return next(unavailable);
    }
 }
 
 const submitFoiRequestEmail = async (server, req, res, next) => {
+  console.log(
+    '[API]',
+    new Date().toISOString(),
+    'submitFoiRequestEmail API called'
+  );
+  console.trace('submitFoiRequestEmail API');
 
   req.params.requestData = JSON.parse(req.params.requestData);
   

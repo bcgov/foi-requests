@@ -94,6 +94,12 @@ export class TransomApiClientService  {
    * @param body The body to post to the request.
    */
   postFoiRequest(foiRequest: FoiRequest, sendEmailOnly?: boolean): Observable<any> {
+    console.log(
+      '[TRANSOM LAYER]',
+      new Date().toISOString(),
+      'postFoiRequest called'
+    );
+    console.trace('postFoiRequest FUNCTION');
     const functionName = sendEmailOnly ? "submitFoiRequestEmail" : "submitFoiRequest";
     const url = this.baseUrl + `/fx/${functionName}`;
 
@@ -105,7 +111,8 @@ export class TransomApiClientService  {
     }
 
     const obs = this.http.post(url, body, {
-      headers: this.headers
+      headers: this.headers,
+      observe: 'response'
     });
     return this.handleResponse(obs);
   }
