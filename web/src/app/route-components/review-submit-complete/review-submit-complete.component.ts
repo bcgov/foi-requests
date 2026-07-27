@@ -31,7 +31,8 @@ export class ReviewSubmitCompleteComponent implements OnInit {
   }
 
   submitAnotherRequest() {
-    this.router.navigate(["getting-started2"]);
+    // this.router.navigate(["getting-started2"]);
+    window.location.href = '/';
     return false;
   }
 }
