@@ -100,7 +100,7 @@ export class ReviewSubmitComponent implements OnInit {
           );
           this.dataService.clearState();
           if (this.keycloakService.isAuthenticated()) {
-            this.keycloakService.logout(window.location.origin);
+            this.keycloakService.logout(window.location.origin + '/');
             return;
           } else {
             this.base.goHome();
