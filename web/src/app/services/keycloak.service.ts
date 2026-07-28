@@ -138,8 +138,8 @@ export class KeycloakService {
   }
 
   logoutUser(redirectUrl: string) {
-    // sessionStorage.removeItem('KC_TOKEN');
-    // sessionStorage.removeItem('KC_REFRESH');
+    sessionStorage.removeItem('KC_TOKEN');
+    sessionStorage.removeItem('KC_REFRESH');
     this.keycloakAuth.logout({ redirectUri: redirectUrl });
   }
 }
