@@ -5,7 +5,7 @@
 
 'use strict';
 const fs = require('fs');
-const {EmailLayout, ConfirmationEmailLayout} = require('./emailLayout');
+const {EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
 
@@ -68,6 +68,13 @@ const submitFoiRequest = async (server, req, res, next) => {
       console.log(`Sending message to ${foiRequestInbox}`);
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
+      
+      const applicantEmail = req.params.requestData.contactInfoOptions["email"];
+      if (applicantEmail) {
+        console.log(`Sending message to ${applicantEmail}`);
+        req.log.info(`Sending message to ${applicantEmail}`);
+        await sendApplicantEmail(req, server, applicantEmail);
+      }
 
       res.send({
         EmailSuccess: true, 
@@ -137,6 +144,12 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
     req.log.info('Generate receipt Error:', genreceipterror);
     console.log("---submitFoiRequestEmail Generate Receipt Error ends--");
   }
+    const applicantEmail = req.params.requestData.contactInfoOptions["email"];
+    if (applicantEmail) {
+      console.log(`Sending message to ${applicantEmail}`);
+      req.log.info(`Sending message to ${applicantEmail}`);
+      await sendApplicantEmail(req, server, applicantEmail);
+    }
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server, receipt);
@@ -166,7 +179,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 }
 
 const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
-
   let foiAttachments = getAttachments(req.files, maxAttachBytes, next);
 
   if (extraAttachements.length > 0) {
@@ -183,6 +195,22 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
   
   return response;
 
+}
+
+const sendApplicantEmail = async (req, server, applicantEmail) => {
+  try {
+    const requestReceipt = generateRequestReceipt(req.params.requestData)
+    const emailLayout = new ApplicantEmailLayout()
+    const response = await sendEmail(emailLayout.renderEmail(), [requestReceipt], server, applicantEmail, "Receipt of FOI Request", req);
+    
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const generateRequestReceipt = (requestData) => {
+  return 1;
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {
