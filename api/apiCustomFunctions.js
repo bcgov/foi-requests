@@ -19,7 +19,7 @@ let initializedBrowser = null;
 
 const getBrowser = async () => {
   if (!initializedBrowser) {
-    initializedBrowser = await chromium.launch({headless: true});
+    initializedBrowser = chromium.launch({headless: true});
   }
   return initializedBrowser
 }
