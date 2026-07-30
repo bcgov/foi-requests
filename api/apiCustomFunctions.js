@@ -8,6 +8,7 @@ const fs = require('fs');
 const {EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
+const { chromium } = require('playwright');
 
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
@@ -69,11 +70,15 @@ const submitFoiRequest = async (server, req, res, next) => {
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
       
-      const applicantEmail = req.params.requestData.contactInfoOptions["email"];
+      const applicantEmail = req.params.requestData.contactInfoOptions.email;
       if (applicantEmail) {
         console.log(`Sending message to ${applicantEmail}`);
         req.log.info(`Sending message to ${applicantEmail}`);
-        await sendApplicantEmail(req, server, applicantEmail);
+        const applicantEmailResponse = await sendApplicantEmail(req, server, applicantEmail);
+        if (!applicantEmailResponse.EmailSuccess) {
+          console.log('FOI Request Applicant email submission failed');
+        }
+        console.log('FOI Request Applicant email submission success');
       }
 
       res.send({
@@ -144,11 +149,15 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
     req.log.info('Generate receipt Error:', genreceipterror);
     console.log("---submitFoiRequestEmail Generate Receipt Error ends--");
   }
-    const applicantEmail = req.params.requestData.contactInfoOptions["email"];
+    const applicantEmail = req.params.requestData.contactInfoOptions.email;
     if (applicantEmail) {
       console.log(`Sending message to ${applicantEmail}`);
       req.log.info(`Sending message to ${applicantEmail}`);
-      await sendApplicantEmail(req, server, applicantEmail);
+      const applicantEmailResponse = await sendApplicantEmail(req, server, applicantEmail);
+      if (!applicantEmailResponse.EmailSuccess) {
+        console.log('FOI Request Applicant email submission failed');
+      }
+      console.log('FOI Request Applicant email submission success');
     }
 
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
@@ -199,18 +208,45 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
 
 const sendApplicantEmail = async (req, server, applicantEmail) => {
   try {
-    const requestReceipt = generateRequestReceipt(req.params.requestData)
-    const emailLayout = new ApplicantEmailLayout()
-    const response = await sendEmail(emailLayout.renderEmail(), [requestReceipt], server, applicantEmail, "Receipt of FOI Request", req);
-    
+    const attachments = [];
+    const emailLayout = new ApplicantEmailLayout();
+    const requestReceiptHTML = new EmailLayout.renderEmail(req.params ,req.isAuthorised, req.userDetails);
+    const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
+    if (requestReceipt) {
+      attachments.push({
+        content: requestReceipt.toString("base64"),
+        filename: "RequestDetails.pdf",
+        encoding: "base64"
+      });
+    }
+    const response = await sendEmail(emailLayout.renderEmail(), attachments, server, applicantEmail, "Receipt of FOI Request", req);
+
     return response;
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }
 
-const generateRequestReceipt = (requestData) => {
-  return 1;
+const generatePDFFromHTML = async (html, filename) => {
+  const browser = await chromium.launch({
+    headless: true
+  });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(html, {
+      waitUntil: 'networkidle'
+    });
+    const pdfBuffer = await page.pdf({
+      format: "Letter",
+    });
+
+    console.log("LARGE FILE?:", pdfBuffer.length > maxAttachBytes);
+    return pdfBuffer;
+  } catch(e) {
+    console.error(e);
+  } finally {
+    await browser.close();
+  }
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {
