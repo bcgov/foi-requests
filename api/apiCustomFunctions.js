@@ -226,7 +226,7 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
   }
 }
 
-const generatePDFFromHTML = async (html, filename) => {
+const generatePDFFromHTML = async (html) => {
   const browser = await getBrowser();
   const page = await browser.newPage();
   try {
