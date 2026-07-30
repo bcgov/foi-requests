@@ -78,7 +78,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
       
-      const applicantEmail = req.params.requestData.contactInfoOptions.email;
+      const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
       const applicantResponse = applicantEmail ? await sendApplicantEmail(req, server, applicantEmail) : { "EmailSuccess": "N/A", "message": "N/A" };
 
       res.send({
@@ -159,7 +159,7 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       receipt
     );
 
-    const applicantEmail = req.params.requestData.contactInfoOptions.email;
+    const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
     const applicantResponse = applicantEmail ? await sendApplicantEmail(req, server, applicantEmail) : { "EmailSuccess": "N/A", "message": "N/A" };
          
     req.log.info('FOI Request email submission success');
