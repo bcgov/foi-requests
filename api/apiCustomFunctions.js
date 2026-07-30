@@ -15,6 +15,14 @@ const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
 const MAX_ATTACH_MB = 5;
 const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
+let initializedBrowser = null;
+
+const getBrowser = async () => {
+  if (!initializedBrowser) {
+    initializedBrowser = await chromium.launch({headless: true});
+  }
+  return initializedBrowser
+}
 
 const submitFoiRequest = async (server, req, res, next) => {
   console.log(
@@ -219,11 +227,9 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
 }
 
 const generatePDFFromHTML = async (html, filename) => {
-  const browser = await chromium.launch({
-    headless: true
-  });
+  const browser = await getBrowser();
+  const page = await browser.newPage();
   try {
-    const page = await browser.newPage();
     await page.setContent(html, {
       waitUntil: 'networkidle'
     });
@@ -236,7 +242,7 @@ const generatePDFFromHTML = async (html, filename) => {
   } catch(e) {
     console.error(e);
   } finally {
-    await browser.close();
+    await page.close();
   }
 }
 
