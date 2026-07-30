@@ -207,7 +207,7 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
     console.log(`Sending message to ${applicantEmail}`);
     const attachments = [];
     const emailLayout = new ApplicantEmailLayout();
-    const requestReceiptHTML = new EmailLayout.renderEmail(req.params ,req.isAuthorised, req.userDetails);
+    const requestReceiptHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
     const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
     
     if (requestReceipt) {
