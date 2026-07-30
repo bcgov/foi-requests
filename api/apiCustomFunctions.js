@@ -5,15 +5,24 @@
 
 'use strict';
 const fs = require('fs');
-const {EmailLayout, ConfirmationEmailLayout} = require('./emailLayout');
+const {EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
+const { chromium } = require('playwright');
 
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
 const MAX_ATTACH_MB = 5;
 const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
+let initializedBrowser = null;
+
+const getBrowser = async () => {
+  if (!initializedBrowser) {
+    initializedBrowser = chromium.launch({headless: true});
+  }
+  return initializedBrowser
+}
 
 const submitFoiRequest = async (server, req, res, next) => {
   console.log(
@@ -68,11 +77,16 @@ const submitFoiRequest = async (server, req, res, next) => {
       console.log(`Sending message to ${foiRequestInbox}`);
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
+      
+      const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
+      const applicantResponse = applicantEmail ? await sendApplicantEmail(req, server, applicantEmail) : { "EmailSuccess": "N/A", "message": "N/A" };
 
       res.send({
         EmailSuccess: true, 
         message: 'success',
-        pendingPayment: false
+        pendingPayment: false,
+        ApplicantEmailSuccess: applicantResponse.EmailSuccess,
+        ApplicantEmailMessage: applicantResponse.message,
       });
 
     } else {
@@ -137,7 +151,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
     req.log.info('Generate receipt Error:', genreceipterror);
     console.log("---submitFoiRequestEmail Generate Receipt Error ends--");
   }
-
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server, receipt);
     const confirmationResponse = await sendConfirmationEmail(
@@ -145,6 +158,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       server,
       receipt
     );
+
+    const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
+    const applicantResponse = applicantEmail ? await sendApplicantEmail(req, server, applicantEmail) : { "EmailSuccess": "N/A", "message": "N/A" };
          
     req.log.info('FOI Request email submission success');
 
@@ -152,7 +168,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       EmailSuccess: true, 
       message: 'success', 
       ConfirmationEmailSuccess: confirmationResponse.EmailSuccess, 
-      ConfirmationEmailMessage: confirmationResponse.message
+      ConfirmationEmailMessage: confirmationResponse.message,
+      ApplicantEmailSuccess: applicantResponse.EmailSuccess,
+      ApplicantEmailMessage: applicantResponse.message
     });
 
     next();
@@ -166,7 +184,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 }
 
 const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
-
   let foiAttachments = getAttachments(req.files, maxAttachBytes, next);
 
   if (extraAttachements.length > 0) {
@@ -183,6 +200,50 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
   
   return response;
 
+}
+
+const sendApplicantEmail = async (req, server, applicantEmail) => {
+  try {
+    console.log(`Sending message to ${applicantEmail}`);
+    const attachments = [];
+    const emailLayout = new ApplicantEmailLayout();
+    const requestReceiptHTML = new EmailLayout.renderEmail(req.params ,req.isAuthorised, req.userDetails);
+    const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
+    
+    if (requestReceipt) {
+      attachments.push({
+        content: requestReceipt.toString("base64"),
+        filename: "RequestDetails.pdf",
+        encoding: "base64"
+      });
+    }
+    const response = await sendEmail(emailLayout.renderEmail(), attachments, server, applicantEmail, "Receipt of FOI Request", req);
+
+    return response;
+  } catch (e) {
+    console.error(e);
+    return { EmailSuccess: false, message: "Failed to send applicant email" } 
+  }
+}
+
+const generatePDFFromHTML = async (html, filename) => {
+  const browser = await getBrowser();
+  const page = await browser.newPage();
+  try {
+    await page.setContent(html, {
+      waitUntil: 'networkidle'
+    });
+    const pdfBuffer = await page.pdf({
+      format: "Letter",
+    });
+
+    console.log("LARGE FILE?:", pdfBuffer.length > maxAttachBytes);
+    return pdfBuffer;
+  } catch(e) {
+    console.error(e);
+  } finally {
+    await page.close();
+  }
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {
