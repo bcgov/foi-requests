@@ -9,6 +9,7 @@ COPY package.json package-lock.json ./
 
 # Install the application dependencies
 RUN npm install --legacy-peer-deps --ignore-scripts
+RUN npx playwright install chromium
 
 # Copy the rest of the application code to the working directory
 COPY *.js *.sh *.env ./
