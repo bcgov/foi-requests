@@ -21,7 +21,12 @@ const getBrowser = async () => {
   if (!initializedBrowser) {
     initializedBrowser = chromium.launch({headless: true});
   }
-  return initializedBrowser
+  let browser = await initializedBrowser;
+  if (!browser.isConnected()) {
+    initializedBrowser = chromium.launch({headless: true});
+    browser = await initializedBrowser;
+  }
+  return browser;
 }
 
 const submitFoiRequest = async (server, req, res, next) => {
@@ -231,7 +236,8 @@ const generatePDFFromHTML = async (html, filename) => {
   const page = await browser.newPage();
   try {
     await page.setContent(html, {
-      waitUntil: 'networkidle'
+      waitUntil: 'networkidle',
+      timeout: 10000,
     });
     const pdfBuffer = await page.pdf({
       format: "Letter",
