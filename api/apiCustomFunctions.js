@@ -223,6 +223,7 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
     const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
     
     if (requestReceipt) {
+      console.log("LARGE FILE?:", Buffer.from(requestReceipt).length > maxAttachBytes);
       attachments.push({
         content: Buffer.from(requestReceipt).toString("base64"),
         filename: "RequestDetails.pdf",
@@ -233,7 +234,7 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
 
     return response;
   } catch (e) {
-    console.error(e);
+    console.error("Error in sending applicant email:", e);
     return { EmailSuccess: false, message: "Failed to send applicant email" } 
   }
 }
@@ -255,18 +256,17 @@ const generatePDFFromHTML = async (html) => {
       "requestHTML": html
     };
     const response = await requestAPI.invokeGenerateRequestPDF(JSON.stringify(data), apiURL);
-    console.log("RES", response)
+    console.log("RES data", response.data)
+    console.log("RES status", response.status)
     
     if (response.status !== 200) {
-      console.error(response.data.message);
       throw Error("Error in generating request receipt pdf");
     }
-    const pdfBytes = response.data.pdf;
 
-    console.log("LARGE FILE?:", pdfBytes.length > maxAttachBytes);
+    const pdfBytes = response.data;
     return pdfBytes;
   } catch(e) {
-    console.error(e);
+    console.error(e.response);
   } 
   // finally {
   //   await page.close();
