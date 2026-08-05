@@ -8,26 +8,26 @@ const fs = require('fs');
 const {EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
-const { chromium } = require('playwright');
+// const { chromium } = require('playwright');
 
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
 const MAX_ATTACH_MB = 5;
 const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
-let initializedBrowser = null;
+// let initializedBrowser = null;
 
-const getBrowser = async () => {
-  if (!initializedBrowser) {
-    initializedBrowser = chromium.launch({headless: true});
-  }
-  let browser = await initializedBrowser;
-  if (!browser.isConnected()) {
-    initializedBrowser = chromium.launch({headless: true});
-    browser = await initializedBrowser;
-  }
-  return browser;
-}
+// const getBrowser = async () => {
+//   if (!initializedBrowser) {
+//     initializedBrowser = chromium.launch({headless: true});
+//   }
+//   let browser = await initializedBrowser;
+//   if (!browser.isConnected()) {
+//     initializedBrowser = chromium.launch({headless: true});
+//     browser = await initializedBrowser;
+//   }
+//   return browser;
+// }
 
 const submitFoiRequest = async (server, req, res, next) => {
   console.log(
@@ -53,6 +53,13 @@ const submitFoiRequest = async (server, req, res, next) => {
   };
 
   if (req.files) {
+    // // 5166 WORK START
+    // const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+    // const requestAttachment = generatePDFFromHTML(requestAttachmentHTML);
+    // //WTF IS REQ.FILES? DICT? LIST?
+    // req.files["RequestReceipt"] = requestAttachment;
+    // // 5166 WORK END
+
     data.params["requestData"].Attachments = convertFilesToBase64(
       req.files,
       maxAttachBytes,
@@ -217,7 +224,7 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
     
     if (requestReceipt) {
       attachments.push({
-        content: requestReceipt.toString("base64"),
+        content: Buffer.from(requestReceipt).toString("base64"),
         filename: "RequestDetails.pdf",
         encoding: "base64"
       });
@@ -232,24 +239,38 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
 }
 
 const generatePDFFromHTML = async (html) => {
-  const browser = await getBrowser();
-  const page = await browser.newPage();
+  // const browser = await getBrowser();
+  // const page = await browser.newPage();
   try {
-    await page.setContent(html, {
-      waitUntil: 'networkidle',
-      timeout: 10000,
-    });
-    const pdfBuffer = await page.pdf({
-      format: "Letter",
-    });
+    // await page.setContent(html, {
+    //   waitUntil: 'networkidle',
+    //   timeout: 10000,
+    // });
+    // const pdfBuffer = await page.pdf({
+    //   format: "Letter",
+    // });
 
-    console.log("LARGE FILE?:", pdfBuffer.length > maxAttachBytes);
-    return pdfBuffer;
+    const apiURL = `${foiRequestAPIBackend}/foirawrequest/requestreceipt`;
+    const data = {
+      "requestHTML": html
+    };
+    const response = requestAPI.invokeGenerateRequestPDF(JSON.stringify(data), apiURL);
+    console.log("RES", response)
+    
+    if (response.status !== 200) {
+      console.error(response.data.message);
+      throw Error("Error in generating request receipt pdf");
+    }
+    const pdfBytes = response.data.pdf;
+
+    console.log("LARGE FILE?:", pdfBytes.length > maxAttachBytes);
+    return pdfBytes;
   } catch(e) {
     console.error(e);
-  } finally {
-    await page.close();
-  }
+  } 
+  // finally {
+  //   await page.close();
+  // }
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {

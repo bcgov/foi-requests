@@ -54,5 +54,15 @@ function RequestAPI() {
        };
        return axios.post(apiUrl, data, axiosConfig);
      };
+
+     this.invokeGenerateRequestPDF = (data, apiUrl) => {
+      const axiosConfig = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        responseType: "arraybuffer"
+      };
+      return axios.post(apiUrl, data, axiosConfig);
+     }
   };  
   module.exports = { RequestAPI };
