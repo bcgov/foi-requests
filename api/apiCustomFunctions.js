@@ -255,6 +255,7 @@ const generatePDFFromHTML = async (html) => {
       "requestHTML": html
     };
     const response = requestAPI.invokeGenerateRequestPDF(JSON.stringify(data), apiURL);
+    console.log("RES", response)
     
     if (response.status !== 200) {
       console.error(response.data.message);
