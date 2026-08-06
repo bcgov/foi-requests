@@ -8,26 +8,11 @@ const fs = require('fs');
 const {EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
-// const { chromium } = require('playwright');
-
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
 const MAX_ATTACH_MB = 5;
 const maxAttachBytes = MAX_ATTACH_MB * 1024 * 1024;
-// let initializedBrowser = null;
-
-// const getBrowser = async () => {
-//   if (!initializedBrowser) {
-//     initializedBrowser = chromium.launch({headless: true});
-//   }
-//   let browser = await initializedBrowser;
-//   if (!browser.isConnected()) {
-//     initializedBrowser = chromium.launch({headless: true});
-//     browser = await initializedBrowser;
-//   }
-//   return browser;
-// }
 
 const submitFoiRequest = async (server, req, res, next) => {
   console.log(
@@ -53,13 +38,6 @@ const submitFoiRequest = async (server, req, res, next) => {
   };
 
   if (req.files) {
-    // // 5166 WORK START
-    // const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
-    // const requestAttachment = generatePDFFromHTML(requestAttachmentHTML);
-    // //WTF IS REQ.FILES? DICT? LIST?
-    // req.files["RequestReceipt"] = requestAttachment;
-    // // 5166 WORK END
-
     data.params["requestData"].Attachments = convertFilesToBase64(
       req.files,
       maxAttachBytes,
@@ -240,24 +218,12 @@ const sendApplicantEmail = async (req, server, applicantEmail) => {
 }
 
 const generatePDFFromHTML = async (html) => {
-  // const browser = await getBrowser();
-  // const page = await browser.newPage();
   try {
-    // await page.setContent(html, {
-    //   waitUntil: 'networkidle',
-    //   timeout: 10000,
-    // });
-    // const pdfBuffer = await page.pdf({
-    //   format: "Letter",
-    // });
-
     const apiURL = `${foiRequestAPIBackend}/foirawrequest/requestreceipt`;
     const data = {
       "requestHTML": html
     };
     const response = await requestAPI.invokeGenerateRequestPDF(JSON.stringify(data), apiURL);
-    console.log("RES data", response.data)
-    console.log("RES status", response.status)
     
     if (response.status !== 200) {
       throw Error("Error in generating request receipt pdf");
@@ -267,10 +233,7 @@ const generatePDFFromHTML = async (html) => {
     return pdfBytes;
   } catch(e) {
     console.error(e.response);
-  } 
-  // finally {
-  //   await page.close();
-  // }
+  }
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {
