@@ -102,11 +102,11 @@ const submitFoiRequest = async (server, req, res, next) => {
   }
    catch(error) {
     console.log(`${error}`);
-    console.log("FOI API STATUS:", error.response.status);
-    console.log("FOI API DATA:", error.response.data);
+    console.log("FOI API STATUS:", error.response?.status);
+    console.log("FOI API DATA:", error.response?.data);
     req.log.info('Failed:', error);
     let unavailable = "";
-    if (error.response.status === 409) {
+    if (error.response?.status === 409) {
       // Handle duplicate request
       unavailable = new restifyErrors.ConflictError(error.response.data.message);
     } else {
@@ -420,7 +420,7 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
     const result = {
       EmailSuccess: null,
       message: ""
-    }
+    };
     const transomMailer = server.registry.get('transomSmtp');
     transomMailer.sendFromNoReply(
       {
@@ -437,38 +437,37 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
           }
         });
         // After files are deleted, process the result.
-        // setTimeout(()=> {
-          if (err) {
-            result.message = err.message;
-            result.EmailSuccess = false;
-            req.log.info('Failed:', err);
-          }
-          else{
-            result.message = "Email \"" + subject + "\" Sent Successfully";
-            result.EmailSuccess = true;
-            req.log.info('EmailSent:', response);
-          }     
-          console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
-          // }, 500);
-        });
-
-        const executePoll = async (resolve, reject) => {
-          pollingAttempts++;
-          console.log('pollingAttempts:', pollingAttempts);
-          if (result.EmailSuccess !== null) {
-            console.log('Result:',result);
-            return resolve(result);
-          } else if (pollingAttempts > 20) {
-            return reject(new Error('Exceeded max attempts'));
-          } else {
-            console.log('Inside Timeout');
-            setTimeout(executePoll, 300, resolve, reject);
-          }
-        };
-
-        return new Promise(executePoll);
-      } catch (e) {
-    return {EmailSuccess: false, message: e}
+        if (err) {
+          result.message = err.message;
+          result.EmailSuccess = false;
+          req.log.info('Failed:', err);
+        }
+        else{
+          result.message = "Email \"" + subject + "\" Sent Successfully";
+          result.EmailSuccess = true;
+          req.log.info('EmailSent:', response);
+        }     
+        console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
+      }
+    );
+    
+    const executePoll = async (resolve, reject) => {
+      pollingAttempts++;
+      console.log('pollingAttempts:', pollingAttempts);
+      if (result.EmailSuccess !== null) {
+        console.log('Result:',result);
+        return resolve(result);
+      } else if (pollingAttempts > 20) {
+        return reject(new Error('Exceeded max attempts'));
+      } else {
+        console.log('Inside Timeout');
+        setTimeout(executePoll, 300, resolve, reject);
+      }
+    };
+    
+    return new Promise(executePoll);
+  } catch (e) {
+    return {EmailSuccess: false, message: e};
   }
 }
 
