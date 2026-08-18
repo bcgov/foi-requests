@@ -433,7 +433,7 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
       console.log(`Send email attempt ${transomSmtpAttempts} of ${maxtransomSmtRetries}`);
 
       const response = await new Promise((resolve, reject) => {
-        transomMailer.sendEmail(emailConfig, (err, response) => {
+        transomMailer.sendFromNoReply(emailConfig, (err, response) => {
           if (err) reject(err);
           result.message = "Email \"" + subject + "\" Sent Successfully";
           result.EmailSuccess = true;
@@ -450,14 +450,15 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
         }
       });
 
+      console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
       return result;
     } catch(err) {
       if (transomSmtpAttempts === maxtransomSmtRetries) {
-        console.error(`Max number of send email attempts reached. Email was not successfully sent: ${err}`);
         result.message = "Max number of send email attempts reached. Email was not successfully sent";
         // Fail open
         result.EmailSuccess = true;
         req.log.info('Failed:', err);
+        console.error(`Sent Email? : False, Message: Message: ${result.message}`);
         return result; 
       }
 
