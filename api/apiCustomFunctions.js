@@ -426,11 +426,13 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
     html: foiHtml,
     attachments: foiAttachments,
   };
-  const maxtransomSmtRetries = 10;
+  const maxtransomSmtRetries = 5;
+  let delayMS = 0;
 
   for (let transomSmtpAttempts = 1; transomSmtpAttempts <= maxtransomSmtRetries; transomSmtpAttempts++) {
     try {
       console.log(`Send email attempt ${transomSmtpAttempts} of ${maxtransomSmtRetries}`);
+      delayMS += 10000;
 
       const response = await new Promise((resolve, reject) => {
         transomMailer.sendFromNoReply(emailConfig, (err, response) => {
@@ -464,7 +466,7 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
 
       console.warn(`Email send attempt ${transomSmtpAttempts} failed: ${err}`);
       // Delay before retry
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, delayMS));
     }
   }
 }
