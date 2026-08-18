@@ -53,7 +53,7 @@ const submitFoiRequest = async (server, req, res, next) => {
       "filename": "RequestReceipt.pdf",
       "base64data": Buffer.from(requestAttachment).toString("base64"),
     };
-    data.params["requestData"].Attachments = data.params["requestData"].Attachments ?  data.params["requestData"].Attachments.push(attachmentObj) : [attachmentObj];
+    data.params["requestData"].Attachments = data.params["requestData"].Attachments ?  [...data.params["requestData"].Attachments, attachmentObj] : [attachmentObj];
   }
   
   try {
