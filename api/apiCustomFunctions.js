@@ -45,6 +45,17 @@ const submitFoiRequest = async (server, req, res, next) => {
     );
   }
   
+  const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+  const requestAttachment = await generatePDFFromHTML(requestAttachmentHTML);
+  if (requestAttachment) {
+    console.log("LARGE FILE?:", Buffer.from(requestAttachment).length > maxAttachBytes);
+    const attachmentObj = {
+      "filename": "RequestReceipt.pdf",
+      "base64data": Buffer.from(requestAttachment).toString("base64"),
+    };
+    data.params["requestData"].Attachments = data.params["requestData"].Attachments ?  data.params["requestData"].Attachments.push(attachmentObj) : [attachmentObj];
+  }
+  
   try {
 
     const needsPayment = doesNeedPayment(req);
@@ -69,7 +80,11 @@ const submitFoiRequest = async (server, req, res, next) => {
       await sendSubmissionEmail(req, next, server);
       
       const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
-      const applicantResponse = applicantEmail ? await sendApplicantEmail(req, server, applicantEmail) : { "EmailSuccess": "N/A", "message": "N/A" };
+      let applicantResponse = { "EmailSuccess": "N/A", "message": "N/A" };
+      if (applicantEmail) {
+        const applicantEmailAttachments = convertAndCreateBase64AttachmentArr([requestAttachment]);
+        applicantResponse = await sendApplicantEmail(req, server, applicantEmail, applicantEmailAttachments);
+      }
 
       res.send({
         EmailSuccess: true, 
@@ -87,11 +102,11 @@ const submitFoiRequest = async (server, req, res, next) => {
   }
    catch(error) {
     console.log(`${error}`);
-    console.log("FOI API STATUS:", error.response.status);
-    console.log("FOI API DATA:", error.response.data);
+    console.log("FOI API STATUS:", error.response?.status);
+    console.log("FOI API DATA:", error.response?.data);
     req.log.info('Failed:', error);
     let unavailable = "";
-    if (error.response.status === 409) {
+    if (error.response?.status === 409) {
       // Handle duplicate request
       unavailable = new restifyErrors.ConflictError(error.response.data.message);
     } else {
@@ -150,7 +165,13 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
     );
 
     const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
-    const applicantResponse = applicantEmail ? await sendApplicantEmail(req, server, applicantEmail) : { "EmailSuccess": "N/A", "message": "N/A" };
+    let applicantResponse = { "EmailSuccess": "N/A", "message": "N/A" };
+    if (applicantEmail) {
+      const requestReceiptHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+      const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
+      const applicantEmailAttachments = convertAndCreateBase64AttachmentArr([requestReceipt]);
+      applicantResponse = await sendApplicantEmail(req, server, applicantEmail, applicantEmailAttachments);
+    }
          
     req.log.info('FOI Request email submission success');
 
@@ -192,22 +213,10 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
 
 }
 
-const sendApplicantEmail = async (req, server, applicantEmail) => {
+const sendApplicantEmail = async (req, server, applicantEmail, attachments) => {
   try {
     console.log(`Sending message to ${applicantEmail}`);
-    const attachments = [];
     const emailLayout = new ApplicantEmailLayout();
-    const requestReceiptHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
-    const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
-    
-    if (requestReceipt) {
-      console.log("LARGE FILE?:", Buffer.from(requestReceipt).length > maxAttachBytes);
-      attachments.push({
-        content: Buffer.from(requestReceipt).toString("base64"),
-        filename: "RequestDetails.pdf",
-        encoding: "base64"
-      });
-    }
     const response = await sendEmail(emailLayout.renderEmail(), attachments, server, applicantEmail, "Receipt of FOI Request", req);
 
     return response;
@@ -406,60 +415,58 @@ const formReceiptData = (requestData) => {
 };
 
 const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) => {
-  try {
-    let pollingAttempts = 0;
-    const result = {
-      EmailSuccess: null,
-      message: ""
+  const result = {
+    EmailSuccess: null,
+    message: ""
+  };
+  const transomMailer = server.registry.get('transomSmtp');
+  const emailConfig = {
+    subject: subject,
+    to: inbox,
+    html: foiHtml,
+    attachments: foiAttachments,
+  };
+  const maxtransomSmtRetries = 5;
+  let delayMS = 10000;
+
+  for (let transomSmtpAttempts = 1; transomSmtpAttempts <= maxtransomSmtRetries; transomSmtpAttempts++) {
+    try {
+      console.log(`Send email attempt ${transomSmtpAttempts} of ${maxtransomSmtRetries}`);
+
+      const response = await new Promise((resolve, reject) => {
+        transomMailer.sendFromNoReply(emailConfig, (err, response) => {
+          if (err) reject(err);
+          result.message = "Email \"" + subject + "\" Sent Successfully";
+          result.EmailSuccess = true;
+          req.log.info('EmailSent:', response);
+          resolve(response);
+        })
+      });
+      console.log("BANG", response);
+      
+      // Delete all attachments on successfull submission.
+      foiAttachments.map(file => {
+        if(file.path) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
+      console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
+      return result;
+    } catch(err) {
+      if (transomSmtpAttempts === maxtransomSmtRetries) {
+        result.message = "Max number of send email attempts reached. Email was not successfully sent";
+        // Fail open
+        result.EmailSuccess = true;
+        req.log.info('Failed:', err);
+        console.error(`Sent Email? : False, Message: Message: ${result.message}`);
+        return result; 
+      }
+
+      console.warn(`Email send attempt ${transomSmtpAttempts} failed: ${err}`);
+      // Delay before retry
+      await new Promise(resolve => setTimeout(resolve, delayMS));
     }
-    const transomMailer = server.registry.get('transomSmtp');
-    transomMailer.sendFromNoReply(
-      {
-        subject: subject,
-        to: inbox,
-        html: foiHtml,
-        attachments: foiAttachments
-      },
-      async (err, response) => {
-        // Delete all attachments on the submission.
-        foiAttachments.map(file => {
-          if(file.path) {
-            fs.unlinkSync(file.path);
-          }
-        });
-        // After files are deleted, process the result.
-        // setTimeout(()=> {
-          if (err) {
-            result.message = err.message;
-            result.EmailSuccess = false;
-            req.log.info('Failed:', err);
-          }
-          else{
-            result.message = "Email \"" + subject + "\" Sent Successfully";
-            result.EmailSuccess = true;
-            req.log.info('EmailSent:', response);
-          }     
-          console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
-          // }, 500);
-        });
-
-        const executePoll = async (resolve, reject) => {
-          pollingAttempts++;
-          console.log('pollingAttempts:', pollingAttempts);
-          if (result.EmailSuccess !== null) {
-            console.log('Result:',result);
-            return resolve(result);
-          } else if (pollingAttempts > 20) {
-            return reject(new Error('Exceeded max attempts'));
-          } else {
-            console.log('Inside Timeout');
-            setTimeout(executePoll, 300, resolve, reject);
-          }
-        };
-
-        return new Promise(executePoll);
-      } catch (e) {
-    return {EmailSuccess: false, message: e}
   }
 }
 
@@ -536,6 +543,21 @@ const doesNeedPayment = (req) => {
   }
 
   throw new Error("Invalid input data")
+}
+
+const convertAndCreateBase64AttachmentArr = (pdfFiles) => {
+  const attachmentsArr = [];
+  for (const pdf of pdfFiles) {
+    if (pdf) {
+      console.log("LARGE FILE?:", Buffer.from(pdf).length > maxAttachBytes);
+      attachmentsArr.push({
+        content: Buffer.from(pdf).toString("base64"),
+        filename: "RequestDetails.pdf",
+        encoding: "base64"
+      });
+    }
+  }
+  return attachmentsArr;
 }
 
 module.exports = {
