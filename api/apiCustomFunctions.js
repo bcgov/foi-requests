@@ -464,7 +464,7 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
 
       console.warn(`Email send attempt ${transomSmtpAttempts} failed: ${err}`);
       // Delay before retry
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, 2000));
     }
   }
 }
