@@ -415,59 +415,56 @@ const formReceiptData = (requestData) => {
 };
 
 const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) => {
-  try {
-    let pollingAttempts = 0;
-    const result = {
-      EmailSuccess: null,
-      message: ""
-    };
-    const transomMailer = server.registry.get('transomSmtp');
-    transomMailer.sendFromNoReply(
-      {
-        subject: subject,
-        to: inbox,
-        html: foiHtml,
-        attachments: foiAttachments
-      },
-      async (err, response) => {
-        // Delete all attachments on the submission.
-        foiAttachments.map(file => {
-          if(file.path) {
-            fs.unlinkSync(file.path);
-          }
-        });
-        // After files are deleted, process the result.
-        if (err) {
-          result.message = err.message;
-          result.EmailSuccess = false;
-          req.log.info('Failed:', err);
-        }
-        else{
+  const result = {
+    EmailSuccess: null,
+    message: ""
+  };
+  const transomMailer = server.registry.get('transomSmtp');
+  const emailConfig = {
+    subject: subject,
+    to: inbox,
+    html: foiHtml,
+    attachments: foiAttachments,
+  };
+  const maxtransomSmtRetries = 10;
+
+  for (let transomSmtpAttempts = 1; transomSmtpAttempts <= maxtransomSmtRetries; transomSmtpAttempts++) {
+    try {
+      console.log(`Send email attempt ${transomSmtpAttempts} of ${maxtransomSmtRetries}`);
+
+      const response = await new Promise((resolve, reject) => {
+        transomMailer.sendEmail(emailConfig, (err, response) => {
+          if (err) reject(err);
           result.message = "Email \"" + subject + "\" Sent Successfully";
           result.EmailSuccess = true;
           req.log.info('EmailSent:', response);
-        }     
-        console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
+          resolve(response);
+        })
+      });
+      console.log("BANG", response);
+      
+      // Delete all attachments on successfull submission.
+      foiAttachments.map(file => {
+        if(file.path) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
+      return result;
+    } catch(err) {
+      if (transomSmtpAttempts === maxtransomSmtRetries) {
+        console.error(`Max number of send email attempts reached. Email was not successfully sent: ${err}`);
+        result.message = "Max number of send email attempts reached. Email was not successfully sent";
+        // Fail open
+        result.EmailSuccess = true;
+        req.log.info('Failed:', err);
+        return result; 
       }
-    );
-    
-    const executePoll = async (resolve, reject) => {
-      pollingAttempts++;
-      console.log('pollingAttempts:', pollingAttempts);
-      if (result.EmailSuccess !== null) {
-        console.log('Result:',result);
-        return resolve(result);
-      } else if (pollingAttempts > 20) {
-        return reject(new Error('Exceeded max attempts'));
-      } else {
-        console.log('Inside Timeout');
-        setTimeout(executePoll, 300, resolve, reject);
-      }
-    };
-    
-    return new Promise(executePoll);
-  } catch (e) {
-    return {EmailSuccess: false, message: e};
+
+      console.warn(`Email send attempt ${transomSmtpAttempts} failed: ${err}`);
+      // Delay before retry
+      await new Promise(resolve => setTimeout(resolve, 1500));
+    }
   }
 }
 
