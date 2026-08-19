@@ -426,21 +426,21 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
     html: foiHtml,
     attachments: foiAttachments,
   };
-  const maxtransomSmtRetries = 5;
-  let delayMS = 10000;
+  const maxtransomSmtRetries = 4;
+  let delayMS = 3000;
 
   for (let transomSmtpAttempts = 1; transomSmtpAttempts <= maxtransomSmtRetries; transomSmtpAttempts++) {
     try {
       console.log(`Send email attempt ${transomSmtpAttempts} of ${maxtransomSmtRetries}`);
 
       const response = await new Promise((resolve, reject) => {
+        return reject(new Error("Failure Test"));
         transomMailer.sendFromNoReply(emailConfig, (err, response) => {
-          // if (err) reject(err);
-          // result.message = "Email \"" + subject + "\" Sent Successfully";
-          // result.EmailSuccess = true;
-          // req.log.info('EmailSent:', response);
-          // resolve(response);
-          reject(err)
+          if (err) reject(err);
+          result.message = "Email \"" + subject + "\" Sent Successfully";
+          result.EmailSuccess = true;
+          req.log.info('EmailSent:', response);
+          resolve(response);
         })
       });
 
