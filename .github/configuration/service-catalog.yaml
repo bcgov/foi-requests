@@ -1,0 +1,10 @@
+services:
+  - name: api
+    path: api
+    image: api
+    kind: deployment
+
+  - name: web
+    path: web
+    image: web
+    kind: deployment
