@@ -48,7 +48,7 @@ const submitFoiRequest = async (server, req, res, next) => {
   const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
   const requestAttachment = await generatePDFFromHTML(requestAttachmentHTML);
   if (requestAttachment) {
-    console.log("LARGE FILE?:", Buffer.from(requestAttachment).length > maxAttachBytes);
+    // console.log("LARGE FILE?:", Buffer.from(requestAttachment).length > maxAttachBytes);
     const attachmentObj = {
       "filename": "RequestReceipt.pdf",
       "base64data": Buffer.from(requestAttachment).toString("base64"),
@@ -442,8 +442,7 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
           resolve(response);
         })
       });
-      console.log("BANG", response);
-      
+
       // Delete all attachments on successfull submission.
       foiAttachments.map(file => {
         if(file.path) {
@@ -549,7 +548,7 @@ const convertAndCreateBase64AttachmentArr = (pdfFiles) => {
   const attachmentsArr = [];
   for (const pdf of pdfFiles) {
     if (pdf) {
-      console.log("LARGE FILE?:", Buffer.from(pdf).length > maxAttachBytes);
+      // console.log("LARGE FILE?:", Buffer.from(pdf).length > maxAttachBytes);
       attachmentsArr.push({
         content: Buffer.from(pdf).toString("base64"),
         filename: "RequestDetails.pdf",
