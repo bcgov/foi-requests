@@ -427,7 +427,7 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
     attachments: foiAttachments,
   };
   const maxtransomSmtRetries = 4;
-  let delayMS = 3000;
+  let delayMS = 2500;
 
   for (let transomSmtpAttempts = 1; transomSmtpAttempts <= maxtransomSmtRetries; transomSmtpAttempts++) {
     try {
