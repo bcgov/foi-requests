@@ -435,12 +435,11 @@ const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) =
 
       const response = await new Promise((resolve, reject) => {
         transomMailer.sendFromNoReply(emailConfig, (err, response) => {
-          // if (err) reject(err);
-          // result.message = "Email \"" + subject + "\" Sent Successfully";
-          // result.EmailSuccess = true;
-          // req.log.info('EmailSent:', response);
-          // resolve(response);
-          reject(err)
+          if (err) reject(err);
+          result.message = "Email \"" + subject + "\" Sent Successfully";
+          result.EmailSuccess = true;
+          req.log.info('EmailSent:', response);
+          resolve(response);
         })
       });
 
