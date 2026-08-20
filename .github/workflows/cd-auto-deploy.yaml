@@ -228,6 +228,12 @@ jobs:
               ".${GITOPS_SECTION}.${NAME}.image.tag = \"${{ env.IMAGE_TAG }}\"" \
               -i "$VALUES_FILE"
 
+            # Update Pull Request Label
+            if [[ "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
+              yq e \
+                ".${GITOPS_SECTION}.${NAME}.pull-request-number = \"${{ env.IMAGE_TAG }}\"" \
+                -i "$VALUES_FILE"
+            fi
 
             # Add release label only for test deployments.
             if [[ "${{ needs.prepare-deployment.outputs.environment }}" == "test" ]]; then
