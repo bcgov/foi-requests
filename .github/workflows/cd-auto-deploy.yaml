@@ -231,7 +231,7 @@ jobs:
             # Update Pull Request Label
             if [[ "${{ github.event.pull_request.base.ref }}" == "dev" ]]; then
               yq e \
-                ".${GITOPS_SECTION}.${NAME}.pull-request-number = \"${{ env.IMAGE_TAG }}\"" \
+                ".${GITOPS_SECTION}.${NAME}.labels.pull-request-number = \"${{ env.IMAGE_TAG }}\"" \
                 -i "$VALUES_FILE"
             fi
 
