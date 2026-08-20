@@ -298,8 +298,8 @@ jobs:
       - name: Login to OpenShift
         run: |
           oc login \
-            --server="${{ secrets.OPENSHIFT4_LOGIN_REGISTRY }}" \
-            --token="${{ secrets.OPENSHIFT4_SA_TOKEN }}"
+            --server="${{ secrets.PUBLIC_IMAGE_REPOSITORY }}" \
+            --token="${{ secrets.OPENSHIFT_SA_TOOLS_TOKEN }}"
 
 
       - name: Verify Deployment
