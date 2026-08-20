@@ -5,10 +5,9 @@
 
 'use strict';
 const fs = require('fs');
-const {EmailLayout, ConfirmationEmailLayout} = require('./emailLayout');
+const {EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout} = require('./emailLayout');
 const restifyErrors = require('restify-errors');
 const { RequestAPI } = require('./foiRequestApiService');
-
 const foiRequestAPIBackend = process.env.FOI_REQUEST_API_BACKEND;
 const foiRequestInbox = process.env.FOI_REQUEST_INBOX;
 const requestAPI = new RequestAPI();
@@ -46,6 +45,17 @@ const submitFoiRequest = async (server, req, res, next) => {
     );
   }
   
+  const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+  const requestAttachment = await generatePDFFromHTML(requestAttachmentHTML);
+  if (requestAttachment) {
+    // console.log("LARGE FILE?:", Buffer.from(requestAttachment).length > maxAttachBytes);
+    const attachmentObj = {
+      "filename": "RequestReceipt.pdf",
+      "base64data": Buffer.from(requestAttachment).toString("base64"),
+    };
+    data.params["requestData"].Attachments = data.params["requestData"].Attachments ?  [...data.params["requestData"].Attachments, attachmentObj] : [attachmentObj];
+  }
+  
   try {
 
     const needsPayment = doesNeedPayment(req);
@@ -68,11 +78,20 @@ const submitFoiRequest = async (server, req, res, next) => {
       console.log(`Sending message to ${foiRequestInbox}`);
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
+      
+      const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
+      let applicantResponse = { "EmailSuccess": "N/A", "message": "N/A" };
+      if (applicantEmail) {
+        const applicantEmailAttachments = convertAndCreateBase64AttachmentArr([requestAttachment]);
+        applicantResponse = await sendApplicantEmail(req, server, applicantEmail, applicantEmailAttachments);
+      }
 
       res.send({
         EmailSuccess: true, 
         message: 'success',
-        pendingPayment: false
+        pendingPayment: false,
+        ApplicantEmailSuccess: applicantResponse.EmailSuccess,
+        ApplicantEmailMessage: applicantResponse.message,
       });
 
     } else {
@@ -83,11 +102,11 @@ const submitFoiRequest = async (server, req, res, next) => {
   }
    catch(error) {
     console.log(`${error}`);
-    console.log("FOI API STATUS:", error.response.status);
-    console.log("FOI API DATA:", error.response.data);
+    console.log("FOI API STATUS:", error.response?.status);
+    console.log("FOI API DATA:", error.response?.data);
     req.log.info('Failed:', error);
     let unavailable = "";
-    if (error.response.status === 409) {
+    if (error.response?.status === 409) {
       // Handle duplicate request
       unavailable = new restifyErrors.ConflictError(error.response.data.message);
     } else {
@@ -137,7 +156,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
     req.log.info('Generate receipt Error:', genreceipterror);
     console.log("---submitFoiRequestEmail Generate Receipt Error ends--");
   }
-
     req.log.info(`Sending message to ${foiRequestInbox}`, req.params);
     await sendSubmissionEmail(req, next, server, receipt);
     const confirmationResponse = await sendConfirmationEmail(
@@ -145,6 +163,15 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       server,
       receipt
     );
+
+    const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
+    let applicantResponse = { "EmailSuccess": "N/A", "message": "N/A" };
+    if (applicantEmail) {
+      const requestReceiptHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+      const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
+      const applicantEmailAttachments = convertAndCreateBase64AttachmentArr([requestReceipt]);
+      applicantResponse = await sendApplicantEmail(req, server, applicantEmail, applicantEmailAttachments);
+    }
          
     req.log.info('FOI Request email submission success');
 
@@ -152,7 +179,9 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       EmailSuccess: true, 
       message: 'success', 
       ConfirmationEmailSuccess: confirmationResponse.EmailSuccess, 
-      ConfirmationEmailMessage: confirmationResponse.message
+      ConfirmationEmailMessage: confirmationResponse.message,
+      ApplicantEmailSuccess: applicantResponse.EmailSuccess,
+      ApplicantEmailMessage: applicantResponse.message
     });
 
     next();
@@ -166,7 +195,6 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
 }
 
 const sendSubmissionEmail = async (req, next, server, extraAttachements = []) => {
-
   let foiAttachments = getAttachments(req.files, maxAttachBytes, next);
 
   if (extraAttachements.length > 0) {
@@ -183,6 +211,38 @@ const sendSubmissionEmail = async (req, next, server, extraAttachements = []) =>
   
   return response;
 
+}
+
+const sendApplicantEmail = async (req, server, applicantEmail, attachments) => {
+  try {
+    console.log(`Sending message to ${applicantEmail}`);
+    const emailLayout = new ApplicantEmailLayout();
+    const response = await sendEmail(emailLayout.renderEmail(), attachments, server, applicantEmail, "Receipt of FOI Request", req);
+
+    return response;
+  } catch (e) {
+    console.error("Error in sending applicant email:", e);
+    return { EmailSuccess: false, message: "Failed to send applicant email" } 
+  }
+}
+
+const generatePDFFromHTML = async (html) => {
+  try {
+    const apiURL = `${foiRequestAPIBackend}/foirawrequest/requestreceipt`;
+    const data = {
+      "requestHTML": html
+    };
+    const response = await requestAPI.invokeGenerateRequestPDF(JSON.stringify(data), apiURL);
+    
+    if (response.status !== 200) {
+      throw Error("Error in generating request receipt pdf");
+    }
+
+    const pdfBytes = response.data;
+    return pdfBytes;
+  } catch(e) {
+    console.error(e.response);
+  }
 }
 
 const sendConfirmationEmail = async (req, server, attachmets = []) => {
@@ -355,60 +415,57 @@ const formReceiptData = (requestData) => {
 };
 
 const sendEmail = async (foiHtml, foiAttachments, server, inbox, subject, req) => {
-  try {
-    let pollingAttempts = 0;
-    const result = {
-      EmailSuccess: null,
-      message: ""
+  const result = {
+    EmailSuccess: null,
+    message: ""
+  };
+  const transomMailer = server.registry.get('transomSmtp');
+  const emailConfig = {
+    subject: subject,
+    to: inbox,
+    html: foiHtml,
+    attachments: foiAttachments,
+  };
+  const maxtransomSmtRetries = 4;
+  let delayMS = 2500;
+
+  for (let transomSmtpAttempts = 1; transomSmtpAttempts <= maxtransomSmtRetries; transomSmtpAttempts++) {
+    try {
+      console.log(`Send email attempt ${transomSmtpAttempts} of ${maxtransomSmtRetries}`);
+
+      const response = await new Promise((resolve, reject) => {
+        transomMailer.sendFromNoReply(emailConfig, (err, response) => {
+          if (err) reject(err);
+          result.message = "Email \"" + subject + "\" Sent Successfully";
+          result.EmailSuccess = true;
+          req.log.info('EmailSent:', response);
+          resolve(response);
+        })
+      });
+
+      // Delete all attachments on successfull submission.
+      foiAttachments.map(file => {
+        if(file.path) {
+          fs.unlinkSync(file.path);
+        }
+      });
+
+      console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
+      return result;
+    } catch(err) {
+      if (transomSmtpAttempts === maxtransomSmtRetries) {
+        result.message = "Max number of send email attempts reached. Email was not successfully sent";
+        // Fail open
+        result.EmailSuccess = true;
+        req.log.info('Failed:', err);
+        console.error(`Sent Email? : False, Message: Message: ${result.message}`);
+        return result; 
+      }
+
+      console.warn(`Email send attempt ${transomSmtpAttempts} failed: ${err}`);
+      // Delay before retry
+      await new Promise(resolve => setTimeout(resolve, delayMS));
     }
-    const transomMailer = server.registry.get('transomSmtp');
-    transomMailer.sendFromNoReply(
-      {
-        subject: subject,
-        to: inbox,
-        html: foiHtml,
-        attachments: foiAttachments
-      },
-      async (err, response) => {
-        // Delete all attachments on the submission.
-        foiAttachments.map(file => {
-          if(file.path) {
-            fs.unlinkSync(file.path);
-          }
-        });
-        // After files are deleted, process the result.
-        // setTimeout(()=> {
-          if (err) {
-            result.message = err.message;
-            result.EmailSuccess = false;
-            req.log.info('Failed:', err);
-          }
-          else{
-            result.message = "Email \"" + subject + "\" Sent Successfully";
-            result.EmailSuccess = true;
-            req.log.info('EmailSent:', response);
-          }     
-          console.log(`Sent Email? : ${result.EmailSuccess}, Message: ${result.message}`);
-          // }, 500);
-        });
-
-        const executePoll = async (resolve, reject) => {
-          pollingAttempts++;
-          console.log('pollingAttempts:', pollingAttempts);
-          if (result.EmailSuccess !== null) {
-            console.log('Result:',result);
-            return resolve(result);
-          } else if (pollingAttempts > 20) {
-            return reject(new Error('Exceeded max attempts'));
-          } else {
-            console.log('Inside Timeout');
-            setTimeout(executePoll, 300, resolve, reject);
-          }
-        };
-
-        return new Promise(executePoll);
-      } catch (e) {
-    return {EmailSuccess: false, message: e}
   }
 }
 
@@ -485,6 +542,21 @@ const doesNeedPayment = (req) => {
   }
 
   throw new Error("Invalid input data")
+}
+
+const convertAndCreateBase64AttachmentArr = (pdfFiles) => {
+  const attachmentsArr = [];
+  for (const pdf of pdfFiles) {
+    if (pdf) {
+      // console.log("LARGE FILE?:", Buffer.from(pdf).length > maxAttachBytes);
+      attachmentsArr.push({
+        content: Buffer.from(pdf).toString("base64"),
+        filename: "RequestDetails.pdf",
+        encoding: "base64"
+      });
+    }
+  }
+  return attachmentsArr;
 }
 
 module.exports = {

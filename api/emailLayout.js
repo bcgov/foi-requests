@@ -1,6 +1,8 @@
 /**
  * Keep the email layout functions together, outside of index.js
  */
+const BRANCH_NAME = process.env.FOI_BRANCH_NAME || "Access and Information Management";
+
 function EmailLayout() {
   this.table = function(rows) {
     return `<table width="95%" border="0" cellpadding="5" cellspacing="0"><tbody
@@ -467,11 +469,11 @@ function ConfirmationEmailLayout() {
 			<p>Please do not reply to this email, this is an acknowledgment of payment.</p>
 			<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>	
 			<p>Regards,</p>	
-			<p>Access & Information Management Branch</p>
+			<p>${BRANCH_NAME} Branch</p>
 			<hr/>		
 			<p style='margin:0;'>
 				<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>
-				<span style='color:#00326A'>Access & Information Management Branch</span>
+				<span style='color:#00326A'>${BRANCH_NAME} Branch</span>
 			</p>	
 			<p style='margin:0;'>
 				<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9V1</span>
@@ -484,7 +486,7 @@ function ConfirmationEmailLayout() {
 			<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>
 			<p style='margin:0;'>
 				<span>250-387-1321 or 1-833-283-8200
-					<i>(ask for Access & Information Management Branch)</i>
+					<i>(ask for ${BRANCH_NAME} Branch)</i>
 				</span>
 			</p>
 		</div>`
@@ -493,4 +495,39 @@ function ConfirmationEmailLayout() {
   }
 }
 
-module.exports = { EmailLayout, ConfirmationEmailLayout }
+class ApplicantEmailLayout {
+  constructor() {}
+  
+  renderEmail() {
+    const content = `
+    <div style='width:40em;font-family:sans-serif;'>
+      <p>Thank you for contacting ${BRANCH_NAME}. Your submission has been received, please see the attached copy for your records. Our office will contact you shortly with next steps.</p>
+			<p>If you have any questions or concerns, please contact us directly at the contact information noted below.</p>	
+			<p>Regards,</p>	
+			<p>${BRANCH_NAME} Branch</p>
+			<hr/>		
+			<p style='margin:0;'>
+				<b><span style='color:#00326A'>Ministry of Citizens’ Services | </span></b>
+				<span style='color:#00326A'>${BRANCH_NAME}</span>
+			</p>	
+			<p style='margin:0;'>
+				<span>PO Box 9569 Stn Prov Govt Victoria BC V8W 9V1</span>
+			</p>	
+			<p style='margin:0;'>
+				<a href=\"http://www.gov.bc.ca/freedomofinformation/\">
+					http://www.gov.bc.ca/freedomofinformation/
+				</a>
+			</p>			
+			<p style='margin:0;'>FOI.Requests@gov.bc.ca</p>
+			<p style='margin:0;'>
+				<span>250-387-1321 or 1-833-283-8200
+					<i>(ask for ${BRANCH_NAME} Branch)</i>
+				</span>
+			</p>
+		</div>
+    `
+    return content;
+  }
+}
+
+module.exports = { EmailLayout, ConfirmationEmailLayout, ApplicantEmailLayout }
