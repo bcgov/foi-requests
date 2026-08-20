@@ -230,7 +230,7 @@ jobs:
 
             # Update Pull Request Label
             yq e \
-              ".${GITOPS_SECTION}.${NAME}.pull_request_number = \"${{ env.IMAGE_TAG }}\"" \
+              ".${GITOPS_SECTION}.${NAME}.pull-request-number = \"${{ env.IMAGE_TAG }}\"" \
               -i "$VALUES_FILE"
 
 
