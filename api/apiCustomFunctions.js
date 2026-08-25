@@ -45,17 +45,6 @@ const submitFoiRequest = async (server, req, res, next) => {
     );
   }
   
-  const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
-  const requestAttachment = await generatePDFFromHTML(requestAttachmentHTML);
-  if (requestAttachment) {
-    // console.log("LARGE FILE?:", Buffer.from(requestAttachment).length > maxAttachBytes);
-    const attachmentObj = {
-      "filename": "RequestReceipt.pdf",
-      "base64data": Buffer.from(requestAttachment).toString("base64"),
-    };
-    data.params["requestData"].Attachments = data.params["requestData"].Attachments ?  [...data.params["requestData"].Attachments, attachmentObj] : [attachmentObj];
-  }
-  
   try {
 
     const needsPayment = doesNeedPayment(req);
@@ -79,6 +68,8 @@ const submitFoiRequest = async (server, req, res, next) => {
       req.log.info(`Sending message to ${foiRequestInbox}`);
       await sendSubmissionEmail(req, next, server);
       
+      const requestAttachmentHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+      const requestAttachment = await generatePDFFromHTML(requestAttachmentHTML, response.data.id);
       const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
       let applicantResponse = { "EmailSuccess": "N/A", "message": "N/A" };
       if (applicantEmail) {
@@ -164,11 +155,11 @@ const submitFoiRequestEmail = async (server, req, res, next) => {
       receipt
     );
 
+    const requestReceiptHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
+    const requestReceipt = await generatePDFFromHTML(requestReceiptHTML, req.params.requestData.requestId);
     const applicantEmail = req.params.requestData?.contactInfoOptions?.email;
     let applicantResponse = { "EmailSuccess": "N/A", "message": "N/A" };
     if (applicantEmail) {
-      const requestReceiptHTML = new EmailLayout().renderEmail(req.params ,req.isAuthorised, req.userDetails);
-      const requestReceipt = await generatePDFFromHTML(requestReceiptHTML);
       const applicantEmailAttachments = convertAndCreateBase64AttachmentArr([requestReceipt]);
       applicantResponse = await sendApplicantEmail(req, server, applicantEmail, applicantEmailAttachments);
     }
@@ -226,11 +217,13 @@ const sendApplicantEmail = async (req, server, applicantEmail, attachments) => {
   }
 }
 
-const generatePDFFromHTML = async (html) => {
+const generatePDFFromHTML = async (html, requestId) => {
+  // Call genreatereqeuestPDF foi-flow api endpoint to generate request receipt pdf file AND save file as a attachment to foi-flow DB
   try {
     const apiURL = `${foiRequestAPIBackend}/foirawrequest/requestreceipt`;
     const data = {
-      "requestHTML": html
+      "requestHTML": html,
+      "requestId": requestId
     };
     const response = await requestAPI.invokeGenerateRequestPDF(JSON.stringify(data), apiURL);
     
