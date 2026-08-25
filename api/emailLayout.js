@@ -471,7 +471,7 @@ function EmailLayout() {
     }
 
     // Simple footer
-    content += this.tableHeader(`Submitted ${new Date().toString()}`);
+    content += this.tableHeader(`Submitted ${(new Date).toLocaleDateString("en-US", {weekday: "long", timeZone: "America/Los_Angeles", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"})}`);
     content = this.table(content);
     // End of the Table
 
