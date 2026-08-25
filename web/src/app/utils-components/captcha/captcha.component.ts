@@ -21,7 +21,6 @@ import { CaptchaDataService } from "src/app/services/captcha-data.service";
 export class CaptchaComponent implements AfterViewInit, OnInit {
   @ViewChild("image", { static: true }) imageContainer: ElementRef;
   @ViewChild("answer", { static: true }) userAnswerRef: ElementRef;
-  @ViewChild("audioElement", { static: true }) audioElement: ElementRef;
   @Input("apiBaseUrl") apiBaseUrl: string;
   @Input("nonce") nonce: string;
   @Output() onValidToken = new EventEmitter<string>();
@@ -51,7 +50,7 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
 
   public fetchingAudioInProgress = false;
 
-  constructor(private dataService: CaptchaDataService, private cd: ChangeDetectorRef, private ngZone: NgZone) {}
+  constructor(private dataService: CaptchaDataService, private cd: ChangeDetectorRef, private ngZone: NgZone) { }
 
   ngOnInit() {
     this.forceRefresh.bind(this);
@@ -161,10 +160,17 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
 
   public playAudio(playImmediately: boolean = true) {
     if (this.audio && this.audio.length > 0) {
-      this.audioElement.nativeElement.play();
+      this.playAudioDataUri();
     } else {
       this.fetchAudio(playImmediately);
     }
+  }
+
+  private playAudioDataUri() {
+    const audio = new Audio(this.audio);
+    audio.play().catch((error) => {
+      console.log("Error playing audio CAPTCHA: %o", error);
+    });
   }
 
   private fetchAudio(playImmediately: boolean = false) {
@@ -175,8 +181,9 @@ export class CaptchaComponent implements AfterViewInit, OnInit {
           this.fetchingAudioInProgress = false;
           this.audio = response.body.audio;
           this.cd.detectChanges();
-          if (playImmediately) {
-            this.audioElement.nativeElement.play();
+
+          if (playImmediately && this.audio && this.audio.length > 0) {
+            this.playAudioDataUri();
           }
         },
         (error) => {
