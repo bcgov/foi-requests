@@ -16,7 +16,7 @@ function EmailLayout() {
 
   this.tableRow = function (label, value) {
     return `<tr><td style="font-weight:bold;background-color:#eaf2fa;">${label}</td></tr>
-            <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
+            <tr><td style="padding-left:20px;overflow-wrap:anywhere;word-break:break-word;white-space:normal;">${value}</td></tr>\n`;
   };
 
   this.tableRowNoLabel = function (value) {
