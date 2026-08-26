@@ -16,7 +16,7 @@ function EmailLayout() {
 
   this.tableRow = function(label, value) {
     return `<tr><td style="font-weight:bold;background-color:#eaf2fa;">${label}</td></tr>
-            <tr><td style="padding-left:20px;">${value}</td></tr>\n`;
+            <tr><td style="padding-left:20px;overflow-wrap:anywhere;word-break:break-word;white-space:normal;">${value}</td></tr>\n`;
   };
 
   this.tableRowNoLabel = function(value) {
@@ -421,7 +421,7 @@ function EmailLayout() {
     }
 
     // Simple footer
-    content += this.tableHeader(`Submitted ${(new Date).toLocaleDateString("en-US", {weekday: "long", timeZone: "America/Los_Angeles", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"})}`);
+    content += this.tableHeader(`Submitted ${(new Date).toLocaleDateString("en-US", {weekday: "long", timeZone: "America/Los_Angeles", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"})} PST`);
     content = this.table(content);
     // End of the Table
 
