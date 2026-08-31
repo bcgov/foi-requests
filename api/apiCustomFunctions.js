@@ -28,6 +28,9 @@ const submitFoiRequest = async (server, req, res, next) => {
   
   req.params.requestData.isPIIRedacted = false;
 
+  req.params.requestData.identityVerified =
+    req.isAuthorised === true ? 'BC Services Card' : null;
+
   const data = {
     envMessage: process.env.NODE_ENV,
     params: {
