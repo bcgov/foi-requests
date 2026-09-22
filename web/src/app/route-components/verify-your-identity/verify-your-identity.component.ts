@@ -4,10 +4,53 @@ import { Validators, FormBuilder, FormGroup, FormControl } from "@angular/forms"
 import { FoiRequest } from "src/app/models/FoiRequest";
 import { DataService } from "src/app/services/data.service";
 import { KeycloakService } from "../../services/keycloak.service";
+import {
+  OWL_DATE_TIME_FORMATS,
+  OwlDateTimeFormats
+} from "@danielmoncada/angular-datetime-picker";
+
+const BIRTH_DATE_FORMATS: OwlDateTimeFormats = {
+  parseInput: null,
+  fullPickerInput: {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "numeric",
+    minute: "numeric"
+  },
+  datePickerInput: {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  },
+  timePickerInput: {
+    hour: "numeric",
+    minute: "numeric"
+  },
+  monthYearLabel: {
+    year: "numeric",
+    month: "short"
+  },
+  dateA11yLabel: {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  },
+  monthYearA11yLabel: {
+    year: "numeric",
+    month: "long"
+  }
+};
 
 @Component({
   templateUrl: "./verify-your-identity.component.html",
   styleUrls: ["./verify-your-identity.component.scss"],
+  providers: [
+    {
+      provide: OWL_DATE_TIME_FORMATS,
+      useValue: BIRTH_DATE_FORMATS
+    }
+  ]
 })
 export class VerifyYourIdentityComponent implements OnInit {
   @ViewChild(BaseComponent, { static: true }) base: BaseComponent;
@@ -20,6 +63,8 @@ export class VerifyYourIdentityComponent implements OnInit {
   isAuthenticated: boolean = false;
 
   foiForm: FormGroup;
+
+  private birthDateInputValid: boolean = true;
 
   constructor(private fb: FormBuilder, private dataService: DataService, private keycloak: KeycloakService) {}
 
@@ -58,11 +103,46 @@ export class VerifyYourIdentityComponent implements OnInit {
           const currentValue = this.foiForm.get("birthDate").value;
           this.foiForm.setControl(
             "birthDate",
-            new FormControl(currentValue, [Validators.required, this.base.noFutureValidator])
+            new FormControl(currentValue, [
+              Validators.required,
+              this.base.noFutureValidator,
+              this.birthDateFormatValidator
+            ])
           );
         }
       }
     });
+  }
+
+  birthDateFormatValidator = () => {
+    return this.birthDateInputValid
+      ? null
+      : {
+          validDate: {
+            valid: false
+          }
+        };
+  };
+
+  validateBirthDateInput(event: any) {
+    const rawValue = event.input ? event.input.value : "";
+    const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(rawValue);
+
+    this.birthDateInputValid = false;
+
+    if (match) {
+      const month = Number.parseInt(match[1], 10);
+      const day = Number.parseInt(match[2], 10);
+      const year = Number.parseInt(match[3], 10);
+      const enteredDate = new Date(year, month - 1, day);
+
+      this.birthDateInputValid =
+        enteredDate.getFullYear() === year &&
+        enteredDate.getMonth() === month - 1 &&
+        enteredDate.getDate() === day;
+    }
+
+    this.foiForm.get("birthDate").updateValueAndValidity({ emitEvent: false });
   }
 
   doContinue() {
