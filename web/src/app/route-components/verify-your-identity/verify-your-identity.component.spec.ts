@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from "@angular/core/testing";
 import { VerifyYourIdentityComponent } from "./verify-your-identity.component";
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormControl, Validators } from "@angular/forms";
 import { DataService } from "src/app/services/data.service";
 import { Router } from "@angular/router";
 import { MockRouter } from "../../MockClasses";
@@ -97,5 +97,110 @@ describe("VerifyYourIdentityComponent", () => {
     expect(item.requestData.contactInfo.alsoKnownAs).toEqual("JJ Jefferson");
     expect(item.requestData.contactInfo.birthDate).toEqual("1972-02-28");
     expect(item.requestData.contactInfo.businessName).toEqual("Spacely's Space Sprockets");
+  });
+
+  describe("birth date manual entry validation", () => {
+    beforeEach(() => {
+      const currentValue = component.foiForm.get("birthDate").value;
+
+      component.foiForm.setControl(
+        "birthDate",
+        new FormControl(currentValue, [
+          Validators.required,
+          component.base.noFutureValidator,
+          component.birthDateFormatValidator
+        ])
+      );
+    });
+
+    function enterBirthDate(value: string) {
+      component.foiForm.get("birthDate").setValue(new Date(1999, 0, 1));
+
+      component.validateBirthDateInput({
+        input: {
+          value
+        }
+      });
+
+      return component.foiForm.get("birthDate");
+    }
+
+    it("should accept manual entry in MM/DD/YYYY format", () => {
+      const control = enterBirthDate("01/01/1999");
+
+      expect(control.errors).toBeNull();
+    });
+
+    it("should reject manual entry without leading zeroes", () => {
+      const control = enterBirthDate("1/1/1999");
+
+      expect(control.errors).toEqual({
+        validDate: {
+          valid: false
+        }
+      });
+    });
+
+    it("should reject an alternate YYYY-MM-DD manual format", () => {
+      const control = enterBirthDate("1999-01-01");
+
+      expect(control.errors).toEqual({
+        validDate: {
+          valid: false
+        }
+      });
+    });
+
+    it("should reject incomplete manual input", () => {
+      const control = enterBirthDate("1");
+
+      expect(control.errors).toEqual({
+        validDate: {
+          valid: false
+        }
+      });
+    });
+
+    it("should reject a nonexistent calendar date", () => {
+      const control = enterBirthDate("02/31/2001");
+
+      expect(control.errors).toEqual({
+        validDate: {
+          valid: false
+        }
+      });
+    });
+
+    it("should reject an invalid leap day", () => {
+      const control = enterBirthDate("02/29/2001");
+
+      expect(control.errors).toEqual({
+        validDate: {
+          valid: false
+        }
+      });
+    });
+
+    it("should accept a valid leap day", () => {
+      const control = enterBirthDate("02/29/2000");
+
+      expect(control.errors).toBeNull();
+    });
+
+    it("should preserve the existing future-date validation", () => {
+      component.foiForm.get("birthDate").setValue(new Date(2999, 0, 1));
+
+      component.validateBirthDateInput({
+        input: {
+          value: "01/01/2999"
+        }
+      });
+
+      expect(component.foiForm.get("birthDate").errors).toEqual({
+        noFuture: {
+          valid: false
+        }
+      });
+    });
   });
 });
