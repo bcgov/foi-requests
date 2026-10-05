@@ -42,6 +42,9 @@
     "tslib": "^2.7.0",
     "zone.js": "^0.14.10"
   },
+  "overrides": {
+    "js-yaml": "^4.3.2"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.1",
     "@angular/cli": "^18.2.1",
