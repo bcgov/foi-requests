@@ -470,8 +470,13 @@ function EmailLayout() {
       content += this.paymentInformation(data.requestData.paymentInfo);
     }
 
-    // Simple footer
-    content += this.tableHeader(`Submitted ${(new Date).toLocaleDateString("en-US", {weekday: "long", timeZone: "America/Los_Angeles", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"})} PST`);
+    // Preserve historical Vancouver rules. Older Node ICU data incorrectly
+    // falls back to UTC-8 after Nov 1, 2026, so use fixed UTC-7 thereafter.
+    const submittedAt = new Date();
+    const submittedTimeZone = submittedAt.getTime() >= Date.UTC(2026, 10, 1, 9)
+      ? "Etc/GMT+7"
+      : "America/Vancouver";
+    content += this.tableHeader(`Submitted ${submittedAt.toLocaleDateString("en-US", {weekday: "long", timeZone: submittedTimeZone, year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"})} Pacific Time`);
     content = this.table(content);
     // End of the Table
 
