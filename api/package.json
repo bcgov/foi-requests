@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc mocha",
+    "test:timezone": "cross-env NODE_ENV=test mocha test/emailLayout.timezone.spec.js test/emailLayout.spec.js",
     "start": "node index.js",
     "start-dev": "nodemon index.js"
   },
