@@ -165,37 +165,34 @@ jobs:
                   "${IMAGE_NAME}:${RELEASE_VERSION}"
             done
 
-      - name: Promote images in Gitops
+      - name: Promote images in GitOps
         working-directory: tenant-gitops-04d1a3
         env:
           RELEASE_VERSION: ${{ inputs.release_version }}
           RELEASE_LABEL: ${{ inputs.release_label }}
           VALUES_FILE: "foi-requests/values-prod.yaml"
+          SERVICES: ${{ steps.services.outputs.services }}
+        shell: bash
         run: |
-
-          echo '${{ steps.services.outputs.services }}' |
+          printf '%s\n' "$SERVICES" |
           jq -c '.[]' |
-          while IFS= read -r service
-          do
+          while IFS= read -r service; do
 
-            # EXPORT variables so yq strenv() can see them in environment
             export KIND=$(echo "$service" | jq -r '.kind')
             export NAME=$(echo "$service" | jq -r '.name')
             export TAG=$(echo "$service" | jq -r '.tag')
 
+            echo "Promoting ${KIND}/${NAME}: ${TAG} -> ${RELEASE_VERSION}"
 
-            echo "Promoting ${TAG} -> ${RELEASE_VERSION}"
-
-
-            yq e '
-              '.[env(KIND)][env(NAME)].image.tag = env(RELEASE_VERSION)'
-            ' -i "$VALUES_FILE"
+            yq e \
+              '.[strenv(KIND)][strenv(NAME)].image.tag = strenv(RELEASE_VERSION)' \
+              -i "$VALUES_FILE"
 
           done
 
           git config user.email "manish.sihag@gov.bc.ca"
           git config user.name "ManishSihag"
-          
+
           git add "$VALUES_FILE"
 
           if git diff --cached --quiet; then
@@ -209,14 +206,15 @@ jobs:
           RETRY_DELAY=15
 
           for ((i=1; i<=MAX_RETRIES; i++)); do
-              if git push; then
-                  break
-              fi
+            if git push; then
+              break
+            fi
 
-              if [ "$i" -eq "$MAX_RETRIES" ]; then
-                  exit 1
-              fi
+            if [ "$i" -eq "$MAX_RETRIES" ]; then
+              echo "Failed to push after $MAX_RETRIES attempts."
+              exit 1
+            fi
 
-              sleep "$RETRY_DELAY"
-              git pull --rebase origin main
+            sleep "$RETRY_DELAY"
+            git pull --rebase origin main
           done
