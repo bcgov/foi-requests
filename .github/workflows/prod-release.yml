@@ -109,7 +109,7 @@ jobs:
         run: |
           
           # Check if any service in the JSON array has db_backup_required set to true
-          BACKUP_NEEDED=$(echo '${{ steps.services.outputs.services }}' | jq -r 'any(.[]; .backup-required == true)')
+          BACKUP_NEEDED=$(echo "$SERVICES" | jq -r 'any(.[]; .["backup-required"] == true)')
 
           if [ "$BACKUP_NEEDED" = "true" ]; then
             echo "DB backup is required for this release."
