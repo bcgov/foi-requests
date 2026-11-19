@@ -7,6 +7,7 @@
           request.
         </p> -->
 
+        <ng-container *ngIf="!isLawFirmApplicant; else lawFirmForm">
         <h2>Ways to get in touch with you</h2>
         <p>
           <i>* Please note that in order to follow up with you and deliver your
@@ -112,6 +113,136 @@
             <!-- row -->
           </div>
         </div>
+        </ng-container>
+        <ng-template #lawFirmForm>
+          <h2>Your contact info</h2>
+          <div class="alert alert-warning" role="note">
+            <strong>We need a way to reach you</strong>
+            <p>To follow up with you and deliver your records, we need at least one form of contact information.</p>
+          </div>
+
+          <h3>Ways to get in touch with you</h3>
+          <div class="form-group row">
+            <div class="col-lg-6">
+              <label for="lawPhonePrimary">Phone number (primary)</label>
+              <input id="lawPhonePrimary" class="form-control" formControlName="phonePrimary" />
+            </div>
+            <div class="col-lg-6">
+              <label for="lawPhoneSecondary">Phone number (secondary)</label>
+              <input id="lawPhoneSecondary" class="form-control" formControlName="phoneSecondary" />
+            </div>
+            <div class="col-lg-6">
+              <label for="lawEmail">Email address</label>
+              <input id="lawEmail" class="form-control" formControlName="email" type="email" />
+              <small>Email address is required for email delivery.</small>
+            </div>
+          </div>
+
+          <ng-container *ngIf="!isLegalProceedingRequest">
+            <h3>Who are you representing?<span class="label-required"> *</span></h3>
+            <div class="form-group row">
+              <div class="col-lg-5">
+                <label for="simpleClientName">Name of the person or business<span class="label-required"> *</span></label>
+                <input id="simpleClientName" class="form-control" formControlName="representedClientName" />
+              </div>
+              <div class="col-lg-4">
+                <label for="simpleClientAka">Also known as (AKA)</label>
+                <input id="simpleClientAka" class="form-control" formControlName="representedClientAka" />
+              </div>
+              <div class="col-lg-3">
+                <label for="simpleClientDob">Client's date of birth</label>
+                <input id="simpleClientDob" class="form-control" formControlName="representedClientBirthDate" type="date" />
+              </div>
+            </div>
+          </ng-container>
+
+          <h3>Your address</h3>
+          <div class="form-group row">
+            <div class="col-lg-12">
+              <label for="lawAddress">Address</label>
+              <input id="lawAddress" class="form-control" formControlName="address" />
+            </div>
+            <div class="col-lg-6">
+              <label for="lawCity">City</label>
+              <input id="lawCity" class="form-control" formControlName="city" />
+            </div>
+            <div class="col-lg-6">
+              <label for="lawProvince">Province/State</label>
+              <input id="lawProvince" class="form-control" formControlName="province" />
+            </div>
+            <div class="col-lg-6">
+              <label for="lawCountry">Country</label>
+              <input id="lawCountry" class="form-control" formControlName="country" />
+            </div>
+            <div class="col-lg-6">
+              <label for="lawPostal">Postal/ZIP code</label>
+              <input id="lawPostal" class="form-control" formControlName="postal" />
+            </div>
+          </div>
+
+          <ng-container *ngIf="isLegalProceedingRequest">
+            <h3>Information about your legal proceedings</h3>
+            <div class="alert alert-warning" role="note">
+              <strong>Why we need this information</strong>
+              <p>You indicated that the records you are requesting relate to an open legal proceeding.
+                Please answer the following questions about the proceeding to help us process your request.</p>
+            </div>
+
+            <h4>Enter your court or tribunal case details</h4>
+            <div class="form-group row">
+              <div class="col-lg-6">
+                <label for="lawCourt">Name of court or tribunal<span class="label-required"> *</span></label>
+                <input id="lawCourt" class="form-control" formControlName="courtOrTribunal" />
+              </div>
+              <div class="col-lg-6">
+                <label for="lawFileNumber">Court or tribunal file number</label>
+                <input id="lawFileNumber" class="form-control" formControlName="courtOrTribunalFileNumber" />
+              </div>
+            </div>
+
+            <h4>Who are you representing?<span class="label-required"> *</span></h4>
+            <div class="form-group row">
+              <div class="col-lg-5">
+                <label for="detailedClientName">Name of the person or business<span class="label-required"> *</span></label>
+                <input id="detailedClientName" class="form-control" formControlName="representedClientName" />
+              </div>
+              <div class="col-lg-4">
+                <label for="detailedClientAka">Also known as (AKA)</label>
+                <input id="detailedClientAka" class="form-control" formControlName="representedClientAka" />
+              </div>
+              <div class="col-lg-3">
+                <label for="detailedClientDob">Client's date of birth</label>
+                <input id="detailedClientDob" class="form-control" formControlName="representedClientBirthDate" type="date" />
+              </div>
+            </div>
+
+            <fieldset class="form-group">
+              <legend>What is the type of legal proceeding?<span class="label-required"> *</span></legend>
+              <label><input type="radio" formControlName="legalProceedingType" value="Court proceedings" /> Court proceedings (e.g. civil, family, criminal, class actions, judicial reviews)</label>
+              <label><input type="radio" formControlName="legalProceedingType" value="Administrative tribunal proceedings" /> Administrative tribunal proceedings</label>
+              <label><input type="radio" formControlName="legalProceedingType" value="Arbitration proceedings" /> Arbitration proceedings</label>
+              <label><input type="radio" formControlName="legalProceedingType" value="Other" /> Other</label>
+              <div *ngIf="foiForm.get('legalProceedingType').value === 'Other'">
+                <label for="proceedingOther">Please specify the other type of proceeding<span class="label-required"> *</span></label>
+                <textarea id="proceedingOther" class="form-control" rows="3" formControlName="legalProceedingTypeOther"></textarea>
+              </div>
+            </fieldset>
+
+            <details class="form-group">
+              <summary>Type of proceeding</summary>
+              <p>A proceeding is any court, administrative tribunal, or formal arbitration process.</p>
+            </details>
+
+            <fieldset class="form-group">
+              <legend>Certification<span class="label-required"> *</span></legend>
+              <label>
+                <input type="checkbox" formControlName="legalProceedingCertification" />
+                I certify that, to the best of my knowledge, the Government of BC is not required by law
+                to produce, list, or identify the requested records to me (or my client) because of a legal proceeding.
+              </label>
+            </fieldset>
+          </ng-container>
+        </ng-template>
       </form>
     </div>
 

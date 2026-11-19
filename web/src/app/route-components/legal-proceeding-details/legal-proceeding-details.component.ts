@@ -5,7 +5,9 @@ import { FoiRequest } from "src/app/models/FoiRequest";
 import { DataService } from "src/app/services/data.service";
 
 const yesNoRequired = (control) => {
-  return control.value === true || control.value === false ? null : { required: true };
+  return control.value === true || control.value === false
+    ? null
+    : { required: true };
 };
 
 @Component({
@@ -26,49 +28,58 @@ export class LegalProceedingDetailsComponent implements OnInit {
 
     this.foiForm = this.fb.group({
       isRequestRelatedToProceeding: [null, yesNoRequired],
-      isPartyToProceeding: [null],
+      ministryInvolvement: [null],
     });
 
-    this.foiForm.get("isRequestRelatedToProceeding").valueChanges.subscribe((value) => {
-      const isPartyToProceeding = this.foiForm.get("isPartyToProceeding");
+    this.foiForm
+      .get("isRequestRelatedToProceeding")
+      .valueChanges.subscribe(() => {
+        this.updateMinistryValidators();
+      });
 
-      if (value === true) {
-        isPartyToProceeding.setValidators(yesNoRequired);
-      } else {
-        isPartyToProceeding.reset(null, { emitEvent: false });
-        isPartyToProceeding.clearValidators();
-      }
-
-      isPartyToProceeding.updateValueAndValidity({ emitEvent: false });
-    });
-
-    this.foiForm.patchValue(this.foiRequest.requestData[this.targetKey]);
-    this.updatePartyToProceedingValidators();
+    const saved = this.foiRequest.requestData[this.targetKey] || {};
+    this.foiForm.patchValue(saved, { emitEvent: false });
+    this.updateMinistryValidators();
   }
 
-  updatePartyToProceedingValidators() {
-    const isRequestRelatedToProceeding = this.foiForm.get("isRequestRelatedToProceeding").value;
-    const isPartyToProceeding = this.foiForm.get("isPartyToProceeding");
+  updateMinistryValidators() {
+    const ministry = this.foiForm.get("ministryInvolvement");
 
-    if (isRequestRelatedToProceeding === true) {
-      isPartyToProceeding.setValidators(yesNoRequired);
+    if (this.isRequestRelatedToProceeding) {
+      ministry.setValidators(Validators.required);
     } else {
-      isPartyToProceeding.clearValidators();
+      ministry.reset(null, { emitEvent: false });
+      ministry.clearValidators();
     }
 
-    isPartyToProceeding.updateValueAndValidity({ emitEvent: false });
+    ministry.updateValueAndValidity({ emitEvent: false });
   }
 
   get isRequestRelatedToProceeding(): boolean {
     return this.foiForm?.get("isRequestRelatedToProceeding")?.value === true;
   }
 
+  get ministryInvolvement(): string {
+    return this.foiForm?.get("ministryInvolvement")?.value;
+  }
+
   doContinue() {
+    if (this.foiForm.invalid) {
+      return;
+    }
+
+    // Remove the superseded question from previously saved requests.
+    const saved = this.foiRequest.requestData[this.targetKey];
+    if (saved) {
+      delete saved.isPartyToProceeding;
+    }
+
     this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     this.base.goFoiForward();
   }
 
   doGoBack() {
+    this.dataService.setCurrentState(this.foiRequest, this.targetKey, this.foiForm);
     this.base.goFoiBack();
   }
 }

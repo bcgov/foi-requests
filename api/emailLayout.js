@@ -162,64 +162,72 @@ function EmailLayout() {
     return result;
   };
 
-  this.lawFirmLegalDetails = function (contactInfo, legalProceedingDetails) {
+  this.lawFirmLegalDetails = function (contactInfo, legalProceedingDetails, contactInfoOptions) {
+    legalProceedingDetails = legalProceedingDetails || {};
+    contactInfoOptions = contactInfoOptions || {};
     if (typeof contactInfo.isLawFirm !== 'boolean') {
       return '';
     }
 
     let result = this.tableHeader('Law Firm Legal Proceeding Details');
-
     result += this.tableRow('Are you a law firm?', contactInfo.isLawFirm ? 'Yes' : 'No');
 
     if (!contactInfo.isLawFirm) {
       return result;
     }
 
-    result += this.tableRow(
-      'Are you involved in a legal proceeding with the B.C. Government?',
-      contactInfo.isInvolvedInLegalProceeding ? 'Yes' : 'No'
-    );
-
-    if (contactInfo.isInvolvedInLegalProceeding === false) {
+    const related = legalProceedingDetails.isRequestRelatedToProceeding;
+    if (typeof related === 'boolean') {
       result += this.tableRow(
-        'Section 3(5)(e) FOIPPA Statement',
-        'Section 3(5)(e) of the Freedom of Information and Protection of Privacy Act (FOIPPA) provides that a record will be excluded from Part 2 of FOIPPA, and will not be disclosed through the Freedom of Information process, if the government of B.C. is required by law to produce, list, or identify it to the applicant (or their principal or client) as part of a proceeding.'
+        'Is this request for records related to an open, ongoing legal proceeding?',
+        related ? 'Yes' : 'No, not at this time'
       );
-
-      result += this.tableRow(
-        'Certification',
-        'I certify that, to the best of my knowledge, the Government of BC is not required by law to produce, list, or identify the requested records to me (or my client) because of a legal proceeding.'
-      );
-
-      result += this.tableRow('Certified by', contactInfo.legalProceedingCertificationName);
     }
 
-    if (contactInfo.isInvolvedInLegalProceeding === true) {
-      result += this.tableRow('Court or tribunal', contactInfo.courtOrTribunal);
-
-      if (contactInfo.courtOrTribunalFileNumber) {
-        result += this.tableRow('Court or tribunal file number', contactInfo.courtOrTribunalFileNumber);
-      }
-
-      result += this.tableRow('Type of legal proceeding', contactInfo.legalProceedingType);
-
-      if (typeof legalProceedingDetails.isRequestRelatedToProceeding === 'boolean') {
+    if (related === true) {
+      const ministryLabels = { yes: 'Yes', no: 'No', inPart: 'In part' };
+      if (Object.prototype.hasOwnProperty.call(ministryLabels, legalProceedingDetails.ministryInvolvement)) {
         result += this.tableRow(
-          'Is your request for records related to the proceeding involving the B.C. Government?',
-          legalProceedingDetails.isRequestRelatedToProceeding ? 'Yes' : 'No'
+          'Does the legal proceeding involve a Ministry of the Province of British Columbia?',
+          ministryLabels[legalProceedingDetails.ministryInvolvement]
         );
       }
+    }
 
-      if (typeof legalProceedingDetails.isPartyToProceeding === 'boolean') {
+    if (contactInfoOptions.representedClientName) {
+      result += this.tableRow('Client being represented', contactInfoOptions.representedClientName);
+    }
+    if (contactInfoOptions.representedClientAka) {
+      result += this.tableRow('Client also known as (AKA)', contactInfoOptions.representedClientAka);
+    }
+    if (contactInfoOptions.representedClientBirthDate) {
+      result += this.tableRow('Client date of birth (YYYY-MM-DD)', contactInfoOptions.representedClientBirthDate);
+    }
+
+    if (related === true) {
+      if (contactInfoOptions.courtOrTribunal) {
+        result += this.tableRow('Court or tribunal', contactInfoOptions.courtOrTribunal);
+      }
+      if (contactInfoOptions.courtOrTribunalFileNumber) {
+        result += this.tableRow('Court or tribunal file number', contactInfoOptions.courtOrTribunalFileNumber);
+      }
+      if (contactInfoOptions.legalProceedingType) {
+        result += this.tableRow('Type of legal proceeding', contactInfoOptions.legalProceedingType);
+      }
+      if (contactInfoOptions.legalProceedingType === 'Other' && contactInfoOptions.legalProceedingTypeOther) {
+        result += this.tableRow('Other proceeding type details', contactInfoOptions.legalProceedingTypeOther);
+      }
+      if (typeof contactInfoOptions.legalProceedingCertification === 'boolean') {
         result += this.tableRow(
-          'Are you a party to the proceeding involving the B.C. Government?',
-          legalProceedingDetails.isPartyToProceeding ? 'Yes' : 'No'
+          'Certification: Government of BC not legally required to produce, list or identify requested records',
+          contactInfoOptions.legalProceedingCertification ? 'Yes' : 'No'
         );
       }
     }
 
     return result;
   };
+
 
   this.anotherInformation = function (data) {
     let result = this.tableHeader('Another Person Information');
@@ -454,7 +462,8 @@ function EmailLayout() {
     content += this.personal(data.requestData.contactInfo || {}, isAuthorised);
     content += this.lawFirmLegalDetails(
       data.requestData.contactInfo || {},
-      data.requestData.legalProceedingDetails || {}
+      data.requestData.legalProceedingDetails || {},
+      data.requestData.contactInfoOptions || {}
     );
     content += this.contact(data.requestData.contactInfoOptions || {}, isAuthorised);
     // Adoptive Parents
