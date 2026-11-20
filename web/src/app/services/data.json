@@ -4,14 +4,14 @@
       {
         "code": "PSE",
         "key": "PSE",
-        "name": "Post-Secondary Education and Future Skills",
-        "publicBody": "Post-Secondary Education and Future Skills"
+        "name": "Post-Secondary Education and Labour",
+        "publicBody": "Post-Secondary Education and Labour"
       },
       {
         "code": "AGR",
         "key": "AGR",
-        "name": "Agriculture and Food",
-        "publicBody": "Agriculture and Food"
+        "name": "Agriculture",
+        "publicBody": "Agriculture"
       },
       {
         "code": "AG",
@@ -34,8 +34,8 @@
       {
         "code": "CITZ",
         "key": "CITZ",
-        "name": "Citizens’ Services",
-        "publicBody": "Citizens’ Services"
+        "name": "Citizens' Services and Technology",
+        "publicBody": "Citizens' Services and Technology"
       },
       {
         "code": "ECC",
@@ -44,22 +44,22 @@
         "publicBody": "Education and Child Care"
       },
       {
-        "code": "ECS",
-        "key": "ECS",
-        "name": "Energy and Climate Solutions",
-        "publicBody": "Energy and Climate Solutions"
+        "code": "EMP",
+        "key": "EMP",
+        "name": "Energy, Mines, and Petroleum Resources",
+        "publicBody": "Energy, Mines, and Petroleum Resources"
       },
       {
         "code": "ENV",
         "key": "MOE",
-        "name": "Environment and Parks",
-        "publicBody": "Environment and Parks"
+        "name": "Environment",
+        "publicBody": "Environment"
       },
       {
         "code": "EAO",
         "key": "EAO",
         "name": "Environmental Assessment Office",
-        "publicBody": "Environment and Parks"
+        "publicBody": "Environment"
       },
       {
         "code": "FIN",
@@ -104,22 +104,16 @@
         "publicBody": "Jobs and Economic Growth"
       },
       {
-        "code": "LBR",
-        "key": "LBR",
-        "name": "Labour",
-        "publicBody": "Labour"
-      },
-      {
         "code": "WLR",
         "key": "WLR",
-        "name": "Water, Land and Resource Stewardship",
-        "publicBody": "Water, Land and Resource Stewardship"
+        "name": "Waters, Land and Natural Resource Operations",
+        "publicBody": "Waters, Land and Natural Resource Operations"
       },
       {
-        "code": "HSG",
-        "key": "HSG",
-        "name": "Housing and Municipal Affairs",
-        "publicBody": "Housing and Municipal Affairs"
+        "code": "LHS",
+        "key": "LHS",
+        "name": "Local Government, Housing, Sport and Culture",
+        "publicBody": "Local Government, Housing, Sport and Culture"
       },
       {
         "code": "OOP",
@@ -136,38 +130,14 @@
       {
         "code": "MSD",
         "key": "MSD",
-        "name": "Social Development and Poverty Reduction",
-        "publicBody": "Social Development and Poverty Reduction"
-      },
-      {
-        "code": "TACS",
-        "key": "TACS",
-        "name": "Tourism, Arts, Culture and Sport",
-        "publicBody": "Tourism, Arts, Culture and Sport"
+        "name": "Social Development",
+        "publicBody": "Social Development"
       },
       {
         "code": "TRAN",
         "key": "TRAN",
-        "name": "Transportation and Transit",
-        "publicBody": "Transportation and Transit"
-      },
-      {
-        "code": "EMC",
-        "key": "EMC",
-        "name": "Emergency Management and Climate Readiness",
-        "publicBody": "Emergency Management and Climate Readiness"
-      },
-      {
-        "code": "INF",
-        "key": "INF",
-        "name": "Infrastructure",
-        "publicBody": "Infrastructure"
-      },
-      {
-        "code": "MCM",
-        "key": "MCM",
-        "name": "Mining and Critical Minerals",
-        "publicBody": "Mining and Critical Minerals"
+        "name": "Transportation and Infrastructure",
+        "publicBody": "Transportation and Infrastructure"
       }
     ],
     "topicYourself": [
