@@ -274,55 +274,56 @@ Social Development and Poverty Reduction</td></tr>`);
 <tr><td>02/28/2019</td></tr>`);
   });
 
-  it('should format law firm legal proceeding details when involved in a proceeding', function () {
-    sampleRequestData.contactInfo.isLawFirm = true;
-    sampleRequestData.contactInfo.isInvolvedInLegalProceeding = true;
-    sampleRequestData.contactInfo.courtOrTribunal = 'Supreme Court of British Columbia';
-    sampleRequestData.contactInfo.courtOrTribunalFileNumber = 'S12345';
-    sampleRequestData.contactInfo.legalProceedingType = 'Court proceedings';
-
-    sampleRequestData.legalProceedingDetails = {
-      isRequestRelatedToProceeding: true,
-      isPartyToProceeding: false
-    };
-
+  it('should format law firm legal proceeding and client details', function () {
     let result = emailLayout.lawFirmLegalDetails(
-      sampleRequestData.contactInfo,
-      sampleRequestData.legalProceedingDetails
+      { isLawFirm: true },
+      { isRequestRelatedToProceeding: true, ministryInvolvement: 'inPart' },
+      {
+        representedClientName: 'Example Client',
+        representedClientAka: 'Client AKA',
+        representedClientBirthDate: '2000-04-15',
+        courtOrTribunal: 'Supreme Court of British Columbia',
+        courtOrTribunalFileNumber: 'S12345',
+        legalProceedingType: 'Other',
+        legalProceedingTypeOther: 'Example proceeding',
+        legalProceedingCertification: true
+      }
     );
 
     result = scrubAttribs(result);
-
-    expect(result).to.contain('<tr><th>Law Firm Legal Proceeding Details</th></tr>');
-    expect(result).to.contain('<tr><td>Are you a law firm?</td></tr>');
-    expect(result).to.contain('<tr><td>Yes</td></tr>');
-    expect(result).to.contain('<tr><td>Court or tribunal</td></tr>');
-    expect(result).to.contain('<tr><td>Supreme Court of British Columbia</td></tr>');
-    expect(result).to.contain('<tr><td>Court or tribunal file number</td></tr>');
-    expect(result).to.contain('<tr><td>S12345</td></tr>');
-    expect(result).to.contain('<tr><td>Type of legal proceeding</td></tr>');
-    expect(result).to.contain('<tr><td>Court proceedings</td></tr>');
-    expect(result).to.contain('<tr><td>Is your request for records related to the proceeding involving the B.C. Government?</td></tr>');
-    expect(result).to.contain('<tr><td>Are you a party to the proceeding involving the B.C. Government?</td></tr>');
+    expect(result).to.contain('Law Firm Legal Proceeding Details');
+    expect(result).to.contain('In part');
+    expect(result).to.contain('Example Client');
+    expect(result).to.contain('Client AKA');
+    expect(result).to.contain('2000-04-15');
+    expect(result).to.contain('Supreme Court of British Columbia');
+    expect(result).to.contain('S12345');
+    expect(result).to.contain('Example proceeding');
+    expect(result).to.contain('Certification: Government of BC');
   });
 
-  it('should format law firm certification details when not involved in a proceeding', function () {
-    sampleRequestData.contactInfo.isLawFirm = true;
-    sampleRequestData.contactInfo.isInvolvedInLegalProceeding = false;
-    sampleRequestData.contactInfo.legalProceedingCertificationName = 'Colin Westfall';
-
-    let result = emailLayout.lawFirmLegalDetails(sampleRequestData.contactInfo, {});
-
-    result = scrubAttribs(result);
-
-    expect(result).to.contain('<tr><th>Law Firm Legal Proceeding Details</th></tr>');
-    expect(result).to.contain('<tr><td>Are you involved in a legal proceeding with the B.C. Government?</td></tr>');
-    expect(result).to.contain('<tr><td>No</td></tr>');
-    expect(result).to.contain('<tr><td>Section 3(5)(e) FOIPPA Statement</td></tr>');
-    expect(result).to.contain('<tr><td>Certification</td></tr>');
-    expect(result).to.contain('<tr><td>Certified by</td></tr>');
-    expect(result).to.contain('<tr><td>Colin Westfall</td></tr>');
+  it('should format simplified law firm details without court details or certification', function () {
+    const result = emailLayout.lawFirmLegalDetails(
+      { isLawFirm: true },
+      { isRequestRelatedToProceeding: false, ministryInvolvement: null },
+      { representedClientName: 'Example Client', legalProceedingCertification: false }
+    );
+    expect(result).to.contain('No, not at this time');
+    expect(result).to.contain('Example Client');
+    expect(result).not.to.contain('Court or tribunal');
+    expect(result).not.to.contain('Certification: Government of BC');
+    expect(result).not.to.contain('Does the legal proceeding involve');
   });
+
+  it('should preserve non-law-firm and legacy request handling', function () {
+    const nonFirm = emailLayout.lawFirmLegalDetails({ isLawFirm: false }, {}, {});
+    expect(nonFirm).to.contain('Are you a law firm?');
+    expect(nonFirm).not.to.contain('Client being represented');
+    expect(emailLayout.lawFirmLegalDetails({}, {}, {})).to.equal('');
+    const legacy = emailLayout.lawFirmLegalDetails({ isLawFirm: true }, {}, {});
+    expect(legacy).to.contain('Law Firm Legal Proceeding Details');
+  });
+
 
   it('should format personal data, without aka, middle or business names', function () {
     delete sampleRequestData.contactInfo['alsoKnownAs'];
