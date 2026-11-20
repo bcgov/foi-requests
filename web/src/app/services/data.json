@@ -1,35 +1,144 @@
 {
   "referenceData": {
     "ministries": [
-      { "code": "PSE","key": "PSE", "name": "Post-Secondary Education and Future Skills", "publicBody": "Post-Secondary Education and Future Skills" },
-      { "code": "AGR","key": "AGR", "name": "Agriculture and Food", "publicBody": "Agriculture and Food" },
-      { "code": "AG","key": "AG", "name": "Attorney General", "publicBody": "Attorney General" },
-      { "code": "PSA","key": "PSA", "name": "BC Public Service Agency", "publicBody": "Finance" },
-      { "code": "MCF","key": "MCF", "name": "Children and Family Development", "publicBody": "Children and Family Development" },
-      { "code": "CITZ","key": "CITZ", "name": "Citizens’ Services", "publicBody": "Citizens’ Services" },
-      { "code": "ECC","key": "ECC", "name": "Education and Child Care", "publicBody": "Education and Child Care" },
-      { "code": "ECS","key": "ECS", "name": "Energy and Climate Solutions", "publicBody": "Energy and Climate Solutions" },
-      { "code": "ENV","key": "MOE", "name": "Environment and Parks", "publicBody": "Environment and Parks" },
-      { "code": "EAO","key": "EAO", "name": "Environmental Assessment Office", "publicBody": "Environment and Parks" },
-      { "code": "FIN", "key": "FIN","name": "Finance", "publicBody":"Finance" },
-      { "code": "FOR","key": "FOR", "name": "Forests", "publicBody": "Forests" },
-      { "code": "GCP","key": "GCP", "name": "Government Communications and Public Engagement", "publicBody": "Finance" },
-      { "code": "HTH","key": "HTH", "name": "Health", "publicBody": "Health" },
-      { "code": "IRR","key": "IRR", "name": "Indigenous Relations and Reconciliation", "publicBody": "Indigenous Relations and Reconciliation" },
-      { "code": "DAS","key": "DAS", "name": "Declaration Act Secretariat", "publicBody": "Indigenous Relations and Reconciliation" },
-      { "code": "JED","key": "JED", "name": "Jobs and Economic Growth", "publicBody": "Jobs and Economic Growth" },
-      { "code": "LBR","key": "LBR","name": "Labour", "publicBody": "Labour" },
-      { "code": "WLR", "key": "WLR","name": "Water, Land and Resource Stewardship", "publicBody": "Water, Land and Resource Stewardship" },
-      { "code": "HSG","key": "HSG", "name": "Housing and Municipal Affairs", "publicBody": "Housing and Municipal Affairs" },
-      { "code": "OOP","key": "OOP","name": "Office of the Premier", "publicBody": "Office of the Premier" },
-      { "code": "PSSG","key": "PSSG", "name": "Public Safety and Solicitor General", "publicBody": "Public Safety and Solicitor General" },
-      { "code": "MSD","key": "MSD", "name": "Social Development and Poverty Reduction", "publicBody": "Social Development and Poverty Reduction" },
-      { "code": "TACS","key": "TACS", "name": "Tourism, Arts, Culture and Sport", "publicBody": "Tourism, Arts, Culture and Sport" },
-      { "code": "TRAN","key": "TRAN", "name": "Transportation and Transit", "publicBody": "Transportation and Transit" },
-      { "code": "EMC","key": "EMC", "name": "Emergency Management and Climate Readiness", "publicBody": "Emergency Management and Climate Readiness" },
-      { "code": "INF","key": "INF", "name": "Infrastructure", "publicBody": "Infrastructure" },
-      { "code": "MCM","key": "MCM", "name": "Mining and Critical Minerals", "publicBody": "Mining and Critical Minerals" }
-
+      {
+        "code": "PSE",
+        "key": "PSE",
+        "name": "Post-Secondary Education and Labour",
+        "publicBody": "Post-Secondary Education and Labour"
+      },
+      {
+        "code": "AGR",
+        "key": "AGR",
+        "name": "Agriculture",
+        "publicBody": "Agriculture"
+      },
+      {
+        "code": "AG",
+        "key": "AG",
+        "name": "Attorney General",
+        "publicBody": "Attorney General"
+      },
+      {
+        "code": "PSA",
+        "key": "PSA",
+        "name": "BC Public Service Agency",
+        "publicBody": "Finance"
+      },
+      {
+        "code": "MCF",
+        "key": "MCF",
+        "name": "Children and Family Development",
+        "publicBody": "Children and Family Development"
+      },
+      {
+        "code": "CITZ",
+        "key": "CITZ",
+        "name": "Citizens' Services and Technology",
+        "publicBody": "Citizens' Services and Technology"
+      },
+      {
+        "code": "ECC",
+        "key": "ECC",
+        "name": "Education and Child Care",
+        "publicBody": "Education and Child Care"
+      },
+      {
+        "code": "EMP",
+        "key": "EMP",
+        "name": "Energy, Mines, and Petroleum Resources",
+        "publicBody": "Energy, Mines, and Petroleum Resources"
+      },
+      {
+        "code": "ENV",
+        "key": "MOE",
+        "name": "Environment",
+        "publicBody": "Environment"
+      },
+      {
+        "code": "EAO",
+        "key": "EAO",
+        "name": "Environmental Assessment Office",
+        "publicBody": "Environment"
+      },
+      {
+        "code": "FIN",
+        "key": "FIN",
+        "name": "Finance",
+        "publicBody": "Finance"
+      },
+      {
+        "code": "FOR",
+        "key": "FOR",
+        "name": "Forests",
+        "publicBody": "Forests"
+      },
+      {
+        "code": "GCP",
+        "key": "GCP",
+        "name": "Government Communications and Public Engagement",
+        "publicBody": "Finance"
+      },
+      {
+        "code": "HTH",
+        "key": "HTH",
+        "name": "Health",
+        "publicBody": "Health"
+      },
+      {
+        "code": "IRR",
+        "key": "IRR",
+        "name": "Indigenous Relations and Reconciliation",
+        "publicBody": "Indigenous Relations and Reconciliation"
+      },
+      {
+        "code": "DAS",
+        "key": "DAS",
+        "name": "Declaration Act Secretariat",
+        "publicBody": "Indigenous Relations and Reconciliation"
+      },
+      {
+        "code": "JED",
+        "key": "JED",
+        "name": "Jobs and Economic Growth",
+        "publicBody": "Jobs and Economic Growth"
+      },
+      {
+        "code": "WLR",
+        "key": "WLR",
+        "name": "Waters, Land and Natural Resource Operations",
+        "publicBody": "Waters, Land and Natural Resource Operations"
+      },
+      {
+        "code": "LHS",
+        "key": "LHS",
+        "name": "Local Government, Housing, Sport and Culture",
+        "publicBody": "Local Government, Housing, Sport and Culture"
+      },
+      {
+        "code": "OOP",
+        "key": "OOP",
+        "name": "Office of the Premier",
+        "publicBody": "Office of the Premier"
+      },
+      {
+        "code": "PSSG",
+        "key": "PSSG",
+        "name": "Public Safety and Solicitor General",
+        "publicBody": "Public Safety and Solicitor General"
+      },
+      {
+        "code": "MSD",
+        "key": "MSD",
+        "name": "Social Development",
+        "publicBody": "Social Development"
+      },
+      {
+        "code": "TRAN",
+        "key": "TRAN",
+        "name": "Transportation and Infrastructure",
+        "publicBody": "Transportation and Infrastructure"
+      }
     ],
     "topicYourself": [
    
