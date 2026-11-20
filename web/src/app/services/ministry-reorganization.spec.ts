@@ -9,6 +9,7 @@ describe('2026 ministry reorganization reference data', () => {
       ['PSE', 'Post-Secondary Education and Labour'],
       ['AGR', 'Agriculture'],
       ['CITZ', "Citizens' Services and Technology"],
+      ['EDT', 'Economic Development and Tourism'],
       ['ENV', 'Environment'],
       ['MSD', 'Social Development'],
       ['TRAN', 'Transportation and Infrastructure'],
@@ -27,6 +28,7 @@ describe('2026 ministry reorganization reference data', () => {
     const preserved = [
       ['CITZ', 'CITZ'],
       ['TRAN', 'TRAN'],
+      ['PSSG', 'PSSG'],
       ['ENV', 'MOE']
     ];
     preserved.forEach(([code, key]) => {
@@ -35,12 +37,18 @@ describe('2026 ministry reorganization reference data', () => {
     });
   });
 
-  it('uses EMP and LHS as the new code and key', () => {
+  it('uses EDT, EMP and LHS as the new codes and keys', () => {
+    expect(ministryByCode('EDT')).toEqual(jasmine.objectContaining({
+      code: 'EDT',
+      key: 'EDT',
+      name: 'Economic Development and Tourism',
+      publicBody: 'Economic Development and Tourism'
+    }));
     expect(ministryByCode('EMP')).toEqual(jasmine.objectContaining({
       code: 'EMP',
       key: 'EMP',
-      name: 'Energy, Mines, and Petroleum Resources',
-      publicBody: 'Energy, Mines, and Petroleum Resources'
+      name: 'Energy, Mines and Petroleum Resources',
+      publicBody: 'Energy, Mines and Petroleum Resources'
     }));
     expect(ministryByCode('LHS')).toEqual(jasmine.objectContaining({
       code: 'LHS',
@@ -48,7 +56,7 @@ describe('2026 ministry reorganization reference data', () => {
       name: 'Local Government, Housing, Sport and Culture',
       publicBody: 'Local Government, Housing, Sport and Culture'
     }));
-    ['ECS', 'HSG'].forEach((code) => expect(ministryByCode(code)).toBeUndefined());
+    ['ECS', 'HSG', 'JED'].forEach((code) => expect(ministryByCode(code)).toBeUndefined());
   });
 
   it('does not offer the five discontinued ministries', () => {
