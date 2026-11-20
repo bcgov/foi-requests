@@ -46,8 +46,8 @@
       {
         "code": "EMP",
         "key": "EMP",
-        "name": "Energy, Mines, and Petroleum Resources",
-        "publicBody": "Energy, Mines, and Petroleum Resources"
+        "name": "Energy, Mines and Petroleum Resources",
+        "publicBody": "Energy, Mines and Petroleum Resources"
       },
       {
         "code": "ENV",
@@ -98,10 +98,10 @@
         "publicBody": "Indigenous Relations and Reconciliation"
       },
       {
-        "code": "JED",
-        "key": "JED",
-        "name": "Jobs and Economic Growth",
-        "publicBody": "Jobs and Economic Growth"
+        "code": "EDT",
+        "key": "EDT",
+        "name": "Economic Development and Tourism",
+        "publicBody": "Economic Development and Tourism"
       },
       {
         "code": "WLR",
