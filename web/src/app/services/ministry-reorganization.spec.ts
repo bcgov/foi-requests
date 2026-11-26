@@ -13,7 +13,7 @@ describe('2026 ministry reorganization reference data', () => {
       ['ENV', 'Environment'],
       ['MSD', 'Social Development'],
       ['TRAN', 'Transportation and Infrastructure'],
-      ['WLR', 'Waters, Land and Natural Resource Operations']
+      ['WLR', 'Water, Land and Natural Resource Operations']
     ];
 
     renamed.forEach(([code, name]) => {
