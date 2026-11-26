@@ -1,0 +1,238 @@
+
+
+// LAW-FIRM-FIGMA-SCREENING START - scoped to legal-proceeding-details only
+.lf-screening-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2.05fr) minmax(225px, 1fr);
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+.lf-screening-main,
+.lf-screening-aside {
+  min-width: 0;
+}
+
+.lf-screening-main h2,
+.lf-screening-aside h2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 400;
+  margin: 0 0 16px;
+}
+
+.lf-screening-aside h2 {
+  color: #003366;
+  border-bottom: 4px solid #fdbb30;
+  padding-bottom: 10px;
+  margin-bottom: 0;
+}
+
+.lf-screening-intro {
+  background: #fff2d8;
+  border: 1px solid #f4d78e;
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin-bottom: 24px;
+  font-size: 0.94rem;
+}
+
+.lf-screening-intro p,
+.lf-screening-message p {
+  margin: 6px 0 0;
+  line-height: 1.5;
+}
+
+.lf-screening-question {
+  border: 0;
+  margin: 0 0 18px;
+  padding: 0;
+  min-width: 0;
+}
+
+.lf-screening-question legend {
+  float: none;
+  width: auto;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: normal;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.lf-screening-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 0.94rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.lf-screening-option input[type='radio'] {
+  flex: 0 0 auto;
+  margin: 3px 0 0;
+}
+
+.lf-screening-help {
+  margin-bottom: 24px;
+}
+
+.lf-screening-help details {
+  border: 1px solid #d8dce0;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+
+.lf-screening-help summary {
+  cursor: pointer;
+  padding: 10px 12px;
+  font-size: 0.91rem;
+  font-weight: 600;
+  background: #f7f7f7;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lf-screening-help summary::-webkit-details-marker {
+  display: none;
+}
+
+.lf-screening-help summary::after {
+  content: '\25BE';
+  font-size: 1rem;
+}
+
+.lf-screening-help details[open] summary::after {
+  content: '\25B4';
+}
+
+.lf-screening-help-body {
+  padding: 12px;
+  line-height: 1.5;
+  font-size: 0.91rem;
+}
+
+.lf-screening-help-body ul {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.lf-screening-help-body li + li {
+  margin-top: 6px;
+}
+
+.lf-screening-message {
+  border-left: 4px solid #003366;
+  background: #eef6fc;
+  padding: 16px;
+  margin: 22px 0;
+  border-radius: 2px;
+  font-size: 0.93rem;
+}
+
+.lf-screening-message h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 8px;
+}
+
+.lf-screening-message-warning {
+  border-left-color: #cc3935;
+  background: #fff7e6;
+}
+
+.lf-screening-warning-symbol {
+  color: #cc3935;
+  margin-right: 6px;
+}
+
+.lf-screening-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 20px;
+}
+
+.lf-screening-btn {
+  border-radius: 3px;
+  padding: 8px 14px;
+  min-height: 40px;
+  font-size: 0.93rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.lf-screening-btn-back {
+  color: #333;
+  background: #fff;
+  border: 1px solid #919191;
+}
+
+.lf-screening-btn-back:hover {
+  background: #f3f3f3;
+}
+
+.lf-screening-btn-continue {
+  color: #fff;
+  background: #003366;
+  border: 1px solid #003366;
+}
+
+.lf-screening-btn-continue:hover:not(:disabled) {
+  background: #174e82;
+}
+
+.lf-screening-btn-continue:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lf-screening-btn:focus-visible,
+.lf-screening-help summary:focus-visible,
+.lf-screening-main a:focus-visible,
+.lf-screening-aside a:focus-visible {
+  outline: 3px solid #fcba19;
+  outline-offset: 2px;
+}
+
+.lf-screening-info-card {
+  background: #f5f6fa;
+  padding: 16px;
+  font-size: 0.91rem;
+  line-height: 1.6;
+}
+
+.lf-screening-info-card > p {
+  margin: 10px 0 0;
+}
+
+.lf-screening-info-subtitle {
+  color: #555;
+}
+
+.lf-screening-info-link {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.lf-screening-info-link span {
+  color: #003366;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 900px) {
+  .lf-screening-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
+}
+// LAW-FIRM-FIGMA-SCREENING END

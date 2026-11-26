@@ -1,79 +1,152 @@
-<foi-base
-  [showInfo]="false"
-  [continueDisabled]="!foiForm.valid"
-  (continue)="doContinue()"
-  (goBack)="doGoBack()"
->
+<foi-base [showInfo]="false" [showButtons]="false">
   <div class="foi-content">
-    <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
-      <h2>Legal proceeding details</h2>
+    <div class="lf-screening-layout">
+      <section class="lf-screening-main" aria-labelledby="lawFirmScreeningTitle">
+        <h2 id="lawFirmScreeningTitle">Legal proceedings with the B.C. Government</h2>
 
-      <div class="form-group">
-        <fieldset>
-          <legend>
-            Is your request for records related to the proceeding involving the B.C. Government?<span
-              class="label-required"
-            >
-              *</span
-            >
-          </legend>
+        <div class="lf-screening-intro" role="note">
+          <strong>You are seeing this page because you indicated that you are a law firm.</strong>
+          <p>Please answer the following questions to help us process your request.</p>
+        </div>
 
-          <label>
-            <input type="radio" formControlName="isRequestRelatedToProceeding" [value]="true" />
-            Yes
-          </label>
+        <form [formGroup]="foiForm" novalidate (ngSubmit)="doContinue()">
+          <fieldset class="lf-screening-question">
+            <legend>
+              Is this request for records related to an open, ongoing legal proceeding?
+              <span class="label-required">*</span>
+            </legend>
+            <label class="lf-screening-option">
+              <input type="radio" formControlName="isRequestRelatedToProceeding" [value]="true" />
+              <span>Yes</span>
+            </label>
+            <label class="lf-screening-option">
+              <input type="radio" formControlName="isRequestRelatedToProceeding" [value]="false" />
+              <span>No, not at this time</span>
+            </label>
+          </fieldset>
 
-          <label>
-            <input type="radio" formControlName="isRequestRelatedToProceeding" [value]="false" />
-            No
-          </label>
-        </fieldset>
-      </div>
+          <div class="lf-screening-help" aria-label="Legal proceeding definitions">
+            <details>
+              <summary>What is a legal proceeding?</summary>
+              <div class="lf-screening-help-body">
+                A legal proceeding is a formal process used to resolve a dispute or legal matter through a
+                court, tribunal, arbitration, or similar decision-making process.
+              </div>
+            </details>
+            <details>
+              <summary>What are examples of legal proceedings?</summary>
+              <div class="lf-screening-help-body">
+                <ul>
+                  <li><strong>Court proceedings</strong>, such as civil, criminal, or family matters before a court.</li>
+                  <li><strong>Tribunal proceedings</strong>, such as hearings before an administrative tribunal.</li>
+                  <li><strong>Arbitration proceedings</strong>, where a dispute is resolved by an arbitrator.</li>
+                </ul>
+              </div>
+            </details>
+          </div>
 
-      <div class="form-group" *ngIf="isRequestRelatedToProceeding">
-        <fieldset>
-          <legend>
-            Are you a party to the proceeding involving the B.C. Government?<span class="label-required"> *</span>
-          </legend>
+          <fieldset class="lf-screening-question" *ngIf="isRequestRelatedToProceeding">
+            <legend>
+              Is your request for records related to a legal proceeding involving a
+              <a
+                href="https://www2.gov.bc.ca/gov/content/governments/organizational-structure/ministries-organizations/ministries"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Ministry of the Province of British Columbia</a>?
+              <span class="label-required">*</span>
+            </legend>
+            <label class="lf-screening-option">
+              <input type="radio" formControlName="ministryInvolvement" value="yes" />
+              <span>Yes</span>
+            </label>
+            <label class="lf-screening-option">
+              <input type="radio" formControlName="ministryInvolvement" value="no" />
+              <span>No</span>
+            </label>
+            <label class="lf-screening-option">
+              <input type="radio" formControlName="ministryInvolvement" value="inPart" />
+              <span>In part</span>
+            </label>
+          </fieldset>
 
-          <label>
-            <input type="radio" formControlName="isPartyToProceeding" [value]="true" />
-            Yes
-          </label>
+          <!-- Figma screen 8: legal proceeding + ministry involvement Yes. -->
+          <div
+            class="lf-screening-message lf-screening-message-warning"
+            role="alert"
+            *ngIf="isRequestRelatedToProceeding && ministryInvolvement === 'yes'"
+          >
+            <h3><span class="lf-screening-warning-symbol" aria-hidden="true">&#9888;</span>
+              Your request may require a different process</h3>
+            <p>Your request relates to an ongoing legal proceeding.</p>
+            <p>
+              Records connected to a <strong>court or tribunal case</strong> must be accessed through that body's
+              <strong>disclosure process</strong>. Please contact the court or tribunal involved in your case
+              to determine what records you can access.
+            </p>
+            <p>
+              The Freedom of Information and Protection of Privacy Act is not intended to replace existing
+              court or tribunal disclosure processes.
+            </p>
+          </div>
 
-          <label>
-            <input type="radio" formControlName="isPartyToProceeding" [value]="false" />
-            No
-          </label>
-        </fieldset>
+          <!-- Figma screens 9 and 10: ministry involvement In part or No. -->
+          <div
+            class="lf-screening-message lf-screening-message-info"
+            role="status"
+            *ngIf="isRequestRelatedToProceeding && (ministryInvolvement === 'no' || ministryInvolvement === 'inPart')"
+          >
+            <h3>Next, tell us about the legal proceeding</h3>
+            <p>
+              On the next page, we'll ask a few questions about the legal proceeding. This helps us determine
+              whether any of the records you are requesting are affected, while continuing to process records
+              on the same topic that are not part of the proceeding.
+            </p>
+          </div>
 
-        <h3>Parties to a proceeding</h3>
-        <p>
-          A party to a legal proceeding is any person who is directly involved in it. This includes people who have
-          started a proceeding (plaintiffs or applicants) and people responding to notice of a proceeding (defendants,
-          respondents, or accused persons).
-        </p>
-      </div>
-    </form>
-  </div>
+          <!-- Figma screen 12: no ongoing proceeding. -->
+          <div
+            class="lf-screening-message lf-screening-message-info"
+            role="status"
+            *ngIf="foiForm.get('isRequestRelatedToProceeding').value === false"
+          >
+            <h3>Continue with your FOI request</h3>
+            <p>
+              You indicated your request is <strong>not for records</strong> related to an open legal proceeding.
+              You can continue with your request.
+            </p>
+          </div>
 
-  <div class="sidebar">
-    <h2>More information</h2>
+          <div class="lf-screening-actions">
+            <button type="button" class="lf-screening-btn lf-screening-btn-back" (click)="doGoBack()">
+              <span aria-hidden="true">&larr;</span> Go back
+            </button>
+            <button type="submit" class="lf-screening-btn lf-screening-btn-continue" [disabled]="foiForm.invalid">
+              {{ isRequestRelatedToProceeding && ministryInvolvement === 'yes' ? 'Continue anyway' : 'Continue' }}
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+        </form>
+      </section>
 
-    <h3>What is a legal proceeding?</h3>
-    <p>
-      A legal proceeding is a formal process used to resolve a dispute or legal matter. This can include:
-    </p>
-
-    <ul>
-      <li>Court proceedings, such as civil, criminal, or family matters before a court</li>
-      <li>Tribunal proceedings, such as hearings before an administrative tribunal</li>
-      <li>Arbitration proceedings, where a dispute is resolved by an arbitrator instead of a court</li>
-    </ul>
-
-    <p>
-      If your request is related to records you are entitled to access through an active or ongoing court, tribunal, or
-      arbitration proceeding, those records cannot be accessed through the Freedom of Information process.
-    </p>
+      <aside class="lf-screening-aside" aria-labelledby="lawFirmMoreInfoTitle">
+        <h2 id="lawFirmMoreInfoTitle">More information</h2>
+        <div class="lf-screening-info-card">
+          <strong>Learn about changes to FOIPPA</strong>
+          <p class="lf-screening-info-subtitle"><em>Information for lawyers and law firms</em></p>
+          <p>
+            Section 3(5)(e) of FOIPPA affects how records can be accessed through the FOI process when legal
+            proceedings are involved. Read more about these changes and who they apply to.
+          </p>
+          <p class="lf-screening-info-link">
+            <span aria-hidden="true">&#9432;</span>
+            <a
+              href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96165_01"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Read about section 3(5)(e)</a>
+          </p>
+        </div>
+      </aside>
+    </div>
   </div>
 </foi-base>
